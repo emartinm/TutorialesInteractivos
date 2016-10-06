@@ -35,6 +35,10 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Popup;
 
+import javafx.concurrent.Worker.State;
+import javafx.beans.value.ObservableValue;
+import javax.swing.event.ChangeListener;
+
 /**
  * Vista de los elementos de la leccion
  * 
@@ -45,7 +49,19 @@ public class Content extends Pane {
 
 	private final ToggleGroup group = new ToggleGroup();
 
-	
+
+
+    private void muestraEstado(State newState){
+        switch (newState){
+            case CANCELLED : System.out.println("**** Cancelled"); break;
+            case FAILED : System.out.println("**** Failed"); break;
+            case READY : System.out.println("**** Ready"); break;
+            case RUNNING : System.out.println("**** Running"); break;
+            case SCHEDULED: System.out.println("**** Scheduled"); break;
+            case SUCCEEDED : System.out.println("**** Succeeded"); break;
+            default: break;
+        }
+    }
 
 	/**
 	 * @param e
@@ -90,9 +106,12 @@ public class Content extends Pane {
 
 		WebEngine engine = text.getEngine();
 		engine.loadContent(content);
+        muestraEstado(engine.getLoadWorker().getState());
 
 		container.getChildren().addAll(type);
 		container.getChildren().addAll(text);
+
+        muestraEstado(engine.getLoadWorker().getState());
 		
 		type.setAlignment(Pos.CENTER);
 
