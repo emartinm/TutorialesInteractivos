@@ -15,6 +15,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingNode;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.w3c.dom.Document;
@@ -23,6 +26,11 @@ import TFG.TutorialesInteractivos.controller.Controller;
 import javafx.concurrent.Worker.State;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.scene.Node;
+import javax.swing.text.html.StyleSheet;
+import javax.swing.text.html.HTMLEditorKit;
+
+import javax.swing.*;
 
 /**
  * Clase que contiene los metodos de modificaion de elementos dentro de la
@@ -59,29 +67,56 @@ public class InternalUtilities {
 
 	// Permitir llamar a esta funcion y modificar el html que se le pasa o
 	// modificar el webview desde donde se hae la llamada
-	public static WebView creaBrowser(String html) {
-		InputStream file;
-		String aux = "";
-		file = InternalUtilities.class.getClassLoader().getResourceAsStream("css/webView.css");
+	public static Node creaBrowser(String html) {
+        String os_name = System.getProperty("os.name");
 
-		aux = fileToString(file);
+        if (os_name.toLowerCase().contains("windows")) {
+            JTextPane jp = new JTextPane();
+            jp.setContentType( "text/html" );
+            jp.setText(html);
+            jp.setEditable(false);
 
-		final String CSS = aux;
-		WebView browser = new WebView();
-		final WebEngine webEngine = browser.getEngine();
+            InputStream file;
+            String aux = "";
+            //file = InternalUtilities.class.getClassLoader().getResourceAsStream("css/webView.css");
+            StyleSheet ss = new StyleSheet();
+            ss.importStyleSheet(InternalUtilities.class.getClassLoader().getResource("css/webView.css"));
+            HTMLEditorKit kit = (HTMLEditorKit)jp.getEditorKit();
+            kit.setStyleSheet(ss);
 
-		webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-			if (newState == State.SUCCEEDED) {
-				Document doc = webEngine.getDocument();
-				org.w3c.dom.Element styleNode = doc.createElement("style");
-				org.w3c.dom.Text styleContent = doc.createTextNode(CSS);
-				styleNode.appendChild(styleContent);
-				doc.getDocumentElement().getElementsByTagName("head").item(0).appendChild(styleNode);
-			}
-		});
-		webEngine.loadContent(html);
+            SwingNode browser = new SwingNode();
+            browser.setContent(jp);
+            return browser;
+        } else {
+            InputStream file;
+            String aux = "";
+            file = InternalUtilities.class.getClassLoader().getResourceAsStream("css/webView.css");
+            aux = fileToString(file);
+            final String CSS = aux;
+            WebView browser = new WebView();
+            final WebEngine webEngine = browser.getEngine();
 
-		return browser;
+            webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+                if (newState == State.SUCCEEDED) {
+                    Document doc = webEngine.getDocument();
+                    org.w3c.dom.Element styleNode = doc.createElement("style");
+                    org.w3c.dom.Text styleContent = doc.createTextNode(CSS);
+                    styleNode.appendChild(styleContent);
+                    doc.getDocumentElement().getElementsByTagName("head").item(0).appendChild(styleNode);
+                }
+            });
+            webEngine.loadContent(html);
+            /*
+            // Para depurar el código que se muestra
+            webEngine.documentProperty().addListener(new ChangeListener<Document>() {
+                @Override public void changed(ObservableValue<? extends Document> prop, Document oldDoc, Document newDoc) {
+                    InternalUtilities.enableFirebug(webEngine);
+                }
+            });
+            */
+            return browser;
+        }
+
 	}
 
 	/**
@@ -151,5 +186,9 @@ public class InternalUtilities {
 
 		return foldersInDirectory;
 		*/
+	}
+
+	public static void enableFirebug(final WebEngine engine) {
+		engine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
 	}
 }

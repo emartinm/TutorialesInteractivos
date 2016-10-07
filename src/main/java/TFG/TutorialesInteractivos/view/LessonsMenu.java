@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.scene.Node;
 
 /**
  * Muestra la lista de ls lecciones del tema seleccionado
@@ -41,9 +42,9 @@ public class LessonsMenu extends Pane{
 		
 		//Creacion de webview
 		String content = c.markToHtml(t.getTittle() + "\n" + t.getIntroduction());
-		WebView tittle = InternalUtilities.creaBrowser(content);
-		WebEngine engine = tittle.getEngine();
-		engine.loadContent(content);
+		Node tittle = InternalUtilities.creaBrowser(content);
+		//WebEngine engine = tittle.getEngine();
+		//engine.loadContent(content);
 		
 		Label tittleList = new Label("Lecciones");//TItulo de la lista de lecciones
 		//Lista de lecciones

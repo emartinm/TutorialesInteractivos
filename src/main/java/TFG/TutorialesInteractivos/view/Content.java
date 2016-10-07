@@ -37,7 +37,13 @@ import javafx.stage.Popup;
 
 import javafx.concurrent.Worker.State;
 import javafx.beans.value.ObservableValue;
-import javax.swing.event.ChangeListener;
+import javafx.beans.value.ChangeListener;
+import org.w3c.dom.Document;
+import javax.swing.JEditorPane;
+import javafx.embed.swing.SwingNode;
+import javafx.scene.Node;
+
+
 
 /**
  * Vista de los elementos de la leccion
@@ -48,20 +54,6 @@ import javax.swing.event.ChangeListener;
 public class Content extends Pane {
 
 	private final ToggleGroup group = new ToggleGroup();
-
-
-
-    private void muestraEstado(State newState){
-        switch (newState){
-            case CANCELLED : System.out.println("**** Cancelled"); break;
-            case FAILED : System.out.println("**** Failed"); break;
-            case READY : System.out.println("**** Ready"); break;
-            case RUNNING : System.out.println("**** Running"); break;
-            case SCHEDULED: System.out.println("**** Scheduled"); break;
-            case SUCCEEDED : System.out.println("**** Succeeded"); break;
-            default: break;
-        }
-    }
 
 	/**
 	 * @param e
@@ -102,17 +94,18 @@ public class Content extends Pane {
 		content = c.markToHtml(e.getText());
 
 		// Campo donde se escribeel enunciado o la explicacion de la pregunta
-		WebView text = InternalUtilities.creaBrowser(content);
+		Node text = InternalUtilities.creaBrowser(content);
+		//WebView text = InternalUtilities.creaBrowser(content);
 
-		WebEngine engine = text.getEngine();
-		engine.loadContent(content);
-        muestraEstado(engine.getLoadWorker().getState());
+
+		//engine.loadContent(content);
+		//engine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
+
 
 		container.getChildren().addAll(type);
-		container.getChildren().addAll(text);
+		container.getChildren().add(text);
+		//container.getChildren().add(jpnode);
 
-        muestraEstado(engine.getLoadWorker().getState());
-		
 		type.setAlignment(Pos.CENTER);
 
 		Label labelCode = new Label("CODIGO");
