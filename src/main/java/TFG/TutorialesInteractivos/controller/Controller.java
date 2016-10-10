@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 /**
  * Clase controlador. Ejecuta todas las variaciones de la aplicación
  * 
- * @author Carlos, Rafa
+ * @author Carlos, Rafa, Enrique Martín
  *
  */
 public class Controller {
@@ -235,7 +235,12 @@ public class Controller {
 	 * @param lenSelect Language seleccionado
 	 */
 	private void changeView(Pane p, List<String> files, int selected, String lenSelect, Number newStep) {
-		scene = new Scene(new Group());
+		if (scene == null){
+			scene = new Scene(new Group());
+			// Arregla el problema del WebView que no muestra texto en Windows JDK 1.8.0u102
+		}
+
+
 		if (p instanceof Configuration) {
 			root = ((Configuration) p).configuration(this);
 		} else if (p instanceof InitialWindow) {
@@ -262,8 +267,9 @@ public class Controller {
 		//root.setPrefSize(600, 600);
 		scene.setRoot(root);
 
-		primaryStage.setWidth(scene.getWidth());
-		primaryStage.setHeight(scene.getHeight());
+		//Comentado para corregir el error de tamaño minusculo al empezar en Linux y MacOSX
+		//primaryStage.setWidth(scene.getWidth());
+		//primaryStage.setHeight(scene.getHeight());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

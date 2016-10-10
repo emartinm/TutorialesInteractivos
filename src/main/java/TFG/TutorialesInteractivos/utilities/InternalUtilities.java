@@ -36,7 +36,7 @@ import javax.swing.*;
  * Clase que contiene los metodos de modificaion de elementos dentro de la
  * aplicacion
  * 
- * @author Carlos, Rafa
+ * @author Carlos, Rafa, Enrique Martín
  *
  */
 public class InternalUtilities {
@@ -69,6 +69,8 @@ public class InternalUtilities {
 	// modificar el webview desde donde se hae la llamada
 	public static Node creaBrowser(String html) {
         String os_name = System.getProperty("os.name");
+		//Deshabilitado el workaround para mostrar HMTL en Windows
+		os_name = "";
 
         if (os_name.toLowerCase().contains("windows")) {
             JTextPane jp = new JTextPane();
