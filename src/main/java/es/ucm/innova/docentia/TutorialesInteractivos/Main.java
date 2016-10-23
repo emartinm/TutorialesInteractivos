@@ -1,10 +1,12 @@
-package TFG.TutorialesInteractivos;
+package es.ucm.innova.docentia.TutorialesInteractivos;
 	
 
 
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import TFG.TutorialesInteractivos.controller.Controller;
+
+import java.util.logging.Logger;
 
 
 /**

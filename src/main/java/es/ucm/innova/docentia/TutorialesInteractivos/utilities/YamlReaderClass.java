@@ -1,4 +1,4 @@
-package TFG.TutorialesInteractivos.utilities;
+package es.ucm.innova.docentia.TutorialesInteractivos.utilities;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,14 +10,14 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
 
-import TFG.TutorialesInteractivos.controller.Controller;
-import TFG.TutorialesInteractivos.model.CodeQuestions;
-import TFG.TutorialesInteractivos.model.Element;
-import TFG.TutorialesInteractivos.model.Explanation;
-import TFG.TutorialesInteractivos.model.Lesson;
-import TFG.TutorialesInteractivos.model.OptionQuestions;
-import TFG.TutorialesInteractivos.model.SyntaxQuestions;
-import TFG.TutorialesInteractivos.model.Subject;
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.CodeQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Lesson;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
 
 /**
  * Clase que contiene las funciones de carga de un fichero yml

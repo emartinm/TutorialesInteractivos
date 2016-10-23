@@ -1,4 +1,4 @@
-package TFG.TutorialesInteractivos.view;
+package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;

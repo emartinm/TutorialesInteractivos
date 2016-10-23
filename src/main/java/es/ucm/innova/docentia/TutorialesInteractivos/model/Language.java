@@ -1,4 +1,4 @@
-package TFG.TutorialesInteractivos.model;
+package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import javafx.beans.property.SimpleStringProperty;
 

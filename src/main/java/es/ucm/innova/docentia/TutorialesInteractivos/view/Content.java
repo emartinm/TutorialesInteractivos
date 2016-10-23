@@ -1,16 +1,16 @@
-package TFG.TutorialesInteractivos.view;
+package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import TFG.TutorialesInteractivos.controller.Controller;
-import TFG.TutorialesInteractivos.model.CodeQuestions;
-import TFG.TutorialesInteractivos.model.Element;
-import TFG.TutorialesInteractivos.model.Explanation;
-import TFG.TutorialesInteractivos.model.OptionQuestions;
-import TFG.TutorialesInteractivos.model.Question;
-import TFG.TutorialesInteractivos.model.SyntaxQuestions;
-import TFG.TutorialesInteractivos.utilities.InternalUtilities;
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.CodeQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Question;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -31,18 +31,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Popup;
-
-import javafx.concurrent.Worker.State;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ChangeListener;
-import org.w3c.dom.Document;
-import javax.swing.JEditorPane;
-import javafx.embed.swing.SwingNode;
-import javafx.scene.Node;
-
 
 
 /**

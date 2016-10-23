@@ -39,7 +39,7 @@
 			  <manifest>
 				<addClasspath>true</addClasspath>
 				<classpathPrefix>lib/</classpathPrefix>
-				<mainClass>TFG.TutorialesInteractivos.Main</mainClass>
+				<mainClass>es.ucm.innova.docentia.TutorialesInteractivos.Main</mainClass>
 			  </manifest>
 			</archive>
      

@@ -1,4 +1,4 @@
-package TFG.TutorialesInteractivos.view;
+package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

@@ -1,8 +1,8 @@
-package TFG.TutorialesInteractivos.view;
+package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 
 
-import TFG.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

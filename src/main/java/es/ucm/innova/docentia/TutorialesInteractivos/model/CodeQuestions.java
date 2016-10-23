@@ -1,4 +1,4 @@
-package TFG.TutorialesInteractivos.model;
+package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import TFG.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 
 /**
  * Question de tipo Code

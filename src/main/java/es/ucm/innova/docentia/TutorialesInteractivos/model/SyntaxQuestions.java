@@ -1,11 +1,11 @@
-package TFG.TutorialesInteractivos.model;
+package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
@@ -16,7 +16,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import TFG.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 
 /**
  * Question de tipo Sintax
@@ -26,6 +26,7 @@ import TFG.TutorialesInteractivos.controller.Controller;
  */
 public class SyntaxQuestions extends Question<String> {
 	private String sintax;
+	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
 	public SyntaxQuestions(int number, String wording, String clue, String sintax, String solution) {
 		super(number, wording, clue, solution);
@@ -71,8 +72,8 @@ public class SyntaxQuestions extends Question<String> {
 			ParserRuleContext prc = constInn.newInstance(new ParserRuleContext(),0);
 
 			prc = (ParserRuleContext) cParser.getMethod(sintax.toLowerCase()).invoke(p);
-			
-			System.out.println(prc.exception);
+
+			log.info(prc.exception.toString());
 			
 			/*
 			 * Con este bucle se mira los hijos producidos por la funcion que compruba la sintaxis
@@ -95,7 +96,7 @@ public class SyntaxQuestions extends Question<String> {
 
 		} catch (Exception e1) {
 			
-			e1.printStackTrace();
+			log.warning(e1.toString());
 			
 		}
 		return false;

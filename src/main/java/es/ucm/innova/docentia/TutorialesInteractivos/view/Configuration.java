@@ -1,11 +1,12 @@
-package TFG.TutorialesInteractivos.view;
+package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.io.File;
 import java.util.List;
+import java.util.logging.Logger;
 
-import TFG.TutorialesInteractivos.controller.Controller;
-import TFG.TutorialesInteractivos.model.Language;
-import TFG.TutorialesInteractivos.utilities.InternalUtilities;
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Language;
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +32,7 @@ import javafx.scene.layout.Priority;
  *
  */
 public class Configuration extends Pane {
+	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
 	public Pane configuration(Controller c) {
 
@@ -128,7 +130,7 @@ public class Configuration extends Pane {
 			public void handle(ActionEvent event) {
 				// comprobamos si la ruta está seleccionada y el si el arbol
 				// está bien hecho
-				System.out.println(pathDep.getText());
+				log.info(pathDep.getText());
 				if (!pathDep.getText().equals("")) {
 					File f = new File(pathDep.getText());
 					if (f.exists() && f.isDirectory()) {						

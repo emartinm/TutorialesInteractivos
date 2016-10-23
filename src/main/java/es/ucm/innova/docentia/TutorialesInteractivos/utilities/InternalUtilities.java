@@ -1,7 +1,6 @@
-package TFG.TutorialesInteractivos.utilities;
+package es.ucm.innova.docentia.TutorialesInteractivos.utilities;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,17 +11,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.embed.swing.SwingNode;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.w3c.dom.Document;
 
-import TFG.TutorialesInteractivos.controller.Controller;
 import javafx.concurrent.Worker.State;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -40,6 +38,8 @@ import javax.swing.*;
  *
  */
 public class InternalUtilities {
+	private static Logger log = Logger.getLogger("TutorialesInteractivos");
+
 	/**
 	 * Modifica el la ruta de la imagen dentro del HTML
 	 * 
@@ -56,7 +56,7 @@ public class InternalUtilities {
 		Matcher matcher = p.matcher(html);
 
 		while (matcher.find()) {
-			System.out.println(matcher.group(2));
+			log.info(matcher.group(2));
 			File f = new File(Controller.externalResourcesPath + "/" + matcher.group(2));
 			String im = f.getPath();
 			html = html.replace(matcher.group(), matcher.group(1) + im + matcher.group(3));

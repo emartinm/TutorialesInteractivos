@@ -1,4 +1,4 @@
-package TFG.TutorialesInteractivos.controller;
+package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
 import java.io.IOException;
@@ -10,27 +10,30 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
-import TFG.TutorialesInteractivos.model.Correction;
-import TFG.TutorialesInteractivos.model.Element;
-import TFG.TutorialesInteractivos.model.Explanation;
-import TFG.TutorialesInteractivos.model.Language;
-import TFG.TutorialesInteractivos.model.Question;
-import TFG.TutorialesInteractivos.model.Subject;
-import TFG.TutorialesInteractivos.utilities.InternalUtilities;
-import TFG.TutorialesInteractivos.utilities.YamlReaderClass;
-import TFG.TutorialesInteractivos.view.Configuration;
-import TFG.TutorialesInteractivos.view.Content;
-import TFG.TutorialesInteractivos.view.EndLessonPane;
-import TFG.TutorialesInteractivos.view.InitialWindow;
-import TFG.TutorialesInteractivos.view.LessonsMenu;
-import TFG.TutorialesInteractivos.view.PathChooser;
-import TFG.TutorialesInteractivos.view.SubjectsMenu;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Correction;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Language;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Question;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.YamlReaderClass;
+import es.ucm.innova.docentia.TutorialesInteractivos.view.Configuration;
+import es.ucm.innova.docentia.TutorialesInteractivos.view.Content;
+import es.ucm.innova.docentia.TutorialesInteractivos.view.EndLessonPane;
+import es.ucm.innova.docentia.TutorialesInteractivos.view.InitialWindow;
+import es.ucm.innova.docentia.TutorialesInteractivos.view.LessonsMenu;
+import es.ucm.innova.docentia.TutorialesInteractivos.view.PathChooser;
+import es.ucm.innova.docentia.TutorialesInteractivos.view.SubjectsMenu;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 
 /**
@@ -40,7 +43,9 @@ import javafx.stage.Stage;
  *
  */
 public class Controller {
-	public static String executable;// ejecutable del lenguaje para ejecutar código
+    private static Logger log = Logger.getLogger("TutorialesInteractivos");
+
+    public static String executable;// ejecutable del lenguaje para ejecutar código
 	private Subject subject; // Subject que se está ejecutando
 	private Stage primaryStage;// Vista principal de la aplicación
 	private Pane root;// Panel con los elementos de la vista
@@ -146,7 +151,7 @@ public class Controller {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warning(e.toString());
 		}
 
 		changeView(p, files, 0, selectedLanguage, null);
@@ -169,8 +174,7 @@ public class Controller {
 		List<String> languagesList = new ArrayList<String>();
 
 		String pathResources = pref.get("ExternalResources", null);
-		System.out.println();
-		System.out.println(pathResources);
+        log.info(pathResources);
 
 		if (pathResources != null) {
 			externalResourcesPath = pathResources;
@@ -184,6 +188,9 @@ public class Controller {
 			p = new Configuration(); // hace falta configurar directorio y
 										// compiladores
 		}
+		Image icon = new Image(Controller.class.getResourceAsStream( "/icon/1477275626_monitor-sidebar.png" ));
+        log.info(icon.toString());
+		this.primaryStage.getIcons().add(icon);
 		changeView(p, languagesList, 0, selectedLanguage, null);
 
 	}
