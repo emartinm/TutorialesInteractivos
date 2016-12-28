@@ -97,14 +97,15 @@ public class Content extends Pane {
 
 		type.setAlignment(Pos.CENTER);
 
-		Label labelCode = new Label("CODIGO");
-		TextArea taCode = new TextArea("Escriba aqui su codigo");
+		Label labelCode = new Label("CÓDIGO");
+		TextArea taCode = new TextArea();
+		taCode.setPromptText("Escriba aquí su código");
 
 		HBox result = new HBox(10);// Contenedor donde se muestra la resolucion de
 									// la pregunta
 		Label isCorrect = new Label();// Indica si la pregunta se ha respondido bien
 									// o no
-		Button hints = new Button("INFO");
+		Button hints = new Button("Ver pistas");
 
 		result.getChildren().addAll(isCorrect);
 		result.getChildren().addAll(hints);
