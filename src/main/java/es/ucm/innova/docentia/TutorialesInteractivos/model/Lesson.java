@@ -12,16 +12,16 @@ import java.util.List;
 public class Lesson 
 {
 	private int number; //Numero de la leccion
-	private String tittle; //Titulo de la leccion
+	private String title; //Titulo de la leccion
 	private List<Element> elements; //Array con los elements de la leccion
-	private String explication; //Introducción de la lección
+	private String intro_message; //Introducción de la lección
 	
 
-	public Lesson(int number, String tittle, String explication){
+	public Lesson(int number, String title, String intro_message){
 		this.number=number;
-		this.tittle=tittle;
+		this.title =title;
 		this.elements = new ArrayList<Element>();
-		this.explication=explication;
+		this.intro_message =intro_message;
 	}
 
 	public int getNumber() {
@@ -32,20 +32,20 @@ public class Lesson
 		this.number = number;
 	}
 
-	public String getTittle() {
-		return this.tittle;
+	public String getTitle() {
+		return this.title;
 	}
 
-	public void setTittle(String tittle) {
-		this.tittle = tittle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getExplication() {
-		return explication;
+	public String getIntroMessage() {
+		return intro_message;
 	}
 
-	public void setExplication(String explication) {
-		this.explication = explication;
+	public void setIntro_message(String intro_message) {
+		this.intro_message = intro_message;
 	}
 
 	public List<Element> getElements() {

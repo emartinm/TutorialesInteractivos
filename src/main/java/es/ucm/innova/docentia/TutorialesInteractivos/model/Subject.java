@@ -76,7 +76,7 @@ public class Subject {
 		//devuelve arraylist de nombres de lecciones
 		ArrayList<String> names= new ArrayList<String>();
 		for (Lesson l: this.lessons){
-			names.add(l.getTittle());
+			names.add(l.getTitle());
 		}
 		return names;
 	}
@@ -84,7 +84,7 @@ public class Subject {
 	public ArrayList<Element> getLeccion(String selectedItem) {
 		
 		int i = 0;
-		while (!this.lessons.get(i).getTittle().equals(selectedItem))
+		while (!this.lessons.get(i).getTitle().equals(selectedItem))
 			i++;
 		return (ArrayList<Element>) this.lessons.get(i).getElements();
 	}

@@ -33,7 +33,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 
 
 /**
@@ -259,10 +258,10 @@ public class Controller {
 		} else if (p instanceof Content) {
 			Element e;	
 			if (actualStep == -1) {
-				e = new Explanation(subject.getLessons().get(selected).getExplication());
+				e = new Explanation(subject.getLessons().get(selected).getIntroMessage());
 			}  else if (actualStep == elems.size()) {
                 String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
-                        subject.getLessons().get(selected).getTittle() + "'";
+                        subject.getLessons().get(selected).getTitle() + "'";
                 e = new Explanation(mensajeFinal);
             } else {
 				e = elems.get(actualStep);
