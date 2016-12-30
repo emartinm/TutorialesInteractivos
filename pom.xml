@@ -34,15 +34,13 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
-		  
-			<archive>
-			  <manifest>
-				<addClasspath>true</addClasspath>
-				<classpathPrefix>lib/</classpathPrefix>
-				<mainClass>es.ucm.innova.docentia.TutorialesInteractivos.Main</mainClass>
-			  </manifest>
-			</archive>
-     
+          <archive>
+			      <manifest>
+				      <!--<addClasspath>true</addClasspath>
+				      <classpathPrefix>lib/</classpathPrefix>-->
+				      <mainClass>es.ucm.innova.docentia.TutorialesInteractivos.Main</mainClass>
+			      </manifest>
+			    </archive>
         </configuration>
       </plugin>
     

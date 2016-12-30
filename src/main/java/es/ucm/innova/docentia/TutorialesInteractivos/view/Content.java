@@ -2,6 +2,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.CodeQuestions;
@@ -42,6 +43,7 @@ import javafx.stage.Popup;
  */
 public class Content extends Pane {
 
+	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 	private final ToggleGroup group = new ToggleGroup();
 
 	/**
@@ -55,15 +57,13 @@ public class Content extends Pane {
 	public Pane content(Element e, Controller c, int steps, int enabled, int selected) {
 
 		Label type = new Label(null);
-		
-		
 
-		if (selected == 1)
+		if (selected == 1) {
 			type.setText("Introducción");
-
-		if (e instanceof Question) {
+		} else if (selected == steps) {
+			type.setText("Final");
+		} else  if (e instanceof Question) {
 			type.setText("Pregunta");
-
 		} else if (e instanceof Explanation) {
 			type.setText("Explicación");
 		}

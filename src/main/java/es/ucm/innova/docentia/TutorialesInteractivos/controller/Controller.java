@@ -260,7 +260,11 @@ public class Controller {
 			Element e;	
 			if (actualStep == -1) {
 				e = new Explanation(subject.getLessons().get(selected).getExplication());
-			}  else {
+			}  else if (actualStep == elems.size()) {
+                String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
+                        subject.getLessons().get(selected).getTittle() + "'";
+                e = new Explanation(mensajeFinal);
+            } else {
 				e = elems.get(actualStep);
 				stepChange(newStep, e instanceof Question);
 			}
@@ -268,7 +272,7 @@ public class Controller {
 			// vista (comienza en -1 aquí)
 			// el que estás mas algo
 
-			root = ((Content) p).content(e, this, elems.size() + 1, enabledSteps, actualStep + 2);
+			root = ((Content) p).content(e, this, elems.size() + 2, enabledSteps, actualStep + 2);
 		}
 
 		//root.setPrefSize(600, 600);
@@ -304,7 +308,7 @@ public class Controller {
 		this.elems = (ArrayList<Element>) subject.getLessons().get(selectedItem).getElements();
 		actualStep = -1;
 		enabledSteps = 2;
-		visited = new boolean[elems.size()];
+		visited = new boolean[elems.size() + 2];
 		Arrays.fill(visited, Boolean.FALSE);
 		visited[0] = true;
 		changeView(new Content(), null, actualLesson, selectedLanguage, 0);
