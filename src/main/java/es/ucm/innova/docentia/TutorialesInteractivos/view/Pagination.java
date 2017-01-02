@@ -2,6 +2,8 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.logging.Logger;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -29,6 +31,7 @@ import javafx.scene.layout.StackPane;
  * 
  */
 public class Pagination extends StackPane {
+	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
 	/*
 	 * Index of the currently selected button (from 1 to numButtons)
@@ -54,7 +57,7 @@ public class Pagination extends StackPane {
 	private Button[] stepButtons;
 	private Button previousButton, nextButton;
 	private ScrollPane scrollPane;
-	private ScrollBar scrollBar;
+	//private ScrollBar scrollBar;
 	private Label countLabel;
 
 	private HBox generateButtons(int n) {
@@ -168,6 +171,14 @@ public class Pagination extends StackPane {
 		currentProperty.addListener((obs, oldV, newV) -> {
 			stepButtons[(int) oldV - 1].getStyleClass().remove("selected-button");
 			stepButtons[(int) newV - 1].getStyleClass().add("selected-button");
+
+			// Para mostrar algunos botones anteriores al principio de la leccion.
+			// Según se llega al final, el offset se hace 0
+			int int_pos = (int) newV - 1;
+			double pos = (double) int_pos;
+			double offset1 = (pos - stepButtons.length);
+			double offset = Math.round(offset1*3.0 / (double)stepButtons.length);
+			this.scrollPane.setHvalue( int_pos + offset);
 		});
 
 		// El botón de 'Next >>' estará deshabilitado si el paso actual es igual
@@ -225,8 +236,9 @@ public class Pagination extends StackPane {
 		nextButton.getStyleClass().add("next-button");
 		HBox hboxStepButtons = generateButtons(numSteps);
 		scrollPane = new ScrollPane(hboxStepButtons);
+		scrollPane.setHmax(numSteps - 1);
 		scrollPane.setStyle("-fx-background-color:transparent;");
-		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
 		hboxStepButtons.prefWidthProperty().bind(Bindings.createDoubleBinding(
@@ -235,12 +247,13 @@ public class Pagination extends StackPane {
 				() -> scrollPane.getViewportBounds().getHeight(), scrollPane.viewportBoundsProperty()));
 		outerGridPane.addRow(0, previousButton, scrollPane, nextButton);
 
-		scrollBar = new ScrollBar();
+		/*scrollBar = new ScrollBar();
 		scrollBar.maxProperty().bind(scrollPane.vmaxProperty());
 		scrollBar.minProperty().bind(scrollPane.vminProperty());
 		outerGridPane.add(scrollBar, 1, 1);
 
-		scrollPane.hvalueProperty().bindBidirectional(scrollBar.valueProperty());
+		scrollPane.hvalueProperty().bindBidirectional(scrollBar.valueProperty());*/
+
 
 		countLabel = new Label();
 		countLabel.textProperty().bind(Bindings.createStringBinding(
