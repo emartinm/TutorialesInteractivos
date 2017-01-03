@@ -30,6 +30,7 @@ import es.ucm.innova.docentia.TutorialesInteractivos.view.PathChooser;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.SubjectsMenu;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -178,11 +179,8 @@ public class Controller {
 		if (pathResources != null) {
 			externalResourcesPath = pathResources;
 			languagesList = languageNames();
-			if (loadLanguagePaths(languagesList)) { // comprobamos si los compiladores están
-				p = new InitialWindow();
-			} else
-				p = new Configuration(); // hace falta configurar compiladores
-
+			loadLanguagePaths(languagesList);
+			p = new InitialWindow();
 		} else {
 			p = new Configuration(); // hace falta configurar directorio y
 										// compiladores
@@ -230,6 +228,14 @@ public class Controller {
 		primaryStage.setTitle(selectedLanguage);
 		Pane p = new SubjectsMenu();
 		changeView(p, files, 0, selectedLanguage, null);
+	}
+
+	/**
+	 * Muestra la ventana de configuración de lenguajes
+	 */
+	public void showConfiguration() {
+		Pane p = new Configuration();
+		changeView(p, null, 0, selectedLanguage, null);
 	}
 
 	/**
@@ -350,7 +356,17 @@ public class Controller {
 	public void selectedLanguage(String selectedItem) {
 		selectedLanguage = selectedItem;
 		executable = pathSelected();
-		showSubject();
+		if (executable == null) {
+			// El lenguaje no está configurado
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("¡Atención!");
+			alert.setHeaderText("El lenguaje \"" + selectedLanguage + "\" no está configurado");
+			alert.setContentText("Serás redirigido a la ventana de configuración.\nPor favor, configura el compilador/intérprete\ndel lenguaje \"" +  selectedLanguage + "\".");
+			alert.showAndWait();
+			this.showConfiguration();
+		} else {
+			showSubject();
+		}
 	}
 
 	/**
@@ -443,7 +459,9 @@ public class Controller {
 		if (path != null && !data.isEmpty()) {
 			pref.put("ExternalResources", path);
 			for (Language l : data) {
-				pref.put(l.getLanguage(), l.getPath());
+				if( l.getLanguage() != null && l.getPath() != null ) {
+					pref.put(l.getLanguage(), l.getPath());
+				}
 			}
 		
 		} else {

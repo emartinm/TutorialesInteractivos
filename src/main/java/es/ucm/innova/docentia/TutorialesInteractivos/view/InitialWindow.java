@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import javafx.scene.layout.Priority;
  *
  */
 public class InitialWindow extends Pane {
+	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 	
 
 	
@@ -34,7 +36,7 @@ public class InitialWindow extends Pane {
 	 * 
 	 */
 	public Pane initialWin(List<String> files,Controller c){
-		
+
 		
 		GridPane pane = new GridPane(); //Panel principal
 		
@@ -44,7 +46,8 @@ public class InitialWindow extends Pane {
 		languageList.setItems(obsTemas);
 		
 		Button start = new Button("Comenzar");//Boton para comenzar el tutorial con el lenguaje seleccionado
-		Label advise = new Label("Recuerda enlazar los compiladores");//Mensaje de aviso 
+		//Label advise = new Label("Recuerda enlazar los compiladores");//Mensaje de aviso
+		Label advise = new Label("");//Mensaje de aviso
 		Button settings = new Button("Ajustes");//Boton de ajustes para seleccionar el compilador
 		Label error = new Label(); //Label que se mostrara con el mensaje de error cuando no haya lenguaje seleccionado
 		
@@ -74,6 +77,7 @@ public class InitialWindow extends Pane {
 				MultipleSelectionModel<String> s;
 				s= languageList.getSelectionModel();
 				if (!s.isEmpty()){
+					log.info(s.getSelectedItem());
 					c.selectedLanguage(s.getSelectedItem());//Se carga el tema seleccionado
 				}else 
 					error.setText("Se debe seleccionar un lenguaje");

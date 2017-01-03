@@ -24,6 +24,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Vista para modificar la configuración de la aplicacion
@@ -38,17 +40,14 @@ public class Configuration extends Pane {
 
 		GridPane root = new GridPane(); // Panel principal
 
-		Label dependencies = new Label("Ruta fichero dependencias: ");// label
+		Label dependencies = new Label("Directorio de cursos: ");// label
 																		// de
 																		// dependencias
 		TextField pathDep = new TextField();// Campo donde se muestra la ruta
 											// del archivo dependences
-		Button search = new Button("Buscar");// Boton para buscar el archivo de
+        pathDep.setEditable(false);
+		Button search = new Button("Buscar...");// Boton para buscar el archivo de
 												// dependencias
-		Button acceptPath = new Button("aceptarPath"); // boton para aceptar el
-														// path una vez se añade
-														// por primera vez
-
 		// Lista con los lenguajes y la ruta de su compilador
 		TableView<Language> languageList = new TableView<Language>();
 		ObservableList<Language> data = FXCollections.observableArrayList();
@@ -61,29 +60,36 @@ public class Configuration extends Pane {
 		dependencies.setMnemonicParsing(true);
 		dependencies.setLabelFor(pathDep);
 
-		Label languagesLabel = new Label("LENGUAJES");
+		Label languagesLabel = new Label("CONFIGURACIÓN");
 
 		languageList.setEditable(true);
 		languageList.setVisible(true);
-		TableColumn firstNameCol = new TableColumn("Language");
+		TableColumn firstNameCol = new TableColumn("Lenguaje de programación");
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<Language, String>("language"));
-		TableColumn secondNameCol = new TableColumn("Ruta");
+		TableColumn secondNameCol = new TableColumn("Compilador/intérprete");
 		secondNameCol.setCellValueFactory(new PropertyValueFactory<Language, String>("path"));
 
 		languageList.setItems(data);
 		languageList.getColumns().addAll(firstNameCol, secondNameCol);
 		languageList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		Button change = new Button("Cambiar compilador");
+		Button change = new Button("Cambiar compilador/intérprete");
 		Button back = new Button("Atras");
+		if (c.externalResourcesPath == null ) {
+            back.setDisable(true);
+        }
 		Button accept = new Button("Aceptar");
 		
-		Label warning = new Label("Para avanzar todos los lenguajes han de estar configurados");
+		// Label warning = new Label("Para avanzar todos los lenguajes han de estar configurados");
+        Label warning = new Label("");
+        if (c.externalResourcesPath == null ){
+            warning.setText("Debes configurar el directorio de cursos");
+        }
 
 		root.add(dependencies, 0, 0);
-		root.add(pathDep, 1, 0);
-		root.add(search, 2, 0);
-		root.add(acceptPath, 3, 0);
+		root.add(pathDep, 1, 0 );
+		root.add(search, 3, 0);
+		//root.add(acceptPath, 3, 0);
 		root.add(languagesLabel, 0, 1);
 		root.add(languageList, 0, 2);
 		root.add(back, 0, 3);
@@ -94,14 +100,14 @@ public class Configuration extends Pane {
 		languagesLabel.setAlignment(Pos.TOP_CENTER);
 		warning.setAlignment(Pos.TOP_CENTER);
 		
-		GridPane.setConstraints(dependencies, 0, 0, 1, 1, HPos.RIGHT, VPos.TOP, Priority.ALWAYS, Priority.NEVER,
+		GridPane.setConstraints(dependencies, 0, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
-		GridPane.setConstraints(pathDep, 1, 0, 1, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER,
+		GridPane.setConstraints(pathDep, 1, 0, 2, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
-		GridPane.setConstraints(search, 2, 0, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
+		GridPane.setConstraints(search, 3, 0, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
-		GridPane.setConstraints(acceptPath, 3, 0, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
-				new Insets(5));
+		//GridPane.setConstraints(acceptPath, 3, 0, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
+		//		new Insets(5));
 		GridPane.setConstraints(languagesLabel, 0, 1, 4, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
 				new Insets(5));
 		GridPane.setConstraints(languageList, 0, 2, 4, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
@@ -124,39 +130,21 @@ public class Configuration extends Pane {
 			}
 		});
 		
-		acceptPath.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent event) {
-				// comprobamos si la ruta está seleccionada y el si el arbol
-				// está bien hecho
-				log.info(pathDep.getText());
-				if (!pathDep.getText().equals("")) {
-					File f = new File(pathDep.getText());
-					if (f.exists() && f.isDirectory()) {						
-							List<String> lanL = InternalUtilities.getDirectoryList(pathDep.getText());
-							// añadimos los lenguajes a la lista
-							
-							for (String s : lanL) {
-								Language addedL = new Language(s, null);
-								
-								data.add(addedL);
-							}
-							 
-							data.setAll(c.getLanguagesList());
-						}
-				} else {
-					warning.setText("Primero selecciona directorio de recursos");
-				}
-
-			}
-		});
 		accept.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				c.savePrefs(pathDep.getText(), data);
-				c.start();
+			    if (c.externalResourcesPath != null ){
+				    c.savePrefs(pathDep.getText(), data);
+				    c.start();
+			    } else {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("¡Atención!");
+                    alert.setHeaderText("Para poder continuar debes configurar al menos\nel directorio donde están almacenados los cursos.");
+                    alert.setContentText("Por favor, elige el directorio de cursos utilizando el botón\n\"Buscar...\" de la parte superior de la ventana.");
+                    alert.showAndWait();
+                }
 			}
 		});
 
@@ -183,13 +171,31 @@ public class Configuration extends Pane {
 			public void handle(ActionEvent event) {
 				// este es para el directorio
 				c.showSelection(null);
-				pathDep.setText(c.externalResourcesPath);
+				if ( c.externalResourcesPath != null ) {
+					pathDep.setText(c.externalResourcesPath);
+					log.info(c.externalResourcesPath);
+					File f = new File(pathDep.getText());
+					if (f.exists() && f.isDirectory()) {
+						List<String> lanL = InternalUtilities.getDirectoryList(pathDep.getText());
+						// añadimos los lenguajes a la lista
+
+						for (String s : lanL) {
+							Language addedL = new Language(s, null);
+							data.add(addedL);
+						}
+
+						data.setAll(c.getLanguagesList());
+					}
+				} else {
+					warning.setText("Primero selecciona directorio de recursos");
+				}
 			}
 		});
+
+        //change.getStyleClass().add("start");
 		languagesLabel.getStyleClass().add("tittle");
-		accept.getStyleClass().add("start");
-		change.getStyleClass().add("start");
-		back.getStyleClass().add("start");
+		accept.getStyleClass().add("conf_aceptar");
+		back.getStyleClass().add("conf_cancelar");
 		languageList.setId("table");
 		warning.getStyleClass().add("error");
 		root.getStylesheets().add(getClass().getResource("/css/menu.css").toExternalForm());

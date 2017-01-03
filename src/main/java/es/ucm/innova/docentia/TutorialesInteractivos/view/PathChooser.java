@@ -3,6 +3,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import java.io.File;
 
 /**
  * Muestra un FileChooser para seleccionar el path del compilador
@@ -16,13 +17,20 @@ public class PathChooser
 	
 	public PathChooser(Stage stage, String lenguaje){
 		FileChooser fc = new FileChooser();
-		this.path = fc.showOpenDialog(stage).getAbsolutePath();
+		File f = fc.showOpenDialog(stage);
+		if (f != null) {
+			this.path = f.getAbsolutePath();
+		}
 	}
 	
 	public PathChooser(Stage stage){
 		DirectoryChooser chooser = new DirectoryChooser();
-		this.path = chooser.showDialog(stage).getAbsolutePath();
+		File f = chooser.showDialog(stage);
+		if (f != null) {
+			this.path = f.getAbsolutePath();
+		}
 	}
+
 	
 	public String getPath(){
 		return this.path;
