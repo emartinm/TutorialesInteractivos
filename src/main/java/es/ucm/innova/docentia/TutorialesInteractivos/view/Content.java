@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.CodeQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.CodeQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Question;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,6 +32,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
 
@@ -123,8 +124,8 @@ public class Content extends Pane {
 
 		VBox options = new VBox();
 
-		if (e instanceof OptionQuestions) {
-			final OptionQuestions o = (OptionQuestions) e;
+		if (e instanceof OptionQuestion) {
+			final OptionQuestion o = (OptionQuestion) e;
 
 			if (!o.getMulti()) {
 				List<RadioButton> l = new ArrayList<RadioButton>();
@@ -150,6 +151,13 @@ public class Content extends Pane {
 				}
 				options.getChildren().addAll(l);
 			}
+
+			//Si la pregunta ya está contestada, se muestra convenientemente
+			if ( o.isSolved() ) {
+				isCorrect.setText("CORRECTO");
+				isCorrect.setStyle("-fx-background-color: #33cc33");
+			}
+
 			answerBox.setCenter(options);
 			answerBox.setRight(buttonsCode);
 			
@@ -203,9 +211,9 @@ public class Content extends Pane {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				if (e instanceof OptionQuestions) {
+				if (e instanceof OptionQuestion) {
 					ArrayList<Integer> resp = new ArrayList<Integer>();
-					if (!((OptionQuestions) e).getMulti()) // Si la pregunta no es
+					if (!((OptionQuestion) e).getMulti()) // Si la pregunta no es
 													// multirespuesta
 					{
 						int i = 0;// Contador de la posicion de la opcion que se
@@ -239,6 +247,7 @@ public class Content extends Pane {
 					{
 						isCorrect.setText("CORRECTO");
 						isCorrect.setStyle("-fx-background-color: #33cc33");
+						((Question) e).setSolved(true);
 						try{
 							c.enableNextStep(selected);
 						} catch (Exception e){
@@ -248,16 +257,19 @@ public class Content extends Pane {
 						hints.setVisible(false);
 
 					} else {
+                        ((Question) e).setSolved(false);
 						isCorrect.setText("RESPUESTA INCORRECTA");
-						isCorrect.setStyle("-fx-background-color: red");
+						isCorrect.setStyle("-fx-background-color: #ff5400; -fx-text-fill: white");
+                        //isCorrect.setTextFill(Color.WHITE);
+                        //isCorrect.setStyle("-fx-text-fill: white");
 						hints.setVisible(false);
 					}
 
 				} // Fin de opciones
 
-				else if (e instanceof CodeQuestions) // La pregunta es de type codigo
+				else if (e instanceof CodeQuestion) // La pregunta es de type codigo
 				{
-					CodeQuestions pc = (CodeQuestions) e;
+					CodeQuestion pc = (CodeQuestion) e;
 					String code = taCode.getText();
 
 					if (c.check(code, pc))// Se manda el codigo al controlador
@@ -279,8 +291,8 @@ public class Content extends Pane {
 						hints.setVisible(true);
 					}
 
-				} else if (e instanceof SyntaxQuestions) {
-					SyntaxQuestions ps = (SyntaxQuestions) e;
+				} else if (e instanceof SyntaxQuestion) {
+					SyntaxQuestion ps = (SyntaxQuestion) e;
 					String code = taCode.getText();
 					if (c.check(code, ps)) {
 						isCorrect.setText("CORRECTO");
@@ -309,7 +321,7 @@ public class Content extends Pane {
 			@Override
 			public void handle(ActionEvent event) {
 				Popup popup = new Popup();
-				List<String> hints = ((CodeQuestions) e).getCorrection().getHints();
+				List<String> hints = ((CodeQuestion) e).getCorrection().getHints();
 				String txt = "";
 				if (hints != null) {
 					for (String h : hints) {

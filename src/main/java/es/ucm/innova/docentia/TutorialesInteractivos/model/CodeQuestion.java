@@ -22,11 +22,11 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
  * @author Carlos, Rafa
  *
  */
-public class CodeQuestions extends Question<String> {
+public class CodeQuestion extends Question<String> {
 
 	private Correction c;// Corrector de las preguntas de tipo codigo
 
-	public CodeQuestions(int number, String wording, String clue, String solution) {
+	public CodeQuestion(int number, String wording, String clue, String solution) {
 		super(number, wording, clue, solution);
 		
 	}

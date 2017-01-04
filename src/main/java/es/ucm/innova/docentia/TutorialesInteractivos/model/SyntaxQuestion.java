@@ -24,11 +24,11 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
  * @author Carlos, Rafa
  *
  */
-public class SyntaxQuestions extends Question<String> {
+public class SyntaxQuestion extends Question<String> {
 	private String sintax;
 	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
-	public SyntaxQuestions(int number, String wording, String clue, String sintax, String solution) {
+	public SyntaxQuestion(int number, String wording, String clue, String sintax, String solution) {
 		super(number, wording, clue, solution);
 		this.sintax = sintax;
 	}

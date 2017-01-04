@@ -11,12 +11,12 @@ import java.util.Map;
 import org.yaml.snakeyaml.Yaml;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.CodeQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.CodeQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Lesson;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestions;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestions;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestion;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
 
 /**
@@ -93,15 +93,15 @@ public final class YamlReaderClass {
 															// codigo
 					{
 						String answer = (String) pre.get("Resultado");//
-						elem = new CodeQuestions(num, wording, clue, answer);
+						elem = new CodeQuestion(num, wording, clue, answer);
 
 					} else if (pre.get("Tipo").equals("Sintaxis")) {
 						String sintax = (String) pre.get("Gramatica");
 						String result = (String) pre.get("Resultado");
-						elem = new SyntaxQuestions(num, wording, clue, sintax, result);
+						elem = new SyntaxQuestion(num, wording, clue, sintax, result);
 					} else if (pre.get("Tipo").equals("Opciones")) {
 						Boolean is = false;
-						elem = new OptionQuestions(num, wording, clue);
+						elem = new OptionQuestion(num, wording, clue);
 						if ((Boolean) pre.get("Multiple")) {
 							is = true;
 						}

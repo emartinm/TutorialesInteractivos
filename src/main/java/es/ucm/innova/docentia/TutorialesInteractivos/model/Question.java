@@ -14,10 +14,14 @@ public abstract class Question<T> extends Element
 	protected int number; //number de la pregunta
 	protected T solution; //solution a la pregunta
 	protected String clue; //Pista para resolver la pregunta(opcional)
+
+	protected boolean solved; //El último intento es correcto
+	//protected T current //
 	
 	public Question(){
 		super(null);
 		this.number=0;
+		this.solved = false;
 		
 	}
 	
@@ -50,6 +54,10 @@ public abstract class Question<T> extends Element
 	public void setNumber(int number) {
 		this.number = number;
 	}
+
+	public void setSolved(boolean t) { this.solved = t; }
+
+	public boolean isSolved() { return this.solved; }
 
 	public abstract void setSolution(T solution);
 
