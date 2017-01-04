@@ -225,7 +225,7 @@ public class Controller {
 	 * Muestra la primera ventana de la aplicacion
 	 */
 	public void showStart() {
-		primaryStage.setTitle(selectedLanguage);
+		//primaryStage.setTitle(selectedLanguage);
 		Pane p = new SubjectsMenu();
 		changeView(p, files, 0, selectedLanguage, null);
 	}
@@ -266,6 +266,7 @@ public class Controller {
 			if (actualStep == -1) {
 				e = new Explanation(subject.getLessons().get(selected).getIntroMessage());
 			}  else if (actualStep == elems.size()) {
+				//this.finishedLesson();
                 String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
                         subject.getLessons().get(selected).getTitle() + "'";
                 e = new Explanation(mensajeFinal);

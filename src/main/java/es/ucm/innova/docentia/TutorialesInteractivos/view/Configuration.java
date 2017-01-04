@@ -74,7 +74,7 @@ public class Configuration extends Pane {
 		languageList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		Button change = new Button("Cambiar compilador/intérprete");
-		Button back = new Button("Atras");
+		Button back = new Button("Cancelar");
 		if (c.externalResourcesPath == null ) {
             back.setDisable(true);
         }

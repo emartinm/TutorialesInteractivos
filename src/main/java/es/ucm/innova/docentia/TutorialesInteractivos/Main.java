@@ -29,6 +29,8 @@ public class Main extends Application{
 		this.primaryStage.setX(50);
 		this.primaryStage.setY(50);
 		this.primaryStage.setTitle("Tutoriales Interactivos");
+		this.primaryStage.setMinWidth(600);
+		this.primaryStage.setMinHeight(400);
 		Controller c = new Controller(primaryStage);
 		c.start();
 				
