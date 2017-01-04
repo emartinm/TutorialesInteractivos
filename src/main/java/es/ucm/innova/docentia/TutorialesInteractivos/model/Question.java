@@ -15,13 +15,18 @@ public abstract class Question<T> extends Element
 	protected T solution; //solution a la pregunta
 	protected String clue; //Pista para resolver la pregunta(opcional)
 
-	protected boolean solved; //El último intento es correcto
-	//protected T current //
+
+	// Para recordar la respuesta del usuario
+	protected T lastAnswer; //La última respuesta del usuario
+	protected boolean lastAnswer_checked; //La respuesta 'lastAnswer' fue comprobada
+	protected boolean lastAnswer_correct; //La respuesta 'lastAnswer' fue comprobada y era correcta
 	
 	public Question(){
 		super(null);
 		this.number=0;
-		this.solved = false;
+		this.lastAnswer_checked = false;
+		this.lastAnswer = null;
+		this.lastAnswer_correct = false;
 		
 	}
 	
@@ -30,6 +35,30 @@ public abstract class Question<T> extends Element
 		this.number = number;
 		this.solution = solution;
 		this.clue = clue;
+	}
+
+	public T getLastAnswer() {
+		return lastAnswer;
+	}
+
+	public void setLastAnswer(T lastAnswer) {
+		this.lastAnswer = lastAnswer;
+	}
+
+	public boolean isLastAnswer_checked() {
+		return lastAnswer_checked;
+	}
+
+	public void setLastAnswer_checked(boolean lastAnswer_checked) {
+		this.lastAnswer_checked = lastAnswer_checked;
+	}
+
+	public boolean isLastAnswer_correct() {
+		return lastAnswer_correct;
+	}
+
+	public void setLastAnswer_correct(boolean lastAnswer_correct) {
+		this.lastAnswer_correct = lastAnswer_correct;
 	}
 
 	public String getClue() {
@@ -54,10 +83,6 @@ public abstract class Question<T> extends Element
 	public void setNumber(int number) {
 		this.number = number;
 	}
-
-	public void setSolved(boolean t) { this.solved = t; }
-
-	public boolean isSolved() { return this.solved; }
 
 	public abstract void setSolution(T solution);
 

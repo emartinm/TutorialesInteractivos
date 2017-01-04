@@ -17,7 +17,6 @@ public class OptionQuestion extends Question<ArrayList<Integer>> {
 	public OptionQuestion(int number, String wording, String clue) {
 		super(number, wording, clue, new ArrayList());
 		this.options = new ArrayList<String>();
-		this.solved = false;
 	}
 
 	public ArrayList<Integer> getSolution() {

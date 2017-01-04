@@ -34,6 +34,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
+import javafx.scene.control.ButtonBase;
 
 
 /**
@@ -127,35 +128,56 @@ public class Content extends Pane {
 		if (e instanceof OptionQuestion) {
 			final OptionQuestion o = (OptionQuestion) e;
 
+			//List<ButtonBase> l;
+            int i = 1;
+            List<Integer> lastAnswer = o.getLastAnswer();
 			if (!o.getMulti()) {
 				List<RadioButton> l = new ArrayList<RadioButton>();
+                //l = new ArrayList<ButtonBase>();
 				List<String> opc = o.getOptions();
 
+                //logList(lastAnswer);
 				for (Object op : opc) {
 					RadioButton rb = new RadioButton();
 					rb.setText(op.toString());
 					rb.setToggleGroup(group);
 					l.add(rb);
+
+                    //Si hay respuesta anterior la carga
+                    if ( lastAnswer != null ) {
+                        rb.setSelected( lastAnswer.contains( new Integer(i) ) );
+                    }
+                    log.info(Integer.toString(i) + ": " + Boolean.toString(rb.isSelected()));
+                    ++i;
+
 				}
 
 				options.getChildren().addAll(l);
 
 			} else {
 				List<CheckBox> l = new ArrayList<CheckBox>();
+                //l = new ArrayList<ButtonBase>();
 				List<String> opc = o.getOptions();
 				for (Object op : opc) {
 					CheckBox cb = new CheckBox();
 					cb.setText(op.toString());
-
 					l.add(cb);
+                    //Si hay respuesta anterior la carga
+                    if ( lastAnswer != null ) {
+                        cb.setSelected( lastAnswer.contains( new Integer(i) ) );
+                    }
+                    log.info(Integer.toString(i) + ": " + Boolean.toString(cb.isSelected()));
+                    ++i;
 				}
 				options.getChildren().addAll(l);
 			}
 
-			//Si la pregunta ya está contestada, se muestra convenientemente
-			if ( o.isSolved() ) {
-				isCorrect.setText("CORRECTO");
-				isCorrect.setStyle("-fx-background-color: #33cc33");
+			//Si la pregunta ya fue contestada, se muestra el último contenido
+            if ( o.isLastAnswer_checked() ) {
+			    setIncorrectMessage(isCorrect);
+            }
+			if ( o.isLastAnswer_checked() && o.isLastAnswer_correct() ) {
+                setCorrectMessage(isCorrect);
 			}
 
 			answerBox.setCenter(options);
@@ -243,11 +265,12 @@ public class Content extends Pane {
 						}
 					}
 
+					((Question) e).setLastAnswer(resp);
+					((Question) e).setLastAnswer_checked(true);
 					if (c.check(resp, (Question) e))// Se corrige la pregunta
 					{
-						isCorrect.setText("CORRECTO");
-						isCorrect.setStyle("-fx-background-color: #33cc33");
-						((Question) e).setSolved(true);
+                        setCorrectMessage(isCorrect);
+						((Question) e).setLastAnswer_correct(true);
 						try{
 							c.enableNextStep(selected);
 						} catch (Exception e){
@@ -257,9 +280,10 @@ public class Content extends Pane {
 						hints.setVisible(false);
 
 					} else {
-                        ((Question) e).setSolved(false);
-						isCorrect.setText("RESPUESTA INCORRECTA");
-						isCorrect.setStyle("-fx-background-color: #ff5400; -fx-text-fill: white");
+						((Question) e).setLastAnswer_correct(false);
+                        setIncorrectMessage(isCorrect);
+						//isCorrect.setText("RESPUESTA INCORRECTA");
+						//isCorrect.setStyle("-fx-background-color: #ff5400; -fx-text-fill: white");
                         //isCorrect.setTextFill(Color.WHITE);
                         //isCorrect.setStyle("-fx-text-fill: white");
 						hints.setVisible(false);
@@ -275,8 +299,9 @@ public class Content extends Pane {
 					if (c.check(code, pc))// Se manda el codigo al controlador
 											// para que el modelo lo compruebe
 					{
-						isCorrect.setText("CORRECTO");
-						isCorrect.setStyle("-fx-background-color: #33cc33");
+                        setCorrectMessage(isCorrect);
+						//isCorrect.setText("CORRECTO");
+						//isCorrect.setStyle("-fx-background-color: #33cc33");
 						hints.setVisible(false);
 						try{
 							c.enableNextStep(selected);
@@ -285,9 +310,10 @@ public class Content extends Pane {
 						}
 						paginator.enabledProperty().setValue(enabled + 1);
 
-					} else {//
-						isCorrect.setText(pc.getCorrection().getMessage());
-						isCorrect.setStyle("-fx-background-color: red");
+					} else {
+                        setIncorrectMessage(isCorrect);
+						//isCorrect.setText(pc.getCorrection().getMessage());
+						//isCorrect.setStyle("-fx-background-color: red");
 						hints.setVisible(true);
 					}
 
@@ -295,8 +321,9 @@ public class Content extends Pane {
 					SyntaxQuestion ps = (SyntaxQuestion) e;
 					String code = taCode.getText();
 					if (c.check(code, ps)) {
-						isCorrect.setText("CORRECTO");
-						isCorrect.setStyle("-fx-background-color: #33cc33");
+                        setCorrectMessage(isCorrect);
+						//isCorrect.setText("CORRECTO");
+						//isCorrect.setStyle("-fx-background-color: #33cc33");
 						hints.setVisible(false);
 						try{
 							c.enableNextStep(selected);
@@ -306,8 +333,9 @@ public class Content extends Pane {
 						paginator.enabledProperty().setValue(enabled + 1);
 
 					} else {//
-						isCorrect.setText("HAS FALLADO");
-						isCorrect.setStyle("-fx-background-color: red");
+                        setIncorrectMessage(isCorrect);
+						//isCorrect.setText("HAS FALLADO");
+						//isCorrect.setStyle("-fx-background-color: red");
 						hints.setVisible(false);
 					}
 				}
@@ -390,4 +418,25 @@ public class Content extends Pane {
 		return mainPane;
 	}
 
+	private void setCorrectMessage(Label l) {
+        l.setText("CORRECTO");
+        l.setStyle("-fx-background-color: #33cc33");
+    }
+
+    private void setIncorrectMessage(Label l) {
+        l.setText("RESPUESTA INCORRECTA");
+        l.setStyle("-fx-background-color: #ff5400; -fx-text-fill: white");
+    }
+
+    private void logList(List<Integer> l) {
+        if (l == null) {
+            log.info("Lista vacia");
+        } else {
+            String lista = "";
+            for (Integer e : l) {
+                lista += " " + e.toString();
+            }
+            log.info(lista);
+        }
+    }
 }
