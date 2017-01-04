@@ -12,11 +12,21 @@ import java.util.List;
 public class OptionQuestions extends Question<ArrayList<Integer>> {
 	private List<String> options; //Lista de las opciones a la pregunta
 	private Boolean multi; //La pregunta es multipocion o no
+	private boolean solved; //Indica si al pregunta ya ha sido resuelta
 	
 	
 	public OptionQuestions(int number, String wording, String clue) {
 		super(number, wording, clue, new ArrayList());
 		this.options = new ArrayList<String>();
+		this.solved = false;
+	}
+
+	public void setSolved() {
+		solved = true;
+	}
+
+	public boolean isSolved() {
+		return solved;
 	}
 
 	public ArrayList<Integer> getSolution() {
