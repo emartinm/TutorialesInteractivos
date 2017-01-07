@@ -30,8 +30,7 @@ import java.util.Collections;
  *
  */
 public class SubjectsMenu extends Pane{
-	private static Logger log = Logger.getLogger("TutorialesInteractivos");
-	
+
 	public Pane subjectsMenu(List<String> files, String lenSelect, Controller c){
 		GridPane box = new GridPane();
 		

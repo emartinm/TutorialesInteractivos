@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
@@ -43,7 +45,8 @@ import javafx.stage.Stage;
  *
  */
 public class Controller {
-    private static Logger log = Logger.getLogger("TutorialesInteractivos");
+    // Logger común para toda la aplicación
+    public static Logger log = Logger.getLogger("TutorialesInteractivos");
 
     public static String executable;// ejecutable del lenguaje para ejecutar código
 	private Subject subject; // Subject que se está ejecutando
@@ -73,6 +76,12 @@ public class Controller {
 		this.files = new ArrayList<String>();
 		this.c = new Correction();
 		this.pref = Preferences.userNodeForPackage(this.getClass());
+
+		// TODO
+        // Para redirigir la salida del logger a un fichero
+        //Handler handler = new FileHandler("test.log", LOG_SIZE, LOG_ROTATION_COUNT);
+        //Handler handler = new FileHandler("test.log");
+        //logger.addHandler(handler);
 	}
 
 	/**
@@ -174,7 +183,7 @@ public class Controller {
 		List<String> languagesList = new ArrayList<String>();
 
 		String pathResources = pref.get("ExternalResources", null);
-        //log.info(pathResources);
+        //Controller.log.info(pathResources);
 
 		if (pathResources != null) {
 			externalResourcesPath = pathResources;
@@ -186,7 +195,7 @@ public class Controller {
 										// compiladores
 		}
 		Image icon = new Image(Controller.class.getResourceAsStream( "/icon/1477275626_monitor-sidebar.png" ));
-        //log.info(icon.toString());
+        //Controller.log.info(icon.toString());
 		this.primaryStage.getIcons().add(icon);
 		changeView(p, languagesList, 0, selectedLanguage, null);
 

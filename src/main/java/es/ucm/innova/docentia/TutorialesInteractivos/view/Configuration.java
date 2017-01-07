@@ -34,7 +34,6 @@ import javafx.scene.control.Alert.AlertType;
  *
  */
 public class Configuration extends Pane {
-	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
 	public Pane configuration(Controller c) {
 
@@ -173,7 +172,7 @@ public class Configuration extends Pane {
 				c.showSelection(null);
 				if ( c.externalResourcesPath != null ) {
 					pathDep.setText(c.externalResourcesPath);
-					log.info(c.externalResourcesPath);
+					Controller.log.info(c.externalResourcesPath);
 					File f = new File(pathDep.getText());
 					if (f.exists() && f.isDirectory()) {
 						List<String> lanL = InternalUtilities.getDirectoryList(pathDep.getText());

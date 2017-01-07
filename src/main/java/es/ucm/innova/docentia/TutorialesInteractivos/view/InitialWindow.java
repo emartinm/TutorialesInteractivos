@@ -27,10 +27,7 @@ import javafx.scene.layout.Priority;
  *
  */
 public class InitialWindow extends Pane {
-	private static Logger log = Logger.getLogger("TutorialesInteractivos");
-	
 
-	
 	/*
 	 * Vista con la portada, elige un lenguaje, y llama en controlador a showPortada
 	 * 
@@ -77,7 +74,7 @@ public class InitialWindow extends Pane {
 				MultipleSelectionModel<String> s;
 				s= languageList.getSelectionModel();
 				if (!s.isEmpty()){
-					log.info(s.getSelectedItem());
+					Controller.log.info(s.getSelectedItem());
 					c.selectedLanguage(s.getSelectedItem());//Se carga el tema seleccionado
 				}else 
 					error.setText("Se debe seleccionar un lenguaje");

@@ -27,7 +27,6 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
  */
 public class SyntaxQuestion extends Question<String> {
 	private String sintax;
-	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
 	public SyntaxQuestion(int number, String wording, String clue, String sintax, String solution) {
 		super(number, wording, clue, solution);
@@ -74,7 +73,7 @@ public class SyntaxQuestion extends Question<String> {
 
 			prc = (ParserRuleContext) cParser.getMethod(sintax.toLowerCase()).invoke(p);
 
-			log.info(prc.exception.toString());
+			Controller.log.info(prc.exception.toString());
 			
 			/*
 			 * Con este bucle se mira los hijos producidos por la funcion que compruba la sintaxis
@@ -97,7 +96,7 @@ public class SyntaxQuestion extends Question<String> {
 
 		} catch (Exception e1) {
 			
-			log.warning(e1.toString());
+			Controller.log.warning(e1.toString());
 			
 		}
 		return false;

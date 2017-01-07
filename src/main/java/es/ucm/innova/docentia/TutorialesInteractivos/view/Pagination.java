@@ -31,7 +31,6 @@ import javafx.scene.layout.StackPane;
  * 
  */
 public class Pagination extends StackPane {
-	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
 	/*
 	 * Index of the currently selected button (from 1 to numButtons)

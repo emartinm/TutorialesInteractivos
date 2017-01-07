@@ -38,7 +38,6 @@ import javax.swing.*;
  *
  */
 public class InternalUtilities {
-	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 
 	/**
 	 * Modifica el la ruta de la imagen dentro del HTML
@@ -56,7 +55,7 @@ public class InternalUtilities {
 		Matcher matcher = p.matcher(html);
 
 		while (matcher.find()) {
-			log.info(matcher.group(2));
+			Controller.log.info(matcher.group(2));
 			File f = new File(Controller.externalResourcesPath + "/" + matcher.group(2));
 			String im = f.getPath();
 			html = html.replace(matcher.group(), matcher.group(1) + im + matcher.group(3));

@@ -44,8 +44,6 @@ import javafx.scene.control.ButtonBase;
  *
  */
 public class Content extends Pane {
-
-	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 	private final ToggleGroup group = new ToggleGroup();
 
 	/**
@@ -149,7 +147,7 @@ public class Content extends Pane {
                     if ( lastAnswer != null ) {
                         rb.setSelected( lastAnswer.contains( new Integer(i) ) );
                     }
-                    //log.info(Integer.toString(i) + ": " + Boolean.toString(rb.isSelected()));
+                    //Controller.log.info(Integer.toString(i) + ": " + Boolean.toString(rb.isSelected()));
                     ++i;
 
 				}
@@ -182,9 +180,9 @@ public class Content extends Pane {
 						clearCorrectMessage(isCorrect);
 						List<Integer> current = getAnswer_cb(l);
 						o.setLastAnswer(current);
-						//log.info( "Checkbox mofificado" );
+						//Controller.log.info( "Checkbox mofificado" );
 					});
-                    //log.info(Integer.toString(i) + ": " + Boolean.toString(cb.isSelected()));
+                    //Controller.log.info(Integer.toString(i) + ": " + Boolean.toString(cb.isSelected()));
                     ++i;
 				}
 				options.getChildren().addAll(l);
@@ -226,7 +224,7 @@ public class Content extends Pane {
 					setCorrectMessage(isCorrect);
 				}
 				taCode.textProperty().addListener( (ov, old_v, new_v) -> {
-					//log.info("El texto ha cambiado");
+					//Controller.log.info("El texto ha cambiado");
 					// Cada vez que cambia el texto almacenamos su valor actual y restablecemos el
 					// mensaje de corrección
 					cq.setLastAnswer( new_v );
@@ -470,7 +468,7 @@ public class Content extends Pane {
 		// sin exito y además si hay pistas
         if ( cq.isLastAnswer_checked() && !cq.isLastAnswer_correct() && cq.getCorrection().getHints() != null ) {
 			hints.setVisible(true);
-            //log.info( "Longitud de las pistas:" + Integer.toString( cq.getCorrection().getHints().size() ) );
+            //Controller.log.info( "Longitud de las pistas:" + Integer.toString( cq.getCorrection().getHints().size() ) );
 		} else {
 			hints.setVisible(false);
 		}
@@ -516,13 +514,13 @@ public class Content extends Pane {
 
     private void logList(List<Integer> l) {
         if (l == null) {
-            log.info("Lista vacia");
+			Controller.log.info("Lista vacia");
         } else {
             String lista = "";
             for (Integer e : l) {
                 lista += " " + e.toString();
             }
-            log.info(lista);
+			Controller.log.info(lista);
         }
     }
 }
