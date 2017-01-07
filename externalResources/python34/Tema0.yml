@@ -1,10 +1,10 @@
-Tema: 1
-Titulo: "#Primera toma de contacto"
-Archivo: "python34/correctores/tema1.py"
-Introduccion: "##Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas"
+Tema: 0
+Titulo: Tema TEST
+Archivo: python34/correctores/tema1.py
+Introduccion: Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas
 Lecciones:
  - Leccion: 1 
-   Titulo_Leccion: "Operaciones con numeros"
+   Titulo_Leccion: Operaciones con numeros
    Intro_leccion: >
     El interprete funciona como una **simple calculadora**, Tu tecleas una expresion 
     y el muestra el resultado. La sintaxis de las expresiones es bastante intuitiva. 

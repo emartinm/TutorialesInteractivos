@@ -1,7 +1,7 @@
 Tema: 1
-Titulo: "#Primera toma de contacto"
-Archivo: "python34/correctores/tema1.py"
-Introduccion: "##Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas"
+Titulo: Primera toma de contacto
+Archivo: python34/correctores/tema1.py
+Introduccion: Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas
 Lecciones:
  - Leccion: 1 
    Titulo_Leccion: "Operaciones con numeros"

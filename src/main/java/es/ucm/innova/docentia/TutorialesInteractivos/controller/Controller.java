@@ -174,7 +174,7 @@ public class Controller {
 		List<String> languagesList = new ArrayList<String>();
 
 		String pathResources = pref.get("ExternalResources", null);
-        log.info(pathResources);
+        //log.info(pathResources);
 
 		if (pathResources != null) {
 			externalResourcesPath = pathResources;
@@ -186,7 +186,7 @@ public class Controller {
 										// compiladores
 		}
 		Image icon = new Image(Controller.class.getResourceAsStream( "/icon/1477275626_monitor-sidebar.png" ));
-        log.info(icon.toString());
+        //log.info(icon.toString());
 		this.primaryStage.getIcons().add(icon);
 		changeView(p, languagesList, 0, selectedLanguage, null);
 

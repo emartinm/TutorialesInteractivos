@@ -12,13 +12,13 @@ import java.util.List;
 public class Subject {
 	private int number; //Numero del tema
 	private String correctorFile; //Nombre del archivo de correccion
-	private String tittle; //Titulo del tema
+	private String title; //Titulo del tema
 	private String introduction; //Introduccion del Subject
 	private List <Lesson> lessons; //Lista de las lecciones que componen el tema
 	
-	public Subject(int number, String tittle, String introduction, String file) {
+	public Subject(int number, String title, String introduction, String file) {
 		this.number = number;
-		this.tittle = tittle;
+		this.title = title;
 		this.correctorFile = file;
 		this.introduction = introduction;
 		this.lessons = new ArrayList<Lesson>();
@@ -38,12 +38,12 @@ public class Subject {
 	}
 
 
-	public String getTittle() {
-		return this.tittle;
+	public String getTitle() {
+		return this.title;
 	}
 
-	public void setTittle(String tittle) {
-		this.tittle = tittle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	

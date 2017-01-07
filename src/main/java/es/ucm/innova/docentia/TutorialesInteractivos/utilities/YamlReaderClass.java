@@ -171,6 +171,41 @@ public final class YamlReaderClass {
 		return t;
 	}
 
+	/*
+	 * Devuelve el título de un tema almacenado en un fichero YAML
+	 */
+	public static String getTitle(String language, String filename) {
+		Yaml yaml = new Yaml();
+		File file = new File(Controller.externalResourcesPath + "/" + language + "/" + filename);
+		InputStream input = null;
+		try {
+			input = new FileInputStream(file);
+		} catch (FileNotFoundException e1) {
+
+			e1.printStackTrace();
+		}
+		@SuppressWarnings("unchecked")
+		Map<String, Object> mapObjet = (Map<String, Object>) yaml.load(input);
+		String title = (String) mapObjet.get("Titulo");// Nombre del tema
+
+		return title;
+	}
+
+	public static Integer getNumber(String language, String filename) {
+		Yaml yaml = new Yaml();
+		File file = new File(Controller.externalResourcesPath + "/" + language + "/" + filename);
+		InputStream input = null;
+		try {
+			input = new FileInputStream(file);
+		} catch (FileNotFoundException e1) {
+
+			e1.printStackTrace();
+		}
+		@SuppressWarnings("unchecked")
+		Map<String, Object> mapObjet = (Map<String, Object>) yaml.load(input);
+		return (Integer) mapObjet.get("Tema");// Número del tema
+	}
+
 	/**
 	 * Funcion auxiliar que pasa los elementos de tipo String de un Array a tipo
 	 * Int y los mete en un ArrayList

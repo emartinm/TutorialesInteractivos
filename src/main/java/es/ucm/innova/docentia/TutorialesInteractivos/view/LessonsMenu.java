@@ -26,20 +26,15 @@ import javafx.scene.Node;
  *
  */
 public class LessonsMenu extends Pane{
-	
-	
-	
-	
-	
+
 	public Pane lessonMenu(Subject t, Controller c){
-		
-		
 		GridPane box = new GridPane();
 		
 		//Elementos
 		
 		//Creacion de webview
-		String content = c.markToHtml(t.getTittle() + "\n" + t.getIntroduction());
+		// Inserta # y ## para mostrar el titulo y la introducción como cabeceras HMTL
+		String content = c.markToHtml("#" + t.getTitle() + "\n##" + t.getIntroduction());
 		Node tittle = InternalUtilities.creaBrowser(content);
 		//WebEngine engine = tittle.getEngine();
 		//engine.loadContent(content);

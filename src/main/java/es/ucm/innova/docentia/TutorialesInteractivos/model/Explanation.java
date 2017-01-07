@@ -34,8 +34,8 @@ public class Explanation extends Element{
 	}
 
 	@Override
-	public void setText(String explication) {
-		this.text = explication;
+	public void setText(String explanation) {
+		this.text = explanation;
 		
 	}
 

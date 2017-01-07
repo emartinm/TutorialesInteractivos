@@ -1,8 +1,11 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.YamlReaderClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +21,7 @@ import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import java.util.Collections;
 
 /**
  * Panel que muestra el menu con los temas que se compone el tutorial
@@ -26,13 +30,21 @@ import javafx.scene.layout.Priority;
  *
  */
 public class SubjectsMenu extends Pane{
+	private static Logger log = Logger.getLogger("TutorialesInteractivos");
 	
 	public Pane subjectsMenu(List<String> files, String lenSelect, Controller c){
 		GridPane box = new GridPane();
 		
 		Label language = new Label(lenSelect);
+		// Ordenamos la lista de nombres de ficheros en base a su numero de tema en el YAML
+		Collections.sort( files,
+                (f1, f2) -> YamlReaderClass.getNumber(c.selectedLanguage, f1).
+                                compareTo( YamlReaderClass.getNumber(c.selectedLanguage, f2) )
+        );
 		ListView<String> subjectsList = new ListView<String>(); //Lista de los temas
-		ObservableList<String> obsSubjects =FXCollections.observableArrayList(files);//permite ver la seleccion
+		List<String> titulos = getTitles(c.selectedLanguage, files);
+		//ObservableList<String> obsSubjects = FXCollections.observableArrayList(files);//permite ver la seleccion
+		ObservableList<String> obsSubjects = FXCollections.observableArrayList(titulos);//permite ver la seleccion
 		subjectsList.setItems(obsSubjects);
 		
 		Button start = new Button("Comenzar");
@@ -59,10 +71,13 @@ public class SubjectsMenu extends Pane{
 			public void handle(ActionEvent event) {
 				MultipleSelectionModel<String> s;
 				s= subjectsList.getSelectionModel();
-				if (!s.isEmpty())//Se comprueba que hay alguna opcion seleccionada
-					c.selectedSubject(s.getSelectedItem());//Se carga el tema seleccionado
-				else 
+				if (!s.isEmpty()) {//Se comprueba que hay alguna opcion seleccionada
+					int pos = s.getSelectedIndex();
+					String filename = files.get(pos);
+					c.selectedSubject( filename ); //Se carga el tema seleccionado
+				} else {
 					error.setText("Se debe seleccionar un tema");
+				}
 			}
 			
 		});
@@ -84,9 +99,15 @@ public class SubjectsMenu extends Pane{
 		box.getStylesheets().add(getClass().getResource("/css/menu.css").toExternalForm());
 		
 		return box;
-		
-		
-		
+	}
+
+	// Dada una lista de nombre de ficheros YAML, devuelve una lista con sus títulos
+	private List<String> getTitles( String language, List<String> files ) {
+		List<String> r = new ArrayList<String>();
+		for (String filename : files ) {
+			r.add(YamlReaderClass.getTitle(language, filename) );
+		}
+		return r;
 	}
 
 }
