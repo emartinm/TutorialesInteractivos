@@ -147,7 +147,7 @@ public class CodeQuestion extends Question<String> {
 
 
 	@Override
-	public void setOptions(ArrayList<String> options) {
+	public void setOptions(List<String> options) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -155,7 +155,7 @@ public class CodeQuestion extends Question<String> {
 
 
 	@Override
-	public void setSolution(ArrayList<Integer> correctsAux) {
+	public void setSolution(List<Integer> correctsAux) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -42,7 +42,7 @@ Lecciones:
       Pista: los elementos de una lista se tratan como los de un array
   #para el tipo opciones
       Multiple: yes
-      Opcion_correcta: 1,2,3
+      Opcion_correcta: 1,2,4
       Opciones:
        - 1) True
        - 2) True

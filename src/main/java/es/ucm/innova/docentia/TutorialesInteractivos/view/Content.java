@@ -125,6 +125,8 @@ public class Content extends Pane {
 
 		VBox options = new VBox();
 
+
+
 		if (e instanceof OptionQuestion) {
 			final OptionQuestion o = (OptionQuestion) e;
 
@@ -147,11 +149,18 @@ public class Content extends Pane {
                     if ( lastAnswer != null ) {
                         rb.setSelected( lastAnswer.contains( new Integer(i) ) );
                     }
-                    log.info(Integer.toString(i) + ": " + Boolean.toString(rb.isSelected()));
+                    //log.info(Integer.toString(i) + ": " + Boolean.toString(rb.isSelected()));
                     ++i;
 
 				}
-
+				group.selectedToggleProperty().addListener( (ov, old_v, new_v) -> {
+					// Cada vez que el grupo cambia, almacena la solución actual y borra
+					// el mensaje de corrección
+					clearCorrectMessage(isCorrect);
+					o.setLastAnswer_checked(false);
+					List<Integer> currentAnswer = getAnswer_rb(l);
+					o.setLastAnswer(currentAnswer);
+				});
 				options.getChildren().addAll(l);
 
 			} else {
@@ -166,7 +175,16 @@ public class Content extends Pane {
                     if ( lastAnswer != null ) {
                         cb.setSelected( lastAnswer.contains( new Integer(i) ) );
                     }
-                    log.info(Integer.toString(i) + ": " + Boolean.toString(cb.isSelected()));
+					cb.setOnAction((event) -> {
+						// Cada vez que un checkbox recibe un evento, almacena la solución actual
+						// y borra el mensaje de corrección
+						o.setLastAnswer_checked(false);
+						clearCorrectMessage(isCorrect);
+						List<Integer> current = getAnswer_cb(l);
+						o.setLastAnswer(current);
+						//log.info( "Checkbox mofificado" );
+					});
+                    //log.info(Integer.toString(i) + ": " + Boolean.toString(cb.isSelected()));
                     ++i;
 				}
 				options.getChildren().addAll(l);
@@ -186,14 +204,38 @@ public class Content extends Pane {
 			container.getChildren().addAll(answerBox);
 			container.getChildren().addAll(result);
 		} else {
-			if (e instanceof Question) {
+			if (e instanceof CodeQuestion) {
+				CodeQuestion cq = (CodeQuestion)e;
 				container.getChildren().addAll(labelCode);
 				answerBox.setCenter(taCode);
 				answerBox.setRight(buttonsCode);
 				container.getChildren().addAll(answerBox);
 				container.getChildren().addAll(result);
+
+				// Si hay alguna respuesta anterior la reestablecemos
+				if (cq.getLastAnswer() != null ) {
+					taCode.setText( cq.getLastAnswer() );
+				}
+				// Si la ultima accion fue una comprobación, se muestra le mensaje
+				// y el botón de pistas si hay alguna
+				if (cq.isLastAnswer_checked() && !cq.isLastAnswer_correct()) {
+					setIncorrectMessage(isCorrect);
+					showHintButton(cq, hints);
+				}
+				if (cq.isLastAnswer_checked() && cq.isLastAnswer_correct() ) {
+					setCorrectMessage(isCorrect);
+				}
+				taCode.textProperty().addListener( (ov, old_v, new_v) -> {
+					//log.info("El texto ha cambiado");
+					// Cada vez que cambia el texto almacenamos su valor actual y restablecemos el
+					// mensaje de corrección
+					cq.setLastAnswer( new_v );
+					cq.setLastAnswer_checked(false);
+					clearCorrectMessage(isCorrect);
+					showHintButton(cq, hints);
+				});
 			}
-		}
+		} // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
 		Button menu = new Button("Menu principal");
 
@@ -277,6 +319,7 @@ public class Content extends Pane {
 							c.finishedLesson();
 						}
 						paginator.enabledProperty().setValue(enabled + 1);
+						//showHintButton( (CodeQuestion) e, hints);
 						hints.setVisible(false);
 
 					} else {
@@ -286,7 +329,8 @@ public class Content extends Pane {
 						//isCorrect.setStyle("-fx-background-color: #ff5400; -fx-text-fill: white");
                         //isCorrect.setTextFill(Color.WHITE);
                         //isCorrect.setStyle("-fx-text-fill: white");
-						hints.setVisible(false);
+						//hints.setVisible(false);
+						showHintButton( (CodeQuestion) e, hints);
 					}
 
 				} // Fin de opciones
@@ -295,14 +339,15 @@ public class Content extends Pane {
 				{
 					CodeQuestion pc = (CodeQuestion) e;
 					String code = taCode.getText();
-
+					pc.setLastAnswer_checked(true);
 					if (c.check(code, pc))// Se manda el codigo al controlador
 											// para que el modelo lo compruebe
 					{
                         setCorrectMessage(isCorrect);
+                        pc.setLastAnswer_correct(true);
 						//isCorrect.setText("CORRECTO");
 						//isCorrect.setStyle("-fx-background-color: #33cc33");
-						hints.setVisible(false);
+						//hints.setVisible(false);
 						try{
 							c.enableNextStep(selected);
 						} catch (Exception e){
@@ -312,10 +357,12 @@ public class Content extends Pane {
 
 					} else {
                         setIncorrectMessage(isCorrect);
+                        pc.setLastAnswer_correct(false);
 						//isCorrect.setText(pc.getCorrection().getMessage());
 						//isCorrect.setStyle("-fx-background-color: red");
-						hints.setVisible(true);
+						//hints.setVisible(true);
 					}
+					showHintButton(pc, hints);
 
 				} else if (e instanceof SyntaxQuestion) {
 					SyntaxQuestion ps = (SyntaxQuestion) e;
@@ -418,6 +465,17 @@ public class Content extends Pane {
 		return mainPane;
 	}
 
+	private void showHintButton(CodeQuestion cq, Button hints) {
+		// Solo muestra el botón de pistas lo ultimo que se realizo fue una corrección
+		// sin exito y además si hay pistas
+        if ( cq.isLastAnswer_checked() && !cq.isLastAnswer_correct() && cq.getCorrection().getHints() != null ) {
+			hints.setVisible(true);
+            //log.info( "Longitud de las pistas:" + Integer.toString( cq.getCorrection().getHints().size() ) );
+		} else {
+			hints.setVisible(false);
+		}
+	}
+
 	private void setCorrectMessage(Label l) {
         l.setText("CORRECTO");
         l.setStyle("-fx-background-color: #33cc33");
@@ -427,6 +485,34 @@ public class Content extends Pane {
         l.setText("RESPUESTA INCORRECTA");
         l.setStyle("-fx-background-color: #ff5400; -fx-text-fill: white");
     }
+
+    private void clearCorrectMessage(Label l) {
+		l.setText("");
+	}
+
+	private List<Integer> getAnswer_rb( List<RadioButton> l){
+		int i = 0;
+		List<Integer> result = new ArrayList<Integer>();
+		for (RadioButton rb : l ) {
+			i++;
+			if ( rb.isSelected() ) {
+				result.add( new Integer(i) );
+			}
+		}
+		return result;
+	}
+
+	private List<Integer> getAnswer_cb( List<CheckBox> l){
+		int i = 0;
+		List<Integer> result = new ArrayList<Integer>();
+		for (CheckBox cb : l ) {
+			i++;
+			if ( cb.isSelected() ) {
+				result.add( new Integer(i) );
+			}
+		}
+		return result;
+	}
 
     private void logList(List<Integer> l) {
         if (l == null) {

@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase abstracta que representa los componentes de una lección
@@ -22,11 +23,11 @@ public abstract class Element {
 	}
 
 	
-	public abstract void setOptions(ArrayList<String> opc);
+	public abstract void setOptions(List<String> opc);
 
 	public abstract void setMulti(Boolean is);
 
-	public abstract void setSolution(ArrayList<Integer> correctsAux);
+	public abstract void setSolution(List<Integer> correctsAux);
 
 	public abstract void setText(String explication);
 

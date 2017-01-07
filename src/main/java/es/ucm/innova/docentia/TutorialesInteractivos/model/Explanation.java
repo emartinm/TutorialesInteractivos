@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase con el elemento Explicación
@@ -15,7 +16,7 @@ public class Explanation extends Element{
 	}
 
 	@Override
-	public void setOptions(ArrayList<String> opc) {
+	public void setOptions(List<String> opc) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -27,7 +28,7 @@ public class Explanation extends Element{
 	}
 
 	@Override
-	public void setSolution(ArrayList<Integer> correctsAux) {
+	public void setSolution(List<Integer> correctsAux) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -34,7 +35,7 @@ public class SyntaxQuestion extends Question<String> {
 	}
 
 	@Override
-	public void setOptions(ArrayList<String> options) {
+	public void setOptions(List<String> options) {
 
 	}
 
@@ -121,7 +122,7 @@ public class SyntaxQuestion extends Question<String> {
 	}
 
 	@Override
-	public void setSolution(ArrayList<Integer> correctsAux) {
+	public void setSolution(List<Integer> correctsAux) {
 		// TODO Auto-generated method stub
 		
 	}

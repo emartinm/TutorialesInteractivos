@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase generica del elemento Question
@@ -86,7 +87,7 @@ public abstract class Question<T> extends Element
 
 	public abstract void setSolution(T solution);
 
-	public abstract void setOptions(ArrayList<String> options);
+	public abstract void setOptions(List<String> options);
 	
 	public abstract boolean check(T answer, Subject subject);
 

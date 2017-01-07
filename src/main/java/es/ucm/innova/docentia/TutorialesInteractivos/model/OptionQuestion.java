@@ -9,7 +9,7 @@ import java.util.List;
  * @author Carlos, Rafa
  *
  */
-public class OptionQuestion extends Question<ArrayList<Integer>> {
+public class OptionQuestion extends Question<List<Integer>> {
 	private List<String> options; //Lista de las opciones a la pregunta
 	private Boolean multi; //La pregunta es multipocion o no
 
@@ -19,7 +19,7 @@ public class OptionQuestion extends Question<ArrayList<Integer>> {
 		this.options = new ArrayList<String>();
 	}
 
-	public ArrayList<Integer> getSolution() {
+	public List<Integer> getSolution() {
 		return solution;
 	}
 
@@ -29,12 +29,11 @@ public class OptionQuestion extends Question<ArrayList<Integer>> {
 	}
 
 	@Override
-	public void setOptions(ArrayList<String> options) {
+	public void setOptions(List<String> options) {
 		this.options=options;
-
 	}
 
-	public boolean check(ArrayList<Integer> answer, Subject subject) {
+	public boolean check(List<Integer> answer, Subject subject) {
 		boolean sol = true;
 		int tam = answer.size();
 		int i = 0;
@@ -65,7 +64,7 @@ public class OptionQuestion extends Question<ArrayList<Integer>> {
 	}
 
 	@Override
-	public void setSolution(ArrayList<Integer> correctsAux) {
+	public void setSolution(List<Integer> correctsAux) {
 		this.solution = correctsAux;
 		
 	}
