@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -94,8 +95,12 @@ public class LessonsMenu extends Pane{
 		});
 
 		leccionList.setOnMouseClicked( (event) -> {
-			Controller.log.info( Integer.toString(event.getClickCount()) );
-			Controller.log.info( event.getTarget().toString() );
+            if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+                    !event.getTarget().toString().contains("null")) {
+                start.fire();
+                // Lanza el evento de presionar el botón de "Comenzar"
+            }
+            Controller.log.info( event.getTarget().toString() );
 		} );
 		
 		

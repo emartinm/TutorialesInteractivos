@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -65,6 +66,14 @@ public class SubjectsMenu extends Pane{
 		GridPane.setConstraints(error, 1, 2, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 		GridPane.setConstraints(back, 0, 2, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 
+		subjectsList.setOnMouseClicked( (event) -> {
+			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+					!event.getTarget().toString().contains("null")) {
+				start.fire();
+				// Lanza el evento de presionar el botón de "Comenzar"
+			}
+			Controller.log.info( event.getTarget().toString() );
+		});
 		
 		start.setOnAction(new EventHandler<ActionEvent>(){	
 			public void handle(ActionEvent event) {

@@ -3,6 +3,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.sun.javafx.scene.control.skin.LabeledText;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -68,11 +70,13 @@ public class InitialWindow extends Pane {
 		GridPane.setConstraints(error, 1, 3, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 	
 		languageList.setOnMouseClicked( (event) -> {
-			Controller.log.info( Integer.toString(event.getClickCount()) );
-			Controller.log.info( event.getTarget().toString() );
-			System.out.println( event.getTarget().getClass() );
-			ListViewSkin<String> lv = (ListViewSkin) event.getTarget();
-            //System.out.println(lv.getSelectionModel().getSelectedItem());
+
+            if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+                    !event.getTarget().toString().contains("null")) {
+                start.fire();
+                // Lanza el evento de presionar el botón de "Comenzar"
+            }
+            //Controller.log.info( event.getTarget().toString() );
 		} );
 		
 		start.setOnAction(new EventHandler<ActionEvent>(){
@@ -111,4 +115,5 @@ public class InitialWindow extends Pane {
 		return pane;
 
 	}
+
 }
