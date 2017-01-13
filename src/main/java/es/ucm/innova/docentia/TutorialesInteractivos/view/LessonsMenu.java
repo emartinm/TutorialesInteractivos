@@ -92,6 +92,11 @@ public class LessonsMenu extends Pane{
 				
 			}
 		});
+
+		leccionList.setOnMouseClicked( (event) -> {
+			Controller.log.info( Integer.toString(event.getClickCount()) );
+			Controller.log.info( event.getTarget().toString() );
+		} );
 		
 		
 		//Parte estetica

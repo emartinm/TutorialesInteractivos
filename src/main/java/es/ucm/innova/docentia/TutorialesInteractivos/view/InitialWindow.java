@@ -19,6 +19,7 @@ import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import com.sun.javafx.scene.control.skin.ListViewSkin;
 
 /**
  * Question de tipo Sintax
@@ -66,7 +67,13 @@ public class InitialWindow extends Pane {
 		GridPane.setConstraints(settings, 0, 2, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 		GridPane.setConstraints(error, 1, 3, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 	
-		
+		languageList.setOnMouseClicked( (event) -> {
+			Controller.log.info( Integer.toString(event.getClickCount()) );
+			Controller.log.info( event.getTarget().toString() );
+			System.out.println( event.getTarget().getClass() );
+			ListViewSkin<String> lv = (ListViewSkin) event.getTarget();
+            //System.out.println(lv.getSelectionModel().getSelectedItem());
+		} );
 		
 		start.setOnAction(new EventHandler<ActionEvent>(){
 		
