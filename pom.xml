@@ -2,12 +2,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>pimcd_ucm_2016</groupId>
+  <groupId>innova_docentia_ucm_2016</groupId>
   <artifactId>TutorialesInteractivos</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   
   <build>
+    <finalName>TutorialesInteractivos</finalName>
     <plugins>
     
       <plugin>

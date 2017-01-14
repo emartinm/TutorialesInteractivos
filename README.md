@@ -1,6 +1,6 @@
 ![build passing](https://travis-ci.org/emartinm/TutorialesInteractivos.svg?branch=master)
 
-# Sistema de creación de tutoriales interactivos para el aprendizaje de lenguajes de programación 
+# Sistema de tutoriales interactivos para el aprendizaje de lenguajes de programación 
 
 ## Autores
 La versión inicial de la herramienta fue producto del Trabajo Fin de grado de *Rafael Caturla* y *Carlos Congosto* del curso 2015/16, 
