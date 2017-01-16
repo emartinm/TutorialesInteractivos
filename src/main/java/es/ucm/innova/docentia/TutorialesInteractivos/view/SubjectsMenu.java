@@ -2,7 +2,6 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.YamlReaderClass;
@@ -67,6 +66,9 @@ public class SubjectsMenu extends Pane{
 		GridPane.setConstraints(back, 0, 2, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 
 		subjectsList.setOnMouseClicked( (event) -> {
+		    // TODO
+            // Para detectar cuándo se ha hecho doble clic en una entrada vacía se usa el método toString() del evento
+            // ya que en esos casos parece contener siempre 'null'. Realizar de manera más elegante.
 			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
 					!event.getTarget().toString().contains("null")) {
 				start.fire();

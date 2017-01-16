@@ -43,7 +43,7 @@ public class LessonsMenu extends Pane{
 		Label tittleList = new Label("Lecciones");//TItulo de la lista de lecciones
 		//Lista de lecciones
 		ListView<String> leccionList = new ListView<String>();
-		ObservableList<String> obsLecciones =FXCollections.observableArrayList (t.getNameLessons());
+		ObservableList<String> obsLecciones = FXCollections.observableArrayList (t.getNameLessons());
 		leccionList.setItems(obsLecciones);
 		
 		
@@ -95,6 +95,9 @@ public class LessonsMenu extends Pane{
 		});
 
 		leccionList.setOnMouseClicked( (event) -> {
+            // TODO
+            // Para detectar cuándo se ha hecho doble clic en una entrada vacía se usa el método toString() del evento
+            // ya que en esos casos parece contener siempre 'null'. Realizar de manera más elegante.
             if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
                     !event.getTarget().toString().contains("null")) {
                 start.fire();

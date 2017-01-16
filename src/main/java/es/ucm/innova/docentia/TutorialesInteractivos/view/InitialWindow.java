@@ -1,9 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.List;
-import java.util.logging.Logger;
 
-import com.sun.javafx.scene.control.skin.LabeledText;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +40,7 @@ public class InitialWindow extends Pane {
 		
 		Label labelTittle = new Label("Selecciona un lenguaje"); //Label del titulo de la ventana
 		ListView<String> languageList = new ListView<String>(); //Lista de los temas
-		ObservableList<String> obsTemas =FXCollections.observableArrayList(files);//permite ver la seleccion
+		ObservableList<String> obsTemas = FXCollections.observableArrayList(files);//permite ver la seleccion
 		languageList.setItems(obsTemas);
 		
 		Button start = new Button("Comenzar");//Boton para comenzar el tutorial con el lenguaje seleccionado
@@ -70,7 +68,9 @@ public class InitialWindow extends Pane {
 		GridPane.setConstraints(error, 1, 3, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 	
 		languageList.setOnMouseClicked( (event) -> {
-
+            // TODO
+            // Para detectar cuándo se ha hecho doble clic en una entrada vacía se usa el método toString() del evento
+            // ya que en esos casos parece contener siempre 'null'. Realizar de manera más elegante.
             if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
                     !event.getTarget().toString().contains("null")) {
                 start.fire();
