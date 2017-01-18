@@ -45,6 +45,7 @@ public class CodeQuestion extends Question<String> {
 			File temp = File.createTempFile("json_Data", null);
 			String nombre = temp.getName();
 			ProcessBuilder pb = new ProcessBuilder(Controller.executable, cor, this.solution, answer, nombre);
+			Controller.log.info("Ejecutando: " + Controller.executable + " " + cor + " " + this.solution + " " + answer + " " + nombre);
 			Process p = pb.start();
 			InputStream is = p.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);

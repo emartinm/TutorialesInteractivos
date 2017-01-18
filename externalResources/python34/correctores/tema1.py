@@ -35,7 +35,8 @@ def pregunta11(code, filename):
         e.print_exc()
         sys.exit(1)
         #return False
-    
+
+
 def pregunta21(code, filename):
     
     try:
@@ -82,8 +83,57 @@ def pregunta22(code, filename):
         print(e)
         sys.exit(-1)
         #return False
+        
 
-    
+        
+def pregunta_triang(code, filename):
+    try:
+        exec(code)
+        dicc = {}
+        if 'a' in locals() and locals()['a'] == 30:
+            dicc['isCorrect'] = True
+        elif 'a' in locals():
+            dicc['typeError'] = 'Valor incorrecto'
+            dicc['isCorrect'] = False
+            dicc['Hints'] = ['¿Qué operación hace falta para obtener el área de un triángulo de base 10 y altura 6?']
+        else:
+          dicc['typeError'] = 'Variable erronea'
+          dicc['isCorrect'] = False
+          dicc['Hints'] = ['La variable \'a\' no ha sido definida']
+       
+        with open(filename, 'w') as outfile:
+            json.dump(dicc, outfile)
+        sys.exit(0)
+    except Exception as e:
+        print(e)
+        sys.exit(-1)
+        #return False
+
+
+
+def pregunta_pacopaco(code, filename):
+    try:
+        exec(code)
+        dicc = {}
+        if 'palabra' in locals() and locals().get('palabra') == "pacopacopaco":
+            dicc['isCorrect'] = True
+        elif 'palabra' in locals():
+            dicc['typeError'] = 'Valor incorrecto'
+            dicc['isCorrect'] = False
+            dicc['Hints'] = ['El valor de "palabra" debe ser "pacopacopaco", pero has asignado "' + locals().get('palabra') + '"' ]
+        else:
+          dicc['typeError'] = 'Variable erronea'
+          dicc['isCorrect'] = False
+          dicc['Hints'] = ['La variable "palabra" no ha sido definida']
+       
+        with open(filename, 'w') as outfile:
+            json.dump(dicc, outfile)
+        sys.exit(0)
+    except Exception as e:
+        print(e)
+        sys.exit(-1)
+        #return False
+
 
 
 def main():
@@ -93,13 +143,8 @@ def main():
 	default_tmp_dir = tempfile._get_default_tempdir()
 	filename = default_tmp_dir + '/' + sys.argv[3]
 	
-	if question == "pregunta11":
-		pregunta11(code, filename)
-	elif question == "pregunta21":
-		pregunta21(code, filename)
-	elif question == "pregunta22":
-		pregunta22(code, filename)
-    
+	corrector = globals().get(question)
+	corrector(code, filename) 
     
 
 if __name__ == "__main__":

@@ -52,11 +52,10 @@ Lecciones:
     - Elem: pregunta
       Numero: 3
       Enunciado: |
-       Calcula el area de este triangulo 
+       Calcula el area de este triangulo y almacénalo en la variable **a**
        ![triangulo](file:///python34/img/triangulo.jpg)
-      Tipo: Sintaxis
-      Gramatica: Triangulo
-      Resultado: a= 30
+      Tipo: Codigo
+      Resultado: pregunta_triang
  - Leccion: 2
    Titulo_Leccion: Cadenas
    Intro_leccion: >
@@ -95,9 +94,8 @@ Lecciones:
        En python, se puede concatenar una cadena multiples 
        veces con el operador â€˜*â€™ y el numero de veces que queremos repetir la palabra.
       Pista: variable= cadena * n
-      Tipo: Sintaxis
-      Gramatica: Cadrep
-      Resultado: cad=â€™pacopacopacoâ€™
+      Tipo: Codigo
+      Resultado: pregunta_pacopaco
     - Elem: explicacion
       Contenido: "En *python*, las cadenas se pueden tratar como arrays de elementos"
     - Elem: explicacion

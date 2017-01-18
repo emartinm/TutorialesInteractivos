@@ -10,7 +10,6 @@ import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Question;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -339,29 +338,31 @@ public class Content extends Pane {
 					String code = taCode.getText();
 					pc.setLastAnswer_checked(true);
 					if (c.check(code, pc))// Se manda el codigo al controlador
-											// para que el modelo lo compruebe
+					// para que el modelo lo compruebe
 					{
-                        setCorrectMessage(isCorrect);
-                        pc.setLastAnswer_correct(true);
+						setCorrectMessage(isCorrect);
+						pc.setLastAnswer_correct(true);
 						//isCorrect.setText("CORRECTO");
 						//isCorrect.setStyle("-fx-background-color: #33cc33");
 						//hints.setVisible(false);
-						try{
+						try {
 							c.enableNextStep(selected);
-						} catch (Exception e){
+						} catch (Exception e) {
 							c.finishedLesson();
 						}
 						paginator.enabledProperty().setValue(enabled + 1);
 
 					} else {
-                        setIncorrectMessage(isCorrect);
-                        pc.setLastAnswer_correct(false);
+						setIncorrectMessage(isCorrect);
+						pc.setLastAnswer_correct(false);
 						//isCorrect.setText(pc.getCorrection().getMessage());
 						//isCorrect.setStyle("-fx-background-color: red");
 						//hints.setVisible(true);
 					}
 					showHintButton(pc, hints);
-
+				}
+				/*
+				Eliminado el soporte para preguntas de tipo Sintaxis
 				} else if (e instanceof SyntaxQuestion) {
 					SyntaxQuestion ps = (SyntaxQuestion) e;
 					String code = taCode.getText();
@@ -383,7 +384,7 @@ public class Content extends Pane {
 						//isCorrect.setStyle("-fx-background-color: red");
 						hints.setVisible(false);
 					}
-				}
+				}*/
 			}
 		});
 

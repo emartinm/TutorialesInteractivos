@@ -96,9 +96,10 @@ public final class YamlReaderClass {
 						elem = new CodeQuestion(num, wording, clue, answer);
 
 					} else if (pre.get("Tipo").equals("Sintaxis")) {
-						String sintax = (String) pre.get("Gramatica");
-						String result = (String) pre.get("Resultado");
-						elem = new SyntaxQuestion(num, wording, clue, sintax, result);
+						//String sintax = (String) pre.get("Gramatica");
+						//String result = (String) pre.get("Resultado");
+						//elem = new SyntaxQuestion(num, wording, clue, sintax, result);
+						Controller.log.info( "Preguntas de tipo Sintaxis no soportadas");
 					} else if (pre.get("Tipo").equals("Opciones")) {
 						Boolean is = false;
 						elem = new OptionQuestion(num, wording, clue);
