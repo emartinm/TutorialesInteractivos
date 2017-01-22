@@ -26,6 +26,12 @@ public class CodeQuestion extends Question<String> {
 
 	private Correction c;// Corrector de las preguntas de tipo codigo
 
+
+	public String toString(){
+		return String.format("CodeQuestion(%d,%s,%s,%s)", this.number, this.text,
+				this.solution.toString(), this.clue);
+	}
+
 	public CodeQuestion(int number, String wording, String clue, String solution) {
 		super(number, wording, clue, solution);
 		

@@ -13,6 +13,12 @@ public class OptionQuestion extends Question<List<Integer>> {
 	private List<String> options; //Lista de las opciones a la pregunta
 	private Boolean multi; //La pregunta es multipocion o no
 
+
+	public String toString(){
+		return String.format("OptionQuestion(%d,%s,%s,%s,%s,%s)", this.number, this.text,
+                this.solution.toString(), this.clue, this.options.toString(), this.multi.toString() );
+	}
+
 	
 	public OptionQuestion(int number, String wording, String clue) {
 		super(number, wording, clue, new ArrayList());

@@ -43,7 +43,7 @@ public class LessonsMenu extends Pane{
 		Label tittleList = new Label("Lecciones");//TItulo de la lista de lecciones
 		//Lista de lecciones
 		ListView<String> leccionList = new ListView<String>();
-		ObservableList<String> obsLecciones = FXCollections.observableArrayList (t.getNameLessons());
+		ObservableList<String> obsLecciones = FXCollections.observableArrayList (t.getLessonNames());
 		leccionList.setItems(obsLecciones);
 		
 		

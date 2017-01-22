@@ -6,8 +6,6 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.util.logging.Logger;
-
 
 /**
  * Clase principal de la aplicación

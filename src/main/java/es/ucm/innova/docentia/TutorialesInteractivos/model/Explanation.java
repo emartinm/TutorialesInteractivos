@@ -45,5 +45,9 @@ public class Explanation extends Element{
 		return null;
 	}
 
+	public String toString(){
+		return String.format("Explanation(%s)", this.text);
+    }
+
 	
 }

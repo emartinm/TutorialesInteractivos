@@ -1,6 +1,10 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+
+import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -15,6 +19,29 @@ public class Lesson
 	private String title; //Titulo de la leccion
 	private List<Element> elements; //Array con los elements de la leccion
 	private String intro_message; //Introducción de la lección
+
+    private static MessageDigest md = null;
+    private static Base64.Encoder b64enc = Base64.getEncoder();
+
+
+
+	public String toString(){
+		return String.format("Lesson(%d,%s,%s,%s)", this.number, this.title, this.elements.toString(),
+				this.intro_message );
+	}
+
+
+	/*
+	La versión es el MD5 calculado a partir de su cadena toString
+	 */
+	public String version() {
+	    String v = this.toString();
+	    if (this.md != null) {
+            byte[] thedigest = this.md.digest(v.getBytes());
+            v = b64enc.encodeToString(thedigest);
+        }
+        return v;
+	}
 	
 
 	public Lesson(int number, String title, String intro_message){
@@ -22,6 +49,15 @@ public class Lesson
 		this.title =title;
 		this.elements = new ArrayList<Element>();
 		this.intro_message =intro_message;
+
+        /* MessageEncoder md es un singleton */
+        if (this.md == null) {
+            try {
+                this.md = MessageDigest.getInstance("MD5");
+            } catch (java.security.NoSuchAlgorithmException e) {
+                Controller.log.info("MD5 no instalado");
+            }
+        }
 	}
 
 	public int getNumber() {

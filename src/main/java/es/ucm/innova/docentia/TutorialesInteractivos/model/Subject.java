@@ -1,5 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Subject {
 	private String title; //Titulo del tema
 	private String introduction; //Introduccion del Subject
 	private List <Lesson> lessons; //Lista de las lecciones que componen el tema
+
 	
 	public Subject(int number, String title, String introduction, String file) {
 		this.number = number;
@@ -72,10 +75,11 @@ public class Subject {
 	 * Devuelve un array con solo el nombre de las lecciones
 	 * @return ArrayList
 	 */
-	public ArrayList<String> getNameLessons() {
+	public ArrayList<String> getLessonNames() {
 		//devuelve arraylist de nombres de lecciones
 		ArrayList<String> names= new ArrayList<String>();
 		for (Lesson l: this.lessons){
+			Controller.log.info( l.getTitle() + " versión " + l.version() );
 			names.add(l.getTitle());
 		}
 		return names;
