@@ -19,7 +19,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import com.sun.javafx.scene.control.skin.ListViewSkin;
+
 
 /**
  * Question de tipo Sintax
@@ -39,10 +39,11 @@ public class InitialWindow extends Pane {
 		GridPane pane = new GridPane(); //Panel principal
 		
 		Label labelTittle = new Label("Selecciona un lenguaje"); //Label del titulo de la ventana
+
 		ListView<String> languageList = new ListView<String>(); //Lista de los temas
 		ObservableList<String> obsTemas = FXCollections.observableArrayList(files);//permite ver la seleccion
 		languageList.setItems(obsTemas);
-		
+
 		Button start = new Button("Comenzar");//Boton para comenzar el tutorial con el lenguaje seleccionado
 		//Label advise = new Label("Recuerda enlazar los compiladores");//Mensaje de aviso
 		Label advise = new Label("");//Mensaje de aviso
@@ -85,7 +86,6 @@ public class InitialWindow extends Pane {
 				MultipleSelectionModel<String> s;
 				s= languageList.getSelectionModel();
 				if (!s.isEmpty()){
-					Controller.log.info(s.getSelectedItem());
 					c.selectedLanguage(s.getSelectedItem());//Se carga el tema seleccionado
 				}else 
 					error.setText("Se debe seleccionar un lenguaje");

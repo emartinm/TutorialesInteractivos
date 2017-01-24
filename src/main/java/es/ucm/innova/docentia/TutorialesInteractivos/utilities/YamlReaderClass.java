@@ -16,7 +16,6 @@ import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Lesson;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.OptionQuestion;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.SyntaxQuestion;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
 
 /**

@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Lesson;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
 import javafx.collections.FXCollections;
@@ -10,15 +11,16 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.Node;
+
+import java.util.List;
 
 /**
  * Muestra la lista de ls lecciones del tema seleccionado
@@ -45,6 +47,32 @@ public class LessonsMenu extends Pane{
 		ListView<String> leccionList = new ListView<String>();
 		ObservableList<String> obsLecciones = FXCollections.observableArrayList (t.getLessonNames());
 		leccionList.setItems(obsLecciones);
+
+		/* Dibuja un tick al lado del nombre del nombre de la lección en la lista si está completada */
+		leccionList.setCellFactory(param -> new ListCell<String>() {
+			private final Image tick = new Image(Controller.class.getResourceAsStream( "/icon/031tick.png" ));
+			private ImageView imageView = new ImageView(tick);
+
+			@Override
+			public void updateItem(String name, boolean empty) {
+				super.updateItem(name, empty);
+				imageView.setFitWidth(16);
+				imageView.setPreserveRatio(true);
+				if (empty) {
+					setText(null);
+					setGraphic(null);
+				} else {
+					setText(name);
+					Lesson le = getLesson(name, t);
+					Controller.log.info( le.getTitle() + " -> " + le.version() );
+					if ( le.isFinished() ) {
+					    setGraphic(imageView);
+					} else {
+					    setGraphic(null);
+                    }
+				}
+			}
+		});
 		
 		
 		Button start = new Button("Comenzar leccion");//Boton para comenzar la leccion
@@ -103,7 +131,7 @@ public class LessonsMenu extends Pane{
                 start.fire();
                 // Lanza el evento de presionar el botón de "Comenzar"
             }
-            Controller.log.info( event.getTarget().toString() );
+            //Controller.log.info( event.getTarget().toString() );
 		} );
 		
 		
@@ -116,4 +144,15 @@ public class LessonsMenu extends Pane{
 		return box;
 		
 	}
+
+    private Lesson getLesson(String name, Subject t) {
+        List<Lesson> l = t.getLessons();
+        for (Lesson le : l ) {
+            if ( le.getTitle().equals(name) ) {
+                return le;
+            }
+        }
+        return null;
+    }
+
 }

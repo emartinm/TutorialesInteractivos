@@ -2,10 +2,15 @@ package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
+
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
 /**
  * Clase con los elementos de Lesson
@@ -90,6 +95,24 @@ public class Lesson
 
 	public void setElements(List<Element> elements) {
 		this.elements = elements;
+	}
+
+	/* Comprueba si la lección de nombre 'name' aparece como terminada en el fichero de progreso */
+	public boolean isFinished() {
+		String version = this.version();
+		String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
+		Map<String, Object> progress = JSONReaderClass.loadProgress(path);
+        return (progress != null) && progress.containsKey(version);
+	}
+
+	public void setFinished() {
+        String version = this.version();
+        String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
+        Map<String, Object> progress = JSONReaderClass.loadProgress(path);
+		if (progress != null) {
+			progress.put(version, Boolean.TRUE);
+		}
+		JSONReaderClass.writeProgress(progress, path);
 	}
 	
 }

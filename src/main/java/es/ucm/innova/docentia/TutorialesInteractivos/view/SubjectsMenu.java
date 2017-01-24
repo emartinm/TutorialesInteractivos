@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Lesson;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.YamlReaderClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,10 +15,9 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -45,6 +46,33 @@ public class SubjectsMenu extends Pane{
 		//ObservableList<String> obsSubjects = FXCollections.observableArrayList(files);//permite ver la seleccion
 		ObservableList<String> obsSubjects = FXCollections.observableArrayList(titulos);//permite ver la seleccion
 		subjectsList.setItems(obsSubjects);
+
+		/* Dibuja un tick al lado del nombre del tema si está completado */
+		subjectsList.setCellFactory(param -> new ListCell<String>() {
+			private final Image tick = new Image(Controller.class.getResourceAsStream( "/icon/031tick.png" ));
+			private ImageView imageView = new ImageView(tick);
+
+			@Override
+			public void updateItem(String name, boolean empty) {
+				super.updateItem(name, empty);
+				imageView.setFitWidth(16);
+				imageView.setPreserveRatio(true);
+				if (empty) {
+					setText(null);
+					setGraphic(null);
+				} else {
+					setText(name);
+					int pos = titulos.indexOf( name );
+					String filename = files.get(pos);
+					Subject s = YamlReaderClass.cargaTema(c.selectedLanguage, filename);
+					if ( s.isFinished() ) {
+						setGraphic(imageView);
+					} else {
+						setGraphic(null);
+					}
+				}
+			}
+		});
 		
 		Button start = new Button("Comenzar");
 		Label error = new Label ();
@@ -74,7 +102,7 @@ public class SubjectsMenu extends Pane{
 				start.fire();
 				// Lanza el evento de presionar el botón de "Comenzar"
 			}
-			Controller.log.info( event.getTarget().toString() );
+			//Controller.log.info( event.getTarget().toString() );
 		});
 		
 		start.setOnAction(new EventHandler<ActionEvent>(){	

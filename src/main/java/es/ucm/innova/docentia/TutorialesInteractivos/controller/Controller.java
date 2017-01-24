@@ -1,20 +1,21 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import java.nio.file.FileSystems;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Correction;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
@@ -63,8 +64,10 @@ public class Controller {
 	private Correction c;
 	private Preferences pref;
 	public static String externalResourcesPath;
+	public static String progressFileName = "progress.json";
 	private URLClassLoader ucl;
 	private Language language;
+	private static Map<String, Object> progress;
 	
 	/**
 	 * Constructora 
@@ -278,6 +281,8 @@ public class Controller {
 				//this.finishedLesson();
                 String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
                         subject.getLessons().get(selected).getTitle() + "'";
+                String version = subject.getLessons().get(selected).version();
+                subject.getLessons().get(selected).setFinished();
                 e = new Explanation(mensajeFinal);
             } else {
 				e = elems.get(actualStep);
@@ -528,4 +533,5 @@ public class Controller {
 		new EndLessonPane(this);
 		
 	}
+
 }

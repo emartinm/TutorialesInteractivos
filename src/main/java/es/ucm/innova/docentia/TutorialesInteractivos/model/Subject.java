@@ -1,9 +1,12 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Subject con el que se trabaja
@@ -79,7 +82,6 @@ public class Subject {
 		//devuelve arraylist de nombres de lecciones
 		ArrayList<String> names= new ArrayList<String>();
 		for (Lesson l: this.lessons){
-			Controller.log.info( l.getTitle() + " versión " + l.version() );
 			names.add(l.getTitle());
 		}
 		return names;
@@ -91,6 +93,15 @@ public class Subject {
 		while (!this.lessons.get(i).getTitle().equals(selectedItem))
 			i++;
 		return (ArrayList<Element>) this.lessons.get(i).getElements();
+	}
+
+	/* Comprueba si el tema completo esta terminado, mirando si todas sus lecciones están completadas */
+	public boolean isFinished() {
+		boolean ret = true;
+		for( Lesson l : this.lessons) {
+			ret = ret && l.isFinished();
+		}
+		return ret;
 	}
 
 
