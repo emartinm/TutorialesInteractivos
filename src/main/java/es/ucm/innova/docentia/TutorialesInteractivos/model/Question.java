@@ -1,7 +1,9 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Clase generica del elemento Question
@@ -92,6 +94,36 @@ public abstract class Question<T> extends Element
 	public abstract boolean check(T answer, Subject subject);
 
 	public abstract void setMulti(Boolean is);
-	
+
+	private void loadProgress_lastAnswer_checked(Map<String, Object> progress) {
+		this.lastAnswer_checked = (Boolean) progress.getOrDefault("last_checked", Boolean.FALSE);
+	}
+
+	private void loadProgress_lastAnswer_correct(Map<String, Object> progress) {
+		this.lastAnswer_correct = (Boolean) progress.getOrDefault("last_correct", Boolean.FALSE);
+	}
+
+	protected abstract void load_answer_from_string(String s);
+
+    protected abstract String answer_to_string();
+
+	private void loadProgress_lastAnswer(Map<String, Object> progress) {
+	    String s = (String) progress.getOrDefault("last_answer", "");
+	    load_answer_from_string(s);
+	}
+
+	public void loadProgress(Map<String, Object> progress) {
+        loadProgress_lastAnswer_checked(progress);
+        loadProgress_lastAnswer_correct(progress);
+        loadProgress_lastAnswer(progress);
+    }
+
+    public Map<String, Object> get_progress() {
+        Map<String, Object> p = new HashMap<String, Object>();
+        p.put( "last_checked", this.lastAnswer_checked );
+        p.put( "last_correct", this.lastAnswer_correct );
+        p.put( "last_answer", this.answer_to_string() );
+        return p;
+    }
 	
 }

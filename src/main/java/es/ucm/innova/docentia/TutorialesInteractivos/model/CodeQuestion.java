@@ -168,6 +168,15 @@ public class CodeQuestion extends Question<String> {
 	}
 
 
+	protected void load_answer_from_string(String s) {
+		this.lastAnswer = s;
+	}
+
+	protected String answer_to_string() {
+		return this.lastAnswer;
+	}
+
+
 	
 
 }

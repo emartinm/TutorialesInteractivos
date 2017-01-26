@@ -1,7 +1,6 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
 import java.nio.file.DirectoryStream;
@@ -9,20 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import java.nio.file.FileSystems;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Correction;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Element;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Explanation;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Language;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Question;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
+import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.YamlReaderClass;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.Configuration;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.Content;
@@ -55,7 +47,7 @@ public class Controller {
 	private Pane root;// Panel con los elementos de la vista
 	private Scene scene;
 	private ArrayList<Element> elems; // Lista de elementos de un subject
-	private int actualStep; // contador de el elemento del contenido en el que estamos
+	private int currentStep; // contador de el elemento del contenido en el que estamos
 	private int enabledSteps; // Elementos habilitados
 	private boolean[] visited; // Array con los elementos de una lección que se han visitado
 	private int actualLesson; // Lección en la que se encuentra el tutorial
@@ -67,7 +59,8 @@ public class Controller {
 	public static String progressFileName = "progress.json";
 	private URLClassLoader ucl;
 	private Language language;
-	private static Map<String, Object> progress;
+	public static Map<String, Object> progress;
+	private boolean finished; // Se ha completado la lección actual
 	
 	/**
 	 * Constructora 
@@ -190,6 +183,7 @@ public class Controller {
 
 		if (pathResources != null) {
 			externalResourcesPath = pathResources;
+            progress = JSONReaderClass.loadProgress(Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
 			languagesList = languageNames();
 			loadLanguagePaths(languagesList);
 			p = new InitialWindow();
@@ -275,24 +269,26 @@ public class Controller {
 			root = ((LessonsMenu) p).lessonMenu(subject, this);
 		} else if (p instanceof Content) {
 			Element e;	
-			if (actualStep == -1) {
+			if (currentStep == -1) {
 				e = new Explanation(subject.getLessons().get(selected).getIntroMessage());
-			}  else if (actualStep == elems.size()) {
+			}  else if (currentStep == elems.size()) {
 				//this.finishedLesson();
+                this.finished = true;
+                updateAndSaveCurrentLessonProgress();
                 String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
                         subject.getLessons().get(selected).getTitle() + "'";
                 String version = subject.getLessons().get(selected).version();
-                subject.getLessons().get(selected).setFinished();
+                //subject.getLessons().get(selected).setFinished();
                 e = new Explanation(mensajeFinal);
             } else {
-				e = elems.get(actualStep);
+				e = elems.get(currentStep);
 				stepChange(newStep, e instanceof Question);
 			}
 			// habilitados empezaremos con 1, y el paso actual es el 1 para la
 			// vista (comienza en -1 aquí)
 			// el que estás mas algo
 
-			root = ((Content) p).content(e, this, elems.size() + 2, enabledSteps, actualStep + 2);
+			root = ((Content) p).content(e, this, elems.size() + 2, enabledSteps, currentStep + 2);
 		}
 
 		//root.setPrefSize(600, 600);
@@ -325,12 +321,21 @@ public class Controller {
 	 */
 	public void selectedLesson(int selectedItem) {
 		this.actualLesson = selectedItem;
-		this.elems = (ArrayList<Element>) subject.getLessons().get(selectedItem).getElements();
-		actualStep = -1;
-		enabledSteps = 2;
-		visited = new boolean[elems.size() + 2];
-		Arrays.fill(visited, Boolean.FALSE);
-		visited[0] = true;
+        Lesson le = subject.getLessons().get(selectedItem);
+        le.loadProgress(progress);
+        finished = false;
+        currentStep = -1;
+        enabledSteps = 2;
+        this.load_lesson_gui( (Map<String, Object>)progress.get(le.version()) );
+
+        this.elems = (ArrayList<Element>) le.getElements();
+        //Controller.log.info( "****" + ((OptionQuestion) this.elems.get(2)).getLastAnswer().toString() );
+        visited = new boolean[elems.size() + 2];
+        Arrays.fill(visited, Boolean.FALSE);
+        visited[0] = true;
+
+
+
 		changeView(new Content(), null, actualLesson, selectedLanguage, 0);
 	}
 
@@ -413,9 +418,9 @@ public class Controller {
 	 * 
 	 * @return Element actual de la leccion
 	 */
-	public int getActualStep() {
+	public int getCurrentStep() {
 
-		return this.actualStep;
+		return this.currentStep;
 	}
 
 	/**
@@ -432,7 +437,7 @@ public class Controller {
 	 * @param newStep
 	 */
 	public void lessonPageChange(Number newStep) {
-		actualStep = (int) newStep - 2;
+		currentStep = (int) newStep - 2;
 		changeView(new Content(), null, actualLesson, selectedLanguage, newStep);
 	}
 
@@ -533,5 +538,28 @@ public class Controller {
 		new EndLessonPane(this);
 		
 	}
+
+
+	public void updateAndSaveCurrentLessonProgress() {
+	    Lesson le = subject.getLessons().get(actualLesson);
+	    Map<String, Object> p = le.get_progress();
+	    p.put("finished", finished);
+	    p.put("current", this.currentStep);
+	    p.put("enabled", this.enabledSteps);
+	    this.progress.put( le.version(), p );
+	    String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
+        JSONReaderClass.writeProgress(this.progress, path);
+        //Controller.log.info( p.toString() );
+    }
+
+    private void load_lesson_gui(Map<String, Object> p) {
+	    try {
+            currentStep = (Integer)p.get("current");
+            enabledSteps = (Integer)p.get("enabled");
+            finished = (Boolean)p.get("finished");
+        } catch (Exception e) {
+	        log.info( e.getLocalizedMessage() );
+        }
+    }
 
 }

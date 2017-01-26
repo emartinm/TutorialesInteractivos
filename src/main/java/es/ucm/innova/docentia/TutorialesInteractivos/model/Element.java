@@ -2,6 +2,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Clase abstracta que representa los componentes de una lección
@@ -33,5 +34,5 @@ public abstract class Element {
 
 	public abstract String getClue();
 
-	
+	public void loadProgress(Map<String, Object> progress) {}
 }

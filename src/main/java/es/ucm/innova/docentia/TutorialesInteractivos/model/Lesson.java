@@ -5,10 +5,8 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.lang.ClassCastException;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
@@ -98,14 +96,19 @@ public class Lesson
 	}
 
 	/* Comprueba si la lección de nombre 'name' aparece como terminada en el fichero de progreso */
-	public boolean isFinished() {
+	public boolean isFinished(Map<String,Object> progress) {
 		String version = this.version();
-		String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
-		Map<String, Object> progress = JSONReaderClass.loadProgress(path);
-        return (progress != null) && progress.containsKey(version);
+		boolean finished = false;
+		try {
+		    Map<String, Object> p_lesson = (Map<String, Object>) progress.get(version);
+		    finished = (Boolean) p_lesson.get("finished");
+        } catch (Exception e) {
+            Controller.log.info( e.toString() );
+        }
+		return finished;
 	}
 
-	public void setFinished() {
+	/*public void setFinished() {
         String version = this.version();
         String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
         Map<String, Object> progress = JSONReaderClass.loadProgress(path);
@@ -113,6 +116,49 @@ public class Lesson
 			progress.put(version, Boolean.TRUE);
 		}
 		JSONReaderClass.writeProgress(progress, path);
-	}
+	}*/
+
+	public void loadProgress(Map<String, Object> progress)  {
+        String version = this.version();
+        //String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
+        //Map<String, Object> progress = JSONReaderClass.loadProgress(path);
+        if ((progress != null) && progress.containsKey(version)) {
+            try {
+                Map<String, Object> lesson_prog = (Map<String, Object>) progress.get(version);
+
+                /* Carga el estado de las preguntas */
+                for ( int i = 0; i < this.elements.size(); ++i ){
+                    if ( this.elements.get(i) instanceof  Question ) {
+                        Map<String, Object> question_progress = (Map<String, Object>) lesson_prog.getOrDefault(Integer.toString(i), null);
+                        if (question_progress != null ) {
+                            this.elements.get(i).loadProgress(question_progress);
+                        } else {
+                            Controller.log.info( "No existe progreso para la pregunta " + Integer.toString(i) );
+                        }
+                    }
+
+                }
+
+                boolean finished = (Boolean) lesson_prog.getOrDefault("finished", false);
+                Controller.log.info("La lección " + version + "esta terminada? -> " + finished);
+            } catch (ClassCastException e) {
+                Controller.log.warning("Error al leer el progreso de la lección " + version + " -> " + e.getLocalizedMessage() );
+            }
+
+        }
+    }
+
+    public Map<String, Object> get_progress() {
+	    Map<String, Object> p = new HashMap<String, Object>();
+	    int i = 0;
+	    for (Element e : elements ) {
+	        if ( e instanceof Question ) {
+	            p.put( Integer.toString(i), ((Question) e).get_progress() );
+            }
+            ++i;
+        }
+        return p;
+
+    }
 	
 }

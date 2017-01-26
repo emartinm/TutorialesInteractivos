@@ -465,9 +465,9 @@ public class Content extends Pane {
 	}
 
 	private void showHintButton(CodeQuestion cq, Button hints) {
-		// Solo muestra el botón de pistas lo ultimo que se realizo fue una corrección
+		// Solo muestra el botón de pistas si lo ultimo que se realizo fue una corrección
 		// sin exito y además si hay pistas
-        if ( cq.isLastAnswer_checked() && !cq.isLastAnswer_correct() && cq.getCorrection().getHints() != null ) {
+        if ( cq.isLastAnswer_checked() && !cq.isLastAnswer_correct() && cq.getCorrection() != null && cq.getCorrection().getHints() != null ) {
 			hints.setVisible(true);
             //Controller.log.info( "Longitud de las pistas:" + Integer.toString( cq.getCorrection().getHints().size() ) );
 		} else {

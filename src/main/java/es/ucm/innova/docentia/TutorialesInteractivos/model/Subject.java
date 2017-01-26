@@ -96,10 +96,10 @@ public class Subject {
 	}
 
 	/* Comprueba si el tema completo esta terminado, mirando si todas sus lecciones están completadas */
-	public boolean isFinished() {
+	public boolean isFinished(Map<String,Object> progress) {
 		boolean ret = true;
 		for( Lesson l : this.lessons) {
-			ret = ret && l.isFinished();
+			ret = ret && l.isFinished(progress);
 		}
 		return ret;
 	}

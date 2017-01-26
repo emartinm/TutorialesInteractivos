@@ -2,6 +2,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Question de tipo Options
@@ -81,8 +82,25 @@ public class OptionQuestion extends Question<List<Integer>> {
 		
 	}
 
-	
+	protected void load_answer_from_string(String s) {
+		String[] ints = s.split(",");
+		this.lastAnswer = new ArrayList<Integer>();
+		for (String n : ints ) {
+            this.lastAnswer.add( new Integer(n) );
+		}
+	}
 
-		
+    protected String answer_to_string() {
+        String ret = "";
+	    if (this.lastAnswer != null ) {
+	        for( int i = 0; i < lastAnswer.size(); ++i ) {
+	            ret = ret + lastAnswer.get(i).toString();
+	            if ( i < lastAnswer.size() - 1 ) {
+	                ret = ret + ",";
+                }
+            }
+        }
+        return ret;
+    }
 
 }

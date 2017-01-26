@@ -65,7 +65,7 @@ public class SubjectsMenu extends Pane{
 					int pos = titulos.indexOf( name );
 					String filename = files.get(pos);
 					Subject s = YamlReaderClass.cargaTema(c.selectedLanguage, filename);
-					if ( s.isFinished() ) {
+					if ( s.isFinished(Controller.progress) ) {
 						setGraphic(imageView);
 					} else {
 						setGraphic(null);
