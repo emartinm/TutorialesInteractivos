@@ -464,10 +464,10 @@ public class Controller {
 	 * Habilita el siguiente elemento del actual (currentStep) si no esta habilitado ya
 	 */
 	public void enableNextStep(int actual) {
+		 //System.out.println(this.currentStep);
+		 //System.out.println(this.enabledSteps);
+		 //System.out.println(actual);
 	     if (currentStep + 2 >= enabledSteps ) {
-            //System.out.println(this.currentStep);
-            //System.out.println(this.enabledSteps);
-            //System.out.println(actual);
             enabledSteps++;
          }
 	}
@@ -569,6 +569,10 @@ public class Controller {
         } catch (Exception e) {
 	        // Alguna de las entradas no aparece
         }
+    }
+
+    public int getEnabledSteps() {
+        return this.enabledSteps;
     }
 
 }

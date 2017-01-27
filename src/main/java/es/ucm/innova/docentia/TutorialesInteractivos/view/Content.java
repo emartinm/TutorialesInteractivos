@@ -157,6 +157,7 @@ public class Content extends Pane {
 					o.setLastAnswer_checked(false);
 					List<Integer> currentAnswer = getAnswer_rb(l);
 					o.setLastAnswer(currentAnswer);
+					c.updateAndSaveCurrentLessonProgress();
 				});
 				options.getChildren().addAll(l);
 
@@ -179,6 +180,7 @@ public class Content extends Pane {
 						clearCorrectMessage(isCorrect);
 						List<Integer> current = getAnswer_cb(l);
 						o.setLastAnswer(current);
+						c.updateAndSaveCurrentLessonProgress();
 						//Controller.log.info( "Checkbox mofificado" );
 					});
                     //Controller.log.info(Integer.toString(i) + ": " + Boolean.toString(cb.isSelected()));
@@ -230,6 +232,7 @@ public class Content extends Pane {
 					cq.setLastAnswer_checked(false);
 					clearCorrectMessage(isCorrect);
 					showHintButton(cq, hints);
+					c.updateAndSaveCurrentLessonProgress();
 				});
 			}
 		} // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
@@ -316,7 +319,15 @@ public class Content extends Pane {
 						} catch (Exception e){
 							c.finishedLesson();
 						}
-						paginator.enabledProperty().setValue(enabled + 1);
+
+						c.stepChange(enabled+1, e instanceof Question);
+						paginator.enabledProperty().set( c.getEnabledSteps() );
+                        //System.out.println(paginator.currentProperty().getValue() );
+                        //System.out.println(paginator.enabledProperty().getValue() );
+                        //if (paginator.currentProperty().getValue() + 2 >= paginator.enabledProperty().getValue() ) {
+                        //    paginator.enabledProperty().setValue(enabled + 1);
+                        //}
+						//paginator.enabledProperty().setValue(enabled + 1);
 						//showHintButton( (CodeQuestion) e, hints);
 						hints.setVisible(false);
 
@@ -328,7 +339,9 @@ public class Content extends Pane {
                         //isCorrect.setTextFill(Color.WHITE);
                         //isCorrect.setStyle("-fx-text-fill: white");
 						//hints.setVisible(false);
-						showHintButton( (CodeQuestion) e, hints);
+						//if (e instanceof CodeQuestion ) {
+						//	showHintButton( (CodeQuestion) e, hints);
+						//}
 					}
 
 				} // Fin de opciones
@@ -352,7 +365,11 @@ public class Content extends Pane {
 						} catch (Exception e) {
 							c.finishedLesson();
 						}
-						paginator.enabledProperty().setValue(enabled + 1);
+
+						//c.enableNextStep();paginator.currentProperty().getValue()
+						//paginator.enabledProperty().setValue(enabled + 1);
+                        c.stepChange(enabled+1, e instanceof Question);
+                        paginator.enabledProperty().set( c.getEnabledSteps() );
 
 					} else {
 						setIncorrectMessage(isCorrect);
