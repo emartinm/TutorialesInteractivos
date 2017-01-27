@@ -1,7 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Lesson;
@@ -22,7 +22,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import java.util.Collections;
 
 /**
  * Panel que muestra el menu con los temas que se compone el tutorial
@@ -36,13 +35,14 @@ public class SubjectsMenu extends Pane{
 		GridPane box = new GridPane();
 		
 		Label language = new Label(lenSelect);
-		// Ordenamos la lista de nombres de ficheros en base a su numero de tema en el YAML
+		Map<String,Subject> subjects = get_subjects(c.selectedLanguage, files, c.progress);
+		// Ordenamos la lista de nombres de ficheros en base a su numero de tema
 		Collections.sort( files,
-                (f1, f2) -> YamlReaderClass.getNumber(c.selectedLanguage, f1).
-                                compareTo( YamlReaderClass.getNumber(c.selectedLanguage, f2) )
-        );
+				(f1, f2) -> Integer.compare(subjects.get(f1).getNumber(), subjects.get(f2).getNumber())
+		);
+		List<String> titulos = this.getTitles(subjects, files);
 		ListView<String> subjectsList = new ListView<String>(); //Lista de los temas
-		List<String> titulos = getTitles(c.selectedLanguage, files);
+
 		//ObservableList<String> obsSubjects = FXCollections.observableArrayList(files);//permite ver la seleccion
 		ObservableList<String> obsSubjects = FXCollections.observableArrayList(titulos);//permite ver la seleccion
 		subjectsList.setItems(obsSubjects);
@@ -64,8 +64,8 @@ public class SubjectsMenu extends Pane{
 					setText(name);
 					int pos = titulos.indexOf( name );
 					String filename = files.get(pos);
-					Subject s = YamlReaderClass.cargaTema(c.selectedLanguage, filename);
-					if ( s.isFinished(Controller.progress) ) {
+					Subject s = subjects.get(filename);
+					if ( s.isFinished() ) {
 						setGraphic(imageView);
 					} else {
 						setGraphic(null);
@@ -140,10 +140,23 @@ public class SubjectsMenu extends Pane{
 	}
 
 	// Dada una lista de nombre de ficheros YAML, devuelve una lista con sus títulos
-	private List<String> getTitles( String language, List<String> files ) {
+	private List<String> getTitles( Map<String,Subject> subjects, List<String> files ) {
 		List<String> r = new ArrayList<String>();
 		for (String filename : files ) {
-			r.add(YamlReaderClass.getTitle(language, filename) );
+			r.add( subjects.get(filename).getTitle() );
+		}
+		return r;
+	}
+
+	/* Devuelve una lista de parejas (filename, subject) cargadas desde los ficheros YAML.
+	 * También se carga el estado de las lecciones desde el fichero JSON para saber si están
+	 * o no finalizadas */
+	private Map<String, Subject>  get_subjects(String language, List<String> files, Map<String, Object> progress) {
+		Map<String, Subject> r = new HashMap<String, Subject>();
+		for (String filename : files ) {
+			Subject s = YamlReaderClass.cargaTema(language, filename);
+			s.loadProgress(progress);
+			r.put(filename, s);
 		}
 		return r;
 	}

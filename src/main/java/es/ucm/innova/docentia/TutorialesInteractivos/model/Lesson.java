@@ -22,6 +22,8 @@ public class Lesson
 	private String title; //Titulo de la leccion
 	private List<Element> elements; //Array con los elements de la leccion
 	private String intro_message; //Introducción de la lección
+	private boolean finished = false;
+	private String version = null;
 
     private static MessageDigest md = null;
     private static Base64.Encoder b64enc = Base64.getEncoder();
@@ -35,15 +37,19 @@ public class Lesson
 
 
 	/*
-	La versión es el MD5 calculado a partir de su cadena toString
+	La versión es el MD5 en Base64 calculado a partir de su cadena toString
+	Si no existe MD5, la versión es directacmente el toString
 	 */
 	public String version() {
-	    String v = this.toString();
-	    if (this.md != null) {
-            byte[] thedigest = this.md.digest(v.getBytes());
-            v = b64enc.encodeToString(thedigest);
+	    // Solo se calcula una vez
+	    if (this.version == null ){
+            version = this.toString();
+            if (this.md != null) {
+                byte[] thedigest = this.md.digest(version.getBytes());
+                version = b64enc.encodeToString(thedigest);
+            }
         }
-        return v;
+        return version;
 	}
 	
 
@@ -95,29 +101,17 @@ public class Lesson
 		this.elements = elements;
 	}
 
-	/* Comprueba si la lección de nombre 'name' aparece como terminada en el fichero de progreso */
-	public boolean isFinished(Map<String,Object> progress) {
-		String version = this.version();
-		boolean finished = false;
-		try {
-		    Map<String, Object> p_lesson = (Map<String, Object>) progress.get(version);
-		    finished = (Boolean) p_lesson.get("finished");
-        } catch (Exception e) {
-            Controller.log.info( e.toString() );
-        }
+	/* Devuelve si la leccion está terminada */
+	public boolean isFinished() {
 		return finished;
 	}
 
-	/*public void setFinished() {
-        String version = this.version();
-        String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
-        Map<String, Object> progress = JSONReaderClass.loadProgress(path);
-		if (progress != null) {
-			progress.put(version, Boolean.TRUE);
-		}
-		JSONReaderClass.writeProgress(progress, path);
-	}*/
+	public void setFinished(boolean b){
+		finished = b;
+	}
 
+	/* Carga el progreso de la lección desde 'progress', que contiene entradas
+	 * para las lecciones usando la version como clave */
 	public void loadProgress(Map<String, Object> progress)  {
         String version = this.version();
         //String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
@@ -139,8 +133,7 @@ public class Lesson
 
                 }
 
-                boolean finished = (Boolean) lesson_prog.getOrDefault("finished", false);
-                Controller.log.info("La lección " + version + "esta terminada? -> " + finished);
+                finished = (Boolean) lesson_prog.getOrDefault("finished", false);
             } catch (ClassCastException e) {
                 Controller.log.warning("Error al leer el progreso de la lección " + version + " -> " + e.getLocalizedMessage() );
             }
@@ -157,6 +150,7 @@ public class Lesson
             }
             ++i;
         }
+        p.put( "finished", this.finished );
         return p;
 
     }

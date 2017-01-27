@@ -49,7 +49,7 @@ public class Controller {
 	private ArrayList<Element> elems; // Lista de elementos de un subject
 	private int currentStep; // contador de el elemento del contenido en el que estamos
 	private int enabledSteps; // Elementos habilitados
-	private boolean[] visited; // Array con los elementos de una lección que se han visitado
+	//private boolean[] visited; // Array con los elementos de una lección que se han visitado
 	private int actualLesson; // Lección en la que se encuentra el tutorial
 	private List<String> files;// temas del lenguaje
 	public static String selectedLanguage; // lenguaje seleccionado
@@ -59,8 +59,8 @@ public class Controller {
 	public static String progressFileName = "progress.json";
 	private URLClassLoader ucl;
 	private Language language;
-	public static Map<String, Object> progress;
-	private boolean finished; // Se ha completado la lección actual
+	public Map<String, Object> progress;
+	//private boolean finished; // Se ha completado la lección actual
 	
 	/**
 	 * Constructora 
@@ -273,7 +273,8 @@ public class Controller {
 				e = new Explanation(subject.getLessons().get(selected).getIntroMessage());
 			}  else if (currentStep == elems.size()) {
 				//this.finishedLesson();
-                this.finished = true;
+                subject.getLessons().get(actualLesson).setFinished(true);
+                //this.finished = true;
                 updateAndSaveCurrentLessonProgress();
                 String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
                         subject.getLessons().get(selected).getTitle() + "'";
@@ -309,6 +310,8 @@ public class Controller {
 	public void selectedSubject(String selectedItem) {
 
 		this.subject = YamlReaderClass.cargaTema(selectedLanguage, selectedItem);
+		// 'progress' ha sido cargado anteriormente
+		this.subject.loadProgress(progress);
 		changeView(new LessonsMenu(), null, 0, selectedLanguage, null);
 	}
 
@@ -323,20 +326,22 @@ public class Controller {
 		this.actualLesson = selectedItem;
         Lesson le = subject.getLessons().get(selectedItem);
         le.loadProgress(progress);
-        finished = false;
+        //finished = false;
+        //le.setFinished(false);
         currentStep = -1;
         enabledSteps = 2;
-        this.load_lesson_gui( (Map<String, Object>)progress.get(le.version()) );
+        this.load_lesson_gui(le.version());
 
         this.elems = (ArrayList<Element>) le.getElements();
         //Controller.log.info( "****" + ((OptionQuestion) this.elems.get(2)).getLastAnswer().toString() );
-        visited = new boolean[elems.size() + 2];
-        Arrays.fill(visited, Boolean.FALSE);
-        visited[0] = true;
+        //visited = new boolean[elems.size() + 2];
+        //Arrays.fill(visited, Boolean.FALSE);
+        //visited[0] = true;
 
 
 
-		changeView(new Content(), null, actualLesson, selectedLanguage, 0);
+		//changeView(new Content(), null, actualLesson, selectedLanguage, 0);
+        changeView(new Content(), null, actualLesson, selectedLanguage, currentStep);
 	}
 
 	/**
@@ -438,6 +443,7 @@ public class Controller {
 	 */
 	public void lessonPageChange(Number newStep) {
 		currentStep = (int) newStep - 2;
+		updateAndSaveCurrentLessonProgress();
 		changeView(new Content(), null, actualLesson, selectedLanguage, newStep);
 	}
 
@@ -449,20 +455,21 @@ public class Controller {
 	 */
 	public void stepChange(Number newStep, boolean isQuestion) {
 		// -2 porque en nuestra indexación hay -1 que es la intro y elemento 0
-		if (!isQuestion)
+		if (!isQuestion) {
 			enableNextStep((int) newStep);
+		}
 	}
 
 	/**
-	 * Habilita el siguiente elemento del actual en el Paginator. Solo si no es
-	 * pregunta
+	 * Habilita el siguiente elemento del actual (currentStep) si no esta habilitado ya
 	 */
 	public void enableNextStep(int actual) {
-
-		if (!visited[actual - 1]) {
-			visited[actual - 1] = true;
-			enabledSteps += 1;
-		}
+	     if (currentStep + 2 >= enabledSteps ) {
+            //System.out.println(this.currentStep);
+            //System.out.println(this.enabledSteps);
+            //System.out.println(actual);
+            enabledSteps++;
+         }
 	}
 
 	/**
@@ -543,22 +550,24 @@ public class Controller {
 	public void updateAndSaveCurrentLessonProgress() {
 	    Lesson le = subject.getLessons().get(actualLesson);
 	    Map<String, Object> p = le.get_progress();
-	    p.put("finished", finished);
 	    p.put("current", this.currentStep);
 	    p.put("enabled", this.enabledSteps);
 	    this.progress.put( le.version(), p );
 	    String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
         JSONReaderClass.writeProgress(this.progress, path);
-        //Controller.log.info( p.toString() );
     }
 
-    private void load_lesson_gui(Map<String, Object> p) {
+    /* Carga el estado de la GUI (botones activados, fragmento actual) para la lección
+        'version' desde el progreso
+     */
+    private void load_lesson_gui(String version) {
 	    try {
+	        Map<String, Object> p = (Map<String, Object>)progress.get(version);
             currentStep = (Integer)p.get("current");
             enabledSteps = (Integer)p.get("enabled");
-            finished = (Boolean)p.get("finished");
+            //finished = (Boolean)p.get("finished");
         } catch (Exception e) {
-	        log.info( e.getLocalizedMessage() );
+	        // Alguna de las entradas no aparece
         }
     }
 

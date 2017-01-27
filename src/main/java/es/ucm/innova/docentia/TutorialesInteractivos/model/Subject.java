@@ -40,7 +40,6 @@ public class Subject {
 
 	public int getNumber() {
 		return number;
-		
 	}
 
 
@@ -96,12 +95,20 @@ public class Subject {
 	}
 
 	/* Comprueba si el tema completo esta terminado, mirando si todas sus lecciones están completadas */
-	public boolean isFinished(Map<String,Object> progress) {
+	public boolean isFinished() {
 		boolean ret = true;
 		for( Lesson l : this.lessons) {
-			ret = ret && l.isFinished(progress);
+			ret = ret && l.isFinished();
 		}
 		return ret;
+	}
+
+	/* Carga el progreso de todas sus lecciones desde 'progress', que contiene entradas
+	 * para las lecciones usando la version como clave */
+	public void loadProgress(Map<String, Object> progress)  {
+		for (Lesson le : lessons ) {
+			le.loadProgress(progress);
+		}
 	}
 
 

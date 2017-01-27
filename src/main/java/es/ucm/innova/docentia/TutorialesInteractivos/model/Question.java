@@ -108,7 +108,7 @@ public abstract class Question<T> extends Element
     protected abstract String answer_to_string();
 
 	private void loadProgress_lastAnswer(Map<String, Object> progress) {
-	    String s = (String) progress.getOrDefault("last_answer", "");
+	    String s = (String) progress.getOrDefault("last_answer", null);
 	    load_answer_from_string(s);
 	}
 

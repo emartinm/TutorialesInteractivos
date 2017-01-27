@@ -38,7 +38,7 @@ public final class JSONReaderClass {
 
         try{
             File f = new File(filename);
-            mapper.writeValue(f, progress);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(f, progress);
             Controller.log.info( "Escrito en el fichero de progreso: " + filename);
         } catch (java.io.IOException e ) {
             e.printStackTrace();

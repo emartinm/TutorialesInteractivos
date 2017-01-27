@@ -83,10 +83,12 @@ public class OptionQuestion extends Question<List<Integer>> {
 	}
 
 	protected void load_answer_from_string(String s) {
-		String[] ints = s.split(",");
-		this.lastAnswer = new ArrayList<Integer>();
-		for (String n : ints ) {
-            this.lastAnswer.add( new Integer(n) );
+		if (s != null && s.length() > 0 ){
+			String[] ints = s.split(",");
+			this.lastAnswer = new ArrayList<Integer>();
+			for (String n : ints ) {
+				this.lastAnswer.add( new Integer(n) );
+			}
 		}
 	}
 

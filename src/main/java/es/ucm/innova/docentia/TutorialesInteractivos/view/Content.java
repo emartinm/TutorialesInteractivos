@@ -310,6 +310,7 @@ public class Content extends Pane {
 					{
                         setCorrectMessage(isCorrect);
 						((Question) e).setLastAnswer_correct(true);
+						// Enrique
 						try{
 							c.enableNextStep(selected);
 						} catch (Exception e){
@@ -345,7 +346,8 @@ public class Content extends Pane {
 						//isCorrect.setText("CORRECTO");
 						//isCorrect.setStyle("-fx-background-color: #33cc33");
 						//hints.setVisible(false);
-						try {
+
+                        try {
 							c.enableNextStep(selected);
 						} catch (Exception e) {
 							c.finishedLesson();

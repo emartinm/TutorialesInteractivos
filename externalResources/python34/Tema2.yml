@@ -70,11 +70,3 @@ Lecciones:
         lista =["hola", 4 , 5]
        Reemplazamos "hola" por [1,2,3]
            lista[0:1] = [1,2,3]"
-    - Elem: pregunta
-      Numero: 3
-      Enunciado: Escribe el código para introducir en la lista 'l' los numeros del 1 al 5 utilizando un bucle
-      Pista: Consulta el tema de bucles si tienes problemas
-      Tipo: Sintaxis
-      Gramatica: Bucle
-      Resultado: l=[1,2,3,4,5]
-#faltan preguntas de reemplazar, anidar, borrar y añadir elementos

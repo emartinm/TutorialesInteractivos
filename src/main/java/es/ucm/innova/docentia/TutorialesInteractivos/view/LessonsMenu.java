@@ -64,8 +64,8 @@ public class LessonsMenu extends Pane{
 				} else {
 					setText(name);
 					Lesson le = getLesson(name, t);
-					Controller.log.info( le.getTitle() + " -> " + le.version() );
-					if ( le.isFinished(Controller.progress) ) {
+					//Controller.log.info( le.getTitle() + " -> " + le.version() );
+					if ( le.isFinished() ) {
 					    setGraphic(imageView);
 					} else {
 					    setGraphic(null);
