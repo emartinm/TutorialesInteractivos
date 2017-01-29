@@ -40,27 +40,29 @@ import javafx.stage.Stage;
 public class Controller {
     // Logger común para toda la aplicación
     public static Logger log = Logger.getLogger("TutorialesInteractivos");
-
     public static String executable;// ejecutable del lenguaje para ejecutar código
-	private Subject subject; // Subject que se está ejecutando
+    public static String selectedLanguage; // lenguaje seleccionado
+    public static String externalResourcesPath;
+    public static String progressFileName = "progress.json";
+
 	private Stage primaryStage;// Vista principal de la aplicación
 	private Pane root;// Panel con los elementos de la vista
 	private Scene scene;
-	private ArrayList<Element> elems; // Lista de elementos de un subject
+
+    private Subject subject; // Subject que se está ejecutando
+    private int currentLesson; // Índice de lección actual dentro del tema actual
+
 	private int currentStep; // contador de el elemento del contenido en el que estamos
 	private int enabledSteps; // Elementos habilitados
-	//private boolean[] visited; // Array con los elementos de una lección que se han visitado
-	private int actualLesson; // Lección en la que se encuentra el tutorial
+
 	private List<String> files;// temas del lenguaje
-	public static String selectedLanguage; // lenguaje seleccionado
 	private Correction c;
 	private Preferences pref;
-	public static String externalResourcesPath;
-	public static String progressFileName = "progress.json";
+
 	private URLClassLoader ucl;
 	private Language language;
-	public Map<String, Object> progress;
-	//private boolean finished; // Se ha completado la lección actual
+	private Map<String, Object> progress;
+
 	
 	/**
 	 * Constructora 
@@ -113,7 +115,7 @@ public class Controller {
 	 * @param p
 	 * @return
 	 */
-	public boolean check(ArrayList<Integer> resp, Question p) {
+	public Correction check(List<Integer> resp, Question p) {
 		return p.check(resp, subject);
 	}
 
@@ -124,7 +126,7 @@ public class Controller {
 	 * @param p
 	 * @return
 	 */
-	public boolean check(String resp, Question p) {
+	public Correction check(String resp, Question p) {
 		return p.check(resp, subject);
 	}
 
@@ -268,28 +270,14 @@ public class Controller {
 		} else if (p instanceof LessonsMenu) {
 			root = ((LessonsMenu) p).lessonMenu(subject, this);
 		} else if (p instanceof Content) {
-			Element e;	
-			if (currentStep == -1) {
-				e = new Explanation(subject.getLessons().get(selected).getIntroMessage());
-			}  else if (currentStep == elems.size()) {
-				//this.finishedLesson();
-                subject.getLessons().get(actualLesson).setFinished(true);
-                //this.finished = true;
+			Element e;
+			if (currentStep == getCurrentLessonParts().size()) {
                 updateAndSaveCurrentLessonProgress();
-                String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
-                        subject.getLessons().get(selected).getTitle() + "'";
-                String version = subject.getLessons().get(selected).version();
-                //subject.getLessons().get(selected).setFinished();
-                e = new Explanation(mensajeFinal);
             } else {
-				e = elems.get(currentStep);
+				e = getCurrentLessonParts().get(currentStep);
 				stepChange(newStep, e instanceof Question);
 			}
-			// habilitados empezaremos con 1, y el paso actual es el 1 para la
-			// vista (comienza en -1 aquí)
-			// el que estás mas algo
-
-			root = ((Content) p).content(e, this, elems.size() + 2, enabledSteps, currentStep + 2);
+            root = ((Content) p).content(this, getCurrentLesson());
 		}
 
 		//root.setPrefSize(600, 600);
@@ -323,16 +311,18 @@ public class Controller {
 	 * 
 	 */
 	public void selectedLesson(int selectedItem) {
-		this.actualLesson = selectedItem;
+		this.currentLesson = selectedItem;
         Lesson le = subject.getLessons().get(selectedItem);
-        le.loadProgress(progress);
+        //le.loadProgress(progress);
         //finished = false;
         //le.setFinished(false);
         currentStep = -1;
         enabledSteps = 2;
-        this.load_lesson_gui(le.version());
+        //this.load_lesson_gui(le.version());
+        currentStep = this.getCurrentLesson().getCurrentElementPos();
+        enabledSteps = this.getCurrentLesson().getLatestElement();
 
-        this.elems = (ArrayList<Element>) le.getElements();
+        //this.getCurrentLessonParts() = (ArrayList<Element>) le.getElements();
         //Controller.log.info( "****" + ((OptionQuestion) this.elems.get(2)).getLastAnswer().toString() );
         //visited = new boolean[elems.size() + 2];
         //Arrays.fill(visited, Boolean.FALSE);
@@ -340,8 +330,8 @@ public class Controller {
 
 
 
-		//changeView(new Content(), null, actualLesson, selectedLanguage, 0);
-        changeView(new Content(), null, actualLesson, selectedLanguage, currentStep);
+		//changeView(new Content(), null, currentLesson, selectedLanguage, 0);
+        changeView(new Content(), null, currentLesson, selectedLanguage, currentStep);
 	}
 
 	/**
@@ -399,7 +389,6 @@ public class Controller {
 	 * @return
 	 */
 	public String pathSelected() {
-
 		return pref.get(selectedLanguage, null);
 	}
 	
@@ -415,7 +404,6 @@ public class Controller {
 	 * Devuelve la vista
 	 */
 	public Scene getScene() {
-
 		return this.scene;
 	}
 
@@ -424,28 +412,58 @@ public class Controller {
 	 * @return Element actual de la leccion
 	 */
 	public int getCurrentStep() {
-
-		return this.currentStep;
+	    return this.getCurrentLesson().getCurrentElementPos();
 	}
 
 	/**
 	 * 
 	 * @return Lista de elementos de una leccion
 	 */
-	public ArrayList<Element> getElems() {
-		return this.elems;
+	public List<Element> getElems() {
+		return this.getCurrentLessonParts();
 	}
 
 	/**
 	 * Modifica la vista de Content
 	 * 
-	 * @param newStep
+	 * @param pos
 	 */
-	public void lessonPageChange(Number newStep) {
-		currentStep = (int) newStep - 2;
+	public void lessonPageChange(int pos) {
+	    Lesson le = this.getCurrentLesson();
+		le.setCurrentElementPos(pos);
+		boolean esExplicacion = (pos < le.getElements().size() && le.getElements().get(pos) instanceof Explanation);
+		if ( esExplicacion ) {
+        	passCurrentElement();
+		}
 		updateAndSaveCurrentLessonProgress();
-		changeView(new Content(), null, actualLesson, selectedLanguage, newStep);
+		changeView(new Content(), null, currentLesson, selectedLanguage, pos);
 	}
+
+	public void passCurrentElement() {
+		int pos = this.getCurrentStep();
+		if ( pos + 1 > this.getCurrentLesson().getLatestElement() ) {
+			this.getCurrentLesson().setLatestElement(pos + 1);
+		}
+	}
+
+	//public void updateEnabledPosition(int pos) {
+    //    this.getCurrentLesson().setLatestElement(newEnabledPosition(pos));
+    //}
+
+    //public void updateEnabledPosition() {
+    //    this.getCurrentLesson().setLatestElement(newEnabledPosition(this.getCurrentStep()));
+    //}
+
+    /*private int newEnabledPosition(int pos) {
+	    int newPos = pos;
+        boolean esExplicacion = (pos < getCurrentLesson().getElements().size() && (getCurrentLesson().getElements().get(pos) instanceof Explanation));
+        // Si el fragmento en 'pos' de la leccion es una Explicación o es la pantalla final de la lección
+        // y está por encima del último habilitado
+        if ( esExplicacion && (pos + 1 > getCurrentLesson().getLatestElement()) ) {
+            newPos = pos + 1;
+        }
+        return newPos;
+    }*(
 
 	/**
 	 * Actualiza el estado del Paginator
@@ -548,10 +566,10 @@ public class Controller {
 
 
 	public void updateAndSaveCurrentLessonProgress() {
-	    Lesson le = subject.getLessons().get(actualLesson);
+	    Lesson le = subject.getLessons().get(currentLesson);
 	    Map<String, Object> p = le.get_progress();
-	    p.put("current", this.currentStep);
-	    p.put("enabled", this.enabledSteps);
+	    //p.put("current", this.currentStep);
+	    //p.put("enabled", this.enabledSteps);
 	    this.progress.put( le.version(), p );
 	    String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
         JSONReaderClass.writeProgress(this.progress, path);
@@ -574,5 +592,18 @@ public class Controller {
     public int getEnabledSteps() {
         return this.enabledSteps;
     }
+
+    public Map<String, Object> getProgress() {
+    	return this.progress;
+	}
+
+	List<Element> getCurrentLessonParts() {
+        return this.subject.getLessons().get(currentLesson).getElements();
+    }
+
+    Lesson getCurrentLesson() {
+        return this.subject.getLessons().get(currentLesson);
+    }
+
 
 }

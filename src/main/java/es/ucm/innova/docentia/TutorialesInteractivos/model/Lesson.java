@@ -22,8 +22,10 @@ public class Lesson
 	private String title; //Titulo de la leccion
 	private List<Element> elements; //Array con los elements de la leccion
 	private String intro_message; //Introducción de la lección
-	private boolean finished = false;
+	//private boolean finished = false;
 	private String version = null;
+	private int currentElement = 0; // Posicion del elemento actualmente visualizado; -1 para no comenzado
+	private int latestElement = 1; // Posición del elemento más avanzado visualizado
 
     private static MessageDigest md = null;
     private static Base64.Encoder b64enc = Base64.getEncoder();
@@ -101,21 +103,15 @@ public class Lesson
 		this.elements = elements;
 	}
 
-	/* Devuelve si la leccion está terminada */
+	/* Devuelve si la leccion está terminada: si todos los fragmentos se pueden ver */
 	public boolean isFinished() {
-		return finished;
-	}
-
-	public void setFinished(boolean b){
-		finished = b;
+		return latestElement >= elements.size();
 	}
 
 	/* Carga el progreso de la lección desde 'progress', que contiene entradas
 	 * para las lecciones usando la version como clave */
 	public void loadProgress(Map<String, Object> progress)  {
         String version = this.version();
-        //String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
-        //Map<String, Object> progress = JSONReaderClass.loadProgress(path);
         if ((progress != null) && progress.containsKey(version)) {
             try {
                 Map<String, Object> lesson_prog = (Map<String, Object>) progress.get(version);
@@ -133,7 +129,8 @@ public class Lesson
 
                 }
 
-                finished = (Boolean) lesson_prog.getOrDefault("finished", false);
+                currentElement = (Integer) lesson_prog.getOrDefault( "current", 0 );
+                latestElement = (Integer) lesson_prog.getOrDefault( "enabled", 0 );
             } catch (ClassCastException e) {
                 Controller.log.warning("Error al leer el progreso de la lección " + version + " -> " + e.getLocalizedMessage() );
             }
@@ -150,9 +147,36 @@ public class Lesson
             }
             ++i;
         }
-        p.put( "finished", this.finished );
+	    p.put( "current", this.currentElement );
+	    p.put( "enabled", this.latestElement );
         return p;
 
     }
-	
+
+    public int getCurrentElementPos() {
+        return currentElement;
+    }
+
+    public void setCurrentElementPos(int currentElement) {
+        this.currentElement = currentElement;
+    }
+
+    public int getLatestElement() {
+        return latestElement;
+    }
+
+    public void setLatestElement(int latestElement) {
+        this.latestElement = latestElement;
+    }
+
+    public Element getCurrentElement() {
+	    if ( this.currentElement < 0 ) {
+	        return new Explanation(this.intro_message);
+        } else if ( currentElement >= 0 && currentElement < this.elements.size() ){
+	        return this.elements.get(currentElement);
+	    } else {
+            Controller.log.warning( "Accediendo a elemento de leccion fuera de rango ");
+            return null;
+        }
+    }
 }

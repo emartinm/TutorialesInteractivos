@@ -35,7 +35,7 @@ public class SubjectsMenu extends Pane{
 		GridPane box = new GridPane();
 		
 		Label language = new Label(lenSelect);
-		Map<String,Subject> subjects = get_subjects(c.selectedLanguage, files, c.progress);
+		Map<String,Subject> subjects = get_subjects(c.selectedLanguage, files, c.getProgress() );
 		// Ordenamos la lista de nombres de ficheros en base a su numero de tema
 		Collections.sort( files,
 				(f1, f2) -> Integer.compare(subjects.get(f1).getNumber(), subjects.get(f2).getNumber())

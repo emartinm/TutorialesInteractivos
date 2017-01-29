@@ -11,14 +11,16 @@ import java.util.List;
 public class Correction {
 	private String message;
 	private List<String> hints;
+	private boolean correct;
 	
 	public Correction(){
 		
 	}
 	
-	public Correction(String m, List<String> h){
-		this.message=m;
-		this.hints=h;
+	public Correction(String m, List<String> h, boolean correct){
+		this.message = m;
+		this.hints = h;
+		this.correct = correct;
 	}
 
 	public String getMessage() {
@@ -35,5 +37,13 @@ public class Correction {
 
 	public void setHints(List<String> hints) {
 		this.hints = hints;
+	}
+
+	public boolean isCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(boolean correct) {
+		this.correct = correct;
 	}
 }

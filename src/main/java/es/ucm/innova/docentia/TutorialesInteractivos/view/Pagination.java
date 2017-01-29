@@ -33,13 +33,13 @@ import javafx.scene.layout.StackPane;
 public class Pagination extends StackPane {
 
 	/*
-	 * Index of the currently selected button (from 1 to numButtons)
+	 * Index of the currently selected button (from -1 to numSteps + 1)
 	 */
 	private IntegerProperty currentProperty;
 
 	/*
-	 * Index of the last enabled button (from 1 to numButtons) Those from
-	 * enabledProperty+1 to numButtons will be disabled
+	 * Index of the last enabled button (from -1 to numSteps + 1)
+	 * Those from enabledProperty+1 to numButtons will be disabled
 	 */
 	private IntegerProperty enabledProperty;
 
@@ -65,7 +65,7 @@ public class Pagination extends StackPane {
 		// n+1 para desplazar una casilla y que entre la intro
 		for (int i = 1; i <= n; i++) {
 			Button currentButton = new Button(String.valueOf(i));
-			currentButton.disableProperty().bind(enabledProperty.greaterThanOrEqualTo(i).not());
+			currentButton.disableProperty().bind(enabledProperty.greaterThanOrEqualTo(i-2).not());
 			currentButton.setMinWidth(USE_PREF_SIZE);
 			currentButton.setMinHeight(USE_PREF_SIZE);
 			final int j = i;
@@ -144,11 +144,13 @@ public class Pagination extends StackPane {
 		return nextButton.textProperty();
 	}
 
+	/* numSteps es el número de fragmentos de la lección. Hay que crear numSteps+2 botones: uno
+	* para la explicación y otro para la ventana final */
 	public Pagination(int numSteps) {
 		// Inicializamos las propiedades. Por defecto suponemos que
 		// todos los botones están habilitados
-		this.currentProperty = new SimpleIntegerProperty(1);
-		this.enabledProperty = new SimpleIntegerProperty(numSteps);
+		this.currentProperty = new SimpleIntegerProperty(-1);
+		this.enabledProperty = new SimpleIntegerProperty(numSteps+1);
 
 		// Por defecto cada botón muestra el número de paso
 		this.stepText = new SimpleObjectProperty<>(String::valueOf);
@@ -162,18 +164,18 @@ public class Pagination extends StackPane {
 
 		// Añadimos el estilo 'selected-button' al seleccionado
 		//TODO añadir estilos como proceda aquí
-		stepButtons[currentProperty.getValue() - 1].getStyleClass().add("selected-button");
+		stepButtons[currentProperty.getValue() + 1].getStyleClass().add("selected-button");
 
 		// Cada vez que cambie el índice seleccionado, cambiamos añadimos el
 		// estilo 'selected-button' al nuevo botón seleccionado y lo quitamos
 		// del antiguo
 		currentProperty.addListener((obs, oldV, newV) -> {
-			stepButtons[(int) oldV - 1].getStyleClass().remove("selected-button");
-			stepButtons[(int) newV - 1].getStyleClass().add("selected-button");
+			stepButtons[(int) oldV + 1].getStyleClass().remove("selected-button");
+			stepButtons[(int) newV + 1].getStyleClass().add("selected-button");
 
 			// Para mostrar algunos botones anteriores al principio de la leccion.
 			// Según se llega al final, el offset se hace 0
-			int int_pos = (int) newV - 1;
+			int int_pos = (int) newV + 1;
 			double pos = (double) int_pos;
 			double offset1 = (pos - stepButtons.length);
 			double offset = Math.round(offset1*3.0 / (double)stepButtons.length);
@@ -185,13 +187,13 @@ public class Pagination extends StackPane {
 		// botones del control
 		nextButton.disableProperty()
 				.bind(Bindings.createBooleanBinding(
-						() -> currentProperty.getValue() >= Math.min(numSteps, enabledProperty.getValue()),
+						() -> currentProperty.getValue() >= Math.min(numSteps-2, enabledProperty.getValue()),
 						currentProperty, enabledProperty));
 
 		// El botón de '<< Previous' estará deshabilitado si el paso actual es
 		// menor o igual que 1
 		previousButton.disableProperty()
-				.bind(Bindings.createBooleanBinding(() -> currentProperty.getValue() <= 1, currentProperty));
+				.bind(Bindings.createBooleanBinding(() -> currentProperty.getValue() <= -1, currentProperty));
 
 		// Cada vez que se pulsa el botón 'Next >>' se modifica el botón actual
 		nextButton.setOnAction(evt -> {
@@ -233,7 +235,7 @@ public class Pagination extends StackPane {
 		nextButton = new Button("Siguiente >>");
 		nextButton.setMinWidth(GridPane.USE_PREF_SIZE);
 		nextButton.getStyleClass().add("next-button");
-		HBox hboxStepButtons = generateButtons(numSteps);
+		HBox hboxStepButtons = generateButtons(numSteps+2);
 		scrollPane = new ScrollPane(hboxStepButtons);
 		scrollPane.setHmax(numSteps - 1);
 		scrollPane.setStyle("-fx-background-color:transparent;");
@@ -256,7 +258,7 @@ public class Pagination extends StackPane {
 
 		countLabel = new Label();
 		countLabel.textProperty().bind(Bindings.createStringBinding(
-				() -> labelText.getValue().apply(currentProperty.getValue(), numSteps), labelText, currentProperty));
+				() -> labelText.getValue().apply(currentProperty.getValue()+2, numSteps+2), labelText, currentProperty));
 		countLabel.getStyleClass().add("current-page-label");
 		outerGridPane.add(countLabel, 1, 2);
 

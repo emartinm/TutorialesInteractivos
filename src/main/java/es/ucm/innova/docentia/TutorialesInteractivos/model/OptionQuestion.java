@@ -40,7 +40,7 @@ public class OptionQuestion extends Question<List<Integer>> {
 		this.options=options;
 	}
 
-	public boolean check(List<Integer> answer, Subject subject) {
+	public Correction check(List<Integer> answer, Subject subject) {
 		boolean sol = true;
 		int tam = answer.size();
 		int i = 0;
@@ -57,7 +57,7 @@ public class OptionQuestion extends Question<List<Integer>> {
 		} else
 			sol = false;
 
-		return sol;
+		return new Correction("", null, sol);
 	}
 
 	@Override

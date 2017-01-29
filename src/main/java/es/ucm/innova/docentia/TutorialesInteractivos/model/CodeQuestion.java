@@ -24,7 +24,7 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
  */
 public class CodeQuestion extends Question<String> {
 
-	private Correction c;// Corrector de las preguntas de tipo codigo
+	//private Correction c;// Corrector de las preguntas de tipo codigo
 
 
 	public String toString(){
@@ -39,12 +39,12 @@ public class CodeQuestion extends Question<String> {
 
 
 	@Override
-	public boolean check(String answer, Subject subject) {
+	public Correction check(String answer, Subject subject) {
 		File correccion = new File(Controller.externalResourcesPath+"/"+subject.getCorrectorFile());
 		String cor = correccion.getAbsolutePath();
 		JSONParser jsonParser = new JSONParser();
 		answer = answer.replace("\"", "'");
-		this.c = new Correction("", null);
+		Correction c = new Correction("", null, false);
 		boolean result = false;
 
 		try {
@@ -56,20 +56,12 @@ public class CodeQuestion extends Question<String> {
 			InputStream is = p.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
-			//String line;
-
-			//while ((line = br.readLine()) != null) {
-				// esto es para la salida de texto de python... en principio
-				// no hace falta
-				//System.out.println(line);
-			//}
 			boolean errCode = p.waitFor(2, TimeUnit.SECONDS);
 			if (!errCode) { // si ocurre esto es que el python está mal escrito,
 							// o bucle infinito
 				//System.out.println("yo no he sido, ha sido ->python<-, o bien bucle infinito");
 				// TODO añadir aviso visual
 			} else {
-
 				int exit = p.exitValue();
 				// SOLO EN CASO
 				// DE ERROR DE LA FUNCION CORRECTORA
@@ -116,7 +108,6 @@ public class CodeQuestion extends Question<String> {
 						break;
 					}
 				}
-
 				}
 
 			}
@@ -125,7 +116,8 @@ public class CodeQuestion extends Question<String> {
 			e.printStackTrace();
 		
 		}
-		return result;
+		c.setCorrect(result);
+		return c;
 	}
 
 	@Override
@@ -146,11 +138,6 @@ public class CodeQuestion extends Question<String> {
 		// TODO Auto-generated method stub
 
 	}
-
-	public Correction getCorrection() {
-		return c;
-	}
-
 
 
 	@Override
