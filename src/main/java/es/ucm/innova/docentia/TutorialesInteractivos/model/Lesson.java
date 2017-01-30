@@ -24,12 +24,12 @@ public class Lesson
 	private String intro_message; //Introducción de la lección
 	//private boolean finished = false;
 	private String version = null;
-	private int currentElement = 0; // Posicion del elemento actualmente visualizado; -1 para no comenzado
-	private int latestElement = 1; // Posición del elemento más avanzado visualizado
+	private int currentElement = 0; // Posicion del elemento actualmente visualizado;
+	private int latestElement = 0; // Posición del elemento más avanzado visualizado
+	private boolean finished = false;
 
     private static MessageDigest md = null;
     private static Base64.Encoder b64enc = Base64.getEncoder();
-
 
 
 	public String toString(){
@@ -105,7 +105,7 @@ public class Lesson
 
 	/* Devuelve si la leccion está terminada: si todos los fragmentos se pueden ver */
 	public boolean isFinished() {
-		return latestElement >= elements.size();
+		return this.finished;
 	}
 
 	/* Carga el progreso de la lección desde 'progress', que contiene entradas
@@ -131,6 +131,7 @@ public class Lesson
 
                 currentElement = (Integer) lesson_prog.getOrDefault( "current", 0 );
                 latestElement = (Integer) lesson_prog.getOrDefault( "enabled", 0 );
+                finished = (Boolean) lesson_prog.getOrDefault( "finished", false );
             } catch (ClassCastException e) {
                 Controller.log.warning("Error al leer el progreso de la lección " + version + " -> " + e.getLocalizedMessage() );
             }
@@ -149,6 +150,7 @@ public class Lesson
         }
 	    p.put( "current", this.currentElement );
 	    p.put( "enabled", this.latestElement );
+        p.put( "finished", this.finished );
         return p;
 
     }
@@ -159,6 +161,10 @@ public class Lesson
 
     public void setCurrentElementPos(int currentElement) {
         this.currentElement = currentElement;
+        // Si la posición es el fragmento después del último elemento
+        if (currentElement == this.elements.size() ) {
+        	this.finished = true;
+		}
     }
 
     public int getLatestElement() {

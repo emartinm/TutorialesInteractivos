@@ -292,7 +292,8 @@ public class Controller {
 	public void selectedLesson(int selectedItem) {
 		this.currentLesson = selectedItem;
         Lesson le = subject.getLessons().get(selectedItem);
-        changeView(new Content(), null, selectedLanguage);
+        this.lessonPageChange(le.getCurrentElementPos() );
+        //changeView(new Content(), null, selectedLanguage);
 	}
 
 	/**

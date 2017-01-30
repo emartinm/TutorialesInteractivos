@@ -52,7 +52,7 @@ public class SimplePagination extends StackPane {
             }
             int pos = i;
             currentButton.setOnAction( (evt) -> {
-                Controller.log.info( "pulsar " + Integer.toString(pos) );
+                //Controller.log.info( "pulsar " + Integer.toString(pos) );
                 c.lessonPageChange(pos);
             });
             currentButton.setDisable( (i > enabled) && (i < n+1) );
@@ -61,10 +61,7 @@ public class SimplePagination extends StackPane {
             currentButton.setMinHeight(USE_PREF_SIZE);
 
             currentButton.setText( Integer.toString(i+1) );
-            //        .bind(Bindings.createStringBinding(() -> stepText.getValue().apply(j), stepText));
             box.getChildren().add(currentButton);
-
-            //stepButtons[i+1] = currentButton;
         }
         box.setAlignment(Pos.CENTER);
         return box;
@@ -75,28 +72,10 @@ public class SimplePagination extends StackPane {
     /* numSteps es el número de fragmentos de la lección. Hay que crear numSteps+2 botones: uno
     * para la explicación y otro para la ventana final */
     public SimplePagination(int n, int enabled, int current, Controller c) {
-        // Inicializamos las propiedades. Por defecto suponemos que
-        // todos los botones están habilitados
-
-        // Creamos los botones
         Pane outerGridPane = createControls(n, enabled, current, c);
         this.getChildren().add(outerGridPane);
         this.getStyleClass().add("new-paginator");
     }
-
-    /*
-     * Tomado y adaptado de:
-     *
-     * http://stackoverflow.com/questions/15840513/javafx-scrollpane-
-     * programmatically-moving-the-viewport-centering-content
-     *
-     */
-    /*private void centerNodeInScrollPane(ScrollPane scrollPane, Node node) {
-        double h = scrollPane.getContent().getBoundsInLocal().getWidth();
-        double y = (node.getBoundsInParent().getMaxX() + node.getBoundsInParent().getMinX()) / 2.0;
-        double v = scrollPane.getViewportBounds().getWidth();
-        scrollPane.setHvalue(scrollPane.getHmax() * ((y - 0.5 * v) / (h - v)));
-    }*/
 
     private Pane createControls(int n, int enabled, int current, Controller c) {
         GridPane outerGridPane = new GridPane();
@@ -136,31 +115,21 @@ public class SimplePagination extends StackPane {
         scrollPane.setStyle("-fx-background-color:transparent;");
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        outerGridPane.addRow(0, previousButton, scrollPane, nextButton);
 
-        /*hboxStepButtons.prefWidthProperty().bind(Bindings.createDoubleBinding(
+
+        // Centran la botonera en el espacio disponible
+        hboxStepButtons.prefWidthProperty().bind(Bindings.createDoubleBinding(
                 () -> scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
         hboxStepButtons.prefHeightProperty().bind(Bindings.createDoubleBinding(
                 () -> scrollPane.getViewportBounds().getHeight(), scrollPane.viewportBoundsProperty()));
         outerGridPane.addRow(0, previousButton, scrollPane, nextButton);
-        */
-
-		/*scrollBar = new ScrollBar();
-		scrollBar.maxProperty().bind(scrollPane.vmaxProperty());
-		scrollBar.minProperty().bind(scrollPane.vminProperty());
-		outerGridPane.add(scrollBar, 1, 1);
-
-		scrollPane.hvalueProperty().bindBidirectional(scrollBar.valueProperty());*/
 
         countLabel = new Label( Integer.toString(current + 1 ) + " / " + Integer.toString(n+1));
-        //countLabel.textProperty().bind(Bindings.createStringBinding(
-        //        () -> labelText.getValue().apply(currentProperty.getValue()+2, numSteps+2), labelText, currentProperty));
         countLabel.getStyleClass().add("current-page-label");
         outerGridPane.add(countLabel, 1, 2);
 
-        //GridPane.setFillWidth(scrollPane, Boolean.TRUE);
         GridPane.setHgrow(scrollPane, Priority.ALWAYS);
-        //GridPane.setHalignment(scrollPane, HPos.CENTER);
+        GridPane.setHalignment(scrollPane, HPos.CENTER);
         GridPane.setHgrow(previousButton, Priority.NEVER);
         GridPane.setHgrow(nextButton, Priority.NEVER);
         GridPane.setMargin(previousButton, new Insets(0, 5, 0, 5));

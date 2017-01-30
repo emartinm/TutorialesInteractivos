@@ -62,23 +62,6 @@ Lecciones:
        ancho = 8
        area = altura * ancho
        ```
- - Leccion: 2
-   Titulo_Leccion: Cadenas
-   Intro_leccion: >
-    Además de los números, Python también sabe manipular cadenas.
-   Elementos:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:     
-       
-        * Con comillas simples
-        * Con comillas dobles
-    - Elem: explicacion
-      Contenido: |
-        Por ejemplo, la cadena "holahola" se puede obtener de las siguientes formas
-        
-        * cadena = "holahola"
-        * cadena = "hola" * 2
  - Leccion: 3
    Titulo_Leccion: Dos explicaciones
    Intro_leccion: >
@@ -95,7 +78,37 @@ Lecciones:
        Las cadenas se pueden expresar de diversas formas:     
        
         * Con comillas simples
-        * Con comillas dobles        
+        * Con comillas dobles
+ - Leccion: 5
+   Titulo_Leccion: Empieza con una pregunta
+   Intro_leccion: >
+    Funcionará??
+   Elementos:
+    - Elem: pregunta
+      Numero: 1
+      Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
+      Tipo: Opciones
+      Pista: las operaciones enteras tienen resultado entero
+#para el tipo opciones
+      Opcion_correcta: "1"
+      Multiple: no
+      Opciones: 
+       - 3
+       - 4
+       - 3.5
+       - Ninguna de las anteriores
+    - Elem: explicacion
+      Contenido: |
+       Las cadenas se pueden expresar de diversas formas:     
+       
+        * Con comillas simples
+        * Con comillas dobles
+    - Elem: explicacion
+      Contenido: |
+       Las cadenas se pueden expresar de diversas formas:     
+       
+        * Con comillas simples
+        * Con comillas dobles                                                        
  - Leccion: 4
    Titulo_Leccion: Muy larga
    Intro_leccion: >

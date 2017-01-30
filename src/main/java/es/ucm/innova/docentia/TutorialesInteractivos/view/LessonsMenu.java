@@ -101,7 +101,7 @@ public class LessonsMenu extends Pane{
 			MultipleSelectionModel<String> s;
 				@Override
 				public void handle(ActionEvent event) {
-					s= leccionList.getSelectionModel();
+					s = leccionList.getSelectionModel();
 					if (!s.isEmpty()) //Se comprueba que haya una leccion seleccionada
 						c.selectedLesson(s.getSelectedIndex());
 					else 

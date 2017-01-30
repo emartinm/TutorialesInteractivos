@@ -23,7 +23,6 @@ public abstract class Element {
 		return this.text;
 	}
 
-	
 	public abstract void setOptions(List<String> opc);
 
 	public abstract void setMulti(Boolean is);
