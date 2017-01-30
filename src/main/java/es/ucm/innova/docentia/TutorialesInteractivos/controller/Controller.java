@@ -2,7 +2,6 @@ package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
 import java.io.IOException;
-import java.net.URLClassLoader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,12 +37,11 @@ import javafx.stage.Stage;
  *
  */
 public class Controller {
-    // Logger común para toda la aplicación
-    public static Logger log = Logger.getLogger("TutorialesInteractivos");
+    public static final Logger log = Logger.getLogger("TutorialesInteractivos"); // Logger común para toda la aplicación
+    public static final String progressFileName = "progress.json";
     public static String executable;// ejecutable del lenguaje para ejecutar código
     public static String selectedLanguage; // lenguaje seleccionado
     public static String externalResourcesPath;
-    public static String progressFileName = "progress.json";
 
 	private Stage primaryStage;// Vista principal de la aplicación
 	private Pane root;// Panel con los elementos de la vista
@@ -52,14 +50,8 @@ public class Controller {
     private Subject subject; // Subject que se está ejecutando
     private int currentLesson; // Índice de lección actual dentro del tema actual
 
-	private int currentStep; // contador de el elemento del contenido en el que estamos
-	private int enabledSteps; // Elementos habilitados
-
 	private List<String> files;// temas del lenguaje
-	private Correction c;
 	private Preferences pref;
-
-	private URLClassLoader ucl;
 	private Language language;
 	private Map<String, Object> progress;
 
@@ -72,7 +64,6 @@ public class Controller {
 		this.subject = null;
 		this.primaryStage = primaryStage;
 		this.files = new ArrayList<String>();
-		this.c = new Correction();
 		this.pref = Preferences.userNodeForPackage(this.getClass());
 
 		// TODO
@@ -80,14 +71,6 @@ public class Controller {
         //Handler handler = new FileHandler("test.log", LOG_SIZE, LOG_ROTATION_COUNT);
         //Handler handler = new FileHandler("test.log");
         //logger.addHandler(handler);
-	}
-
-	/**
-	 * Devuelve la clase correctora
-	 * @return clase correctora
-	 */
-	public Correction getCorrection() {
-		return c;
 	}
 
 	/**
@@ -161,7 +144,7 @@ public class Controller {
 			log.warning(e.toString());
 		}
 
-		changeView(p, files, 0, selectedLanguage, null);
+		changeView(p, files, selectedLanguage);
 	}
 
 	/**
@@ -190,13 +173,11 @@ public class Controller {
 			loadLanguagePaths(languagesList);
 			p = new InitialWindow();
 		} else {
-			p = new Configuration(); // hace falta configurar directorio y
-										// compiladores
+			p = new Configuration(); // hace falta configurar directorio y compiladores
 		}
 		Image icon = new Image(Controller.class.getResourceAsStream( "/icon/1477275626_monitor-sidebar.png" ));
-        //Controller.log.info(icon.toString());
 		this.primaryStage.getIcons().add(icon);
-		changeView(p, languagesList, 0, selectedLanguage, null);
+		changeView(p, languagesList, selectedLanguage);
 
 	}
 
@@ -235,7 +216,7 @@ public class Controller {
 	public void showStart() {
 		//primaryStage.setTitle(selectedLanguage);
 		Pane p = new SubjectsMenu();
-		changeView(p, files, 0, selectedLanguage, null);
+		changeView(p, files, selectedLanguage);
 	}
 
 	/**
@@ -243,7 +224,7 @@ public class Controller {
 	 */
 	public void showConfiguration() {
 		Pane p = new Configuration();
-		changeView(p, null, 0, selectedLanguage, null);
+		changeView(p, null, selectedLanguage);
 	}
 
 	/**
@@ -251,10 +232,9 @@ public class Controller {
 	 * 
 	 * @param p Panel a mostrar         
 	 * @param files Lista de los ficheros que componen el temario           
-	 * @param selected Lesson seleccionada
 	 * @param lenSelect Language seleccionado
 	 */
-	private void changeView(Pane p, List<String> files, int selected, String lenSelect, Number newStep) {
+	private void changeView(Pane p, List<String> files, String lenSelect) {
 		if (scene == null){
 			scene = new Scene(new Group());
 			// Arregla el problema del WebView que no muestra texto en Windows JDK 1.8.0u102
@@ -271,11 +251,10 @@ public class Controller {
 			root = ((LessonsMenu) p).lessonMenu(subject, this);
 		} else if (p instanceof Content) {
 			Element e;
-			if (currentStep == getCurrentLessonParts().size()) {
+			if (getCurrentLesson().getCurrentElementPos() == getCurrentLessonParts().size()) {
                 updateAndSaveCurrentLessonProgress();
             } else {
-				e = getCurrentLessonParts().get(currentStep);
-				stepChange(newStep, e instanceof Question);
+				e = this.getCurrentLesson().getCurrentElement();
 			}
             root = ((Content) p).content(this, getCurrentLesson());
 		}
@@ -300,7 +279,7 @@ public class Controller {
 		this.subject = YamlReaderClass.cargaTema(selectedLanguage, selectedItem);
 		// 'progress' ha sido cargado anteriormente
 		this.subject.loadProgress(progress);
-		changeView(new LessonsMenu(), null, 0, selectedLanguage, null);
+		changeView(new LessonsMenu(), null, selectedLanguage);
 	}
 
 	/**
@@ -313,25 +292,7 @@ public class Controller {
 	public void selectedLesson(int selectedItem) {
 		this.currentLesson = selectedItem;
         Lesson le = subject.getLessons().get(selectedItem);
-        //le.loadProgress(progress);
-        //finished = false;
-        //le.setFinished(false);
-        currentStep = -1;
-        enabledSteps = 2;
-        //this.load_lesson_gui(le.version());
-        currentStep = this.getCurrentLesson().getCurrentElementPos();
-        enabledSteps = this.getCurrentLesson().getLatestElement();
-
-        //this.getCurrentLessonParts() = (ArrayList<Element>) le.getElements();
-        //Controller.log.info( "****" + ((OptionQuestion) this.elems.get(2)).getLastAnswer().toString() );
-        //visited = new boolean[elems.size() + 2];
-        //Arrays.fill(visited, Boolean.FALSE);
-        //visited[0] = true;
-
-
-
-		//changeView(new Content(), null, currentLesson, selectedLanguage, 0);
-        changeView(new Content(), null, currentLesson, selectedLanguage, currentStep);
+        changeView(new Content(), null, selectedLanguage);
 	}
 
 	/**
@@ -436,7 +397,7 @@ public class Controller {
         	passCurrentElement();
 		}
 		updateAndSaveCurrentLessonProgress();
-		changeView(new Content(), null, currentLesson, selectedLanguage, pos);
+		changeView(new Content(), null, selectedLanguage);
 	}
 
 	public void passCurrentElement() {
@@ -444,50 +405,6 @@ public class Controller {
 		if ( pos + 1 > this.getCurrentLesson().getLatestElement() ) {
 			this.getCurrentLesson().setLatestElement(pos + 1);
 		}
-	}
-
-	//public void updateEnabledPosition(int pos) {
-    //    this.getCurrentLesson().setLatestElement(newEnabledPosition(pos));
-    //}
-
-    //public void updateEnabledPosition() {
-    //    this.getCurrentLesson().setLatestElement(newEnabledPosition(this.getCurrentStep()));
-    //}
-
-    /*private int newEnabledPosition(int pos) {
-	    int newPos = pos;
-        boolean esExplicacion = (pos < getCurrentLesson().getElements().size() && (getCurrentLesson().getElements().get(pos) instanceof Explanation));
-        // Si el fragmento en 'pos' de la leccion es una Explicación o es la pantalla final de la lección
-        // y está por encima del último habilitado
-        if ( esExplicacion && (pos + 1 > getCurrentLesson().getLatestElement()) ) {
-            newPos = pos + 1;
-        }
-        return newPos;
-    }*(
-
-	/**
-	 * Actualiza el estado del Paginator
-	 * 
-	 * @param newStep
-	 * @param isQuestion
-	 */
-	public void stepChange(Number newStep, boolean isQuestion) {
-		// -2 porque en nuestra indexación hay -1 que es la intro y elemento 0
-		if (!isQuestion) {
-			enableNextStep((int) newStep);
-		}
-	}
-
-	/**
-	 * Habilita el siguiente elemento del actual (currentStep) si no esta habilitado ya
-	 */
-	public void enableNextStep(int actual) {
-		 //System.out.println(this.currentStep);
-		 //System.out.println(this.enabledSteps);
-		 //System.out.println(actual);
-	     if (currentStep + 2 >= enabledSteps ) {
-            enabledSteps++;
-         }
 	}
 
 	/**
@@ -520,7 +437,7 @@ public class Controller {
 	public void showSettings() {
 		Pane p = new Configuration();
 		List<String> a = languageNames();
-		changeView(p, a, 0, selectedLanguage, null);
+		changeView(p, a, selectedLanguage);
 	}
 
 	/**
@@ -552,7 +469,7 @@ public class Controller {
 	 * Muestra el menu de lecciones
 	 */
 	public void backLessonsMenu() {
-		changeView(new LessonsMenu(), null, 0, selectedLanguage, null);
+		changeView(new LessonsMenu(), null, selectedLanguage);
 		
 	}
 
@@ -561,36 +478,15 @@ public class Controller {
 	 */
 	public void finishedLesson() {
 		new EndLessonPane(this);
-		
 	}
 
 
 	public void updateAndSaveCurrentLessonProgress() {
-	    Lesson le = subject.getLessons().get(currentLesson);
+	    Lesson le = this.getCurrentLesson();
 	    Map<String, Object> p = le.get_progress();
-	    //p.put("current", this.currentStep);
-	    //p.put("enabled", this.enabledSteps);
 	    this.progress.put( le.version(), p );
 	    String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
         JSONReaderClass.writeProgress(this.progress, path);
-    }
-
-    /* Carga el estado de la GUI (botones activados, fragmento actual) para la lección
-        'version' desde el progreso
-     */
-    private void load_lesson_gui(String version) {
-	    try {
-	        Map<String, Object> p = (Map<String, Object>)progress.get(version);
-            currentStep = (Integer)p.get("current");
-            enabledSteps = (Integer)p.get("enabled");
-            //finished = (Boolean)p.get("finished");
-        } catch (Exception e) {
-	        // Alguna de las entradas no aparece
-        }
-    }
-
-    public int getEnabledSteps() {
-        return this.enabledSteps;
     }
 
     public Map<String, Object> getProgress() {
@@ -598,11 +494,15 @@ public class Controller {
 	}
 
 	List<Element> getCurrentLessonParts() {
-        return this.subject.getLessons().get(currentLesson).getElements();
+        return getCurrentLesson().getElements();
     }
 
     Lesson getCurrentLesson() {
         return this.subject.getLessons().get(currentLesson);
+    }
+
+    public void reloadCurrentLessonFragment() {
+        this.lessonPageChange( this.getCurrentStep() );
     }
 
 

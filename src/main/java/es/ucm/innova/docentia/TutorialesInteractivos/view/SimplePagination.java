@@ -111,7 +111,7 @@ public class SimplePagination extends StackPane {
         previousButton.getStyleClass().add("previous-button");
 
         nextButton = new Button("Siguiente >>");
-        nextButton.setDisable( current == n );
+        nextButton.setDisable( current == n || current == enabled );
         nextButton.setMinWidth(GridPane.USE_PREF_SIZE);
         nextButton.getStyleClass().add("next-button");
         nextButton.setOnAction( (evt) -> {

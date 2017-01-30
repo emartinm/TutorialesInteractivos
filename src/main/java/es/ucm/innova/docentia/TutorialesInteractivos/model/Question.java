@@ -30,6 +30,7 @@ public abstract class Question<T> extends Element
 		this.lastAnswer_checked = false;
 		this.lastAnswer = null;
 		this.lastAnswer_correct = false;
+		this.clue = null;
 		
 	}
 	
@@ -65,10 +66,7 @@ public abstract class Question<T> extends Element
 	}
 
 	public String getClue() {
-		if (clue != null)
-			return clue;
-		else
-			return "No hay pistas para esta pregunta";
+		return clue;
 	}
 
 	public void setClue(String clue) {

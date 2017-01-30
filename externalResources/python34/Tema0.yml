@@ -80,7 +80,7 @@ Lecciones:
         * cadena = "holahola"
         * cadena = "hola" * 2
  - Leccion: 3
-   Titulo_Leccion: Una sola explicacion
+   Titulo_Leccion: Dos explicaciones
    Intro_leccion: >
     Funcionará??
    Elementos:
@@ -90,6 +90,12 @@ Lecciones:
        
         * Con comillas simples
         * Con comillas dobles
+    - Elem: explicacion
+      Contenido: |
+       Las cadenas se pueden expresar de diversas formas:     
+       
+        * Con comillas simples
+        * Con comillas dobles        
  - Leccion: 4
    Titulo_Leccion: Muy larga
    Intro_leccion: >

@@ -72,8 +72,6 @@ public class Content extends Pane {
 
 		Label type = new Label(null);
 
-		//if (selected == -1) {
-		//	type.setText("Introducción");
 		if (selected == steps) {
 			type.setText("Final");
 		} else if (e instanceof Question) {
@@ -101,7 +99,7 @@ public class Content extends Pane {
 
 		HBox result = new HBox(10);// Contenedor donde se muestra la resolucion de la pregunta
 		Label isCorrect = new Label();// Indica si la pregunta se ha respondido bien o no
-		Button hints = new Button("Ver pistas");
+		Button hints = new Button("Más pistas");
 
 		result.getChildren().addAll(isCorrect);
 		result.getChildren().addAll(hints);
@@ -112,7 +110,7 @@ public class Content extends Pane {
 
 		// Botones para el envio/ayuda de respuestas
 		VBox buttonsCode = new VBox(5);
-		Button help = new Button("Ayuda");
+		Button help = new Button("Pistas");
 		Button resolve = new Button("Resolver");
 		buttonsCode.setAlignment(Pos.CENTER);
 
@@ -123,6 +121,7 @@ public class Content extends Pane {
 			final OptionQuestion o = (OptionQuestion) e;
             int i = 1;
             List<Integer> lastAnswer = o.getLastAnswer();
+            help.setVisible( o.getClue() != null );
             if (o.isLastAnswer_checked() ) {
                 correction = c.check(lastAnswer, o);
                 this.list_hints = correction.getHints();
@@ -148,6 +147,7 @@ public class Content extends Pane {
 					List<Integer> currentAnswer = getAnswer_rb(l);
 					o.setLastAnswer(currentAnswer);
 					c.updateAndSaveCurrentLessonProgress();
+					c.reloadCurrentLessonFragment();
 				});
 				options.getChildren().addAll(l);
 			} else {
@@ -168,6 +168,7 @@ public class Content extends Pane {
 						List<Integer> current = getAnswer_cb(l);
 						o.setLastAnswer(current);
 						c.updateAndSaveCurrentLessonProgress();
+						c.reloadCurrentLessonFragment();
 					});
                     ++i;
 				}
@@ -176,12 +177,6 @@ public class Content extends Pane {
 
 			//Si la pregunta fue evaluada, muestra el mensaje y posibles pistas
             showCorrectionMessages( o, correction, isCorrect, hints);
-            //if ( o.isLastAnswer_checked() ) {
-			//    setIncorrectMessage(isCorrect);
-            //}
-			//if ( o.isLastAnswer_checked() && correction.isCorrect() ) {
-            //    setCorrectMessage(isCorrect);
-			//}
 
 			answerBox.setCenter(options);
 			answerBox.setRight(buttonsCode);
@@ -190,6 +185,7 @@ public class Content extends Pane {
 		} else if (e instanceof CodeQuestion) {
             CodeQuestion cq = (CodeQuestion)e;
             String lastAnswer = cq.getLastAnswer();
+            help.setVisible( cq.getClue() != null );
             if (cq.isLastAnswer_checked() ) {
                 correction = c.check(lastAnswer, cq);
                 this.list_hints = correction.getHints();
@@ -227,18 +223,7 @@ public class Content extends Pane {
         }
 		// Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
-        // Si la ultima accion fue una comprobación, se muestra le mensaje
-        // y el botón de pistas si hay alguna
-        //if (cq.isLastAnswer_checked() && !cq.isLastAnswer_correct()) {
-        //    setIncorrectMessage(isCorrect);
-        //    showHintsButton(cq, hints);
-        //}
-        //if (cq.isLastAnswer_checked() && cq.isLastAnswer_correct() ) {
-        //    setCorrectMessage(isCorrect);
-        //}
-
 		Button menu = new Button("Menu principal");
-
 		buttonsCode.getChildren().addAll(resolve);
 		buttonsCode.getChildren().addAll(help);
 
@@ -313,7 +298,8 @@ public class Content extends Pane {
 					}
 					//showHintsButton(pc, hints);
 				}
-				c.lessonPageChange( c.getCurrentStep() );
+				//c.lessonPageChange( c.getCurrentStep() );
+				c.reloadCurrentLessonFragment();
 			}
 		});
 
