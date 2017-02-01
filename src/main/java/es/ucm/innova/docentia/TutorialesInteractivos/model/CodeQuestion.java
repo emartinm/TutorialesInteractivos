@@ -82,6 +82,7 @@ public class CodeQuestion extends Question<String> {
 
 				case 0: {
 					// comprobar si están vacios
+                    //TODO usar jackson tambien aqui
 					FileReader fileReader = new FileReader(temp);
 					JSONObject json = (JSONObject) jsonParser.parse(fileReader);
 					Boolean correct = (Boolean) json.get("isCorrect");
