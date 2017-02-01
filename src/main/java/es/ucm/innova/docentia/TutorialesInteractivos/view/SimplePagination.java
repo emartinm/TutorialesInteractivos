@@ -69,8 +69,8 @@ public class SimplePagination extends StackPane {
 
 
 
-    /* numSteps es el número de fragmentos de la lección. Hay que crear numSteps+2 botones: uno
-    * para la explicación y otro para la ventana final */
+    /* n es el número de fragmentos de la lección. Hay que crear n+1 botones: uno
+    * para cada fragmento y uno para la ventana final */
     public SimplePagination(int n, int enabled, int current, Controller c) {
         Pane outerGridPane = createControls(n, enabled, current, c);
         this.getChildren().add(outerGridPane);

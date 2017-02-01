@@ -16,26 +16,17 @@ import java.util.Map;
  */
 public class Subject {
 	private int number; //Numero del tema
-	private String correctorFile; //Nombre del archivo de correccion
 	private String title; //Titulo del tema
 	private String introduction; //Introduccion del Subject
 	private List <Lesson> lessons; //Lista de las lecciones que componen el tema
 
-	
-	public Subject(int number, String title, String introduction, String file) {
+
+	public Subject(int number, String title, String introduction) {
 		this.number = number;
 		this.title = title;
-		this.correctorFile = file;
+		//this.correctorFile = file;
 		this.introduction = introduction;
 		this.lessons = new ArrayList<Lesson>();
-	}
-
-	public String getCorrectorFile() {
-		return this.correctorFile;
-	}
-
-	public void setCorrectorFile(String file) {
-		this.correctorFile = file;
 	}
 
 	public int getNumber() {
@@ -110,9 +101,4 @@ public class Subject {
 			le.loadProgress(progress);
 		}
 	}
-
-
-	
-	
-	
 }

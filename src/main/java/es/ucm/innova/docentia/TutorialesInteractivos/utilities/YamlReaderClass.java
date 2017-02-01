@@ -54,15 +54,9 @@ public final class YamlReaderClass {
 		// Elementos para rellenar el objeto Subject
 		Integer numberSubject = (Integer) mapObjet.get("Tema");// numero del tema
 		String tittleSubject = (String) mapObjet.get("Titulo");// Nombre del tema
-		String introSubject = (String) mapObjet.get("Introduccion");// introduccion
-																// del tema
-		String fileSubject = (String) mapObjet.get("Archivo");// Nombre del archivo
-															// con las funciones
-															// de solucion
-
-		// objetos a rellenar para el tema
-		List<Element> elements = new ArrayList<Element>();// lista de
-																// elementos
+		String introSubject = (String) mapObjet.get("Introduccion");// introduccion del tema
+		//String fileSubject = (String) mapObjet.get("Archivo");// Nombre del archivo con las funciones objetos a rellenar para el tema
+		List<Element> elements = new ArrayList<Element>();// lista de elementos
 		List<Lesson> lessons = new ArrayList<Lesson>();// lista de lecciones
 
 		for (Map lesson : l) // Recorremos la lista de lecciones y parseamos
@@ -88,10 +82,9 @@ public final class YamlReaderClass {
 					String wording = (String) pre.get("Enunciado");// Enunciado
 					String clue = (String) pre.get("Pista");// Pista
 
-					if (pre.get("Tipo").equals("Codigo")) // Question de tipo
-															// codigo
-					{
-						String answer = (String) pre.get("Resultado");//
+					if (pre.get("Tipo").equals("Codigo")) {
+						// Question de tipo codigo
+						String answer = (String) pre.get("Fichero");
 						elem = new CodeQuestion(num, wording, clue, answer);
 
 					} else if (pre.get("Tipo").equals("Sintaxis")) {
@@ -105,37 +98,19 @@ public final class YamlReaderClass {
 						if ((Boolean) pre.get("Multiple")) {
 							is = true;
 						}
-						String correctOpc = (String) pre.get("Opcion_correcta");// Cogemos
-																				// el
-																				// texto
-																				// de
-																				// las
-																				// correctas
-						String[] corrects = correctOpc.split(","); // Separamos
-																	// la cadena
-																	// en las
-																	// respuestas
-						ArrayList<Integer> correctsAux = StringToInt(corrects); // Camibia
-																					// el
-																					// tipo
-																					// de
-																					// respuesta
-																					// a
-																					// Integer
-						elem.setSolution(correctsAux); // Añade las respuestas
-														// correctas a la lista
-														// de respuestas del
-														// objeto
-						ArrayList<String> opc = new ArrayList<String>(); // Array
-																			// de
-																			// las
-																			// opciones
-						opc = (ArrayList<String>) pre.get("Opciones"); // Carga
-																		// las
-																		// opciones
+						// Cogemos el texto de las correctas
+						String correctOpc = (String) pre.get("Opcion_correcta");
+						// Separamos la cadena en las respuestas
+						String[] corrects = correctOpc.split(",");
+						// Cambia el tipo de respuesta a Integer
+						ArrayList<Integer> correctsAux = StringToInt(corrects);
+						// Añade las respuestas correctas a la lista de respuestas del objeto
+						elem.setSolution(correctsAux);
+						ArrayList<String> opc = new ArrayList<String>();
+						// Carga las opciones
+						opc = (ArrayList<String>) pre.get("Opciones");
 						elem.setOptions(opc);// Las mete en el objeto
-						elem.setMulti(is);// Modifica el parametro de
-											// multirrespuesta
+						elem.setMulti(is);// Modifica el parametro de multirrespuesta
 					}
 				} else {
 					String explication = (String) pre.get("Contenido");// Carga
@@ -164,47 +139,13 @@ public final class YamlReaderClass {
 			lessons.add(lec);// Añade la leccion al array de lecciones
 		}
 		// rellenado de objetos final
-		Subject t = new Subject(numberSubject, tittleSubject, introSubject, fileSubject);// Crea el tema con todos
+		Subject t = new Subject(numberSubject, tittleSubject, introSubject);// Crea el tema con todos
 														// los elementos
 														// cargados
 		t.setLessons(lessons);// Modifica el Array de lecciones de Subject
 		return t;
 	}
 
-	/*
-	 * Devuelve el título de un tema almacenado en un fichero YAML
-	 */
-	public static String getTitle(String language, String filename) {
-		Yaml yaml = new Yaml();
-		File file = new File(Controller.externalResourcesPath + "/" + language + "/" + filename);
-		InputStream input = null;
-		try {
-			input = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-
-			e1.printStackTrace();
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> mapObjet = (Map<String, Object>) yaml.load(input);
-		String title = (String) mapObjet.get("Titulo");// Nombre del tema
-
-		return title;
-	}
-
-	public static Integer getNumber(String language, String filename) {
-		Yaml yaml = new Yaml();
-		File file = new File(Controller.externalResourcesPath + "/" + language + "/" + filename);
-		InputStream input = null;
-		try {
-			input = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-
-			e1.printStackTrace();
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> mapObjet = (Map<String, Object>) yaml.load(input);
-		return (Integer) mapObjet.get("Tema");// Número del tema
-	}
 
 	/**
 	 * Funcion auxiliar que pasa los elementos de tipo String de un Array a tipo

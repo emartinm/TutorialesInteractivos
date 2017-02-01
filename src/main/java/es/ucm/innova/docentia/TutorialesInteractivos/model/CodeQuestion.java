@@ -29,7 +29,7 @@ public class CodeQuestion extends Question<String> {
 
 	public String toString(){
 		return String.format("CodeQuestion(%d,%s,%s,%s)", this.number, this.text,
-				this.solution.toString(), this.clue);
+				this.solution, this.clue);
 	}
 
 	public CodeQuestion(int number, String wording, String clue, String solution) {
@@ -40,7 +40,9 @@ public class CodeQuestion extends Question<String> {
 
 	@Override
 	public Correction check(String answer, Subject subject) {
-		File correccion = new File(Controller.externalResourcesPath+"/"+subject.getCorrectorFile());
+		// TODO arreglar la correccion usando Language
+		//File correccion = new File(Controller.externalResourcesPath+"/"+subject.getCorrectorFile());
+		File correccion = null;
 		String cor = correccion.getAbsolutePath();
 		JSONParser jsonParser = new JSONParser();
 		answer = answer.replace("\"", "'");

@@ -1,6 +1,5 @@
 Tema: 0
 Titulo: Tema TEST
-Archivo: python34/correctores/tema1.py
 Introduccion: Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas
 Lecciones:
  - Leccion: 1 
@@ -52,7 +51,7 @@ Lecciones:
       Numero: 3 
       Enunciado: Asigna a la variable i el valor 4
       Tipo: Codigo
-      Resultado: pregunta11
+      Fichero: tema0.py
     - Elem: explicacion
       Contenido: |
        En el entorno de Python se pueden crear pequeños programas como hallar el área de un *rectángulo*

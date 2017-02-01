@@ -1,6 +1,5 @@
 Tema: 1
 Titulo: Primera toma de contacto
-Archivo: python34/correctores/tema1.py
 Introduccion: Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas
 Lecciones:
  - Leccion: 1 
@@ -39,7 +38,7 @@ Lecciones:
       Numero: 2 
       Enunciado: Asigna a la variable i el valor 4
       Tipo: Codigo
-      Resultado: pregunta11
+      Fichero: pregunta11.py
     - Elem: explicacion
       Contenido: |
        En el entorno de Python se pueden crear pequeños programas como hallar el área de un *rectángulo*
@@ -55,7 +54,7 @@ Lecciones:
        Calcula el area de este triangulo y almacénalo en la variable **a**
        ![triangulo](file:///python34/img/triangulo.jpg)
       Tipo: Codigo
-      Resultado: pregunta_triang
+      Fichero: pregunta_triang.py
  - Leccion: 2
    Titulo_Leccion: Cadenas
    Intro_leccion: >
@@ -71,12 +70,12 @@ Lecciones:
       Numero: 1
       Enunciado: Asigna a la variable **cadena** el valor "Hola mundo"
       Tipo: Codigo
-      Resultado: pregunta21
+      Fichero: pregunta21.py
     - Elem: pregunta
       Numero: 2
       Enunciado: Introduce las siguientes palabras en la variable lista_animales. gato, perro, burro
       Tipo: Codigo
-      Resultado: pregunta22
+      Fichero: pregunta22.py
     - Elem: explicacion
       Contenido: >
        Para construir una cadena a base de la repetición de varias subcadenas,
@@ -95,7 +94,7 @@ Lecciones:
        veces con el operador â€˜*â€™ y el numero de veces que queremos repetir la palabra.
       Pista: variable= cadena * n
       Tipo: Codigo
-      Resultado: pregunta_pacopaco
+      Fichero: pregunta_pacopaco.py
     - Elem: explicacion
       Contenido: "En *python*, las cadenas se pueden tratar como arrays de elementos"
     - Elem: explicacion
