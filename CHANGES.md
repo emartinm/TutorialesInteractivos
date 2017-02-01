@@ -2,7 +2,7 @@
 
 **Superación de lecciones y temas**
 
-- Las lecciones como se marcan como superadas al llegar a la pantalla final. 
+- Las lecciones se marcan como superadas al llegar a la pantalla final. 
 - Los temas se marcan como superados al completar todas sus lecciones.
 - Simplificación del código: rediseño, eliminación de métodos no necesarios, eliminación de comentarios desactualizados.
 - Corrección de errores.
