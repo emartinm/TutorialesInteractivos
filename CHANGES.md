@@ -1,3 +1,13 @@
+### 01/02/2017: v1.1.0
+
+**Superación de lecciones y temas**
+
+- Las lecciones como se marcan como superadas al llegar a la pantalla final. 
+- Los temas se marcan como superados al completar todas sus lecciones.
+- Simplificación del código: rediseño, eliminación de métodos no necesarios, eliminación de comentarios desactualizados.
+- Corrección de errores.
+
+
 ### 14/01/2017: v1.0.0
 
 **Corrección de errores y mejoras sobre la versión inicial en [https://github.com/Kherdu/TFG](https://github.com/Kherdu/TFG)**
