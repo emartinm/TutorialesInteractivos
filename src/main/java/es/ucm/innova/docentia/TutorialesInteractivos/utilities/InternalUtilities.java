@@ -45,7 +45,7 @@ public class InternalUtilities {
 	 * @param html
 	 * @return
 	 */
-	private String modifyImg(String html) {
+	private String modifyImg(String html, String baseDir) {
 		// Definimos el patrón a buscar
 		String pattern = "(<img src=\"file:///)(.*?)(\".*?>)"; 
 		// En el yaml el formato ha de ser "file:///"+ ruta relativa a la imagen
@@ -56,7 +56,7 @@ public class InternalUtilities {
 
 		while (matcher.find()) {
 			Controller.log.info(matcher.group(2));
-			File f = new File(Controller.externalResourcesPath + "/" + matcher.group(2));
+			File f = new File(baseDir + "/" + matcher.group(2));
 			String im = f.getPath();
 			html = html.replace(matcher.group(), matcher.group(1) + im + matcher.group(3));
 			
@@ -145,12 +145,12 @@ public class InternalUtilities {
 	 * @param mark
 	 * @return
 	 */
-	public String parserMarkDown(String mark) {
+	public String parserMarkDown(String mark, String baseDir) {
 		String html;
 		PegDownProcessor pro = new PegDownProcessor(Extensions.ALL - Extensions.EXTANCHORLINKS);
 		html = pro.markdownToHtml(mark);
 		
-		html = modifyImg(html);
+		html = modifyImg(html, baseDir);
 		return html;
 	}
 

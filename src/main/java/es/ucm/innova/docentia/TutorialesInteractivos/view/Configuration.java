@@ -48,13 +48,15 @@ public class Configuration extends Pane {
 		Button search = new Button("Buscar...");// Boton para buscar el archivo de
 												// dependencias
 		// Lista con los lenguajes y la ruta de su compilador
-		TableView<Language> languageList = new TableView<Language>();
-		ObservableList<Language> data = FXCollections.observableArrayList();
-		List<Language> ls = null;
-		if (Controller.externalResourcesPath != null) {
-			pathDep.setText(Controller.externalResourcesPath);
-			ls = c.getLanguagesList();
-			data.setAll(ls);
+		TableView<ConfigEntry> languageList = new TableView<>();
+		ObservableList<ConfigEntry> data = FXCollections.observableArrayList();
+		if (c.getConfig().getDirTemas() != null) {
+			pathDep.setText(c.getConfig().getDirTemas());
+			List<String> ls = c.getLanguagesList();
+			// Carga el contenido inicial desde la configuración
+			for (String k : ls) {
+				data.setAll( new ConfigEntry(k, c.getConfig().get(k)));
+			}
 		}
 		dependencies.setMnemonicParsing(true);
 		dependencies.setLabelFor(pathDep);
@@ -64,9 +66,9 @@ public class Configuration extends Pane {
 		languageList.setEditable(true);
 		languageList.setVisible(true);
 		TableColumn firstNameCol = new TableColumn("Lenguaje de programación");
-		firstNameCol.setCellValueFactory(new PropertyValueFactory<Language, String>("language"));
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<ConfigEntry, String>("key"));
 		TableColumn secondNameCol = new TableColumn("Compilador/intérprete");
-		secondNameCol.setCellValueFactory(new PropertyValueFactory<Language, String>("path"));
+		secondNameCol.setCellValueFactory(new PropertyValueFactory<ConfigEntry, String>("value"));
 
 		languageList.setItems(data);
 		languageList.getColumns().addAll(firstNameCol, secondNameCol);
@@ -74,14 +76,14 @@ public class Configuration extends Pane {
 
 		Button change = new Button("Cambiar compilador/intérprete");
 		Button back = new Button("Cancelar");
-		if (c.externalResourcesPath == null ) {
+		if (!c.getConfig().isDirTemas()) {
             back.setDisable(true);
         }
 		Button accept = new Button("Aceptar");
 		
 		// Label warning = new Label("Para avanzar todos los lenguajes han de estar configurados");
         Label warning = new Label("");
-        if (c.externalResourcesPath == null ){
+        if (!c.getConfig().isDirTemas() ){
             warning.setText("Debes configurar el directorio de cursos");
         }
 
@@ -121,73 +123,57 @@ public class Configuration extends Pane {
 				new Insets(5));
 
 		// Listeners
-		back.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				c.start();
-			}
-		});
-		
-
-		accept.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-			    if (c.externalResourcesPath != null ){
-				    c.savePrefs(pathDep.getText(), data);
-				    c.start();
-			    } else {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setTitle("¡Atención!");
-                    alert.setHeaderText("Para poder continuar debes configurar al menos\nel directorio donde están almacenados los cursos.");
-                    alert.setContentText("Por favor, elige el directorio de cursos utilizando el botón\n\"Buscar...\" de la parte superior de la ventana.");
-                    alert.showAndWait();
-                }
-			}
+		back.setOnAction( (event) -> {
+			c.start();
 		});
 
-		change.setOnAction(new EventHandler<ActionEvent>() {
+		accept.setOnAction( (event) -> {
+		    if ( c.getConfig().isDirTemas() ) {
+			//if (c.externalResourcesPath != null ){
+			    c.getConfig().save();
+			    //c.savePrefs(pathDep.getText(), data); // Esto sobrará
+			    c.start();
+			} else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("¡Atención!");
+                alert.setHeaderText("Para poder continuar debes configurar al menos\nel directorio donde están almacenados los cursos.");
+                alert.setContentText("Por favor, elige el directorio de cursos utilizando el botón\n\"Buscar...\" de la parte superior de la ventana.");
+                alert.showAndWait();
+            }
+		});
 
-			@Override
-			public void handle(ActionEvent event) {
-				// este es para el lenguaje
-				Language l = languageList.getSelectionModel().getSelectedItem();
-				if (l != null) {
-
-					c.showSelection(l);
-					data.set(data.indexOf(l), c.getLanguageAttributes());
-				} else {
-					warning.setText("Selecciona un lenguaje antes");
-				}
-				
+		change.setOnAction( (event) -> {
+			// este es para el lenguaje
+			ConfigEntry entry = languageList.getSelectionModel().getSelectedItem();
+			if (entry != null) {
+				String path = c.showSelection(entry.getKey());
+				c.getConfig().set(entry.getKey(), path); // Almacena la configuración
+				entry.setValue(path);
+				data.set(data.indexOf(entry), entry); // Actualiza la vista
+			} else {
+				warning.setText("Selecciona un lenguaje antes");
 			}
 		});
 
-		search.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				// este es para el directorio
-				c.showSelection(null);
-				if ( c.externalResourcesPath != null ) {
-					pathDep.setText(c.externalResourcesPath);
-					Controller.log.info(c.externalResourcesPath);
-					File f = new File(pathDep.getText());
-					if (f.exists() && f.isDirectory()) {
-						List<String> lanL = InternalUtilities.getDirectoryList(pathDep.getText());
-						// añadimos los lenguajes a la lista
-
-						for (String s : lanL) {
-							Language addedL = new Language(s, null);
-							data.add(addedL);
-						}
-
-						data.setAll(c.getLanguagesList());
+		search.setOnAction( (event) -> {
+			// este es para el directorio
+			String externalResourcesPath = c.showSelection(null);
+			if ( externalResourcesPath != null ) {
+				pathDep.setText(externalResourcesPath);
+				Controller.log.info(externalResourcesPath);
+				c.getConfig().setDirTemas(externalResourcesPath);
+				File f = new File(pathDep.getText());
+				if (f.exists() && f.isDirectory()) {
+					List<String> lanL = InternalUtilities.getDirectoryList(pathDep.getText());
+                    data.removeAll();
+					// añadimos los lenguajes a la lista
+					for (String s : lanL) {
+						data.add( new ConfigEntry(s, c.getConfig().get(s)) );
 					}
-				} else {
-					warning.setText("Primero selecciona directorio de recursos");
+					//data.setAll(c.getLanguagesList());
 				}
+			} else {
+				warning.setText("Primero selecciona directorio de recursos");
 			}
 		});
 

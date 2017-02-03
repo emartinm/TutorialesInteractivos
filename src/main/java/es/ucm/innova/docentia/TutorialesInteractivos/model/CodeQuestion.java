@@ -38,11 +38,12 @@ public class CodeQuestion extends Question<String> {
 	}
 
 
+	/*
 	@Override
 	public Correction check(String answer, Subject subject) {
 		// TODO arreglar la correccion usando Language
 		//File correccion = new File(Controller.externalResourcesPath+"/"+subject.getCorrectorFile());
-		File correccion = null;
+		File correccion = new File(Controller.externalResourcesPath+"/");
 		String cor = correccion.getAbsolutePath();
 		JSONParser jsonParser = new JSONParser();
 		answer = answer.replace("\"", "'");
@@ -121,7 +122,13 @@ public class CodeQuestion extends Question<String> {
 		}
 		c.setCorrect(result);
 		return c;
-	}
+	}*/
+
+    public Correction check(String answer, Subject s) { return null; }
+
+    public Correction check(String answer, Language lang) {
+        return lang.compileAndExecute(this.solution, answer);
+    }
 
 	@Override
 	public void setSolution(String solution) {

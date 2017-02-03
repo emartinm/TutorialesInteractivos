@@ -35,7 +35,7 @@ public class SubjectsMenu extends Pane{
 		GridPane box = new GridPane();
 		
 		Label language = new Label(lenSelect);
-		Map<String,Subject> subjects = get_subjects(c.selectedLanguage, files, c.getProgress() );
+		Map<String,Subject> subjects = get_subjects(c.getConfig().getDirTemas(), c.selectedLanguage, files, c.getProgress() );
 		// Ordenamos la lista de nombres de ficheros en base a su numero de tema
 		Collections.sort( files,
 				(f1, f2) -> Integer.compare(subjects.get(f1).getNumber(), subjects.get(f2).getNumber())
@@ -108,7 +108,7 @@ public class SubjectsMenu extends Pane{
 		start.setOnAction(new EventHandler<ActionEvent>(){	
 			public void handle(ActionEvent event) {
 				MultipleSelectionModel<String> s;
-				s= subjectsList.getSelectionModel();
+				s = subjectsList.getSelectionModel();
 				if (!s.isEmpty()) {//Se comprueba que hay alguna opcion seleccionada
 					int pos = s.getSelectedIndex();
 					String filename = files.get(pos);
@@ -151,10 +151,10 @@ public class SubjectsMenu extends Pane{
 	/* Devuelve una lista de parejas (filename, subject) cargadas desde los ficheros YAML.
 	 * También se carga el estado de las lecciones desde el fichero JSON para saber si están
 	 * o no finalizadas */
-	private Map<String, Subject>  get_subjects(String language, List<String> files, Map<String, Object> progress) {
+	private Map<String, Subject>  get_subjects(String baseDir, String language, List<String> files, Map<String, Object> progress) {
 		Map<String, Subject> r = new HashMap<String, Subject>();
 		for (String filename : files ) {
-			Subject s = YamlReaderClass.cargaTema(language, filename);
+			Subject s = YamlReaderClass.cargaTema(baseDir, language, filename);
 			s.loadProgress(progress);
 			r.put(filename, s);
 		}

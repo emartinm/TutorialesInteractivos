@@ -393,7 +393,7 @@ public class Content extends Pane {
 		// Solo muestra el botón de pistas si lo ultimo que se realizo fue una corrección
 		// sin exito y además si hay pistas
         this.list_hints = l_hints;
-        hints.setVisible(l_hints != null);
+        hints.setVisible(l_hints != null && l_hints.size() > 0);
 	}
 
 	private void setCorrectMessage(Label l, Correction correction) {

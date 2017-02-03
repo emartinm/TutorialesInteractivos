@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
+//import java.util.prefs.Preferences;
 import java.nio.file.FileSystems;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
@@ -41,7 +41,7 @@ public class Controller {
     public static final String progressFileName = "progress.json";
     public static String executable;// ejecutable del lenguaje para ejecutar código
     public static String selectedLanguage; // lenguaje seleccionado
-    public static String externalResourcesPath;
+    //public static String externalResourcesPath;
 
 	private Stage primaryStage;// Vista principal de la aplicación
 	private Pane root;// Panel con los elementos de la vista
@@ -51,9 +51,11 @@ public class Controller {
     private int currentLesson; // Índice de lección actual dentro del tema actual
 
 	private List<String> files;// temas del lenguaje
-	private Preferences pref;
-	private Language language;
+	//private Preferences pref;
+	private ConfigurationData config;
+	//private Language language;
 	private Map<String, Object> progress;
+	private Language language;
 
 	
 	/**
@@ -63,8 +65,9 @@ public class Controller {
 	public Controller(Stage primaryStage) {
 		this.subject = null;
 		this.primaryStage = primaryStage;
-		this.files = new ArrayList<String>();
-		this.pref = Preferences.userNodeForPackage(this.getClass());
+		this.files = new ArrayList<>();
+		this.config = new ConfigurationData();
+		//this.pref = Preferences.userNodeForPackage(this.getClass());
 
 		// TODO
         // Para redirigir la salida del logger a un fichero
@@ -99,7 +102,7 @@ public class Controller {
 	 * @return
 	 */
 	public Correction check(List<Integer> resp, Question p) {
-		return p.check(resp, subject);
+		return p.check(resp, null);
 	}
 
 	/**
@@ -110,7 +113,9 @@ public class Controller {
 	 * @return
 	 */
 	public Correction check(String resp, Question p) {
-		return p.check(resp, subject);
+		//return p.check(resp, subject);
+		String langDir = getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + "python34";
+		return p.check(resp, this.language );
 	}
 
 	/**
@@ -131,7 +136,7 @@ public class Controller {
 				}
 
 			};
-			final Path path = Paths.get(externalResourcesPath + "/" + selectedLanguage);
+			final Path path = Paths.get(getConfig().getDirTemas() + "/" + selectedLanguage);
 			final DirectoryStream<Path> dirStream = Files.newDirectoryStream(path, filter);
 			for (Path file : dirStream) {
 				// después de aplicar el filtro de extensión .yml, por si acaso
@@ -162,15 +167,17 @@ public class Controller {
 		// serán para el usuario concreto, de sistema funciona para todo
 		Pane p = new Pane();
 		List<String> languagesList = new ArrayList<String>();
+		getConfig().load();
 
-		String pathResources = pref.get("ExternalResources", null);
+		//String pathResources = pref.get("ExternalResources", null);
         //Controller.log.info(pathResources);
 
-		if (pathResources != null) {
-			externalResourcesPath = pathResources;
-            progress = JSONReaderClass.loadProgress(Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
+		//if (pathResources != null) {
+		if (getConfig().isDirTemas()) {
+			//externalResourcesPath = pathResources;
+            progress = JSONReaderClass.loadProgress(getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
 			languagesList = languageNames();
-			loadLanguagePaths(languagesList);
+			//loadLanguagePaths(languagesList);
 			p = new InitialWindow();
 		} else {
 			p = new Configuration(); // hace falta configurar directorio y compiladores
@@ -187,7 +194,7 @@ public class Controller {
 	 * @return true si y solo si los lenguajes que hay en el directorio externo
 	 *         tienen su path configurado (esté bien o mal)
 	 */
-	private boolean loadLanguagePaths(List<String> languagesList) {
+	/*private boolean loadLanguagePaths(List<String> languagesList) {
 		boolean ret = true;
 		for (String s : languagesList) {
 			String check = pref.get(s, null);
@@ -195,7 +202,7 @@ public class Controller {
 				ret = false;
 		}
 		return ret;
-	}
+	}*/
 
 	/**
 	 * Obtiene la lista de lenguajes disponibles
@@ -206,7 +213,7 @@ public class Controller {
 		// hay que sacarlos del directorio, es decir, ir a
 		// externalresources/languages y mirar las carpetas que hay, esos son
 		// los lenguajes disponibles
-		return InternalUtilities.getDirectoryList(externalResourcesPath);
+		return InternalUtilities.getDirectoryList(getConfig().getDirTemas());
 
 	}
 
@@ -276,7 +283,7 @@ public class Controller {
 	 */
 	public void selectedSubject(String selectedItem) {
 
-		this.subject = YamlReaderClass.cargaTema(selectedLanguage, selectedItem);
+		this.subject = YamlReaderClass.cargaTema(getConfig().getDirTemas(), selectedLanguage, selectedItem);
 		// 'progress' ha sido cargado anteriormente
 		this.subject.loadProgress(progress);
 		changeView(new LessonsMenu(), null, selectedLanguage);
@@ -303,14 +310,14 @@ public class Controller {
 	 * @return texto en formato HTML
 	 */
 	public String markToHtml(String mark) {
-		return new InternalUtilities().parserMarkDown(mark);
+		return new InternalUtilities().parserMarkDown(mark, getConfig().getDirTemas() + "/" + selectedLanguage);
 	}
 
 	/**
 	 * Muesta el FileChooser para seleccionar donde se encuentra el interprete en el
 	 * equipo
 	 */
-	public void showSelection(Language l) {
+	public String showSelection(String l) {
 		// diferenciar si l tiene lenguaje o no... en funcion de eso es el path
 		// de directorio o el de lenguaje
 		PathChooser sp;
@@ -318,10 +325,11 @@ public class Controller {
 							// del directorio
 							// lo guardamos en la variable y en preferences
 			sp = new PathChooser(this.primaryStage);
-			externalResourcesPath = sp.getPath();
+			//externalResourcesPath = sp.getPath();
+			return sp.getPath();
 		} else {
-			sp = new PathChooser(this.primaryStage, l.getLanguage());
-			language = new Language(l.getLanguage(), sp.getPath());
+			sp = new PathChooser(this.primaryStage, l);
+			return sp.getPath();
 		}
 	}
 
@@ -332,8 +340,9 @@ public class Controller {
 	 */
 	public void selectedLanguage(String selectedItem) {
 		selectedLanguage = selectedItem;
-		executable = pathSelected();
-		if (executable == null) {
+		language = Language.languageFactory(selectedLanguage, getConfig().getDirTemas() + "/" + selectedLanguage, getConfig());
+		//executable = pathSelected();
+		if (language == null || !language.isConfigured() ) {
 			// El lenguaje no está configurado
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("¡Atención!");
@@ -351,7 +360,8 @@ public class Controller {
 	 * @return
 	 */
 	public String pathSelected() {
-		return pref.get(selectedLanguage, null);
+	    return getConfig().get(selectedLanguage);
+		//return pref.get(selectedLanguage, null);
 	}
 	
 	/**
@@ -417,9 +427,9 @@ public class Controller {
 	 * rutas de los compiladores y pone en el classpath la ruta para
 	 * usar con antlr/reflections
 	 */
-	public void savePrefs(String path, List<Language> data) {
+	public void savePrefs(String path, List<String> data) {
 
-		if (path != null && !data.isEmpty()) {
+		/*if (path != null && !data.isEmpty()) {
 			pref.put("ExternalResources", path);
 			for (Language l : data) {
 				if( l.getLanguage() != null && l.getPath() != null ) {
@@ -429,7 +439,7 @@ public class Controller {
 		
 		} else {
 			// TODO error que diga que no hay directorio o compiladores (aqui o en la vista?)
-		}
+		}*/
 	}
 	
 	/**
@@ -445,13 +455,14 @@ public class Controller {
 	 * 
 	 * @return Lista de Lenguajes para la tabla
 	 */
-	public List<Language> getLanguagesList() {
-		List<String> lanL = InternalUtilities.getDirectoryList(externalResourcesPath);
-		List<Language> l = new ArrayList<Language>();//Lista de lenguajes
+	public List<String> getLanguagesList() {
+		List<String> lanL = InternalUtilities.getDirectoryList(getConfig().getDirTemas());
+		List<String> l = new ArrayList<>();//Lista de lenguajes
 		if (!lanL.isEmpty()) {
 			for (String s : lanL) {
-				Language addedL = new Language(s, pref.get(s, null));
-				l.add(addedL);
+				//Language addedL = new Language(s, pref.get(s, null));
+				//l.add(addedL);
+                l.add(s);
 			}
 
 		}
@@ -462,9 +473,9 @@ public class Controller {
 	 * 
 	 * @return lenguage seleccionado
 	 */
-	public Language getLanguageAttributes() {
-		return language;
-	}
+	//public Language getLanguageAttributes() {
+	//	return language;
+	//}
 	
 	/**
 	 * Muestra el menu de lecciones
@@ -486,7 +497,7 @@ public class Controller {
 	    Lesson le = this.getCurrentLesson();
 	    Map<String, Object> p = le.get_progress();
 	    this.progress.put( le.version(), p );
-	    String path = Controller.externalResourcesPath + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
+	    String path = getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
         JSONReaderClass.writeProgress(this.progress, path);
     }
 
@@ -506,5 +517,9 @@ public class Controller {
         this.lessonPageChange( this.getCurrentStep() );
     }
 
+
+    public ConfigurationData getConfig() {
+        return config;
+    }
 
 }

@@ -9,15 +9,13 @@ import java.util.List;
  *
  */
 public class Correction {
+	private ExecutionMessage result;
 	private String message;
 	private List<String> hints;
 	private boolean correct;
 	
-	public Correction(){
-		
-	}
-	
-	public Correction(String m, List<String> h, boolean correct){
+	public Correction(ExecutionMessage result, String m, List<String> h, boolean correct){
+		this.result = result;
 		this.message = m;
 		this.hints = h;
 		this.correct = correct;
@@ -46,4 +44,12 @@ public class Correction {
 	public void setCorrect(boolean correct) {
 		this.correct = correct;
 	}
+
+    public ExecutionMessage getResult() {
+        return result;
+    }
+
+    public void setResult(ExecutionMessage result) {
+        this.result = result;
+    }
 }

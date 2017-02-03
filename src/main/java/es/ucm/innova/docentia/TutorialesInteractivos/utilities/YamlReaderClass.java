@@ -33,10 +33,10 @@ public final class YamlReaderClass {
 	 *            Nombre del archivo del tema
 	 * @return Subject seleccionado
 	 */
-	public static Subject cargaTema(String language, String filename) {
+	public static Subject cargaTema(String baseDir, String language, String filename) {
 		Yaml yaml = new Yaml();
 
-		File file = new File(Controller.externalResourcesPath + "/" + language + "/" + filename);
+		File file = new File(baseDir + "/" + language + "/" + filename);
 		InputStream input = null;
 		try {
 			input = new FileInputStream(file);

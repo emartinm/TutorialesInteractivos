@@ -21,6 +21,8 @@ Lecciones:
        s = 'Hola Mundo'
        entero = 6
        ```
+       También podemos incrustar imagenes
+       ![triangulo](file:///img/triangulo.jpg)
     - Elem: pregunta
       Numero: 1
       Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
@@ -51,7 +53,7 @@ Lecciones:
       Numero: 3 
       Enunciado: Asigna a la variable i el valor 4
       Tipo: Codigo
-      Fichero: tema0.py
+      Fichero: correctores/tema0.py
     - Elem: explicacion
       Contenido: |
        En el entorno de Python se pueden crear pequeños programas como hallar el área de un *rectángulo*

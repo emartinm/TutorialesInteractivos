@@ -89,7 +89,7 @@ public abstract class Question<T> extends Element
 
 	public abstract void setOptions(List<String> options);
 	
-	public abstract Correction check(T answer, Subject subject);
+	public abstract Correction check(T answer, Language lang);
 
 	public abstract void setMulti(Boolean is);
 

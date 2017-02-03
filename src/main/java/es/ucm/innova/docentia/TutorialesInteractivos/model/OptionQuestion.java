@@ -40,7 +40,7 @@ public class OptionQuestion extends Question<List<Integer>> {
 		this.options=options;
 	}
 
-	public Correction check(List<Integer> answer, Subject subject) {
+	public Correction check(List<Integer> answer, Language lang) {
 		boolean sol = true;
 		int tam = answer.size();
 		int i = 0;
@@ -57,7 +57,7 @@ public class OptionQuestion extends Question<List<Integer>> {
 		} else
 			sol = false;
 
-		return new Correction("", null, sol);
+		return new Correction(ExecutionMessage.OK, "", null, sol);
 	}
 
 	@Override

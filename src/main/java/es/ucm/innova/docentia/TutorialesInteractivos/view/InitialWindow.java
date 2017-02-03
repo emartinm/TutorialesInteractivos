@@ -80,17 +80,14 @@ public class InitialWindow extends Pane {
             //Controller.log.info( event.getTarget().toString() );
 		} );
 		
-		start.setOnAction(new EventHandler<ActionEvent>(){
-		
-			public void handle(ActionEvent event) {
-				MultipleSelectionModel<String> s;
-				s= languageList.getSelectionModel();
-				if (!s.isEmpty()){
-					c.selectedLanguage(s.getSelectedItem());//Se carga el tema seleccionado
-				}else 
-					error.setText("Se debe seleccionar un lenguaje");
+		start.setOnAction( (event) -> {
+			MultipleSelectionModel<String> s;
+			s = languageList.getSelectionModel();
+			if (!s.isEmpty()){
+				c.selectedLanguage(s.getSelectedItem());//Se carga el tema seleccionado
+			} else {
+				error.setText("Se debe seleccionar un lenguaje");
 			}
-			
 		});
 		
 		
