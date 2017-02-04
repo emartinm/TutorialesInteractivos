@@ -2,57 +2,61 @@ package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.FileSystems;
 
 /**
- * Created by kike on 3/02/17.
+ * Created by kike on 4/02/17.
  */
-public class PythonLanguage extends Language {
-    private String interpreter;
+public class CppLanguage extends Language {
+    private String compiler = null;
 
-    public PythonLanguage(String language, String path, ConfigurationData config) {
+    public CppLanguage(String language, String path, ConfigurationData config) {
         this.name = language;
         this.path = path;
-        this.interpreter = null;
+        this.compiler = null;
         // Recorre las claves y extrae la entrada que contenga el nombre del lenguaje
         for (String k : config.keys() ) {
             if (k.toLowerCase().contains(language.toLowerCase())) {
-                interpreter = config.get(k);
+                compiler = config.get(k);
             }
         }
     }
 
     public boolean isConfigured() {
-        return (name != null) && (path != null) && (interpreter != null);
+        return (name != null) && (path != null) && (compiler != null);
     }
 
     protected ProcessBuilder getCompilationProcess(String correctorRelativePath, String code, String sourcePath, String outputFilePath) {
-        return null; // Python no necesita compilar
+        // TODO:  hacer distinción para Windows con Visual Studio
+        Controller.log.info("Ejecutando: " + this.compiler + " " + sourcePath + " -o " + outputFilePath);
+        return new ProcessBuilder(this.compiler, sourcePath, "-o" + outputFilePath);
     }
 
     protected ProcessBuilder getExecutionProcess(String execPath, String jsonPath) {
         Controller.log.info( "Ejecutando: " + execPath + " " + jsonPath);
-        return new ProcessBuilder(this.interpreter, execPath, jsonPath);
+        return new ProcessBuilder(execPath, jsonPath);
     }
 
-    /*
-	* correctorRelativePath contiene la ruta al fichero correctos DESDE el directorio del lenguaje this.path
-	* */
     public Correction compileAndExecute(String correctorRelativePath, String code) {
         File jsonFile = null;
         File sourceFile = null;
+        File binaryFile = null;
         Correction c = null;
         try {
             jsonFile = File.createTempFile("json", null);
             String jsonFilename = jsonFile.getAbsolutePath();
-            sourceFile = File.createTempFile("program", ".py");
+            sourceFile = File.createTempFile("program", ".cpp");
             String sourceFilename = sourceFile.getAbsolutePath();
-            String correctorPath = this.path + FileSystems.getDefault().getSeparator() + correctorRelativePath;
-            System.out.println(correctorPath);
-            reemplazaHueco(correctorPath, sourceFilename, code);
-            //ProcessBuilder pb = getExecutionProcess(sourceFilename, jsonFilename);
-            c = execute(sourceFilename, jsonFilename);
+            binaryFile = File.createTempFile("program", ".exe");
+            String binaryFilename = binaryFile.getAbsolutePath();
+
+            c = compile(correctorRelativePath, code, sourceFilename, binaryFilename);
+            if (c.getResult() != ExecutionMessage.OK ) {
+                return c;
+            }
+            c = execute(binaryFilename, jsonFilename);
         } catch (IOException e) {
             c = new Correction(ExecutionMessage.EXECUTION_ERROR, "Imposible crear ficheros temporales",
                     null, false);

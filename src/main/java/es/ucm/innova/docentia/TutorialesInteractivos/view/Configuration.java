@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -54,9 +55,12 @@ public class Configuration extends Pane {
 			pathDep.setText(c.getConfig().getDirTemas());
 			List<String> ls = c.getLanguagesList();
 			// Carga el contenido inicial desde la configuración
+			data.removeAll();
+			List<ConfigEntry> lconfig = new ArrayList<>();
 			for (String k : ls) {
-				data.setAll( new ConfigEntry(k, c.getConfig().get(k)));
+				lconfig.add( new ConfigEntry(k, c.getConfig().get(k)));
 			}
+			data.setAll(lconfig);
 		}
 		dependencies.setMnemonicParsing(true);
 		dependencies.setLabelFor(pathDep);

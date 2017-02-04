@@ -175,7 +175,7 @@ public class Controller {
 		//if (pathResources != null) {
 		if (getConfig().isDirTemas()) {
 			//externalResourcesPath = pathResources;
-            progress = JSONReaderClass.loadProgress(getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
+            progress = JSONReaderClass.loadJSON(getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
 			languagesList = languageNames();
 			//loadLanguagePaths(languagesList);
 			p = new InitialWindow();
