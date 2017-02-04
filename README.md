@@ -20,9 +20,15 @@ Participantes:
 
 ## Uso
 
-Para descargar y utilizar la herramienta se necesita tener maven instalado, una vez tengamos maven:
+Se puede ejecutar la última versión compilada que hay en el repositorio de la siguiente manera:
+  1. Abrir un terminal en el directorio donde está la carpeta ```src/``` y el fichero ```pom.xml```
+  1. Ejecutar ```java -jar target/TutorialesInteractivos-jar-with-dependencies.jar```
 
-  1. Ejecutar mvn package en el directorio donde esté la carpeta src y el pom.xml
-  2. Lanzar la aplicación con java -jar- TutorialesInteractivos-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+Si se desea compilar y ejecutar la herramienta a partir de las fuentes, se necesita tener *maven* instalado:
+  1. Abrir un terminal en el directorio donde está la carpeta ```src/``` y el fichero ```pom.xml```
+  1. Ejecutar ```mvn package``` para compilar
+  2. Lanzar la aplicación con ```java -jar target/TutorialesInteractivos-jar-with-dependencies.jar```
+  
 
-Para más información ver la memoria disponible en : [http://eprints.ucm.es/38408/](http://eprints.ucm.es/38408/)
+## Más información
+Consultar la memoria disponible en : [http://eprints.ucm.es/38408/](http://eprints.ucm.es/38408/)
