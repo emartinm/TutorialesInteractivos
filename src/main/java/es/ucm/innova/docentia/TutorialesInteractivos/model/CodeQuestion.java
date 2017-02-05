@@ -1,5 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
+
 import java.util.List;
 
 /**

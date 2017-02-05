@@ -1,8 +1,9 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Question de tipo Options

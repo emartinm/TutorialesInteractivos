@@ -1,12 +1,14 @@
-package es.ucm.innova.docentia.TutorialesInteractivos.model;
+package es.ucm.innova.docentia.TutorialesInteractivos.model.language;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,7 +18,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Language que se está utilizando actualmente
+ * Clase base para los lenguajes soportados por la herramienta.
+ * Contiene varias implementaciones por defecto que sirven para muchos lenguajes.
  * 
  * @author Carlos, Rafa, Enrique
  *
@@ -27,22 +30,43 @@ public abstract class Language {
 	protected String name;
 	protected String path; // Ruta del lenguaje en cuestión
 
+    public abstract boolean isConfigured();
+    protected abstract ProcessBuilder getCompilationProcess(String sourcePath, String outputFilePath);
+    protected abstract ProcessBuilder getExecutionProcess(String execPath, String jsonPath);
+    protected abstract String getSourceExtension();
+    protected abstract String getCompiledExtension();
+    protected abstract boolean needCompilation();
+    protected abstract boolean isLanguageName(String langName);
+    protected abstract List<String> getConfigNames(String langName);
+
+    /*
+     Limite de tiempo por defecto para ejecutar un programa.
+     Se puede sobreescribir en cada lenguaje.
+     */
+    private long getExecutionMillis(){
+        return 2000;
+    }
+
+
 	/*
 	Devuelve una lista de entradas que hay que configurar para poder usar 'language' para
 	corregir ejercicios
 	 */
 	public static List<String> configuration(String language) {
-	    ArrayList<String> l = new ArrayList<>();
-	    if (language.toLowerCase().contains("erlang") ) {
-	        // Erlang se ejecutará con escript
-	        l.add( language + " (escript)");
-        } else if (language.toLowerCase().contains("java") ) {
-	        // Java tiene fase de compilación y de interpretación
-	        l.add(language + " (javac)");
-            l.add(language + " (java)");
+	    PythonLanguage python = new PythonLanguage();
+	    CppLanguage cpp = new CppLanguage();
+	    JavaLanguage java = new JavaLanguage();
+        List<String> l;
+
+	    if (python.isLanguageName(language) ) {
+	        l = python.getConfigNames(language);
+        } else if (cpp.isLanguageName(language) ) {
+	        l =  cpp.getConfigNames(language);
+        } else if (java.isLanguageName(language)){
+	        l = java.getConfigNames(language);
         } else {
-	        // Python, C, C++, C#
-            l.add(language);
+	        Controller.log.warning("Lenguaje desconocido: " + language);
+	        l = null;
         }
         return l;
     }
@@ -51,23 +75,31 @@ public abstract class Language {
     Genera un tipo especializado de objeto Language dependiendo de la cadena
      */
     public static Language languageFactory(String language, String path, ConfigurationData config) {
+        PythonLanguage python = new PythonLanguage();
+        CppLanguage cpp = new CppLanguage();
+        JavaLanguage java = new JavaLanguage();
         Language l = null;
-        if (language.toLowerCase().contains("python") ) {
+
+        if (python.isLanguageName(language) ) {
             l =  new PythonLanguage(language, path, config);
-        } else if (language.toLowerCase().contains("c++") ) {
+        } else if (cpp.isLanguageName(language)) {
             l = new CppLanguage(language, path, config);
+        } else if (java.isLanguageName(language)) {
+            l = new JavaLanguage(language, path, config);
+        } else {
+            Controller.log.warning("Lenguaje desconocido: " + language);
+            l = null;
         }
         // TODO: añadir aqui los demás lenguajes soportados
         return l;
     }
 
-    public abstract boolean isConfigured();
+
 
 	public String getLanguage() {
 		return name;
 	}
 
-	public abstract Correction compileAndExecute(String correctorRelativePath, String code);
 
 	protected List<String> reemplazaLinea( String line, int pos, String codigo ) {
 		ArrayList<String> lines = new ArrayList<String>();
@@ -117,9 +149,7 @@ public abstract class Language {
      */
     protected Correction readJSONresults(File jsonFile) {
     	Correction c = null;
-		//FileReader fileReader = new FileReader(jsonFile);
 		Map<String, Object> json = JSONReaderClass.loadJSON(jsonFile.getAbsolutePath());
-		//JSONObject json = (JSONObject) jsonParser.parse(fileReader);
 		if (json.size() > 0 ) {
 			Boolean correct = (Boolean) json.getOrDefault("isCorrect", false);
 			String error = (String) json.getOrDefault("typeError", "");
@@ -131,25 +161,16 @@ public abstract class Language {
 		return c;
 	}
 
-	protected abstract ProcessBuilder getCompilationProcess(String correctorRelativePath, String code, String sourcePath, String outputFilePath);
-    protected abstract ProcessBuilder getExecutionProcess(String execPath, String jsonPath);
 
-    private long getExecutionMillis(){
-        return 2000; // Por defecto, se debe sobreescribir en cada lenguaje
-    }
 
     /*
     Implementación por defecto de la fase de compilación. Depende del método abstracto getCompilationProcess()
      */
-	protected Correction compile(String correctorRelativePath, String code, String sourcePath, String outputFilePath) {
+	protected Correction compile(String correctorPath, String outputFilePath) {
         Correction c = null;
         try {
-            ProcessBuilder pb = getCompilationProcess(correctorRelativePath, code, sourcePath, outputFilePath);
-            String correctorPath = this.path + FileSystems.getDefault().getSeparator() + correctorRelativePath;
-            reemplazaHueco(correctorPath, sourcePath, code);
-            //Controller.log.info("Ejecutando: " + this.interpreter + " " + sourceFilename + " " + jsonFilename);
+            ProcessBuilder pb = getCompilationProcess(correctorPath, outputFilePath);
             Process p = pb.start();
-            System.out.println(pb.command());
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
             p.waitFor(); // Confiamos en los compiladores, siempre terminan
             int exit = p.exitValue();
@@ -194,7 +215,6 @@ public abstract class Language {
                         break;
                     }
                     case 0: { // comprobar si están vacios
-                        //TODO usar jackson tambien aqui
                         File f = new File(jsonPath);
                         c = readJSONresults(f);
                         break;
@@ -202,6 +222,49 @@ public abstract class Language {
                 }
             }
         } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            //if ( jsonFile != null ) { jsonFile.delete(); }
+            //if ( sourceFile != null ) { sourceFile.delete(); }
+        }
+        return c;
+    }
+
+    /*
+    Definición por defecto de compileAndExecute
+     */
+    public Correction compileAndExecute(String correctorRelativePath, String code) {
+        File jsonFile = null;
+        File sourceFile = null;
+        File binaryFile = null;
+        Correction c = null;
+        try {
+
+            jsonFile = File.createTempFile("result", ".json");
+            String jsonFilename = jsonFile.getAbsolutePath();
+
+            sourceFile = File.createTempFile("source", getSourceExtension());
+            String sourceFilename = sourceFile.getAbsolutePath();
+
+            binaryFile = File.createTempFile("program", getCompiledExtension());
+            String binaryFilename = binaryFile.getAbsolutePath();
+
+            String correctorPath = this.path + FileSystems.getDefault().getSeparator() + correctorRelativePath;
+            reemplazaHueco(correctorPath, sourceFilename, code);
+
+            if (needCompilation()) {
+                c = compile(sourceFilename, binaryFilename);
+                if (c.getResult() != ExecutionMessage.OK ) {
+                    return c;
+                }
+                c = execute(binaryFilename, jsonFilename);
+            } else {
+                reemplazaHueco(correctorPath, sourceFilename, code);
+                c = execute(sourceFilename, jsonFilename);
+            }
+        } catch (IOException e) {
+            c = new Correction(ExecutionMessage.EXECUTION_ERROR, "Imposible crear ficheros temporales",
+                    null, false);
             e.printStackTrace();
         } finally {
             //if ( jsonFile != null ) { jsonFile.delete(); }

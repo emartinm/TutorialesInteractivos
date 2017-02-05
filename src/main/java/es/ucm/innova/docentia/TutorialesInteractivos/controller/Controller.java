@@ -8,10 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Logger;
-//import java.util.prefs.Preferences;
 import java.nio.file.FileSystems;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.YamlReaderClass;
@@ -51,9 +51,7 @@ public class Controller {
     private int currentLesson; // Índice de lección actual dentro del tema actual
 
 	private List<String> files;// temas del lenguaje
-	//private Preferences pref;
 	private ConfigurationData config;
-	//private Language language;
 	private Map<String, Object> progress;
 	private Language language;
 
@@ -169,15 +167,9 @@ public class Controller {
 		List<String> languagesList = new ArrayList<String>();
 		getConfig().load();
 
-		//String pathResources = pref.get("ExternalResources", null);
-        //Controller.log.info(pathResources);
-
-		//if (pathResources != null) {
 		if (getConfig().isDirTemas()) {
-			//externalResourcesPath = pathResources;
             progress = JSONReaderClass.loadJSON(getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
 			languagesList = languageNames();
-			//loadLanguagePaths(languagesList);
 			p = new InitialWindow();
 		} else {
 			p = new Configuration(); // hace falta configurar directorio y compiladores
@@ -187,22 +179,6 @@ public class Controller {
 		changeView(p, languagesList, selectedLanguage);
 
 	}
-
-	/**
-	 * Comprueba si todos los lengujes tienen su configuracion
-	 * @param languagesList Lista de lenguajes disponibles
-	 * @return true si y solo si los lenguajes que hay en el directorio externo
-	 *         tienen su path configurado (esté bien o mal)
-	 */
-	/*private boolean loadLanguagePaths(List<String> languagesList) {
-		boolean ret = true;
-		for (String s : languagesList) {
-			String check = pref.get(s, null);
-			if (check == null)
-				ret = false;
-		}
-		return ret;
-	}*/
 
 	/**
 	 * Obtiene la lista de lenguajes disponibles
@@ -300,7 +276,6 @@ public class Controller {
 		this.currentLesson = selectedItem;
         Lesson le = subject.getLessons().get(selectedItem);
         this.lessonPageChange(le.getCurrentElementPos() );
-        //changeView(new Content(), null, selectedLanguage);
 	}
 
 	/**
@@ -321,16 +296,12 @@ public class Controller {
 		// diferenciar si l tiene lenguaje o no... en funcion de eso es el path
 		// de directorio o el de lenguaje
 		PathChooser sp;
-		if (l == null) { // si no llega lenguaje es que hemos cambiado el path
-							// del directorio
-							// lo guardamos en la variable y en preferences
+		if (l == null) { // si l==null queremos buscar un directorio
 			sp = new PathChooser(this.primaryStage);
-			//externalResourcesPath = sp.getPath();
-			return sp.getPath();
 		} else {
 			sp = new PathChooser(this.primaryStage, l);
-			return sp.getPath();
 		}
+		return sp.getPath();
 	}
 
 	/**
@@ -341,7 +312,6 @@ public class Controller {
 	public void selectedLanguage(String selectedItem) {
 		selectedLanguage = selectedItem;
 		language = Language.languageFactory(selectedLanguage, getConfig().getDirTemas() + "/" + selectedLanguage, getConfig());
-		//executable = pathSelected();
 		if (language == null || !language.isConfigured() ) {
 			// El lenguaje no está configurado
 			Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -417,30 +387,6 @@ public class Controller {
 			this.getCurrentLesson().setLatestElement(pos + 1);
 		}
 	}
-
-	/**
-	 * 
-	 * @param path externalResources path
-	 * @param data lista de lenguajes disponibles en la carpeta
-	 * 
-	 * Este metodo guarda en preferences el path, los lenguajes y las
-	 * rutas de los compiladores y pone en el classpath la ruta para
-	 * usar con antlr/reflections
-	 */
-	public void savePrefs(String path, List<String> data) {
-
-		/*if (path != null && !data.isEmpty()) {
-			pref.put("ExternalResources", path);
-			for (Language l : data) {
-				if( l.getLanguage() != null && l.getPath() != null ) {
-					pref.put(l.getLanguage(), l.getPath());
-				}
-			}
-		
-		} else {
-			// TODO error que diga que no hay directorio o compiladores (aqui o en la vista?)
-		}*/
-	}
 	
 	/**
 	 * Muestra la ventana de configuracion
@@ -460,22 +406,12 @@ public class Controller {
 		List<String> l = new ArrayList<>();//Lista de lenguajes
 		if (!lanL.isEmpty()) {
 			for (String s : lanL) {
-				//Language addedL = new Language(s, pref.get(s, null));
-				//l.add(addedL);
                 l.add(s);
 			}
 
 		}
 		return l;
 	}
-	
-	/**
-	 * 
-	 * @return lenguage seleccionado
-	 */
-	//public Language getLanguageAttributes() {
-	//	return language;
-	//}
 	
 	/**
 	 * Muestra el menu de lecciones
@@ -516,7 +452,6 @@ public class Controller {
     public void reloadCurrentLessonFragment() {
         this.lessonPageChange( this.getCurrentStep() );
     }
-
 
     public ConfigurationData getConfig() {
         return config;

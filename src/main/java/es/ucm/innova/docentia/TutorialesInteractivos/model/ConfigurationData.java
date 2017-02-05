@@ -74,4 +74,14 @@ public class ConfigurationData {
     public Set<String> keys() {
         return prefs.keySet();
     }
+
+    public void clear() {
+        Preferences storedPrefs = Preferences.userNodeForPackage(this.getClass());
+        prefs.clear();
+        try {
+            storedPrefs.clear();
+        } catch (BackingStoreException e) {
+            Controller.log.info( "Imposible borrar la configuracion almacenaca: " + e.getLocalizedMessage());
+        }
+    }
 }

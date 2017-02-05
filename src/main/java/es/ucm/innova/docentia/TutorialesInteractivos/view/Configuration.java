@@ -3,15 +3,12 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Language;
+import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -48,7 +45,7 @@ public class Configuration extends Pane {
         pathDep.setEditable(false);
 		Button search = new Button("Buscar...");// Boton para buscar el archivo de
 												// dependencias
-		// Lista con los lenguajes y la ruta de su compilador
+		// Lista con las entradas de configuración y su ruta
 		TableView<ConfigEntry> languageList = new TableView<>();
 		ObservableList<ConfigEntry> data = FXCollections.observableArrayList();
 		if (c.getConfig().getDirTemas() != null) {
@@ -56,11 +53,12 @@ public class Configuration extends Pane {
 			List<String> ls = c.getLanguagesList();
 			// Carga el contenido inicial desde la configuración
 			data.removeAll();
-			List<ConfigEntry> lconfig = new ArrayList<>();
-			for (String k : ls) {
-				lconfig.add( new ConfigEntry(k, c.getConfig().get(k)));
+            List<String> lentrynames = configEntries(ls);
+			List<ConfigEntry> lentries = new ArrayList<>();
+			for (String entryname : lentrynames) {
+				lentries.add( new ConfigEntry(entryname, c.getConfig().get(entryname) ) );
 			}
-			data.setAll(lconfig);
+			data.setAll(lentries);
 		}
 		dependencies.setMnemonicParsing(true);
 		dependencies.setLabelFor(pathDep);
@@ -165,16 +163,19 @@ public class Configuration extends Pane {
 			if ( externalResourcesPath != null ) {
 				pathDep.setText(externalResourcesPath);
 				Controller.log.info(externalResourcesPath);
-				c.getConfig().setDirTemas(externalResourcesPath);
 				File f = new File(pathDep.getText());
 				if (f.exists() && f.isDirectory()) {
+				    c.getConfig().clear(); // Borro todas las configuraciones antiguas
+                    c.getConfig().setDirTemas(externalResourcesPath);
 					List<String> lanL = InternalUtilities.getDirectoryList(pathDep.getText());
-                    data.removeAll();
 					// añadimos los lenguajes a la lista
-					for (String s : lanL) {
-						data.add( new ConfigEntry(s, c.getConfig().get(s)) );
-					}
-					//data.setAll(c.getLanguagesList());
+                    List<String> lentrynames = configEntries(lanL);
+                    List<ConfigEntry> lentries = new ArrayList<>();
+                    for (String entryname : lentrynames) {
+                        lentries.add( new ConfigEntry(entryname, c.getConfig().get(entryname) ) );
+                    }
+                    data.removeAll();
+                    data.setAll(lentries);
 				}
 			} else {
 				warning.setText("Primero selecciona directorio de recursos");
@@ -191,5 +192,13 @@ public class Configuration extends Pane {
 
 		return root;
 	}
+
+	private List<String> configEntries( List<String> directoryNames ) {
+        List<String> lentrynames = new ArrayList<>();
+        for (String k : directoryNames) {
+            lentrynames.addAll(Language.configuration(k));
+        }
+        return lentrynames;
+    }
 
 }
