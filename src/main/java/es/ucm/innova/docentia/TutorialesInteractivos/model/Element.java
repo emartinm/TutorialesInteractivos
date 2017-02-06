@@ -23,14 +23,6 @@ public abstract class Element {
 		return this.text;
 	}
 
-	public abstract void setOptions(List<String> opc);
-
-	public abstract void setMulti(Boolean is);
-
-	public abstract void setSolution(List<Integer> correctsAux);
-
-	public abstract void setText(String explication);
-
 	public abstract String getClue();
 
 	public void loadProgress(Map<String, Object> progress) {}

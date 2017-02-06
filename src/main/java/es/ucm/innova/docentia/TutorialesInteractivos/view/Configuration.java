@@ -161,13 +161,14 @@ public class Configuration extends Pane {
 			// este es para el directorio
 			String externalResourcesPath = c.showSelection(null);
 			if ( externalResourcesPath != null ) {
-				pathDep.setText(externalResourcesPath);
-				Controller.log.info(externalResourcesPath);
-				File f = new File(pathDep.getText());
+				File f = new File(externalResourcesPath);
 				if (f.exists() && f.isDirectory()) {
+					pathDep.setText(externalResourcesPath);
+					warning.setText("");
+					Controller.log.info(externalResourcesPath);
 				    c.getConfig().clear(); // Borro todas las configuraciones antiguas
                     c.getConfig().setDirTemas(externalResourcesPath);
-					List<String> lanL = InternalUtilities.getDirectoryList(pathDep.getText());
+					List<String> lanL = InternalUtilities.getDirectoryList(externalResourcesPath);
 					// añadimos los lenguajes a la lista
                     List<String> lentrynames = configEntries(lanL);
                     List<ConfigEntry> lentries = new ArrayList<>();
@@ -178,7 +179,7 @@ public class Configuration extends Pane {
                     data.setAll(lentries);
 				}
 			} else {
-				warning.setText("Primero selecciona directorio de recursos");
+				warning.setText("Directorio de temas inválido");
 			}
 		});
 

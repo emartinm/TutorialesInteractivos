@@ -21,8 +21,6 @@ public class Lesson
 	private int number; //Numero de la leccion
 	private String title; //Titulo de la leccion
 	private List<Element> elements; //Array con los elements de la leccion
-	private String intro_message; //Introducción de la lección
-	//private boolean finished = false;
 	private String version = null;
 	private int currentElement = 0; // Posicion del elemento actualmente visualizado;
 	private int latestElement = 0; // Posición del elemento más avanzado visualizado
@@ -33,8 +31,7 @@ public class Lesson
 
 
 	public String toString(){
-		return String.format("Lesson(%d,%s,%s,%s)", this.number, this.title, this.elements.toString(),
-				this.intro_message );
+		return String.format("Lesson(%d,%s,%s)", this.number, this.title, this.elements.toString());
 	}
 
 
@@ -53,13 +50,11 @@ public class Lesson
         }
         return version;
 	}
-	
 
-	public Lesson(int number, String title, String intro_message){
+	public Lesson(int number, String title){
 		this.number=number;
 		this.title =title;
 		this.elements = new ArrayList<Element>();
-		this.intro_message =intro_message;
 
         /* MessageEncoder md es un singleton */
         if (this.md == null) {
@@ -85,14 +80,6 @@ public class Lesson
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getIntroMessage() {
-		return intro_message;
-	}
-
-	public void setIntro_message(String intro_message) {
-		this.intro_message = intro_message;
 	}
 
 	public List<Element> getElements() {
@@ -126,7 +113,6 @@ public class Lesson
                             Controller.log.info( "No existe progreso para la pregunta " + Integer.toString(i) );
                         }
                     }
-
                 }
 
                 currentElement = (Integer) lesson_prog.getOrDefault( "current", 0 );
@@ -176,9 +162,10 @@ public class Lesson
     }
 
     public Element getCurrentElement() {
-	    if ( this.currentElement < 0 ) {
-	        return new Explanation(this.intro_message);
-        } else if ( currentElement >= 0 && currentElement < this.elements.size() ){
+	    //if ( this.currentElement < 0 ) {
+	    //    return new Explanation(this.intro_message);
+        //} else
+        if ( currentElement >= 0 && currentElement < this.elements.size() ){
 	        return this.elements.get(currentElement);
 	    } else {
             Controller.log.warning( "Accediendo a elemento de leccion fuera de rango ");

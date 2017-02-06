@@ -1,0 +1,36 @@
+Tema: 0
+Titulo: Tema TEST
+Introduccion: Tema de ejemplo para probar C#
+Lecciones:
+ - Leccion: 1 
+   Titulo_Leccion: Operaciones con numeros
+   Intro_leccion: >
+    El interprete funciona como una **simple calculadora**, Tu tecleas una expresion 
+    y el muestra el resultado. La sintaxis de las expresiones es bastante intuitiva. 
+    Los operadores +, -, * y / funcionan como en otros lenguajes (p. ej. Pascal o C). 
+    Se puede usar parentesis para agrupar operaciones. 
+    
+   Elementos:
+    - Elem: explicacion
+      Contenido: >
+       El simbolo de igualdad sirve para asignar valores a variables. *Variable = valor*
+    - Elem: explicacion
+      Contenido: |
+       Unos ejemplos:
+       ```
+       s = 'Hola Mundo'
+       entero = 6
+       ```
+       También podemos incrustar imagenes
+       ![triangulo](file:///img/triangulo.jpg)
+    - Elem: pregunta
+      Enunciado: | 
+       Escribe una función:
+       ```
+       static int incrementa(int n) {
+         ...
+       }
+       ```
+       que recibe un número y lo devuelve incrementado en uno.
+      Tipo: Codigo
+      Fichero: correctores/tema0.cs

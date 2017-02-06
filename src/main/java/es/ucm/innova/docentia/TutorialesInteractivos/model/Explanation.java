@@ -16,33 +16,8 @@ public class Explanation extends Element{
 	}
 
 	@Override
-	public void setOptions(List<String> opc) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setMulti(Boolean is) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSolution(List<Integer> correctsAux) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setText(String explanation) {
-		this.text = explanation;
-		
-	}
-
-	@Override
 	public String getClue() {
-		// TODO Auto-generated method stub
-		return null;
+			return null;
 	}
 
 	public String toString(){

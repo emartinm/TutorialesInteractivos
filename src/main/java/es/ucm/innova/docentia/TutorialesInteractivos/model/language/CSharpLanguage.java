@@ -3,22 +3,25 @@ package es.ucm.innova.docentia.TutorialesInteractivos.model.language;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.ConfigurationData;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kike on 4/02/17.
+ * Created by kike on 6/02/17.
  */
-public class CppLanguage extends Language {
+public class CSharpLanguage extends Language {
     private String compiler = null;
 
-    protected CppLanguage() {}
+    protected CSharpLanguage() {}
 
-    public CppLanguage(String language, String path, ConfigurationData config) {
+    public CSharpLanguage(String language, String path, ConfigurationData config) {
         this.name = language;
         this.path = path;
-        this.compiler = config.get(language);
+        this.compiler = config.get(compilerName(language));
+    }
+
+    private String compilerName(String language) {
+        return language + " (compilador de C#)";
     }
 
     public boolean isConfigured() {
@@ -26,7 +29,7 @@ public class CppLanguage extends Language {
     }
 
     protected String getSourceExtension(){
-        return ".cpp";
+        return ".cs";
     }
 
     protected String getCompiledExtension(){
@@ -34,15 +37,8 @@ public class CppLanguage extends Language {
     }
 
     protected ProcessBuilder getCompilationProcess(String sourcePath, String outputFilePath) {
-        ProcessBuilder pb;
-        File f = new File(outputFilePath);
-        if ( this.compiler.contains("cl.exe") ) {
-            // Visual Studio
-            pb = new ProcessBuilder(this.compiler, sourcePath, "/Fe"+outputFilePath, "/Fo"+f.getParent());
-        } else {
-            // g++
-            pb = new ProcessBuilder(this.compiler, sourcePath, "-std=c++11", "-o", outputFilePath);
-        }
+        // No es necesario realizar distinción entre Visual Studio y Mono, toman los mismo parámetros
+        ProcessBuilder pb = new ProcessBuilder(this.compiler, sourcePath, "-out:" + outputFilePath);
         Controller.log.info("Ejecutando: " + pb.command());
         return pb;
     }
@@ -58,13 +54,12 @@ public class CppLanguage extends Language {
     }
 
     protected boolean isLanguageName(String langName) {
-        return langName.toLowerCase().contains("c++");
+        return langName.toLowerCase().contains("c sharp");
     }
 
     protected List<String> getConfigNames(String langName) {
         ArrayList<String> l = new ArrayList<String>();
-        l.add(langName);
+        l.add(compilerName(langName));
         return l;
     }
-
 }

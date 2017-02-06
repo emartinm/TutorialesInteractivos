@@ -61,6 +61,7 @@ public class InternalUtilities {
 			html = html.replace(matcher.group(), matcher.group(1) + im + matcher.group(3));
 			
 		}
+		Controller.log.info("HTML:" + html);
 		return html;
 	}
 
@@ -79,7 +80,6 @@ public class InternalUtilities {
 
             InputStream file;
             String aux = "";
-            //file = InternalUtilities.class.getClassLoader().getResourceAsStream("css/webView.css");
             StyleSheet ss = new StyleSheet();
             ss.importStyleSheet(InternalUtilities.class.getClassLoader().getResource("css/webView.css"));
             HTMLEditorKit kit = (HTMLEditorKit)jp.getEditorKit();

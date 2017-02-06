@@ -55,93 +55,54 @@ public final class YamlReaderClass {
 		Integer numberSubject = (Integer) mapObjet.get("Tema");// numero del tema
 		String tittleSubject = (String) mapObjet.get("Titulo");// Nombre del tema
 		String introSubject = (String) mapObjet.get("Introduccion");// introduccion del tema
-		//String fileSubject = (String) mapObjet.get("Archivo");// Nombre del archivo con las funciones objetos a rellenar para el tema
 		List<Element> elements = new ArrayList<Element>();// lista de elementos
 		List<Lesson> lessons = new ArrayList<Lesson>();// lista de lecciones
 
-		for (Map lesson : l) // Recorremos la lista de lecciones y parseamos
-								// los elementos
-		{
-			elements = new ArrayList<Element>();// Lista de elementos de una
-													// leccion
-			e = (ArrayList<Map>) lesson.get("Elementos");// Vuelca los
-															// elementos en una
-															// Lista de Maps
+		for (Map lesson : l) {// Recorremos la lista de lecciones y parseamos los elementos
+			elements = new ArrayList<Element>();// Lista de elementos de una leccion
+			e = (ArrayList<Map>) lesson.get("Elementos");// Vuelca los elementos en una Lista de Maps
 
-			for (Map pre : e)// Recorre los elementos de la leccion a cargar y
-								// los parsea
-			{
-				Element elem = new Explanation(null); // Crea un nuevo elem
-
-				if (pre.get("Elem").equals("pregunta"))// El elemento es de tipo
-														// pregunta
-				{
-					// Elementos generales a todo tipo de preguntas
-					int num = (Integer) pre.get("Numero"); // Numero de la
-															// pregunta
+			for (Map pre : e) {// Recorre los elementos de la leccion a cargar y los parsea
+				Element elem = null;
+				if (pre.get("Elem").equals("pregunta")) {
 					String wording = (String) pre.get("Enunciado");// Enunciado
 					String clue = (String) pre.get("Pista");// Pista
 
 					if (pre.get("Tipo").equals("Codigo")) {
 						// Question de tipo codigo
 						String answer = (String) pre.get("Fichero");
-						elem = new CodeQuestion(num, wording, clue, answer);
+						elem = new CodeQuestion(wording, clue, answer);
 
 					} else if (pre.get("Tipo").equals("Sintaxis")) {
-						//String sintax = (String) pre.get("Gramatica");
-						//String result = (String) pre.get("Resultado");
-						//elem = new SyntaxQuestion(num, wording, clue, sintax, result);
 						Controller.log.info( "Preguntas de tipo Sintaxis no soportadas");
 					} else if (pre.get("Tipo").equals("Opciones")) {
-						Boolean is = false;
-						elem = new OptionQuestion(num, wording, clue);
+						Boolean isMulti = false;
 						if ((Boolean) pre.get("Multiple")) {
-							is = true;
+							isMulti = true;
 						}
-						// Cogemos el texto de las correctas
+						// Cogemos el texto de las opciones correctas
 						String correctOpc = (String) pre.get("Opcion_correcta");
-						// Separamos la cadena en las respuestas
 						String[] corrects = correctOpc.split(",");
-						// Cambia el tipo de respuesta a Integer
-						ArrayList<Integer> correctsAux = StringToInt(corrects);
-						// Añade las respuestas correctas a la lista de respuestas del objeto
-						elem.setSolution(correctsAux);
-						ArrayList<String> opc = new ArrayList<String>();
-						// Carga las opciones
-						opc = (ArrayList<String>) pre.get("Opciones");
-						elem.setOptions(opc);// Las mete en el objeto
-						elem.setMulti(is);// Modifica el parametro de multirrespuesta
+						ArrayList<Integer> correctsAux = StringToInt(corrects); // Cambia el tipo de respuesta a Integer
+						ArrayList<String> opc = (ArrayList<String>) pre.get("Opciones");
+						elem = new OptionQuestion(wording, clue, opc, isMulti, correctsAux);
 					}
 				} else {
-					String explication = (String) pre.get("Contenido");// Carga
-																		// el
-																		// contenido
-																		// de la
-																		// explicación
-					elem.setText(explication);// Modifica el texto del elemento
+					String wording = (String) pre.get("Contenido");// Carga el contenido de la explicación
+					elem = new Explanation(wording);
 				}
-				elements.add(elem);// Añade el elemento al array de elementos
-									// de Lesson
+				elements.add(elem);// Añade el elemento al array de elementos de Lesson
 
 			}
 			int nLesson = (Integer) lesson.get("Leccion"); // numero de
 																// leccion
-			String tLesson = (String) lesson.get("Titulo_Leccion");// titulo
-																		// de
-																		// leccion
-			String eLesson = (String) lesson.get("Intro_leccion");// Introduccion
-																	// de la
-																	// leccion
-			Lesson lec = new Lesson(nLesson, tLesson, eLesson);// Crea la
-																	// leccion
-			lec.setElements(elements);// Modifica el array de elementos de una
-										// leccion
+			String tLesson = (String) lesson.get("Titulo_Leccion");// titulo de leccion
+            Lesson lec = new Lesson(nLesson, tLesson);// Crea la leccion
+			lec.setElements(elements);// Modifica el array de elementos de una leccion
 			lessons.add(lec);// Añade la leccion al array de lecciones
 		}
 		// rellenado de objetos final
-		Subject t = new Subject(numberSubject, tittleSubject, introSubject);// Crea el tema con todos
-														// los elementos
-														// cargados
+		Subject t = new Subject(numberSubject, tittleSubject, introSubject);// Crea el tema con todos los elementos
 		t.setLessons(lessons);// Modifica el Array de lecciones de Subject
 		return t;
 	}

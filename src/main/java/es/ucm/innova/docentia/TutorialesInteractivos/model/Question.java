@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public abstract class Question<T> extends Element
 {
-	protected int number; //number de la pregunta
+	//protected int number; //number de la pregunta
 	protected T solution; //solution a la pregunta
 	protected String clue; //Pista para resolver la pregunta(opcional)
 
@@ -27,7 +27,6 @@ public abstract class Question<T> extends Element
 	
 	public Question(){
 		super(null);
-		this.number=0;
 		this.lastAnswer_checked = false;
 		this.lastAnswer = null;
 		this.lastAnswer_correct = false;
@@ -35,9 +34,10 @@ public abstract class Question<T> extends Element
 		
 	}
 	
-	public Question(int number, String wording, String clue, T solution) {
+	//public Question(int number, String wording, String clue, T solution) {
+	public Question(String wording, String clue, T solution) {
 		super(wording);
-		this.number = number;
+		//this.number = number;
 		this.solution = solution;
 		this.clue = clue;
 	}
@@ -58,10 +58,6 @@ public abstract class Question<T> extends Element
 		this.lastAnswer_checked = lastAnswer_checked;
 	}
 
-	public boolean isLastAnswer_correct() {
-		return lastAnswer_correct;
-	}
-
 	public void setLastAnswer_correct(boolean lastAnswer_correct) {
 		this.lastAnswer_correct = lastAnswer_correct;
 	}
@@ -74,25 +70,7 @@ public abstract class Question<T> extends Element
 		this.clue = clue;
 	}
 
-	public int getNumber() {
-		return number;
-	}
-
-	public T getSolution() {
-		return solution;
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
-	public abstract void setSolution(T solution);
-
-	public abstract void setOptions(List<String> options);
-	
 	public abstract Correction check(T answer, Language lang);
-
-	public abstract void setMulti(Boolean is);
 
 	private void loadProgress_lastAnswer_checked(Map<String, Object> progress) {
 		this.lastAnswer_checked = (Boolean) progress.getOrDefault("last_checked", Boolean.FALSE);

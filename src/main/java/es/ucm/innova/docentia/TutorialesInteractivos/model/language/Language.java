@@ -26,6 +26,15 @@ import java.util.concurrent.TimeUnit;
  */
 
 public abstract class Language {
+    /*
+    Objetos estáticos para las funciones configuration() y languageFactory()
+     */
+    private static PythonLanguage python = new PythonLanguage();
+    private static CppLanguage cpp = new CppLanguage();
+    private static JavaLanguage java = new JavaLanguage();
+    private static CSharpLanguage csharp = new CSharpLanguage();
+
+
 	private static final String marker = "<+|CODIGO|+>";
 	protected String name;
 	protected String path; // Ruta del lenguaje en cuestión
@@ -53,17 +62,15 @@ public abstract class Language {
 	corregir ejercicios
 	 */
 	public static List<String> configuration(String language) {
-	    PythonLanguage python = new PythonLanguage();
-	    CppLanguage cpp = new CppLanguage();
-	    JavaLanguage java = new JavaLanguage();
         List<String> l;
-
 	    if (python.isLanguageName(language) ) {
 	        l = python.getConfigNames(language);
         } else if (cpp.isLanguageName(language) ) {
 	        l =  cpp.getConfigNames(language);
-        } else if (java.isLanguageName(language)){
-	        l = java.getConfigNames(language);
+        } else if (java.isLanguageName(language)) {
+            l = java.getConfigNames(language);
+        } else if (csharp.isLanguageName(language)) {
+	        l = csharp.getConfigNames(language);
         } else {
 	        Controller.log.warning("Lenguaje desconocido: " + language);
 	        l = null;
@@ -75,17 +82,15 @@ public abstract class Language {
     Genera un tipo especializado de objeto Language dependiendo de la cadena
      */
     public static Language languageFactory(String language, String path, ConfigurationData config) {
-        PythonLanguage python = new PythonLanguage();
-        CppLanguage cpp = new CppLanguage();
-        JavaLanguage java = new JavaLanguage();
-        Language l = null;
-
+        Language l;
         if (python.isLanguageName(language) ) {
             l =  new PythonLanguage(language, path, config);
         } else if (cpp.isLanguageName(language)) {
             l = new CppLanguage(language, path, config);
         } else if (java.isLanguageName(language)) {
             l = new JavaLanguage(language, path, config);
+        } else if (csharp.isLanguageName(language)) {
+            l = new CSharpLanguage(language, path, config);
         } else {
             Controller.log.warning("Lenguaje desconocido: " + language);
             l = null;
@@ -171,19 +176,17 @@ public abstract class Language {
         try {
             ProcessBuilder pb = getCompilationProcess(correctorPath, outputFilePath);
             Process p = pb.start();
-            BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
             p.waitFor(); // Confiamos en los compiladores, siempre terminan
             int exit = p.exitValue();
             // SOLO EN CASO DE ERROR DE LA FUNCION CORRECTORA DEVOLVERA UN VALOR DISTINTO DE 0,
-            switch (exit) {
-                case 1: {
-                    c = new Correction(ExecutionMessage.COMPILATION_ERROR, "Error en compilación", fileToListString(br), false);
-                    break;
-                }
-                case 0: { // comprobar si están vacios
-                    c = new Correction(ExecutionMessage.OK, "", null, true);
-                    break;
-                }
+            if (exit == 0){
+                c = new Correction(ExecutionMessage.OK, "", null, true);
+            } else {
+                BufferedReader brError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+                BufferedReader brOutput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                List<String> salida = fileToListString(brError);
+                salida.addAll(fileToListString(brOutput));
+                c = new Correction(ExecutionMessage.COMPILATION_ERROR, "Error en compilación", salida, false);
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

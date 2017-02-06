@@ -17,28 +17,18 @@ public class OptionQuestion extends Question<List<Integer>> {
 
 
 	public String toString(){
-		return String.format("OptionQuestion(%d,%s,%s,%s,%s,%s)", this.number, this.text,
+		return String.format("OptionQuestion(%s,%s,%s,%s,%s)", this.text,
                 this.solution.toString(), this.clue, this.options.toString(), this.multi.toString() );
 	}
 
-	
-	public OptionQuestion(int number, String wording, String clue) {
-		super(number, wording, clue, new ArrayList());
-		this.options = new ArrayList<String>();
-	}
-
-	public List<Integer> getSolution() {
-		return solution;
-	}
-
+	public OptionQuestion(String wording, String clue, List<String> options, boolean multi, List<Integer> answer){
+	    super(wording, clue, answer);
+	    this.options = options;
+	    this.multi = multi;
+    }
 
 	public List<String> getOptions() {
 		return options;
-	}
-
-	@Override
-	public void setOptions(List<String> options) {
-		this.options=options;
 	}
 
 	public Correction check(List<Integer> answer, Language lang) {
@@ -46,41 +36,22 @@ public class OptionQuestion extends Question<List<Integer>> {
 		int tam = answer.size();
 		int i = 0;
 
-		if (this.solution.size() == tam)// Se comprueba que haya el mismo numero
-										// de opciones marcadas como opciones
-										// correctas
-		{
+		if (this.solution.size() == tam) {
+		    // Se comprueba que haya el mismo numero de opciones marcadas como opciones correctas
 			do {
 				if (!this.solution.contains(answer.get(i)))
 					sol = false;
 				i++;
 			} while (sol && i < tam);
-		} else
+		} else {
 			sol = false;
+		}
 
 		return new Correction(ExecutionMessage.OK, "", null, sol);
 	}
 
-	@Override
-	public void setMulti(Boolean is) {
-		this.multi=is;
-		
-	}
-
 	public Boolean getMulti() {
 		return multi;
-	}
-
-	@Override
-	public void setSolution(List<Integer> correctsAux) {
-		this.solution = correctsAux;
-		
-	}
-
-	@Override
-	public void setText(String explication) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	protected void load_answer_from_string(String s) {
