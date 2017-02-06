@@ -27,12 +27,32 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class Language {
     /*
+    Para añadir un nuevo lenguaje hay que:
+    1. Crear una nueva clase que extienda de Language
+    2. Implementar en ella los métodos:
+        * public boolean isConfigured()
+        * protected String getSourceExtension()
+        * protected String getCompiledExtension()
+        * protected ProcessBuilder getCompilationProcess(String sourcePath, String outputFilePath)
+        * protected ProcessBuilder getExecutionProcess(String execPath, String jsonPath)
+        * protected boolean needCompilation()
+        * protected boolean isLanguageName(String langName)
+        * protected List<String> getConfigNames(String langName)
+        * [OPCIONAL] protected long getExecutionMillis()
+    3. Extender los dos métodos estáticos de esta clase:
+       * public static List<String> configuration(String language)
+       * public static Language languageFactory(String language, String path, ConfigurationData config)
+    */
+
+
+    /*
     Objetos estáticos para las funciones configuration() y languageFactory()
      */
     private static PythonLanguage python = new PythonLanguage();
     private static CppLanguage cpp = new CppLanguage();
     private static JavaLanguage java = new JavaLanguage();
     private static CSharpLanguage csharp = new CSharpLanguage();
+    // TODO añadir nuevos lenguajes
 
 
 	private static final String marker = "<+|CODIGO|+>";
@@ -52,7 +72,7 @@ public abstract class Language {
      Limite de tiempo por defecto para ejecutar un programa.
      Se puede sobreescribir en cada lenguaje.
      */
-    private long getExecutionMillis(){
+    protected long getExecutionMillis(){
         return 2000;
     }
 

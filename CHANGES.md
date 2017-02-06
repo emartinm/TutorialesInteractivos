@@ -1,3 +1,14 @@
+### 06/02/2017: v1.2.0
+
+**Soporte para varios lenguajes de programación**
+
+- Además de lenguajes interpretados como Python, ahora se soportan lenguajes compilados (C++) y compilados 
+y ejecutados (Java, C#). El diseño de la herramienta facilita la incorporación de nuevos
+lenguajes (Erlang, Haskell, Go...) y distintos compiladores/intérpretes para soportar
+ distintos sistemas operativos.
+- Cambios en el estilo de las explicaciones.
+- Corrección de errores. 
+
 ### 01/02/2017: v1.1.0
 
 **Superación de lecciones y temas**
