@@ -61,7 +61,6 @@ public class InternalUtilities {
 			html = html.replace(matcher.group(), matcher.group(1) + im + matcher.group(3));
 			
 		}
-		Controller.log.info("HTML:" + html);
 		return html;
 	}
 
@@ -170,23 +169,6 @@ public class InternalUtilities {
         }
 
         return foldersInDirectory;
-		/*File directory = new File(path);
-
-		FileFilter directoryFileFilter = new FileFilter() {
-			public boolean accept(File file) {
-				return file.isDirectory();
-			}
-		};
-
-		File[] directoryListAsFile = directory.listFiles(directoryFileFilter);
-        System.out.println("Cosa" + directoryListAsFile);
-		List<String> foldersInDirectory = new ArrayList<String>(directoryListAsFile.length);
-		for (File directoryAsFile : directoryListAsFile) {
-			foldersInDirectory.add(directoryAsFile.getName());
-		}
-
-		return foldersInDirectory;
-		*/
 	}
 
 	public static void enableFirebug(final WebEngine engine) {
