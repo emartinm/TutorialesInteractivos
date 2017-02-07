@@ -37,7 +37,7 @@ public class LessonsMenu extends Pane{
 		
 		//Creacion de webview
 		// Inserta # y ## para mostrar el titulo y la introducción como cabeceras HMTL
-		String content = c.markToHtml("#" + t.getTitle() + "\n##" + t.getIntroduction());
+		String content = c.markToHtml("# " + t.getTitle() + "\n## " + t.getIntroduction());
 		Node tittle = InternalUtilities.creaBrowser(content);
 		//WebEngine engine = tittle.getEngine();
 		//engine.loadContent(content);

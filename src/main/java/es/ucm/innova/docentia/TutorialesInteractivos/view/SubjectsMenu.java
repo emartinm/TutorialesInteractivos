@@ -1,10 +1,12 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
-import java.util.*;
-import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.List;
+import java.util.Map;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
-import es.ucm.innova.docentia.TutorialesInteractivos.model.Lesson;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.Subject;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.YamlReaderClass;
 import javafx.collections.FXCollections;
@@ -130,7 +132,7 @@ public class SubjectsMenu extends Pane{
 		});
 		
 		//Parte estetica
-		language.getStyleClass().add("tittle");
+		language.getStyleClass().add("title");
 		start.getStyleClass().add("start");
 		error.getStyleClass().add("error");
 		back.getStyleClass().add("start");

@@ -1,17 +1,19 @@
 body{
-	background-color: #d0e4fe;
+	background-color: #fdfdfd; //e6f4ff
 	font-family: sans-serif;
 }
 
 h1{
-	color: #cc0000;
+	color: #002277;
 	text-align:center;
+	font-family: sans-serif;
 }
 
 h2{
-	color: #0000cc;
+	color: #002277;
 	text-align: center;
 	line-height: 1.5;
+	font-family: sans-serif;
 }
 
 p{
@@ -24,5 +26,6 @@ table{
 
 pre {
     border: 1px solid black;
-    background-color: white;
+    background-color: #f1f1f1;
+    padding: 5px;
 }

@@ -64,11 +64,7 @@ public class Content extends Pane {
 		Correction correction = null;
 
 		int steps = le.getElements().size();
-		int enabled = le.getLatestElement();
 		int selected = le.getCurrentElementPos();
-		//System.out.println("Total de fragmentos: " + Integer.toString(steps) );
-        //System.out.println("Ultimo fragmento habilitado: " + Integer.toString(enabled) );
-        //System.out.println("Fragmento a mostrar: " + Integer.toString(selected) );
 
 		Label type = new Label(null);
 
@@ -222,7 +218,7 @@ public class Content extends Pane {
 				cq.setLastAnswer( new_v );
 				cq.setLastAnswer_checked(false);
 				clearCorrectMessage(isCorrect);
-				//hints.setVisible(false);
+				hints.setVisible(false);
 				//showHintsButton(cq, hints);
 				c.updateAndSaveCurrentLessonProgress();
 			});
@@ -249,7 +245,8 @@ public class Content extends Pane {
 				String helpText = e.getClue();
 				Label popupLabel = new Label(helpText);
 				popup.setAutoHide(true);
-				popupLabel.setStyle("-fx-border-color: black; -fx-background-color: white");
+				popupLabel.getStyleClass().add("hints");
+                //popupLabel.setStyle("-fx-border-color: black; -fx-background-color: white");
 
 				Node eventSource = (Node) event.getSource();
 				Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
@@ -396,7 +393,7 @@ public class Content extends Pane {
 
 	private void setCorrectMessage(Label l, Correction correction) {
         l.setText("CORRECTO");
-        l.setStyle("-fx-background-color: #33cc33");
+        l.getStyleClass().add("msjCorrecto");
     }
 
     private void setIncorrectMessage(Label l, Correction correction) {
@@ -405,7 +402,7 @@ public class Content extends Pane {
 	        msg = msg + ": " + correction.getMessage();
         }
         l.setText(msg);
-        l.setStyle("-fx-background-color: #ff5400; -fx-text-fill: white");
+        l.getStyleClass().add("msjIncorrecto");
     }
 
     private void clearCorrectMessage(Label l) {

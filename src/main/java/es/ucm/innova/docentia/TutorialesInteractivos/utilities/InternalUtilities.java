@@ -11,14 +11,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.embed.swing.SwingNode;
-import org.pegdown.Extensions;
-import org.pegdown.PegDownProcessor;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
 import org.w3c.dom.Document;
 
 import javafx.concurrent.Worker.State;
@@ -146,9 +145,11 @@ public class InternalUtilities {
 	 */
 	public String parserMarkDown(String mark, String baseDir) {
 		String html;
-		PegDownProcessor pro = new PegDownProcessor(Extensions.ALL - Extensions.EXTANCHORLINKS);
-		html = pro.markdownToHtml(mark);
-		
+		Parser parser = Parser.builder().build();
+        com.vladsch.flexmark.ast.Node document = parser.parse(mark);
+		HtmlRenderer renderer = HtmlRenderer.builder().build();
+		html = renderer.render(document);
+
 		html = modifyImg(html, baseDir);
 		return html;
 	}

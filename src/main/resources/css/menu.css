@@ -1,5 +1,7 @@
 .conf_aceptar {
-    -fx-background-color: linear-gradient(#f0ff35, #a9ff00);
+    -fx-background-color:
+        #80c800,
+        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
     -fx-background-radius: 6, 5;
     -fx-background-insets: 0, 1;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
@@ -20,9 +22,9 @@
     -fx-border-radius: 2;
 }
 
-.tittle{
-	-fx-text-fill: #339999;
-	-fx-font-size: 20;
+.title{
+	-fx-text-fill: #0077CB;
+	-fx-font-size: 30;
 }
 
 .setting{
@@ -38,6 +40,6 @@
 
 .error
 {
-	-fx-text-fill: red ;
+	-fx-text-fill: #be1d00 ;
 	-fx-font-size: 20;
 }
