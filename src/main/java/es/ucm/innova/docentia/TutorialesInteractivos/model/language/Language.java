@@ -4,15 +4,14 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -125,32 +124,38 @@ public abstract class Language {
 		return name;
 	}
 
-
-	protected List<String> reemplazaLinea( String line, int pos, String codigo ) {
+	protected List<String> reemplazaLinea( String line, int ini, int fin, String codigo ) {
 		ArrayList<String> lines = new ArrayList<String>();
-		String inicio = line.substring(0, pos);
+		String inicio = line.substring(0, ini);
+        String strFinal = line.substring(fin, line.length());
 		// TODO revisar que el line.separator funciona también en Windows
 		String[] cod_lines = codigo.split(System.getProperty("line.separator"));
 		// Inserta todas las líneas de 'codigo' poniendo antes el mismo espaciado que tenía el hueco
 		for (String l : cod_lines ) {
 			lines.add( inicio + l);
 		}
+		int last = lines.size() - 1;
+        String lastLine = lines.get(last);
+        lines.set(last, lastLine + strFinal);
 		return lines;
 	}
 
-	protected void reemplazaHueco( String file_in, String file_out, String codigo ) {
+	/*
+	* Reemplaza cada aparición de 'marker' en file_in con el código, y lo almacena en file_out */
+	protected void reemplazaHueco( File file_in, File file_out, String codigo ) {
 		try {
-			List<String> lines = Files.readAllLines(Paths.get(file_in));
+			List<String> lines = Files.readAllLines(Paths.get(file_in.toURI()));
 			ArrayList<String> resultado = new ArrayList<String>();
 			for (String line : lines ) {
 				int pos = line.indexOf(marker);
 				if (pos >= 0) {
-					resultado.addAll( reemplazaLinea(line, pos, codigo) );
+                    int fin = pos + marker.length();
+					resultado.addAll( reemplazaLinea(line, pos, fin, codigo) );
 				} else {
 					resultado.add( line );
 				}
 			}
-			Files.write(Paths.get(file_out), resultado);
+			Files.write(Paths.get(file_out.toURI()), resultado);
 		} catch (java.io.IOException e) {
 			Controller.log.warning("Error al reemplazar hueco: " + e.getMessage());
 		}
@@ -191,10 +196,10 @@ public abstract class Language {
     /*
     Implementación por defecto de la fase de compilación. Depende del método abstracto getCompilationProcess()
      */
-	protected Correction compile(String correctorPath, String outputFilePath) {
+	protected Correction compile(File corrector, File outputFile) {
         Correction c = null;
         try {
-            ProcessBuilder pb = getCompilationProcess(correctorPath, outputFilePath);
+            ProcessBuilder pb = getCompilationProcess(corrector.getAbsolutePath(), outputFile.getAbsolutePath());
             Process p = pb.start();
             p.waitFor(); // Confiamos en los compiladores, siempre terminan
             int exit = p.exitValue();
@@ -273,16 +278,17 @@ public abstract class Language {
             String binaryFilename = binaryFile.getAbsolutePath();
 
             String correctorPath = this.path + FileSystems.getDefault().getSeparator() + correctorRelativePath;
-            reemplazaHueco(correctorPath, sourceFilename, code);
+            File correctorFile = new File(correctorPath);
+            reemplazaHueco(correctorFile, sourceFile, code);
 
             if (needCompilation()) {
-                c = compile(sourceFilename, binaryFilename);
+                c = compile(sourceFile, binaryFile);
                 if (c.getResult() != ExecutionMessage.OK ) {
                     return c;
                 }
                 c = execute(binaryFilename, jsonFilename);
             } else {
-                reemplazaHueco(correctorPath, sourceFilename, code);
+                reemplazaHueco(correctorFile, sourceFile, code);
                 c = execute(sourceFilename, jsonFilename);
             }
         } catch (IOException e) {
@@ -294,5 +300,52 @@ public abstract class Language {
             //if ( sourceFile != null ) { sourceFile.delete(); }
         }
         return c;
+    }
+
+    protected Map<String, String> getVisualStudioEnvironment(String vcvars) {
+        Map<String, String> env = new HashMap<>();
+
+        try {
+            File temp = File.createTempFile("template", null);
+            File bat = File.createTempFile("vcvars", ".bat");
+            InputStream batTemplate = getClass().getResourceAsStream("/getVCenvironment.bat");
+            Files.copy(batTemplate, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            this.reemplazaHueco(temp, bat, vcvars);
+            ProcessBuilder pb = new ProcessBuilder(bat.getAbsolutePath());
+            Process p = pb.start();
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            env.put("PATH", br.readLine());
+            env.put("INCLUDE", br.readLine());
+            env.put("LIB", br.readLine());
+            env.put("LIBPATH", br.readLine());
+            br.close();
+            temp.delete();
+            bat.delete();
+        } catch (Exception e) {
+            Controller.log.warning("Imposible obtener el entorno de Visual Studio: " + e.getLocalizedMessage() );
+        }
+        return env;
+    }
+
+    /* Busca un determinado binario en las entradas del entorno (variable PATH) */
+    protected String binaryFullPath(Map<String, String> env, String binary) {
+        String path = env.getOrDefault("PATH", "");
+        for ( String dir : path.split(File.pathSeparator)) {
+            File f = new File(dir + FileSystems.getDefault().getSeparator() + binary);
+            if (f.exists() ) {
+                return f.getAbsolutePath();
+            }
+        }
+        return "";
+    }
+
+    protected void mergeEnvs(Map<String, String> env, Map<String, String> newEntries) {
+        for (String k : env.keySet() ) {
+            if (newEntries.containsKey(k.toLowerCase())) {
+                String old = env.get(k);
+                String newE = old + newEntries.get(k.toLowerCase());
+                env.put(k, newE);
+            }
+        }
     }
 }

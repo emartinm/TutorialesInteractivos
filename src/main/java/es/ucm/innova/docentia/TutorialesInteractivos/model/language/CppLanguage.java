@@ -9,12 +9,15 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  * Created by kike on 4/02/17.
  */
 public class CppLanguage extends Language {
     private String compiler = null;
+    private static String visualStudioCL = null;
+    private static Map<String, String> env = null;
 
     protected CppLanguage() {}
 
@@ -39,26 +42,28 @@ public class CppLanguage extends Language {
     protected ProcessBuilder getCompilationProcess(String sourcePath, String outputFilePath) {
         ProcessBuilder pb = null;
         File f = new File(outputFilePath);
-        File bat;
-        if ( this.compiler.toLowerCase().contains("vcvars32") ) {
-            // "Chapuza" para que funcione Visual Studio
-            // El problema es que no consigue compilar porque le falta el entorno adecuado para INCLUDE, LIB, etc.
-            // La posible solución es crear un script BAT que invoca primero al compiler (que es un script vcvars32.bat
-            // que carga el entorno) y luego invocar directamente a cl.exe con las opciones adecuadas.
-            // Es bastante chapuza pero no se me ocurre otra cosa...
-            try{
-                bat = File.createTempFile("compilation",".bat");
-                BufferedWriter bw = new BufferedWriter( new FileWriter(bat, true));
-                bw.write("CALL \"" + this.compiler + "\"");
-                bw.newLine();
-                bw.write("CALL cl.exe \"" + sourcePath + "\" /Fe" + outputFilePath + " /Fo" + f.getParent());
-                bw.newLine();
-                bw.close();
-                pb = new ProcessBuilder("cmd.exe", "/C\"" + bat.getAbsolutePath() + "\"" );
-                //this.compiler, sourcePath, "/Fe"+outputFilePath, "/Fo"+f.getParent());
-            } catch (Exception e ) {
-                Controller.log.warning("Imposible construir el BAT para compilar:" + e.getLocalizedMessage() );
+        if ( this.compiler.toLowerCase().contains("vcvars") ) {
+            // Para Visual Studio
+            // Lanza un BAT con vcvars que extrae los nuevos valores de PATH, INCLUDE, LIB y LIBPATH
+            // Usando PATH busca el primer directorio que contenga cl.exe y lo almacena en visualStudioCL, que
+            // será la ruta completa del compilador
+            if (env == null ) {
+                env  = getVisualStudioEnvironment(this.compiler);
+                visualStudioCL = binaryFullPath(env, "cl.exe");
             }
+            /*
+            // Chapuza para compilar usando siempre un BAT //
+            bat = File.createTempFile("compilation",".bat");
+            BufferedWriter bw = new BufferedWriter( new FileWriter(bat, true));
+            bw.write("CALL \"" + this.compiler + "\"");
+            bw.newLine();
+            bw.write("CALL cl.exe \"" + sourcePath + "\" /Fe" + outputFilePath + " /Fo" + f.getParent());
+            bw.newLine();
+            bw.close();
+            pb = new ProcessBuilder("cmd.exe", "/C\"" + bat.getAbsolutePath() + "\"" );*/
+            pb = new ProcessBuilder(visualStudioCL, sourcePath, "/Fe"+outputFilePath, "/Fo"+f.getParent());
+            Map<String, String> currEnv = pb.environment();
+            currEnv.putAll(env);
         } else {
             // g++
             pb = new ProcessBuilder(this.compiler, sourcePath, "-std=c++11", "-o", outputFilePath);
