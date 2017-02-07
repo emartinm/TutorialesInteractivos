@@ -188,6 +188,12 @@ public class Content extends Pane {
             help.setVisible( cq.getClue() != null );
             if (cq.isLastAnswer_checked() ) {
                 correction = c.check(lastAnswer, cq);
+				if (correction.isCorrect()) {
+					c.passCurrentElement();
+					cq.setLastAnswer_correct(true);
+				} else {
+					cq.setLastAnswer_correct(false);
+				}
                 this.list_hints = correction.getHints();
             }
             container.getChildren().addAll(labelCode);
@@ -290,15 +296,7 @@ public class Content extends Pane {
 					CodeQuestion pc = (CodeQuestion) e;
 					String code = taCode.getText();
 					pc.setLastAnswer_checked(true);
-					if (c.check(code, pc).isCorrect()) {
-					    c.passCurrentElement();
-                        ((Question) e).setLastAnswer_correct(true);
-					} else {
-						pc.setLastAnswer_correct(false);
-					}
-					//showHintsButton(pc, hints);
 				}
-				//c.lessonPageChange( c.getCurrentStep() );
 				c.reloadCurrentLessonFragment();
 			}
 		});
