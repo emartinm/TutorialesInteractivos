@@ -95,6 +95,12 @@ public class Lesson
 		return this.finished;
 	}
 
+	public double getProgressPercentage() {
+	    double nelems = new Double(elements.size());
+	    double progress = ((double)latestElement) / nelems;
+	    return progress;
+    }
+
 	/* Carga el progreso de la lección desde 'progress', que contiene entradas
 	 * para las lecciones usando la version como clave */
 	public void loadProgress(Map<String, Object> progress)  {

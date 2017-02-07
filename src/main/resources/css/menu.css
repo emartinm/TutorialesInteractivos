@@ -1,3 +1,12 @@
+/*.progress-indicator .percentage {
+    visibility: hidden;
+    -fx-fill: null;
+}*/
+
+.progress-indicator {
+    -fx-progress-color: #0077CB;
+}
+
 .conf_aceptar {
     -fx-background-color:
         #80c800,
@@ -43,3 +52,4 @@
 	-fx-text-fill: #be1d00 ;
 	-fx-font-size: 20;
 }
+

@@ -78,8 +78,6 @@ public class Content extends Pane {
 		GridPane mainPane = new GridPane();
 		VBox container = new VBox(5); // Texto y campo de respuesta si es una pregunta
 
-		SimplePagination paginator = new SimplePagination(le.getElements().size(),
-				le.getLatestElement(), le.getCurrentElementPos(), c);
 		String content = null;
 		content = c.markToHtml(e.getText());
 
@@ -224,6 +222,9 @@ public class Content extends Pane {
 			});
         }
 		// Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
+
+		SimplePagination paginator = new SimplePagination(le.getElements().size(),
+				le.getLatestElement(), le.getCurrentElementPos(), c);
 
 		Button menu = new Button("Menu principal");
 		buttonsCode.getChildren().addAll(resolve);

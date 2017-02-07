@@ -50,26 +50,17 @@ public class LessonsMenu extends Pane{
 
 		/* Dibuja un tick al lado del nombre del nombre de la lección en la lista si está completada */
 		leccionList.setCellFactory(param -> new ListCell<String>() {
-			private final Image tick = new Image(Controller.class.getResourceAsStream( "/icon/031tick.png" ));
-			private ImageView imageView = new ImageView(tick);
-
 			@Override
 			public void updateItem(String name, boolean empty) {
 				super.updateItem(name, empty);
-				imageView.setFitWidth(16);
-				imageView.setPreserveRatio(true);
 				if (empty) {
 					setText(null);
 					setGraphic(null);
 				} else {
-					setText(name);
+					setText("   " + name);
 					Lesson le = getLesson(name, t);
-					//Controller.log.info( le.getTitle() + " -> " + le.version() );
-					if ( le.isFinished() ) {
-					    setGraphic(imageView);
-					} else {
-					    setGraphic(null);
-                    }
+                    ProgressIndicator pi = new ProgressIndicator(le.getProgressPercentage());
+					setGraphic(pi);
 				}
 			}
 		});

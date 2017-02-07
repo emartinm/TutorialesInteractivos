@@ -101,4 +101,15 @@ public class Subject {
 			le.loadProgress(progress);
 		}
 	}
+
+	public double getProgressPercentage() {
+		double acc = 0.0;
+		double num = 0.0;
+		for (Lesson l : this.getLessons()) {
+			num += 1.0;
+			acc += l.getProgressPercentage();
+		}
+		return acc/num;
+	}
+
 }

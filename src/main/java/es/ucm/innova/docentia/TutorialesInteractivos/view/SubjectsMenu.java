@@ -1,5 +1,6 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Collections;
@@ -51,27 +52,20 @@ public class SubjectsMenu extends Pane{
 
 		/* Dibuja un tick al lado del nombre del tema si está completado */
 		subjectsList.setCellFactory(param -> new ListCell<String>() {
-			private final Image tick = new Image(Controller.class.getResourceAsStream( "/icon/031tick.png" ));
-			private ImageView imageView = new ImageView(tick);
 
-			@Override
+		    @Override
 			public void updateItem(String name, boolean empty) {
 				super.updateItem(name, empty);
-				imageView.setFitWidth(16);
-				imageView.setPreserveRatio(true);
 				if (empty) {
 					setText(null);
 					setGraphic(null);
 				} else {
-					setText(name);
+					setText("   " + name);
 					int pos = titulos.indexOf( name );
 					String filename = files.get(pos);
 					Subject s = subjects.get(filename);
-					if ( s.isFinished() ) {
-						setGraphic(imageView);
-					} else {
-						setGraphic(null);
-					}
+					ProgressIndicator pi = new ProgressIndicator(s.getProgressPercentage());
+					setGraphic(pi);
 				}
 			}
 		});
@@ -162,5 +156,4 @@ public class SubjectsMenu extends Pane{
 		}
 		return r;
 	}
-
 }
