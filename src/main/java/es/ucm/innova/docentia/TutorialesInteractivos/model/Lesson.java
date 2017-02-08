@@ -2,13 +2,9 @@ package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.security.MessageDigest;
 import java.util.*;
 import java.lang.ClassCastException;
-
-import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
 /**
  * Clase con los elementos de Lesson
@@ -18,13 +14,13 @@ import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
  */
 public class Lesson 
 {
-	private int number; //Numero de la leccion
-	private String title; //Titulo de la leccion
-	private List<Element> elements; //Array con los elements de la leccion
+	private final int number;              //Numero de la leccion
+	private final String title;            //Titulo de la leccion
+	private List<Element> elements;        //Array con los elements de la leccion
 	private String version = null;
-	private int currentElement = 0; // Posicion del elemento actualmente visualizado;
-	private int latestElement = 0; // Posición del elemento más avanzado visualizado
-	private boolean finished = false;
+	private int currentElement = 0;        // Posicion del elemento actualmente visualizado;
+	private int latestEnabledElement = 0;  // Posición del elemento más avanzado habilitado
+	private int latestElement = 0;          // Posición del elemento más avanzado que ha sido elemento actual
 
     private static MessageDigest md = null;
     private static Base64.Encoder b64enc = Base64.getEncoder();
@@ -70,16 +66,8 @@ public class Lesson
 		return this.number;
 	}
 
-	public void setNumero(int number) {
-		this.number = number;
-	}
-
 	public String getTitle() {
 		return this.title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public List<Element> getElements() {
@@ -92,12 +80,12 @@ public class Lesson
 
 	/* Devuelve si la leccion está terminada: si todos los fragmentos se pueden ver */
 	public boolean isFinished() {
-		return this.finished;
+		return getProgressPercentage() == 100.0;
 	}
 
 	public double getProgressPercentage() {
 	    double nelems = new Double(elements.size());
-	    double progress = ((double)latestElement) / nelems;
+	    double progress = ((double) latestElement) / nelems;
 	    return progress;
     }
 
@@ -122,8 +110,8 @@ public class Lesson
                 }
 
                 currentElement = (Integer) lesson_prog.getOrDefault( "current", 0 );
-                latestElement = (Integer) lesson_prog.getOrDefault( "enabled", 0 );
-                finished = (Boolean) lesson_prog.getOrDefault( "finished", false );
+                latestEnabledElement = (Integer) lesson_prog.getOrDefault( "enabled", 0 );
+                latestElement = (Integer) lesson_prog.getOrDefault( "latest", 0 );
             } catch (ClassCastException e) {
                 Controller.log.warning("Error al leer el progreso de la lección " + version + " -> " + e.getLocalizedMessage() );
             }
@@ -141,8 +129,8 @@ public class Lesson
             ++i;
         }
 	    p.put( "current", this.currentElement );
-	    p.put( "enabled", this.latestElement );
-        p.put( "finished", this.finished );
+	    p.put( "enabled", this.latestEnabledElement);
+        p.put( "latest", this.latestElement);
         return p;
 
     }
@@ -153,24 +141,18 @@ public class Lesson
 
     public void setCurrentElementPos(int currentElement) {
         this.currentElement = currentElement;
-        // Si la posición es el fragmento después del último elemento
-        if (currentElement == this.elements.size() ) {
-        	this.finished = true;
-		}
+        this.latestElement = Math.max(latestElement, currentElement );
     }
 
-    public int getLatestElement() {
-        return latestElement;
+    public int getLatestEnabledElement() {
+        return latestEnabledElement;
     }
 
-    public void setLatestElement(int latestElement) {
-        this.latestElement = latestElement;
+    public void setLatestEnabledElement(int latestEnabledElement) {
+        this.latestEnabledElement = latestEnabledElement;
     }
 
     public Element getCurrentElement() {
-	    //if ( this.currentElement < 0 ) {
-	    //    return new Explanation(this.intro_message);
-        //} else
         if ( currentElement >= 0 && currentElement < this.elements.size() ){
 	        return this.elements.get(currentElement);
 	    } else {

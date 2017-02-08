@@ -224,7 +224,7 @@ public class Content extends Pane {
 		// Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
 		SimplePagination paginator = new SimplePagination(le.getElements().size(),
-				le.getLatestElement(), le.getCurrentElementPos(), c);
+				le.getLatestEnabledElement(), le.getCurrentElementPos(), c);
 
 		Button menu = new Button("Menu principal");
 		buttonsCode.getChildren().addAll(resolve);

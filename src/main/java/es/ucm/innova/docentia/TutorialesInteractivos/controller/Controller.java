@@ -383,8 +383,8 @@ public class Controller {
 
 	public void passCurrentElement() {
 		int pos = this.getCurrentStep();
-		if ( pos + 1 > this.getCurrentLesson().getLatestElement() ) {
-			this.getCurrentLesson().setLatestElement(pos + 1);
+		if ( pos + 1 > this.getCurrentLesson().getLatestEnabledElement() ) {
+			this.getCurrentLesson().setLatestEnabledElement(pos + 1);
 		}
 	}
 	

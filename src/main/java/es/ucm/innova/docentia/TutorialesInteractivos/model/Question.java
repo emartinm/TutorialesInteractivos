@@ -17,14 +17,14 @@ public abstract class Question<T> extends Element
 {
 	//protected int number; //number de la pregunta
 	protected T solution; //solution a la pregunta
-	protected String clue; //Pista para resolver la pregunta(opcional)
+	protected final String clue; //Pista para resolver la pregunta(opcional)
 
 
 	// Para recordar la respuesta del usuario
-	protected T lastAnswer; //La última respuesta del usuario
+	protected T lastAnswer;               //La última respuesta del usuario
 	protected boolean lastAnswer_checked; //La respuesta 'lastAnswer' fue comprobada
 	protected boolean lastAnswer_correct; //La respuesta 'lastAnswer' fue comprobada y era correcta
-	
+
 	public Question(){
 		super(null);
 		this.lastAnswer_checked = false;
@@ -34,10 +34,8 @@ public abstract class Question<T> extends Element
 		
 	}
 	
-	//public Question(int number, String wording, String clue, T solution) {
 	public Question(String wording, String clue, T solution) {
 		super(wording);
-		//this.number = number;
 		this.solution = solution;
 		this.clue = clue;
 	}
@@ -64,10 +62,6 @@ public abstract class Question<T> extends Element
 
 	public String getClue() {
 		return clue;
-	}
-
-	public void setClue(String clue) {
-		this.clue = clue;
 	}
 
 	public abstract Correction check(T answer, Language lang);

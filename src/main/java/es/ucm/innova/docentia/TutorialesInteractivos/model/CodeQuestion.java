@@ -26,41 +26,6 @@ public class CodeQuestion extends Question<String> {
         return lang.compileAndExecute(this.solution, answer);
     }
 
-	/*@Override
-	public void setSolution(String solution) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setMulti(Boolean is) {
-		// TODO Auto-generated method stub
-
-	}
-
-	
-	@Override
-	public void setText(String explication) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void setOptions(List<String> options) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void setSolution(List<Integer> correctsAux) {
-		// TODO Auto-generated method stub
-		
-	}*/
-
-
 	protected void load_answer_from_string(String s) {
 		this.lastAnswer = s;
 	}
