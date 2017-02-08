@@ -314,10 +314,18 @@ public abstract class Language {
             ProcessBuilder pb = new ProcessBuilder(bat.getAbsolutePath());
             Process p = pb.start();
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            env.put("PATH", br.readLine());
-            env.put("INCLUDE", br.readLine());
-            env.put("LIB", br.readLine());
-            env.put("LIBPATH", br.readLine());
+            String line;
+            while ( (line = br.readLine() ) != null ) {
+                if (line.startsWith("\"{{{PATH}}}->\"")) {
+                    env.put( "PATH", line.substring(14));
+                } else if (line.startsWith("\"{{{INCLUDE}}}->\"")) {
+                    env.put( "INCLUDE", line.substring(17));
+                } else if (line.startsWith("\"{{{LIB}}}->\"")) {
+                    env.put( "LIB", line.substring(13));
+                } else if (line.startsWith("\"{{{LIBPATH}}}->\"")) {
+                    env.put( "LIBPATH", line.substring(17));
+                }
+            }
             br.close();
             temp.delete();
             bat.delete();

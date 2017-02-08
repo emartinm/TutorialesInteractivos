@@ -1,6 +1,6 @@
 @echo off
 call "<+|CODIGO|+>"
-echo %PATH%
-echo %INCLUDE%
-echo %LIB%
-echo %LIBPATH%
+echo "{{{PATH}}}->"%PATH%
+echo "{{{INCLUDE}}}->"%INCLUDE%
+echo "{{{LIB}}}->"%LIB%
+echo "{{{LIBPATH}}}->"%LIBPATH%
