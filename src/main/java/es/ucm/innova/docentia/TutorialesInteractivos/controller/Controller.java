@@ -21,7 +21,6 @@ import es.ucm.innova.docentia.TutorialesInteractivos.view.Content;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.EndLessonPane;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.InitialWindow;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.LessonsMenu;
-import es.ucm.innova.docentia.TutorialesInteractivos.view.PathChooser;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.SubjectsMenu;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -294,7 +293,9 @@ public class Controller {
 	 */
 	public String selectDirectory(String initial) {
 		DirectoryChooser chooser = new DirectoryChooser();
-		if (initial != null && initial.length() > 0){
+		if (initial != null){
+            File initialF = new File(initial);
+            if (initialF.exists() && initialF.isDirectory())
 		    chooser.setInitialDirectory(new File(initial));
 		}
 		File f = chooser.showDialog(this.primaryStage);
@@ -311,12 +312,14 @@ public class Controller {
 	public String selectFile(String initial) {
 	    File f;
 		FileChooser chooser = new FileChooser();
-		if (initial != null && initial.length() > 0){
+		if (initial != null) {
             f = new File(initial);
-            if (f.isFile()) {
+            if (f.exists() && f.isFile()) {
                 f = f.getParentFile();
+                chooser.setInitialDirectory(f);
+            } else if (f.exists()) {
+			    chooser.setInitialDirectory(f);
             }
-			chooser.setInitialDirectory(f);
 		}
 		f = chooser.showOpenDialog(this.primaryStage);
 		String file = null;
