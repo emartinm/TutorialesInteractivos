@@ -39,9 +39,6 @@ import javafx.stage.Stage;
 public class Controller {
     public static final Logger log = Logger.getLogger("TutorialesInteractivos"); // Logger común para toda la aplicación
     public static final String progressFileName = "progress.json";
-    public static String executable;// ejecutable del lenguaje para ejecutar código
-    public static String selectedLanguage; // lenguaje seleccionado
-    //public static String externalResourcesPath;
 
 	private Stage primaryStage;// Vista principal de la aplicación
 	private Pane root;// Panel con los elementos de la vista
@@ -49,6 +46,7 @@ public class Controller {
 
     private Subject subject; // Subject que se está ejecutando
     private int currentLesson; // Índice de lección actual dentro del tema actual
+	private String selectedLanguage; // lenguaje seleccionado
 
 	private List<String> files;// temas del lenguaje
 	private ConfigurationData config;
@@ -456,5 +454,9 @@ public class Controller {
     public ConfigurationData getConfig() {
         return config;
     }
+
+    public String getCurrentLanguage() {
+		return this.selectedLanguage;
+	}
 
 }

@@ -66,15 +66,15 @@ public class Content extends Pane {
 		int steps = le.getElements().size();
 		int selected = le.getCurrentElementPos();
 
-		Label type = new Label(null);
-
-		if (selected == steps) {
+		String cabecera = c.getCurrentLanguage() + " > " + c.getSubject().getTitle() + " > " + le.getTitle();
+		/*if (selected == steps) {
 			type.setText("Final");
 		} else if (e instanceof Question) {
 			type.setText("Pregunta");
 		} else if (e instanceof Explanation) {
 			type.setText("Explicación");
-		}
+		}*/
+		Label type = new Label(cabecera);
 		GridPane mainPane = new GridPane();
 		VBox container = new VBox(5); // Texto y campo de respuesta si es una pregunta
 
