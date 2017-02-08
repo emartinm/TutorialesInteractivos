@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -27,6 +28,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
@@ -287,19 +290,40 @@ public class Controller {
 	}
 
 	/**
-	 * Muesta el FileChooser para seleccionar donde se encuentra el interprete en el
-	 * equipo
+	 * Muesta el FileChooser para seleccionar una carpeta
 	 */
-	public String showSelection(String l) {
-		// diferenciar si l tiene lenguaje o no... en funcion de eso es el path
-		// de directorio o el de lenguaje
-		PathChooser sp;
-		if (l == null) { // si l==null queremos buscar un directorio
-			sp = new PathChooser(this.primaryStage);
-		} else {
-			sp = new PathChooser(this.primaryStage, l);
+	public String selectDirectory(String initial) {
+		DirectoryChooser chooser = new DirectoryChooser();
+		if (initial != null && initial.length() > 0){
+		    chooser.setInitialDirectory(new File(initial));
 		}
-		return sp.getPath();
+		File f = chooser.showDialog(this.primaryStage);
+		String dir = null;
+		if (f != null) {
+			dir = f.getAbsolutePath();
+		}
+		return dir;
+	}
+
+	/**
+	 * Muesta el FileChooser para seleccionar un fichero
+	 */
+	public String selectFile(String initial) {
+	    File f;
+		FileChooser chooser = new FileChooser();
+		if (initial != null && initial.length() > 0){
+            f = new File(initial);
+            if (f.isFile()) {
+                f = f.getParentFile();
+            }
+			chooser.setInitialDirectory(f);
+		}
+		f = chooser.showOpenDialog(this.primaryStage);
+		String file = null;
+		if (f != null) {
+			file = f.getAbsolutePath();
+		}
+		return file;
 	}
 
 	/**

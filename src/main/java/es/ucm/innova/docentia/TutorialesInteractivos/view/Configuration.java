@@ -148,7 +148,8 @@ public class Configuration extends Pane {
 			// este es para el lenguaje
 			ConfigEntry entry = languageList.getSelectionModel().getSelectedItem();
 			if (entry != null) {
-				String path = c.showSelection(entry.getKey());
+				String path = c.selectFile(entry.getValue());
+				//c.showSelection(entry.getKey());
 				c.getConfig().set(entry.getKey(), path); // Almacena la configuración
 				entry.setValue(path);
 				data.set(data.indexOf(entry), entry); // Actualiza la vista
@@ -159,7 +160,7 @@ public class Configuration extends Pane {
 
 		search.setOnAction( (event) -> {
 			// este es para el directorio
-			String externalResourcesPath = c.showSelection(null);
+            String externalResourcesPath = c.selectDirectory(pathDep.getText());
 			if ( externalResourcesPath != null ) {
 				File f = new File(externalResourcesPath);
 				if (f.exists() && f.isDirectory()) {
