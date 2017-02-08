@@ -37,14 +37,10 @@ public class Configuration extends Pane {
 
 		GridPane root = new GridPane(); // Panel principal
 
-		Label dependencies = new Label("Directorio de cursos: ");// label
-																		// de
-																		// dependencias
-		TextField pathDep = new TextField();// Campo donde se muestra la ruta
-											// del archivo dependences
+		Label dependencies = new Label("Directorio de cursos: ");// label de dependencias
+		TextField pathDep = new TextField();// Campo donde se muestra la ruta del archivo dependences
         pathDep.setEditable(false);
-		Button search = new Button("Buscar...");// Boton para buscar el archivo de
-												// dependencias
+		Button search = new Button("Buscar...");// Boton para buscar el archivo de dependencias
 		// Lista con las entradas de configuración y su ruta
 		TableView<ConfigEntry> languageList = new TableView<>();
 		ObservableList<ConfigEntry> data = FXCollections.observableArrayList();
@@ -148,39 +144,39 @@ public class Configuration extends Pane {
 			// este es para el lenguaje
 			ConfigEntry entry = languageList.getSelectionModel().getSelectedItem();
 			if (entry != null) {
-				String path = c.selectFile(entry.getValue());
+				String path = new FileSelector(c.getPrimaryStage(), entry.getValue()).getPath();
 				//c.showSelection(entry.getKey());
 				c.getConfig().set(entry.getKey(), path); // Almacena la configuración
 				entry.setValue(path);
 				data.set(data.indexOf(entry), entry); // Actualiza la vista
 			} else {
-				warning.setText("Selecciona un lenguaje antes");
+				//warning.setText("Selecciona un lenguaje antes");
 			}
 		});
 
 		search.setOnAction( (event) -> {
 			// este es para el directorio
-            String externalResourcesPath = c.selectDirectory(pathDep.getText());
-			if ( externalResourcesPath != null ) {
-				File f = new File(externalResourcesPath);
-				if (f.exists() && f.isDirectory()) {
-					pathDep.setText(externalResourcesPath);
-					warning.setText("");
-					Controller.log.info(externalResourcesPath);
-				    c.getConfig().clear(); // Borro todas las configuraciones antiguas
-                    c.getConfig().setDirTemas(externalResourcesPath);
-					List<String> lanL = InternalUtilities.getDirectoryList(externalResourcesPath);
-					// añadimos los lenguajes a la lista
-                    List<String> lentrynames = configEntries(lanL);
-                    List<ConfigEntry> lentries = new ArrayList<>();
-                    for (String entryname : lentrynames) {
-                        lentries.add( new ConfigEntry(entryname, c.getConfig().get(entryname) ) );
-                    }
-                    data.removeAll();
-                    data.setAll(lentries);
+			DirectorySelector ds = new DirectorySelector(c.getPrimaryStage(), pathDep.getText());
+            File newDir = ds.getFile();
+            //String externalResourcesPath = c.selectDirectory(pathDep.getText());
+			if ( newDir != null && newDir.exists() && newDir.isDirectory() &&
+                    !newDir.getAbsolutePath().equals(pathDep.getText())) {
+				pathDep.setText(newDir.getAbsolutePath());
+				warning.setText("");
+				Controller.log.info(newDir.getAbsolutePath());
+				c.getConfig().clear(); // Borro todas las configuraciones antiguas
+				c.getConfig().setDirTemas(newDir.getAbsolutePath());
+				List<String> lanL = InternalUtilities.getDirectoryList(newDir.getAbsolutePath());
+				// añadimos los lenguajes a la lista
+				List<String> lentrynames = configEntries(lanL);
+				List<ConfigEntry> lentries = new ArrayList<>();
+				for (String entryname : lentrynames) {
+					lentries.add( new ConfigEntry(entryname, c.getConfig().get(entryname) ) );
 				}
+				data.removeAll();
+				data.setAll(lentries);
 			} else {
-				warning.setText("Directorio de temas inválido");
+				//warning.setText("Directorio de temas inválido");
 			}
 		});
 

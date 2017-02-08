@@ -289,47 +289,6 @@ public class Controller {
 	}
 
 	/**
-	 * Muesta el FileChooser para seleccionar una carpeta
-	 */
-	public String selectDirectory(String initial) {
-		DirectoryChooser chooser = new DirectoryChooser();
-		if (initial != null){
-            File initialF = new File(initial);
-            if (initialF.exists() && initialF.isDirectory())
-		    chooser.setInitialDirectory(new File(initial));
-		}
-		File f = chooser.showDialog(this.primaryStage);
-		String dir = null;
-		if (f != null) {
-			dir = f.getAbsolutePath();
-		}
-		return dir;
-	}
-
-	/**
-	 * Muesta el FileChooser para seleccionar un fichero
-	 */
-	public String selectFile(String initial) {
-	    File f;
-		FileChooser chooser = new FileChooser();
-		if (initial != null) {
-            f = new File(initial);
-            if (f.exists() && f.isFile()) {
-                f = f.getParentFile();
-                chooser.setInitialDirectory(f);
-            } else if (f.exists()) {
-			    chooser.setInitialDirectory(f);
-            }
-		}
-		f = chooser.showOpenDialog(this.primaryStage);
-		String file = null;
-		if (f != null) {
-			file = f.getAbsolutePath();
-		}
-		return file;
-	}
-
-	/**
 	 * Actualiza el lenguaje seleccionado y el path del archivo de ejecucion
 	 * 
 	 * @param selectedItem
