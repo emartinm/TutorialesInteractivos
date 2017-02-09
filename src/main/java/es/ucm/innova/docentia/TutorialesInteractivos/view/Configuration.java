@@ -43,6 +43,7 @@ public class Configuration extends Pane {
 		Button search = new Button("Buscar...");// Boton para buscar el archivo de dependencias
 		// Lista con las entradas de configuración y su ruta
 		TableView<ConfigEntry> languageList = new TableView<>();
+		languageList.setPlaceholder(new Label("")); // Evita mostrar el mensaje "No content in table" si está vacío
 		ObservableList<ConfigEntry> data = FXCollections.observableArrayList();
 		if (c.getConfig().getDirTemas() != null) {
 			pathDep.setText(c.getConfig().getDirTemas());

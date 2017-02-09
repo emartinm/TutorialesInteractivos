@@ -30,12 +30,19 @@ public class ConfigurationData {
 
     public void save() {
         Preferences storedPrefs = Preferences.userNodeForPackage(this.getClass());
+        try {
+            storedPrefs.clear(); // Borra entradas obsoletas
+        } catch (BackingStoreException e) {
+            Controller.log.info( "Imposible borrar la configuracion almacenada: " + e.getLocalizedMessage());
+        }
+        Controller.log.info( "Volcando la configuración usando el Preference API");
         for (String k : prefs.keySet() ) {
             storedPrefs.put(k, prefs.get(k) );
         }
     }
 
     public void load() {
+        Controller.log.info( "Cargando la configuración usando el Preference API");
         Preferences storedPrefs = Preferences.userNodeForPackage(this.getClass());
         try {
             for (String k : storedPrefs.keys()) {
@@ -76,12 +83,6 @@ public class ConfigurationData {
     }
 
     public void clear() {
-        Preferences storedPrefs = Preferences.userNodeForPackage(this.getClass());
         prefs.clear();
-        try {
-            storedPrefs.clear();
-        } catch (BackingStoreException e) {
-            Controller.log.info( "Imposible borrar la configuracion almacenaca: " + e.getLocalizedMessage());
-        }
     }
 }
