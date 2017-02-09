@@ -10,10 +10,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,6 +52,9 @@ public abstract class Language {
 
 
 	private static final String marker = "<+|CODIGO|+>";
+	private static final List<String> tle_hints = new ArrayList<String>(Arrays.asList(
+	        "La ejecución del código fue abortada porque sobrepasó el límite permitido",
+            "Comprueba que todos los bucles terminan y usa técnicas eficientes"));
 	protected String name;
 	protected String path; // Ruta del lenguaje en cuestión
 
@@ -233,7 +233,8 @@ public abstract class Language {
             boolean errCode = p.waitFor(getExecutionMillis(), TimeUnit.MILLISECONDS);
             if (!errCode) { // si ocurre esto es que el python está mal escrito, o bucle infinito
                 Controller.log.info("Ejecución abortada tras " + getExecutionMillis() + " milisegundos");
-                c = new Correction(ExecutionMessage.KILLED, "Tiempo excedido", fileToListString(br), false);
+
+                c = new Correction(ExecutionMessage.KILLED, "Excedido límite de " + getExecutionMillis() + " ms", tle_hints, false);
             } else {
                 int exit = p.exitValue();
                 // SOLO EN CASO DE ERROR DE LA FUNCION CORRECTORA DEVOLVERA UN VALOR DISTINTO DE 0,
@@ -249,11 +250,11 @@ public abstract class Language {
                     }
                 }
             }
+            // Si la ejecución tuvo éxito borra los ficheros temporales
+            // jsonFile.delete();
+            // sourceFile.delete();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            //if ( jsonFile != null ) { jsonFile.delete(); }
-            //if ( sourceFile != null ) { sourceFile.delete(); }
         }
         return c;
     }

@@ -68,11 +68,14 @@
 .msjIncorrecto {
     -fx-background-color: #be1d00;
     -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
 }
 
 .msjCorrecto {
     -fx-background-color: #80c800;
     -fx-font-weight: bold;
+    -fx-padding: 5px;
 }
 
 .hints {

@@ -136,7 +136,7 @@ public class Content extends Pane {
 				group.selectedToggleProperty().addListener( (ov, old_v, new_v) -> {
 					// Cada vez que el grupo cambia, almacena la solución actual y borra
 					// el mensaje de corrección
-					//clearCorrectMessage(isCorrect);
+					//clearMessage(isCorrect);
 					o.setLastAnswer_checked(false);
 					List<Integer> currentAnswer = getAnswer_rb(l);
 					o.setLastAnswer(currentAnswer);
@@ -158,7 +158,7 @@ public class Content extends Pane {
 						// Cada vez que un checkbox recibe un evento, almacena la solución actual
 						// y borra el mensaje de corrección
 						o.setLastAnswer_checked(false);
-						//clearCorrectMessage(isCorrect);
+						//clearMessage(isCorrect);
 						List<Integer> current = getAnswer_cb(l);
 						o.setLastAnswer(current);
 						c.updateAndSaveCurrentLessonProgress();
@@ -215,7 +215,7 @@ public class Content extends Pane {
 				// mensaje de corrección
 				cq.setLastAnswer( new_v );
 				cq.setLastAnswer_checked(false);
-				clearCorrectMessage(isCorrect);
+				clearMessage(isCorrect);
 				hints.setVisible(false);
 				//showHintsButton(cq, hints);
 				c.updateAndSaveCurrentLessonProgress();
@@ -377,11 +377,7 @@ public class Content extends Pane {
     private void showCorrectionMessages(Question cq, Correction correction, Label isCorrect, Button hints) {
 	    if (correction != null ) {
             showHintsButton(correction.getHints(), hints);
-	        if (correction.isCorrect() ) {
-                setCorrectMessage(isCorrect, correction);
-	        } else {
-	            setIncorrectMessage(isCorrect, correction);
-            }
+            showMessage(isCorrect, correction);
 	    }
     }
 
@@ -392,22 +388,40 @@ public class Content extends Pane {
         hints.setVisible(l_hints != null && l_hints.size() > 0);
 	}
 
-	private void setCorrectMessage(Label l, Correction correction) {
-        l.setText("CORRECTO");
-        l.getStyleClass().add("msjCorrecto");
+	/*
+	Actualiza la etiqueta con el mensaje de la */
+	private void showMessage(Label l, Correction correction) {
+		if (correction.getResult() == ExecutionMessage.COMPILATION_ERROR ){
+            l.setText("ERROR DE COMPILACIÓN");
+            l.getStyleClass().add("msjIncorrecto");
+        } else if (correction.getResult() == ExecutionMessage.EXECUTION_ERROR ) {
+		    l.setText("ERROR EN EJECUCIÓN");
+            l.getStyleClass().add("msjIncorrecto");
+        } else if (correction.getResult() == ExecutionMessage.KILLED ) {
+		    String msg = "EJECUCIÓN ABORTADA";
+		    if (correction.getMessage() != null && correction.getMessage().length() > 0){
+		        msg = msg + ": " + correction.getMessage();
+            }
+            l.setText(msg);
+            l.getStyleClass().add("msjIncorrecto");
+		} else if (correction.getResult() == ExecutionMessage.OK) {
+		    if (correction.isCorrect() ) {
+                l.setText("CORRECTO");
+                l.getStyleClass().add("msjCorrecto");
+            } else {
+		        String msg = "RESPUESTA INCORRECTA";
+                if (correction.getMessage() != null && correction.getMessage().length() > 0){
+                    msg = msg + ": " + correction.getMessage();
+                }
+                l.setText(msg);
+                l.getStyleClass().add("msjIncorrecto");
+            }
+		}
     }
 
-    private void setIncorrectMessage(Label l, Correction correction) {
-	    String msg = "RESPUESTA INCORRECTA";
-	    if (correction.getMessage().length() > 0 ) {
-	        msg = msg + ": " + correction.getMessage();
-        }
-        l.setText(msg);
-        l.getStyleClass().add("msjIncorrecto");
-    }
-
-    private void clearCorrectMessage(Label l) {
+    private void clearMessage(Label l) {
 		l.setText("");
+		l.getStyleClass().clear();
 	}
 
 	private List<Integer> getAnswer_rb( List<RadioButton> l){
