@@ -100,52 +100,52 @@ public class Content extends GridPane {
         return buttonsLabel;
     }
 
-    private void showCorrectionMessages(Question cq, Correction correction, Label isCorrect, Button hints) {
+    private void showCorrectionMessages(Correction correction) {
 	    if (correction != null ) {
-            showHintsButton(correction.getHints(), hints);
-            showMessage(isCorrect, correction);
+            showHintsButton(correction.getHints());
+            showMessage(correction);
 	    }
     }
 
-    private void showHintsButton(List<String> l_hints, Button hints) {
+    private void showHintsButton(List<String> l_hints) {
 		// Solo muestra el botón de pistas si lo ultimo que se realizo fue una corrección
 		// sin exito y además si hay pistas
         this.list_hints = l_hints;
         hints.setVisible(l_hints != null && l_hints.size() > 0);
 	}
 
-    private void showMessage(Label l, Correction correction) {
+    private void showMessage(Correction correction) {
         if (correction.getResult() == ExecutionMessage.COMPILATION_ERROR ){
-            l.setText("ERROR DE COMPILACIÓN");
-            l.getStyleClass().add("msjIncorrecto");
+            isCorrect.setText("ERROR DE COMPILACIÓN");
+            isCorrect.getStyleClass().add("msjIncorrecto");
         } else if (correction.getResult() == ExecutionMessage.EXECUTION_ERROR ) {
-            l.setText("ERROR EN EJECUCIÓN");
-            l.getStyleClass().add("msjIncorrecto");
+            isCorrect.setText("ERROR EN EJECUCIÓN");
+            isCorrect.getStyleClass().add("msjIncorrecto");
         } else if (correction.getResult() == ExecutionMessage.KILLED ) {
             String msg = "EJECUCIÓN ABORTADA";
             if (correction.getMessage() != null && correction.getMessage().length() > 0){
                 msg = msg + ": " + correction.getMessage();
             }
-            l.setText(msg);
-            l.getStyleClass().add("msjIncorrecto");
+            isCorrect.setText(msg);
+            isCorrect.getStyleClass().add("msjIncorrecto");
         } else if (correction.getResult() == ExecutionMessage.OK) {
             if (correction.isCorrect() ) {
-                l.setText("CORRECTO");
-                l.getStyleClass().add("msjCorrecto");
+                isCorrect.setText("CORRECTO");
+                isCorrect.getStyleClass().add("msjCorrecto");
             } else {
                 String msg = "RESPUESTA INCORRECTA";
                 if (correction.getMessage() != null && correction.getMessage().length() > 0){
                     msg = msg + ": " + correction.getMessage();
                 }
-                l.setText(msg);
-                l.getStyleClass().add("msjIncorrecto");
+                isCorrect.setText(msg);
+                isCorrect.getStyleClass().add("msjIncorrecto");
             }
         }
 	}
 
-    private void clearMessage(Label l) {
-		l.setText("");
-        l.getStyleClass().clear();
+    private void clearMessage() {
+        isCorrect.setText("");
+        isCorrect.getStyleClass().clear();
 	}
 
 	private List<Integer> getAnswer_rb( List<RadioButton> l){
@@ -203,28 +203,32 @@ public class Content extends GridPane {
         String cabecera = c.getCurrentLanguage() + " > " + c.getSubject().getTitle() + " > " + le.getTitle();
         type = new Label(cabecera);
         type.setAlignment(Pos.CENTER);
-        container.getChildren().addAll(type);
         type.getStyleClass().add("tipo");
 
         String content = c.markToHtml(e.getText());
         // Campo donde se escribe el enunciado o la explicacion de la pregunta
         text = InternalUtilities.creaBrowser(content);
-        container.getChildren().add(text);
-
-        labelCode = generateLabelCode(e);
-        container.getChildren().addAll(labelCode);
-
-        answerBox = generaAnswerBox(c, e);
-        container.getChildren().addAll(answerBox);
 
         result = generaResult();
+        boolean neededLabelCode = generateLabelCode(e);
+        boolean neededAnswerBox = generaAnswerBox(c, e);
+
+        container.getChildren().addAll(type);
+        container.getChildren().add(text);
+        if (neededLabelCode) {
+            container.getChildren().addAll(labelCode);
+        }
+        if (neededAnswerBox ) {
+            container.getChildren().addAll(answerBox);
+        }
         container.getChildren().addAll(result);
 
         return container;
     }
 
-    private BorderPane generaAnswerBox(Controller c, Element e) {
-        BorderPane answerBox = new BorderPane();
+    private boolean generaAnswerBox(Controller c, Element e) {
+        answerBox = new BorderPane();
+        answerBox.setPadding(new Insets(2,2,2,2));
         answerBox.getStyleClass().add("respuestaBox");
         Correction correction = null;
 
@@ -232,235 +236,221 @@ public class Content extends GridPane {
 
         // Botones para el envio/ayuda de respuestas
         buttonsCode = new VBox(5);
+        buttonsCode.setPadding(new Insets(2,2,2,2));
         help = new Button("Pistas");
         resolve = new Button("Resolver");
         buttonsCode.setAlignment(Pos.CENTER);
         buttonsCode.getChildren().addAll(resolve);
         buttonsCode.getChildren().addAll(help);
 
-        Node resp;
+        Node left = null;
         if (e instanceof OptionQuestion) {
-            resp = generateOptions(e);
+            left = generateOptions(c, e);
         } else if (e instanceof CodeQuestion) {
-            resp = generateCode(e);
-        }
-
-        answerBox.setCenter(resp);
-        answerBox.setRight(buttonsCode);
-
-        // TODO
-        // TODO
-        // Seguir redistribuyendo aquí
-
-        // Crea las opciones o el campo de texto
-        if (e instanceof OptionQuestion) {
-            options = new VBox();
-            final OptionQuestion o = (OptionQuestion) e;
-            int i = 1;
-            List<Integer> lastAnswer = o.getLastAnswer();
-            help.setVisible( o.getClue() != null );
-            if (o.isLastAnswer_checked() ) {
-                correction = c.check(lastAnswer, o);
-                this.list_hints = correction.getHints();
-            }
-            if (!o.getMulti()) {
-                List<RadioButton> l = new ArrayList<RadioButton>();
-                List<String> opc = o.getOptions();
-                for (Object op : opc) {
-                    RadioButton rb = new RadioButton();
-                    rb.setText(op.toString());
-                    rb.setToggleGroup(group);
-                    l.add(rb);
-                    if ( lastAnswer != null ) { //Si hay respuesta anterior la carga
-                        rb.setSelected( lastAnswer.contains( new Integer(i) ) );
-                    }
-                    ++i;
-                }
-                group.selectedToggleProperty().addListener( (ov, old_v, new_v) -> {
-                    // Cada vez que el grupo cambia, almacena la solución actual y borra
-                    // el mensaje de corrección
-                    //clearCorrectMessage(isCorrect);
-                    o.setLastAnswer_checked(false);
-                    List<Integer> currentAnswer = getAnswer_rb(l);
-                    o.setLastAnswer(currentAnswer);
-                    c.updateAndSaveCurrentLessonProgress();
-                    c.reloadCurrentLessonFragment();
-                });
-                options.getChildren().addAll(l);
-            } else {
-                List<CheckBox> l = new ArrayList<CheckBox>();
-                List<String> opc = o.getOptions();
-                for (Object op : opc) {
-                    CheckBox cb = new CheckBox();
-                    cb.setText(op.toString());
-                    l.add(cb);
-                    if ( lastAnswer != null ) { //Si hay respuesta anterior la carga
-                        cb.setSelected( lastAnswer.contains( new Integer(i) ) );
-                    }
-                    cb.setOnAction((event) -> {
-                        // Cada vez que un checkbox recibe un evento, almacena la solución actual
-                        // y borra el mensaje de corrección
-                        o.setLastAnswer_checked(false);
-                        //clearCorrectMessage(isCorrect);
-                        List<Integer> current = getAnswer_cb(l);
-                        o.setLastAnswer(current);
-                        c.updateAndSaveCurrentLessonProgress();
-                        c.reloadCurrentLessonFragment();
-                    });
-                    ++i;
-                }
-                options.getChildren().addAll(l);
-            }
-
-            //Si la pregunta fue evaluada, muestra el mensaje y posibles pistas
-            showCorrectionMessages( o, correction, isCorrect, hints);
-
-
-        } else if (e instanceof CodeQuestion) {
-            taCode = new TextArea();
-            taCode.setPromptText("Escriba aquí su código");
-            CodeQuestion cq = (CodeQuestion)e;
-            String lastAnswer = cq.getLastAnswer();
-            help.setVisible( cq.getClue() != null );
-            if (cq.isLastAnswer_checked() ) {
-                correction = c.check(lastAnswer, cq);
-                if (correction.isCorrect()) {
-                    c.passCurrentElement();
-                    cq.setLastAnswer_correct(true);
-                } else {
-                    cq.setLastAnswer_correct(false);
-                }
-                this.list_hints = correction.getHints();
-            }
-            answerBox.setCenter(taCode);
-            answerBox.setRight(buttonsCode);
-
-
-            // Si la ultima accion fue una comprobación, se muestra le mensaje
-            // y el botón de pistas si hay alguna
-
-            showCorrectionMessages( cq, correction, isCorrect, hints);
-            //if (cq.isLastAnswer_checked() ) {
-            //    showCorrectionMessages(cq, correction, isCorrect, hints);
-            //}
-
-            // Si hay alguna respuesta anterior la reestablecemos
-            if (lastAnswer != null ) {
-                taCode.setText( cq.getLastAnswer() );
-            }
-
-            taCode.textProperty().addListener( (ov, old_v, new_v) -> {
-                //Controller.log.info("El texto ha cambiado");
-                // Cada vez que cambia el texto almacenamos su valor actual y restablecemos el
-                // mensaje de corrección
-                cq.setLastAnswer( new_v );
-                cq.setLastAnswer_checked(false);
-                clearMessage(isCorrect);
-                hints.setVisible(false);
-                //showHintsButton(cq, hints);
-                c.updateAndSaveCurrentLessonProgress();
-            });
+            left = generateCode(c, e);
         }
         // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
+        answerBox.setCenter(left);
+        answerBox.setRight(buttonsCode);
 
+        help.setOnAction( (event) -> {
+            final Popup popup = new Popup();
+            String helpText = e.getClue();
+            Label popupLabel = new Label(helpText);
+            popup.setAutoHide(true);
+            popupLabel.getStyleClass().add("hints");
 
-
-        help.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                final Popup popup = new Popup();
-                String helpText = e.getClue();
-                Label popupLabel = new Label(helpText);
-                popup.setAutoHide(true);
-                popupLabel.getStyleClass().add("hints");
-                //popupLabel.setStyle("-fx-border-color: black; -fx-background-color: white");
-
-                Node eventSource = (Node) event.getSource();
-                Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
-                popup.setX(sourceNodeBounds.getMinX() - 5.0);
-                popup.setY(sourceNodeBounds.getMaxY() + 5.0);
-                popup.getContent().addAll(popupLabel);
-                popup.show(c.getPrimaryStage());
-            }
+            Node eventSource = (Node) event.getSource();
+            Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
+            popup.setX(sourceNodeBounds.getMinX() - 5.0);
+            popup.setY(sourceNodeBounds.getMaxY() + 5.0);
+            popup.getContent().addAll(popupLabel);
+            popupLabel.getStylesheets().add(getClass().getResource("/css/content.css").toExternalForm());
+            popup.show(c.getPrimaryStage());
         });
 
-        resolve.setOnAction(new EventHandler<ActionEvent>() {
-
-
-            @Override
-            public void handle(ActionEvent event) {
-                if (e instanceof OptionQuestion) {
-                    List<Integer> resp = new ArrayList<Integer>();
-                    if (!((OptionQuestion) e).getMulti()) { // Si la pregunta no es multirespuesta
-                        int i = 0;// Contador de la posicion de la opcion que se analiza
-                        for (Node o : options.getChildren()) {
-                            i++;
-                            if (((RadioButton) o).isSelected())
-                                resp.add(i);
-                        }
-                    } else { // La pregunta es multirespuesta
-                        int i = 0;
-                        for (Node o : options.getChildren()) {
-                            i++;
-                            if (((CheckBox) o).isSelected())
-                                resp.add(i);
-                        }
+        resolve.setOnAction( (event) -> {
+            if (e instanceof OptionQuestion) {
+                List<Integer> resp = new ArrayList<Integer>();
+                if (!((OptionQuestion) e).getMulti()) { // Si la pregunta no es multirespuesta
+                    int i = 0;// Contador de la posicion de la opcion que se analiza
+                    for (Node o : options.getChildren()) {
+                        i++;
+                        if (((RadioButton) o).isSelected())
+                            resp.add(i);
                     }
-
-                    ((OptionQuestion) e).setLastAnswer(resp);
-                    ((OptionQuestion) e).setLastAnswer_checked(true);
-                    if (c.check(resp, (Question) e).isCorrect()) {
-                        c.passCurrentElement();
-                        ((Question) e).setLastAnswer_correct(true);
-                        hints.setVisible(false);
-                    } else {
-                        ((Question) e).setLastAnswer_correct(false);
+                } else { // La pregunta es multirespuesta
+                    int i = 0;
+                    for (Node o : options.getChildren()) {
+                        i++;
+                        if (((CheckBox) o).isSelected())
+                            resp.add(i);
                     }
-                } else if (e instanceof CodeQuestion) {
-                    CodeQuestion pc = (CodeQuestion) e;
-                    String code = taCode.getText();
-                    pc.setLastAnswer_checked(true);
                 }
-                c.reloadCurrentLessonFragment();
+
+                ((OptionQuestion) e).setLastAnswer(resp);
+                ((OptionQuestion) e).setLastAnswer_checked(true);
+                if (c.check(resp, (Question) e).isCorrect()) {
+                    c.passCurrentElement();
+                    ((Question) e).setLastAnswer_correct(true);
+                    hints.setVisible(false);
+                } else {
+                    ((Question) e).setLastAnswer_correct(false);
+                }
+            } else if (e instanceof CodeQuestion) {
+                CodeQuestion pc = (CodeQuestion) e;
+                //String code = taCode.getText();
+                pc.setLastAnswer_checked(true);
             }
+            c.reloadCurrentLessonFragment();
         });
 
         resolve.setMaxWidth(Double.MAX_VALUE);
         help.setMaxWidth(Double.MAX_VALUE);
-        hints.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                Popup popup = new Popup();
-                String txt = "";
-                if (hints != null) {
-                    for (String h : list_hints) {
-                        txt += (h + "\n");
-                    }
-                    ;
-                    // hintsContent.setText(txt);
-
-                    Label popupLabel = new Label(txt);
-                    popupLabel.setStyle("-fx-border-color: black; -fx-background-color: white");
-                    popup.setAutoHide(true);
-                    popup.setAutoFix(true);
-                    popup.setOpacity(1.00);
-                    // Calculate popup placement coordinates.
-                    Node eventSource = (Node) event.getSource();
-                    Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
-                    popup.setX(sourceNodeBounds.getMinX() + 5.0);
-                    popup.setY(sourceNodeBounds.getMaxY() + 1.0);
-                    popup.getContent().addAll(popupLabel);
-                    popup.show(c.getPrimaryStage());
+        hints.setOnAction( (event) -> {
+            Popup popup = new Popup();
+            String txt = "";
+            if (hints != null) {
+                for (String h : list_hints) {
+                    txt += (h + "\n");
                 }
+                ;
+                // hintsContent.setText(txt);
 
+                Label popupLabel = new Label(txt);
+                popupLabel.getStyleClass().add("hints");
+                //popupLabel.setStyle("-fx-border-color: black; -fx-background-color: white");
+                popup.setAutoHide(true);
+                popup.setAutoFix(true);
+                popup.setOpacity(1.00);
+                // Calculate popup placement coordinates.
+                Node eventSource = (Node) event.getSource();
+                Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
+                popup.setX(sourceNodeBounds.getMinX() + 5.0);
+                popup.setY(sourceNodeBounds.getMaxY() + 1.0);
+                popup.getContent().addAll(popupLabel);
+                popupLabel.getStylesheets().add(getClass().getResource("/css/content.css").toExternalForm());
+                popup.show(c.getPrimaryStage());
             }
         });
 
         answerBox.getStyleClass().add("respuestaBox");
-        return answerBox;
+        return (e instanceof OptionQuestion || e instanceof CodeQuestion);
+    }
+
+    private Node generateOptions(Controller c, Element e) {
+        Correction correction = null;
+        options = new VBox();
+        final OptionQuestion o = (OptionQuestion) e;
+        int i = 1;
+        List<Integer> lastAnswer = o.getLastAnswer();
+        help.setVisible( o.getClue() != null );
+        if (o.isLastAnswer_checked() ) {
+            correction = c.check(lastAnswer, o);
+            this.list_hints = correction.getHints();
+        }
+        if (!o.getMulti()) {
+            List<RadioButton> l = new ArrayList<RadioButton>();
+            List<String> opc = o.getOptions();
+            for (Object op : opc) {
+                RadioButton rb = new RadioButton();
+                rb.setText(op.toString());
+                rb.setToggleGroup(group);
+                l.add(rb);
+                if ( lastAnswer != null ) { //Si hay respuesta anterior la carga
+                    rb.setSelected( lastAnswer.contains( new Integer(i) ) );
+                }
+                ++i;
+            }
+            group.selectedToggleProperty().addListener( (ov, old_v, new_v) -> {
+                // Cada vez que el grupo cambia, almacena la solución actual y borra
+                // el mensaje de corrección
+                //clearCorrectMessage(isCorrect);
+                o.setLastAnswer_checked(false);
+                List<Integer> currentAnswer = getAnswer_rb(l);
+                o.setLastAnswer(currentAnswer);
+                c.updateAndSaveCurrentLessonProgress();
+                c.reloadCurrentLessonFragment();
+            });
+            options.getChildren().addAll(l);
+        } else {
+            List<CheckBox> l = new ArrayList<CheckBox>();
+            List<String> opc = o.getOptions();
+            for (Object op : opc) {
+                CheckBox cb = new CheckBox();
+                cb.setText(op.toString());
+                l.add(cb);
+                if ( lastAnswer != null ) { //Si hay respuesta anterior la carga
+                    cb.setSelected( lastAnswer.contains( new Integer(i) ) );
+                }
+                cb.setOnAction((event) -> {
+                    // Cada vez que un checkbox recibe un evento, almacena la solución actual
+                    // y borra el mensaje de corrección
+                    o.setLastAnswer_checked(false);
+                    //clearCorrectMessage(isCorrect);
+                    List<Integer> current = getAnswer_cb(l);
+                    o.setLastAnswer(current);
+                    c.updateAndSaveCurrentLessonProgress();
+                    c.reloadCurrentLessonFragment();
+                });
+                ++i;
+            }
+            options.getChildren().addAll(l);
+        }
+
+        //Si la pregunta fue evaluada, muestra el mensaje y posibles pistas
+        showCorrectionMessages(correction);
+        return options;
+    }
+
+    private Node generateCode(Controller c, Element e) {
+        Correction correction = null;
+        taCode = new TextArea();
+        taCode.setPromptText("Escriba aquí su código");
+        CodeQuestion cq = (CodeQuestion)e;
+        String lastAnswer = cq.getLastAnswer();
+        help.setVisible( cq.getClue() != null );
+        if (cq.isLastAnswer_checked() ) {
+            correction = c.check(lastAnswer, cq);
+            if (correction.isCorrect()) {
+                c.passCurrentElement();
+                cq.setLastAnswer_correct(true);
+            } else {
+                cq.setLastAnswer_correct(false);
+            }
+            this.list_hints = correction.getHints();
+        }
+        answerBox.setCenter(taCode);
+        answerBox.setRight(buttonsCode);
+
+
+        // Si la ultima accion fue una comprobación, se muestra le mensaje
+        // y el botón de pistas si hay alguna
+
+        showCorrectionMessages(correction);
+        //if (cq.isLastAnswer_checked() ) {
+        //    showCorrectionMessages(cq, correction, isCorrect, hints);
+        //}
+
+        // Si hay alguna respuesta anterior la reestablecemos
+        if (lastAnswer != null ) {
+            taCode.setText( cq.getLastAnswer() );
+        }
+
+        taCode.textProperty().addListener( (ov, old_v, new_v) -> {
+            //Controller.log.info("El texto ha cambiado");
+            // Cada vez que cambia el texto almacenamos su valor actual y restablecemos el
+            // mensaje de corrección
+            cq.setLastAnswer( new_v );
+            cq.setLastAnswer_checked(false);
+            clearMessage();
+            hints.setVisible(false);
+            //showHintsButton(cq, hints);
+            c.updateAndSaveCurrentLessonProgress();
+        });
+
+        return taCode;
     }
 
     private HBox generaResult() {
@@ -475,14 +465,17 @@ public class Content extends GridPane {
         return hb;
     }
 
-    private Label generateLabelCode(Element e) {
-        Label lb = new Label();
+    private boolean generateLabelCode(Element e) {
+        labelCode = new Label();
+        boolean needed = false;
         if (e instanceof OptionQuestion ) {
-            lb.setText("Opciones");
+            labelCode.setText("Opciones");
+            needed = true;
         } else if (e instanceof CodeQuestion) {
-            lb.setText("Código");
+            labelCode.setText("Código");
+            needed = true;
         }
-        lb.getStyleClass().add("labcode");
-        return lb;
+        labelCode.getStyleClass().add("labcode");
+        return needed;
     }
 }

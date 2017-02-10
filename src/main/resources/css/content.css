@@ -13,15 +13,13 @@
 	
 }
 
-
-
-
 /* Aquí para personalizar el botón actualmente seleccionado */
 /* Tomado de: http://fxexperience.com/2011/12/styling-fx-buttons-with-css/ */
 .new-paginator .selected-button {
     -fx-background-color:
-        #80c800,
-        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+        /*#80c800,
+        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);*/
+        radial-gradient(center 50% -40%, radius 200%, #0095ff 45%, #0077CB 50%);
     -fx-background-radius: 6, 5;
     -fx-background-insets: 0, 1;
     -fx-text-fill: #395306;
