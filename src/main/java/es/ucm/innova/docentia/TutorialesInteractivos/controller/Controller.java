@@ -236,10 +236,10 @@ public class Controller {
 			Element e;
 			if (getCurrentLesson().getCurrentElementPos() == getCurrentLessonParts().size()) {
                 updateAndSaveCurrentLessonProgress();
-            } else {
+            } /*else {
 				e = this.getCurrentLesson().getCurrentElement();
-			}
-            root = ((Content) p).content(this, getCurrentLesson());
+			}*/
+            root = p;
 		}
 
 		//root.setPrefSize(600, 600);
@@ -362,7 +362,7 @@ public class Controller {
         	passCurrentElement();
 		}
 		updateAndSaveCurrentLessonProgress();
-		changeView(new Content(), null, selectedLanguage);
+		changeView(new Content(this, getCurrentLesson()), null, selectedLanguage);
 	}
 
 	public void passCurrentElement() {
