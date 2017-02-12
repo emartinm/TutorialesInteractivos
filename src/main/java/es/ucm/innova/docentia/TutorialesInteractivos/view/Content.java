@@ -6,24 +6,16 @@ import java.util.List;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
@@ -43,6 +35,7 @@ public class Content extends GridPane {
     private Node text;
     private Label labelCode;
     private TextArea taCode;
+    private TextInputControl[] codes;
     private HBox result;
     private Label isCorrect;
     private Button hints;
@@ -245,9 +238,9 @@ public class Content extends GridPane {
 
         Node left = null;
         if (e instanceof OptionQuestion) {
-            left = generateOptions(c, e);
+            left = generateOptions(c, (OptionQuestion)e);
         } else if (e instanceof CodeQuestion) {
-            left = generateCode(c, e);
+            left = generateCode(c, (CodeQuestion)e);
         }
         // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
@@ -339,10 +332,9 @@ public class Content extends GridPane {
         return (e instanceof OptionQuestion || e instanceof CodeQuestion);
     }
 
-    private Node generateOptions(Controller c, Element e) {
+    private Node generateOptions(Controller c, OptionQuestion o) {
         Correction correction = null;
         options = new VBox();
-        final OptionQuestion o = (OptionQuestion) e;
         int i = 1;
         List<Integer> lastAnswer = o.getLastAnswer();
         help.setVisible( o.getClue() != null );
@@ -404,11 +396,37 @@ public class Content extends GridPane {
         return options;
     }
 
-    private Node generateCode(Controller c, Element e) {
+    private Node generateCode(Controller c, CodeQuestion cq) {
+        final int nGaps = cq.getNumberGaps();
+        codes = new TextInputControl[nGaps];
+        ScrollPane sp = new ScrollPane();
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        VBox vboxcodes = new VBox();
+        if (nGaps == 1) {
+            TextArea t = new TextArea();
+            codes[0] = t;
+            t.setPromptText("Escriba aquí su código");
+            vboxcodes.getChildren().add(t);
+        } else {
+            for (int i = 0; i < nGaps; ++i) {
+                TextArea t = new TextArea();
+                t.setPrefRowCount(getPrefLinesFromGaps(nGaps));
+                codes[i] = t;
+                HBox hb = new HBox(10);
+                hb.getChildren().add(new Label("Hueco #" + Integer.toString(i)));
+                hb.getChildren().add(t);
+                t.setPromptText("Código del hueco #" + Integer.toString(i));
+                vboxcodes.getChildren().add(t);
+            }
+        }
+        sp.setContent(vboxcodes);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setMinHeight(150);
+
         Correction correction = null;
-        taCode = new TextArea();
+        /*taCode = new TextArea();
         taCode.setPromptText("Escriba aquí su código");
-        CodeQuestion cq = (CodeQuestion)e;
         String lastAnswer = cq.getLastAnswer();
         help.setVisible( cq.getClue() != null );
         if (cq.isLastAnswer_checked() ) {
@@ -421,17 +439,11 @@ public class Content extends GridPane {
             }
             this.list_hints = correction.getHints();
         }
-        answerBox.setCenter(taCode);
-        answerBox.setRight(buttonsCode);
-
 
         // Si la ultima accion fue una comprobación, se muestra le mensaje
         // y el botón de pistas si hay alguna
 
         showCorrectionMessages(correction);
-        //if (cq.isLastAnswer_checked() ) {
-        //    showCorrectionMessages(cq, correction, isCorrect, hints);
-        //}
 
         // Si hay alguna respuesta anterior la reestablecemos
         if (lastAnswer != null ) {
@@ -448,9 +460,17 @@ public class Content extends GridPane {
             hints.setVisible(false);
             //showHintsButton(cq, hints);
             c.updateAndSaveCurrentLessonProgress();
-        });
+        });*/
 
-        return taCode;
+        return sp;
+    }
+
+    private int getPrefLinesFromGaps(int numberGaps) {
+        switch (numberGaps) {
+            case 1: return 10;
+            case 2: return 3;
+            default: return 2;
+        }
     }
 
     private HBox generaResult() {

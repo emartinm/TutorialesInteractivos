@@ -22,7 +22,8 @@ public class OptionQuestion extends Question<List<Integer>> {
 	}
 
 	public OptionQuestion(String wording, String clue, List<String> options, boolean multi, List<Integer> answer){
-	    super(wording, clue, answer);
+	    super(wording, clue);
+	    this.solution = answer;
 	    this.options = options;
 	    this.multi = multi;
     }

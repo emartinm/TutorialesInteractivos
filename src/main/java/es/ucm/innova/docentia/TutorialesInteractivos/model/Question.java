@@ -17,6 +17,7 @@ public abstract class Question<T> extends Element
 {
 	//protected int number; //number de la pregunta
 	protected T solution; //solution a la pregunta
+	protected T answer;
 	protected final String clue; //Pista para resolver la pregunta(opcional)
 
 
@@ -34,7 +35,7 @@ public abstract class Question<T> extends Element
 		
 	}
 	
-	public Question(String wording, String clue, T solution) {
+	public Question(String wording, String clue) {
 		super(wording);
 		this.solution = solution;
 		this.clue = clue;
@@ -74,13 +75,13 @@ public abstract class Question<T> extends Element
 		this.lastAnswer_correct = (Boolean) progress.getOrDefault("last_correct", Boolean.FALSE);
 	}
 
-	protected abstract void load_answer_from_string(String s);
+	protected abstract void load_answer_from_object(Object o);
 
     protected abstract String answer_to_string();
 
 	private void loadProgress_lastAnswer(Map<String, Object> progress) {
-	    String s = (String) progress.getOrDefault("last_answer", null);
-	    load_answer_from_string(s);
+	    Object o = progress.getOrDefault("last_answer", null);
+	    load_answer_from_object(o);
 	}
 
 	public void loadProgress(Map<String, Object> progress) {
@@ -93,7 +94,7 @@ public abstract class Question<T> extends Element
         Map<String, Object> p = new HashMap<String, Object>();
         p.put( "last_checked", this.lastAnswer_checked );
         p.put( "last_correct", this.lastAnswer_correct );
-        p.put( "last_answer", this.answer_to_string() );
+        p.put( "last_answer", this.answer);
         return p;
     }
 	
