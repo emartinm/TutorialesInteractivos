@@ -61,11 +61,11 @@ public abstract class Question<T> extends Element
 		this.lastAnswer_correct = lastAnswer_correct;
 	}
 
-	public String getClue() {
+	public String getHint() {
 		return clue;
 	}
 
-	public abstract Correction check(T answer, Language lang);
+	public abstract Correction check(Language lang);
 
 	private void loadProgress_lastAnswer_checked(Map<String, Object> progress) {
 		this.lastAnswer_checked = (Boolean) progress.getOrDefault("last_checked", Boolean.FALSE);

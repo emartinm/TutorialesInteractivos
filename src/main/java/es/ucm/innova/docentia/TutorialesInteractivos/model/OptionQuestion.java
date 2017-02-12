@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Question de tipo Options
  * 
- * @author Carlos, Rafa
+ * @author Enrique, Carlos, Rafa
  *
  */
 public class OptionQuestion extends Question<List<Integer>> {
@@ -32,7 +32,7 @@ public class OptionQuestion extends Question<List<Integer>> {
 		return options;
 	}
 
-	public Correction check(List<Integer> answer, Language lang) {
+	public Correction check(Language lang) {
 		boolean sol = true;
 		int tam = answer.size();
 		int i = 0;

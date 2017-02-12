@@ -27,15 +27,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-        List<String> ls = new ArrayList<>();
-        ls.add("ojete");
-        ls.add("moreno");
-        String s = ls.toString();
-        List<String> items = Arrays.asList(s.split("\\s*,\\s*"));
-        System.out.println(s);
-        System.out.println(items);
-
-		this.primaryStage=primaryStage;
+        this.primaryStage=primaryStage;
 		this.primaryStage.setX(50);
 		this.primaryStage.setY(50);
 		this.primaryStage.setTitle("Tutoriales Interactivos");

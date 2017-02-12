@@ -24,7 +24,6 @@ Lecciones:
        También podemos incrustar imagenes
        ![triangulo](file:///img/triangulo.jpg)
     - Elem: pregunta
-      Numero: 1
       Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
       Tipo: Opciones
       Pista: las operaciones enteras tienen resultado entero
@@ -37,7 +36,6 @@ Lecciones:
        - 3.5
        - Ninguna de las anteriores
     - Elem: pregunta
-      Numero: 2
       Enunciado: ¿que opción es correcta para extraer los dos nombres de la lista l=["Rafael", "Carlos", 32, 27]? 
       Tipo: Opciones
       Pista: los elementos de una lista se tratan como los de un array
@@ -50,10 +48,33 @@ Lecciones:
        - 3) False
        - 4) True
     - Elem: pregunta
-      Numero: 3 
       Enunciado: Asigna a la variable i el valor 4
       Tipo: Codigo
       Fichero: correctores/tema0.py
+    - Elem: pregunta
+      Enunciado: |
+       Rellena los huecos del siguiente código para duplicar el valor de `a` y para almacenar en la variable `c` la multipliación de `a` y `b`:
+       ```
+       a = 1
+       <Hueco 0>
+       b = 3
+       <Hueco 1>
+       ```
+      Tipo: Codigo
+      Huecos: 2
+      Fichero: correctores/tema0b.py
+    - Elem: pregunta
+      Enunciado: |
+       Rellena los huecos del siguiente código para duplicar asignar a las variables`a`, `b`, `c` y `d` los valores 1, 2, 3, y 4 respectivamente.
+       ```
+       a = <Hueco 0>
+       b = <Hueco 1>
+       c = <Hueco 2>
+       d = <Hueco 3>
+       ```
+      Tipo: Codigo
+      Huecos: 4
+      Fichero: correctores/tema0c.py      
     - Elem: explicacion
       Contenido: |
        En el entorno de Python se pueden crear pequeños programas como hallar el área de un *rectángulo*
@@ -86,7 +107,6 @@ Lecciones:
     Funcionará??
    Elementos:
     - Elem: pregunta
-      Numero: 1
       Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
       Tipo: Opciones
       Pista: las operaciones enteras tienen resultado entero

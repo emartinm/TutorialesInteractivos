@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * Clase base para los lenguajes soportados por la herramienta.
@@ -118,48 +119,49 @@ public abstract class Language {
         return l;
     }
 
-
-
 	public String getLanguage() {
 		return name;
 	}
 
-	protected List<String> reemplazaLinea( String line, int ini, int fin, String codigo ) {
-		ArrayList<String> lines = new ArrayList<String>();
-		String inicio = line.substring(0, ini);
-        String strFinal = line.substring(fin, line.length());
-		// TODO revisar que el line.separator funciona también en Windows
-		String[] cod_lines = codigo.split(System.getProperty("line.separator"));
-		// Inserta todas las líneas de 'codigo' poniendo antes el mismo espaciado que tenía el hueco
-		for (String l : cod_lines ) {
-			lines.add( inicio + l);
-		}
-		int last = lines.size() - 1;
-        String lastLine = lines.get(last);
-        lines.set(last, lastLine + strFinal);
-		return lines;
-	}
-
 	/*
-	* Reemplaza cada aparición de 'marker' en file_in con el código, y lo almacena en file_out */
-	protected void reemplazaHueco( File file_in, File file_out, String codigo ) {
-		try {
-			List<String> lines = Files.readAllLines(Paths.get(file_in.toURI()));
-			ArrayList<String> resultado = new ArrayList<String>();
-			for (String line : lines ) {
-				int pos = line.indexOf(marker);
-				if (pos >= 0) {
-                    int fin = pos + marker.length();
-					resultado.addAll( reemplazaLinea(line, pos, fin, codigo) );
-				} else {
-					resultado.add( line );
-				}
-			}
-			Files.write(Paths.get(file_out.toURI()), resultado);
-		} catch (java.io.IOException e) {
-			Controller.log.warning("Error al reemplazar hueco: " + e.getMessage());
-		}
-	}
+	Reemplaza los huecos marcados con 'marker' en el fichero file_in con los códigos almacenados
+	en codes (en el mismo orden). A la hora de pegar un código se preserva la posible tabulación/espacios
+	 */
+	protected void reemplazaHuecos(File file_in, File file_out, List<String> codes) {
+	    final int numCodes = codes.size();
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(file_in.toURI())));
+            for (int i = 0; i < numCodes; ++i) {
+                int pos = content.indexOf(marker);
+                int inicioLinea = inicioLinea(content,pos);
+                String previo = content.substring(inicioLinea, pos);
+                String cod = insertaInicio(previo, codes.get(i));
+                content = content.replaceFirst(Pattern.quote(marker), cod);
+            }
+            Files.write(Paths.get(file_out.toURI()), content.getBytes());
+        } catch (java.io.IOException e) {
+            Controller.log.warning("Error al reemplazar hueco: " + e.getMessage());
+        }
+    }
+
+    /*
+    Acepta una cadena s que puede tener varias lineas
+    Añade al inicio de cada una (salvo la primera) el prefix
+     */
+    private String insertaInicio(String prefix, String s) {
+	    return s.replaceAll("\n", prefix + "\n");
+    }
+
+    /*
+    Busca hacia atras desde la posición pos de la cadena content, hasta que encuentra el inicio de la línea
+     */
+    private int inicioLinea(String content, int pos){
+	    int curr = pos;
+	    while (curr >= 0 && content.charAt(curr) != '\n') {
+            curr--;
+        }
+        return curr + 1;
+    }
 
     protected List<String> fileToListString(BufferedReader br) {
 	    ArrayList<String> sa = new ArrayList<String>();
@@ -263,7 +265,6 @@ public abstract class Language {
     Definición por defecto de compileAndExecute
      */
     public Correction compileAndExecute(String correctorRelativePath, List<String> codes) {
-        String code = codes.get(0); // TODO arreglar
         File jsonFile = null;
         File sourceFile = null;
         File binaryFile = null;
@@ -281,7 +282,7 @@ public abstract class Language {
 
             String correctorPath = this.path + FileSystems.getDefault().getSeparator() + correctorRelativePath;
             File correctorFile = new File(correctorPath);
-            reemplazaHueco(correctorFile, sourceFile, code);
+            reemplazaHuecos(correctorFile, sourceFile, codes);
 
             if (needCompilation()) {
                 c = compile(sourceFile, binaryFile);
@@ -290,7 +291,7 @@ public abstract class Language {
                 }
                 c = execute(binaryFilename, jsonFilename);
             } else {
-                reemplazaHueco(correctorFile, sourceFile, code);
+                reemplazaHuecos(correctorFile, sourceFile, codes);
                 c = execute(sourceFilename, jsonFilename);
             }
         } catch (IOException e) {
@@ -312,7 +313,9 @@ public abstract class Language {
             File bat = File.createTempFile("vcvars", ".bat");
             InputStream batTemplate = getClass().getResourceAsStream("/getVCenvironment.bat");
             Files.copy(batTemplate, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            this.reemplazaHueco(temp, bat, vcvars);
+            List<String> vcvars_list = new ArrayList<>();
+            vcvars_list.add(vcvars);
+            this.reemplazaHuecos(temp, bat, vcvars_list);
             ProcessBuilder pb = new ProcessBuilder(bat.getAbsolutePath());
             Process p = pb.start();
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));

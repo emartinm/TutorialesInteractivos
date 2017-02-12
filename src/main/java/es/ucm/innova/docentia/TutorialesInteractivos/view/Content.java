@@ -75,7 +75,7 @@ public class Content extends GridPane {
 	    Element e = le.getCurrentElement();
 	    if (e instanceof Question && ((Question)e).isLastAnswer_checked() ) {
 	        Question q = (Question)e;
-	        this.correction = q.check(q.getLastAnswer(), c.getLanguage());
+	        this.correction = q.check(c.getLanguage());
             if (correction.isCorrect()) {
                 c.passCurrentElement();
                 q.setLastAnswer_correct(true);
@@ -267,7 +267,7 @@ public class Content extends GridPane {
 
         help.setOnAction( (event) -> {
             final Popup popup = new Popup();
-            String helpText = e.getClue();
+            String helpText = e.getHint();
             Label popupLabel = new Label(helpText);
             popup.setAutoHide(true);
             popupLabel.getStyleClass().add("hints");
@@ -356,7 +356,7 @@ public class Content extends GridPane {
         options = new VBox();
         int i = 1;
         List<Integer> lastAnswer = o.getLastAnswer();
-        help.setVisible( o.getClue() != null );
+        help.setVisible( o.getHint() != null );
         if (o.isLastAnswer_checked() ) {
             this.list_hints = correction.getHints();
         }
@@ -424,6 +424,7 @@ public class Content extends GridPane {
             TextArea t = new TextArea();
             codes[0] = t;
             t.setPromptText("Escriba aquí su código");
+            t.setPrefRowCount(8);
             vboxcodes.getChildren().add(t);
         } else {
             for (int i = 0; i < nGaps; ++i) {
@@ -445,7 +446,7 @@ public class Content extends GridPane {
         // Si hay alguna respuesta anterior la reestablecemos
         restoreLastAnswer(cq.getLastAnswer());
 
-        help.setVisible( cq.getClue() != null );
+        help.setVisible( cq.getHint() != null );
 
         // Si la ultima accion fue una comprobación, se corrije la pregunta
         if (cq.isLastAnswer_checked() ) {

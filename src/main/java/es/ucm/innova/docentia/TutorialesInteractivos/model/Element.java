@@ -23,7 +23,7 @@ public abstract class Element {
 		return this.text;
 	}
 
-	public abstract String getClue();
+	public abstract String getHint();
 
 	public void loadProgress(Map<String, Object> progress) {}
 }

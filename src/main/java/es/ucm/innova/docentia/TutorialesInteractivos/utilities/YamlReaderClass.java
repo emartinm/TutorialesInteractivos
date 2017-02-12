@@ -71,7 +71,8 @@ public final class YamlReaderClass {
 					if (pre.get("Tipo").equals("Codigo")) {
 						// Question de tipo codigo
 						String answer = (String) pre.get("Fichero");
-						elem = new CodeQuestion(wording, clue, answer);
+						Integer numGaps = (Integer) pre.getOrDefault("Huecos", 1);
+						elem = new CodeQuestion(wording, clue, answer, numGaps);
 
 					} else if (pre.get("Tipo").equals("Sintaxis")) {
 						Controller.log.info( "Preguntas de tipo Sintaxis no soportadas");

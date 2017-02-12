@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Question de tipo Code
  * 
- * @author Carlos, Rafa
+ * @author Enrique, Carlos, Rafa
  *
  */
 public class CodeQuestion extends Question<List<String>> {
@@ -20,24 +20,19 @@ public class CodeQuestion extends Question<List<String>> {
 				this.solution, this.corrector, this.clue);
 	}
 
-	public CodeQuestion(String wording, String clue, String corrector) {
+	public CodeQuestion(String wording, String clue, String corrector, int numGaps) {
 	    super(wording, clue);
 	    this.corrector = corrector;
+	    this.numGaps = numGaps;
 	}
 
 
-	public Correction check(List<String> answer, Language lang) {
-        return lang.compileAndExecute(this.corrector, answer);
+	public Correction check(Language lang) {
+        return lang.compileAndExecute(this.corrector, this.answer);
     }
 
 	protected void load_answer_from_object(Object o) {
 	    this.answer = (List<String>)o;
-		//this.lastAnswer = new ArrayList<String>(s);
-	}
-
-	protected String answer_to_string() {
-		//return this.lastAnswer;
-        return null;
 	}
 
 	public int getNumberGaps() {

@@ -16,7 +16,7 @@ public class Explanation extends Element{
 	}
 
 	@Override
-	public String getClue() {
+	public String getHint() {
 			return null;
 	}
 
