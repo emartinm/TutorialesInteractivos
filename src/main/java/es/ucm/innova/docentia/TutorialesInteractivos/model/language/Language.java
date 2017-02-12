@@ -262,7 +262,8 @@ public abstract class Language {
     /*
     Definición por defecto de compileAndExecute
      */
-    public Correction compileAndExecute(String correctorRelativePath, String code) {
+    public Correction compileAndExecute(String correctorRelativePath, List<String> codes) {
+        String code = codes.get(0); // TODO arreglar
         File jsonFile = null;
         File sourceFile = null;
         File binaryFile = null;

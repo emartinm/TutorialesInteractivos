@@ -55,27 +55,8 @@ public class OptionQuestion extends Question<List<Integer>> {
 		return multi;
 	}
 
-	protected void load_answer_from_string(String s) {
-		if (s != null && s.length() > 0 ){
-			String[] ints = s.split(",");
-			this.lastAnswer = new ArrayList<Integer>();
-			for (String n : ints ) {
-				this.lastAnswer.add( new Integer(n) );
-			}
-		}
+	protected void load_answer_from_object(Object o) {
+		this.answer = (List<Integer>)o;
 	}
-
-    protected String answer_to_string() {
-        String ret = "";
-	    if (this.lastAnswer != null ) {
-	        for( int i = 0; i < lastAnswer.size(); ++i ) {
-	            ret = ret + lastAnswer.get(i).toString();
-	            if ( i < lastAnswer.size() - 1 ) {
-	                ret = ret + ",";
-                }
-            }
-        }
-        return ret;
-    }
 
 }

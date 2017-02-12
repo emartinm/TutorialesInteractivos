@@ -13,10 +13,11 @@ import java.util.List;
  */
 public class CodeQuestion extends Question<List<String>> {
     private String corrector;
+    private int numGaps = 1;
 
 	public String toString(){
 		return String.format("CodeQuestion(%s,%s,%s)", this.text,
-				this.solution, this.clue);
+				this.solution, this.corrector, this.clue);
 	}
 
 	public CodeQuestion(String wording, String clue, String corrector) {
@@ -26,12 +27,11 @@ public class CodeQuestion extends Question<List<String>> {
 
 
 	public Correction check(List<String> answer, Language lang) {
-        //return lang.compileAndExecute(this.corrector, answer);
-        return null;
+        return lang.compileAndExecute(this.corrector, answer);
     }
 
 	protected void load_answer_from_object(Object o) {
-	    this.lastAnswer = (List<String>)o;
+	    this.answer = (List<String>)o;
 		//this.lastAnswer = new ArrayList<String>(s);
 	}
 
@@ -41,10 +41,7 @@ public class CodeQuestion extends Question<List<String>> {
 	}
 
 	public int getNumberGaps() {
-		return 1;
+		return numGaps;
 	}
-
-
-	
 
 }

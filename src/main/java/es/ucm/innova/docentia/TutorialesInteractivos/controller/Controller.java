@@ -99,9 +99,10 @@ public class Controller {
 	 * @param p
 	 * @return
 	 */
-	public Correction check(List<Integer> resp, Question p) {
-		return p.check(resp, null);
-	}
+
+	//public Correction check(List<Integer> resp, Question p) {
+	//	return p.check(resp, null);
+	//}
 
 	/**
 	 * Función correctora de las preguntas de tipo Code y sintaxis
@@ -110,11 +111,10 @@ public class Controller {
 	 * @param p
 	 * @return
 	 */
-	public Correction check(String resp, Question p) {
+	//public Correction check(List<String> resp, Question p) {
 		//return p.check(resp, subject);
-		String langDir = getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + "python34";
-		return p.check(resp, this.language );
-	}
+	//	return p.check(resp, this.language );
+	//}
 
 	/**
 	 * Llama a changeview pasandole la lista de temas disponibles para un
@@ -443,6 +443,10 @@ public class Controller {
 
     public String getCurrentLanguage() {
 		return this.selectedLanguage;
+	}
+
+	public Language getLanguage() {
+		return this.language;
 	}
 
 }

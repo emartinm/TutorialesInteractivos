@@ -22,14 +22,14 @@ public abstract class Question<T> extends Element
 
 
 	// Para recordar la respuesta del usuario
-	protected T lastAnswer;               //La última respuesta del usuario
+	//protected T lastAnswer;               //La última respuesta del usuario
 	protected boolean lastAnswer_checked; //La respuesta 'lastAnswer' fue comprobada
 	protected boolean lastAnswer_correct; //La respuesta 'lastAnswer' fue comprobada y era correcta
 
 	public Question(){
 		super(null);
 		this.lastAnswer_checked = false;
-		this.lastAnswer = null;
+		this.answer = null;
 		this.lastAnswer_correct = false;
 		this.clue = null;
 		
@@ -42,11 +42,11 @@ public abstract class Question<T> extends Element
 	}
 
 	public T getLastAnswer() {
-		return lastAnswer;
+		return answer;
 	}
 
 	public void setLastAnswer(T lastAnswer) {
-		this.lastAnswer = lastAnswer;
+		this.answer = lastAnswer;
 	}
 
 	public boolean isLastAnswer_checked() {
@@ -76,8 +76,6 @@ public abstract class Question<T> extends Element
 	}
 
 	protected abstract void load_answer_from_object(Object o);
-
-    protected abstract String answer_to_string();
 
 	private void loadProgress_lastAnswer(Map<String, Object> progress) {
 	    Object o = progress.getOrDefault("last_answer", null);

@@ -34,7 +34,6 @@ public class Content extends GridPane {
     private VBox container;
     private Node text;
     private Label labelCode;
-    private TextArea taCode;
     private TextInputControl[] codes;
     private HBox result;
     private Label isCorrect;
@@ -45,10 +44,14 @@ public class Content extends GridPane {
     private Button resolve;
     private VBox options;
     private SimplePagination paginator;
+    private Correction correction;
 
 
 	/* Crea la vista del elemento de actual de la lección actual */
 	public Content(Controller c, Lesson le) {
+	    // Calcula la corrección si es necesario
+        correctIfNeeded(c, le);
+
 		//GridPane mainPane = new GridPane();
         container = generateContainer(c, le);
 		//container = new VBox(5); // Texto y campo de respuesta si es una pregunta
@@ -67,6 +70,21 @@ public class Content extends GridPane {
 		GridPane.setConstraints(buttonsLabel, 0, 2, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 		this.getStylesheets().add(getClass().getResource("/css/content.css").toExternalForm());
 	}
+
+    private void correctIfNeeded(Controller c, Lesson le) {
+	    Element e = le.getCurrentElement();
+	    if (e instanceof Question && ((Question)e).isLastAnswer_checked() ) {
+	        Question q = (Question)e;
+	        this.correction = q.check(q.getLastAnswer(), c.getLanguage());
+            if (correction.isCorrect()) {
+                c.passCurrentElement();
+                q.setLastAnswer_correct(true);
+            } else {
+                q.setLastAnswer_correct(false);
+            }
+            this.list_hints = correction.getHints();
+        }
+    }
 
     private HBox generateBottomButtons(Controller c) {
         HBox buttonsLabel = new HBox(10);
@@ -93,10 +111,10 @@ public class Content extends GridPane {
         return buttonsLabel;
     }
 
-    private void showCorrectionMessages(Correction correction) {
+    private void showCorrectionMessages() {
 	    if (correction != null ) {
             showHintsButton(correction.getHints());
-            showMessage(correction);
+            showMessage();
 	    }
     }
 
@@ -107,7 +125,7 @@ public class Content extends GridPane {
         hints.setVisible(l_hints != null && l_hints.size() > 0);
 	}
 
-    private void showMessage(Correction correction) {
+    private void showMessage() {
         if (correction.getResult() == ExecutionMessage.COMPILATION_ERROR ){
             isCorrect.setText("ERROR DE COMPILACIÓN");
             isCorrect.getStyleClass().add("msjIncorrecto");
@@ -223,7 +241,7 @@ public class Content extends GridPane {
         answerBox = new BorderPane();
         answerBox.setPadding(new Insets(2,2,2,2));
         answerBox.getStyleClass().add("respuestaBox");
-        Correction correction = null;
+
 
         //answerBox = new BorderPane();// Contenedor con el campo de respuesta y los botones de la pregunta
 
@@ -282,15 +300,17 @@ public class Content extends GridPane {
                     }
                 }
 
-                ((OptionQuestion) e).setLastAnswer(resp);
-                ((OptionQuestion) e).setLastAnswer_checked(true);
-                if (c.check(resp, (Question) e).isCorrect()) {
-                    c.passCurrentElement();
-                    ((Question) e).setLastAnswer_correct(true);
-                    hints.setVisible(false);
-                } else {
-                    ((Question) e).setLastAnswer_correct(false);
-                }
+                OptionQuestion oq = (OptionQuestion)e;
+                oq.setLastAnswer(resp);
+                oq.setLastAnswer_checked(true);
+                //if (c.check(resp, (Question) e).isCorrect()) {
+                //if (oq.check(resp, c.getLanguage()).isCorrect()) {
+                //   c.passCurrentElement();
+                //    ((Question) e).setLastAnswer_correct(true);
+                //    hints.setVisible(false);
+                //} else {
+                //    ((Question) e).setLastAnswer_correct(false);
+                //}
             } else if (e instanceof CodeQuestion) {
                 CodeQuestion pc = (CodeQuestion) e;
                 //String code = taCode.getText();
@@ -333,13 +353,11 @@ public class Content extends GridPane {
     }
 
     private Node generateOptions(Controller c, OptionQuestion o) {
-        Correction correction = null;
         options = new VBox();
         int i = 1;
         List<Integer> lastAnswer = o.getLastAnswer();
         help.setVisible( o.getClue() != null );
         if (o.isLastAnswer_checked() ) {
-            correction = c.check(lastAnswer, o);
             this.list_hints = correction.getHints();
         }
         if (!o.getMulti()) {
@@ -392,7 +410,7 @@ public class Content extends GridPane {
         }
 
         //Si la pregunta fue evaluada, muestra el mensaje y posibles pistas
-        showCorrectionMessages(correction);
+        showCorrectionMessages();
         return options;
     }
 
@@ -424,13 +442,13 @@ public class Content extends GridPane {
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setMinHeight(150);
 
-        Correction correction = null;
-        /*taCode = new TextArea();
-        taCode.setPromptText("Escriba aquí su código");
-        String lastAnswer = cq.getLastAnswer();
+        // Si hay alguna respuesta anterior la reestablecemos
+        restoreLastAnswer(cq.getLastAnswer());
+
         help.setVisible( cq.getClue() != null );
+
+        // Si la ultima accion fue una comprobación, se corrije la pregunta
         if (cq.isLastAnswer_checked() ) {
-            correction = c.check(lastAnswer, cq);
             if (correction.isCorrect()) {
                 c.passCurrentElement();
                 cq.setLastAnswer_correct(true);
@@ -440,17 +458,20 @@ public class Content extends GridPane {
             this.list_hints = correction.getHints();
         }
 
-        // Si la ultima accion fue una comprobación, se muestra le mensaje
-        // y el botón de pistas si hay alguna
 
-        showCorrectionMessages(correction);
-
-        // Si hay alguna respuesta anterior la reestablecemos
-        if (lastAnswer != null ) {
-            taCode.setText( cq.getLastAnswer() );
+        // Cuando cambie cualquier campo de texto, se actualiza la pregunta y se salva el progreso
+        for (int i = 0; i < codes.length; ++i ) {
+            codes[i].textProperty().addListener( (ov, old_v, new_v) -> {
+                List<String> resp = getCurrentCodes();
+                cq.setLastAnswer( resp );
+                cq.setLastAnswer_checked(false);
+                clearMessage();
+                hints.setVisible(false);
+                c.updateAndSaveCurrentLessonProgress();
+            });
         }
 
-        taCode.textProperty().addListener( (ov, old_v, new_v) -> {
+        /*taCode.textProperty().addListener( (ov, old_v, new_v) -> {
             //Controller.log.info("El texto ha cambiado");
             // Cada vez que cambia el texto almacenamos su valor actual y restablecemos el
             // mensaje de corrección
@@ -463,6 +484,14 @@ public class Content extends GridPane {
         });*/
 
         return sp;
+    }
+
+    private void restoreLastAnswer(List<String> lastAnswer) {
+        if (lastAnswer != null && this.codes.length == lastAnswer.size()) {
+            for (int i = 0; i < lastAnswer.size(); ++i) {
+                codes[i].setText(lastAnswer.get(i));
+            }
+        }
     }
 
     private int getPrefLinesFromGaps(int numberGaps) {
@@ -482,6 +511,8 @@ public class Content extends GridPane {
         hb.getChildren().addAll(hints);
         hints.setAlignment(Pos.BOTTOM_RIGHT);
         hints.setVisible(false);
+
+        this.showCorrectionMessages();
         return hb;
     }
 
@@ -497,5 +528,13 @@ public class Content extends GridPane {
         }
         labelCode.getStyleClass().add("labcode");
         return needed;
+    }
+
+    public List<String> getCurrentCodes() {
+        List<String> l = new ArrayList<>();
+        for (int i = 0; i < codes.length; ++i ) {
+            l.add(codes[i].getText());
+        }
+        return l;
     }
 }
