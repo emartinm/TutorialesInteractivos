@@ -33,21 +33,12 @@ public class OptionQuestion extends Question<List<Integer>> {
 	}
 
 	public Correction check(Language lang) {
-		boolean sol = true;
 		int tam = answer.size();
-		int i = 0;
+		boolean sol = (this.solution.size() == tam);
 
-		if (this.solution.size() == tam) {
-		    // Se comprueba que haya el mismo numero de opciones marcadas como opciones correctas
-			do {
-				if (!this.solution.contains(answer.get(i)))
-					sol = false;
-				i++;
-			} while (sol && i < tam);
-		} else {
-			sol = false;
+		for (int i = 0; i < tam; ++i ) {
+			sol = sol && this.solution.contains(answer.get(i));
 		}
-
 		return new Correction(ExecutionMessage.OK, "", null, sol);
 	}
 

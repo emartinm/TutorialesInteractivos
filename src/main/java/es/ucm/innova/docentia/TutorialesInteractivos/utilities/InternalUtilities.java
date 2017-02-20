@@ -9,11 +9,16 @@ import java.nio.file.DirectoryStream;
 import java.io.InputStream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.util.KeepType;
+import com.vladsch.flexmark.util.options.MutableDataHolder;
+import com.vladsch.flexmark.util.options.MutableDataSet;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,6 +46,19 @@ import javax.swing.*;
 public class InternalUtilities {
     private static WebView browser = null;
     private static WebEngine webEngine = null;
+    private static final MutableDataHolder OPTIONS = new MutableDataSet()
+            .set(Parser.REFERENCES_KEEP, KeepType.LAST)
+            .set(HtmlRenderer.INDENT_SIZE, 2)
+            .set(HtmlRenderer.PERCENT_ENCODE_URLS, true)
+
+            // for full GFM table compatibility add the following table extension options:
+            .set(TablesExtension.COLUMN_SPANS, false)
+            .set(TablesExtension.APPEND_MISSING_COLUMNS, true)
+            .set(TablesExtension.DISCARD_EXTRA_COLUMNS, true)
+            .set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, true)
+            .set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
+    private static Parser PARSER = Parser.builder(OPTIONS).build();
+    private static HtmlRenderer RENDERER = HtmlRenderer.builder(OPTIONS).build();
 
 	/**
 	 * Modifica el la ruta de la imagen dentro del HTML
@@ -136,11 +154,12 @@ public class InternalUtilities {
 	 * @return
 	 */
 	public String parserMarkDown(String mark, String baseDir) {
+	    System.out.println(mark);
 		String html;
-		Parser parser = Parser.builder().build();
-        com.vladsch.flexmark.ast.Node document = parser.parse(mark);
-		HtmlRenderer renderer = HtmlRenderer.builder().build();
-		html = renderer.render(document);
+		//Parser parser = Parser.builder().build();
+        com.vladsch.flexmark.ast.Node document = PARSER.parse(mark);
+		//HtmlRenderer renderer = HtmlRenderer.builder().build();
+		html = RENDERER.render(document);
 
 		html = modifyImg(html, baseDir);
 		return html;

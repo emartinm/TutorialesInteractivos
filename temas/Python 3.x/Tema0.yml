@@ -68,37 +68,89 @@ Lecciones:
           **Las imágenes pueden ser GIFs animados**
           
           ![dijkstra](https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif)
+          *(Por alguna razón las animaciones en GIF no funcionan)*
     - Elem: explicacion
       Contenido: |
-       Unos ejemplos:
-       ```
-       s = 'Hola Mundo'
-       entero = 6
-       ```
-       También podemos incrustar imagenes
-       ![triangulo](file:///img/triangulo.jpg)
+          También se pueden incluir enlaces en las explicaciones:
+
+          * [Texto del enlace](https://www.google.com)
+          * [https://www.google.com](https://www.google.com)
+
+          
+    - Elem: explicacion
+      Contenido: |
+          En Markdown se pueden definir tablas de una manera muy sencilla:
+          
+          Cabecera|Cabecera|Cabecera
+          ---|---|---
+          1|2|3
+          1|2|3
+          1|2|3
+    - Elem: explicacion
+      Contenido: |
+          Donde Markdown no llega, se puede insertar código HTML y se mostrará directamente en la apliación.
+          
+          Concretamente esto puede servir para incrustar recursos HTML5, como videos de Youtube:
+          
+          **Vídeos de Youtube**
+          
+          <iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen></iframe>
+ - Titulo: Preguntas de tipo test
+   Elementos:
     - Elem: pregunta
-      Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
+      Enunciado: |
+          Existen 2 tipos de preguntas de tipo test:
+          * Preguntas con una sola opción
+          * Preguntas con varias opciones
+              
+          La pregunta que vemos aquí es de una sola opción válida
       Tipo: Opciones
-      Pista: las operaciones enteras tienen resultado entero
+      Pista: Se pueden incluir pistas en las preguntas.
       Solucion: [1]
       Multiple: no
       Opciones: 
-       - 3
-       - 4
-       - 3.5
-       - Ninguna de las anteriores
+       - ELIGE ESTA, es la opción correcta
+       - Opción inválida
+       - Opción inválida
+       - Opción inválida
     - Elem: pregunta
-      Enunciado: ¿que opción es correcta para extraer los dos nombres de la lista l=["Rafael", "Carlos", 32, 27]? 
+      Enunciado: |
+          Las preguntas de varias opciones permiten selección varias respuestas:
       Tipo: Opciones
-      Pista: los elementos de una lista se tratan como los de un array
+      Pista: Esto es una pista
       Multiple: yes
       Solucion: [1,2,4]
       Opciones:
-       - 1) True
-       - 2) True
-       - 3) False
-       - 4) True
+       - 1) ELIGE ESTA
+       - 2) ELIGE ESTA
+       - 3) Opción inválida
+       - 4) ELIGE ESTA
+    - Elem: pregunta
+      Enunciado: |
+          Nada impide que las preguntas de varias opciones tengan una sola opción válida
+      Tipo: Opciones
+      Pista: Esto es una pista
+      Multiple: yes
+      Solucion: [4]
+      Opciones:
+       - 1) Opción inválida
+       - 2) Opción inválida
+       - 3) Opción inválida
+       - 4) ELIGE ESTA  
+    - Elem: pregunta
+      Enunciado: |
+          Y tampoco hay nada que impida que las preguntas de varias opciones no tengan ninguna opción válida
+      Tipo: Opciones
+      Pista: Esto es una pista
+      Multiple: yes
+      Solucion: []
+      Opciones:
+       - 1) Opción inválida
+       - 2) Opción inválida
+       - 3) Opción inválida
+       - 4) Opción inválida  
+ - Titulo: Preguntas de tipo código
+   Elementos:
     - Elem: pregunta
       Enunciado: Asigna a la variable i el valor 4
       Tipo: Codigo
@@ -126,100 +178,4 @@ Lecciones:
        ```
       Tipo: Codigo
       Huecos: 4
-      Fichero: correctores/tema0c.py      
-    - Elem: explicacion
-      Contenido: |
-       En el entorno de Python se pueden crear pequeños programas como hallar el área de un *rectángulo*
-       ej:
-       ```
-       altura = 7
-       ancho = 8
-       area = altura * ancho
-       ```
- - Titulo: Dos explicaciones
-   Elementos:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:     
-       
-        * Con comillas simples
-        * Con comillas dobles
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:     
-       
-        * Con comillas simples
-        * Con comillas dobles
- - Titulo: Empieza con una pregunta
-   Elementos:
-    - Elem: pregunta
-      Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
-      Tipo: Opciones
-      Pista: las operaciones enteras tienen resultado entero
-#para el tipo opciones
-      Solucion: [1]
-      Multiple: no
-      Opciones: 
-       - 3
-       - 4
-       - 3.5
-       - Ninguna de las anteriores
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:     
-       
-        * Con comillas simples
-        * Con comillas dobles
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:     
-       
-        * Con comillas simples
-        * Con comillas dobles                                                        
- - Titulo: Muy larga
-   Elementos:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
-    - Elem: explicacion
-      Contenido: |
-       Las cadenas se pueden expresar de diversas formas:
+      Fichero: correctores/tema0c.py
