@@ -12,9 +12,8 @@ import java.lang.ClassCastException;
  * @author Carlos, Rafa
  *
  */
-public class Lesson 
-{
-	private final int number;              //Numero de la leccion
+public class Lesson {
+	//private final int number;              //Numero de la leccion
 	private final String title;            //Titulo de la leccion
 	private List<Element> elements;        //Array con los elements de la leccion
 	private String version = null;
@@ -27,7 +26,7 @@ public class Lesson
 
 
 	public String toString(){
-		return String.format("Lesson(%d,%s,%s)", this.number, this.title, this.elements.toString());
+		return String.format("Lesson(%s,%s)", this.title, this.elements.toString());
 	}
 
 
@@ -47,10 +46,9 @@ public class Lesson
         return version;
 	}
 
-	public Lesson(int number, String title){
-		this.number=number;
+	public Lesson(String title, List<Element> elems){
 		this.title =title;
-		this.elements = new ArrayList<Element>();
+		this.elements = elems; //new ArrayList<Element>();
 
         /* MessageEncoder md es un singleton */
         if (this.md == null) {
@@ -60,10 +58,6 @@ public class Lesson
                 Controller.log.info("MD5 no instalado");
             }
         }
-	}
-
-	public int getNumber() {
-		return this.number;
 	}
 
 	public String getTitle() {

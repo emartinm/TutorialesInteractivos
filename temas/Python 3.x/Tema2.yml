@@ -33,7 +33,7 @@ Lecciones:
       Pista: los elementos de una lista se tratan como los de un array
   #para el tipo opciones
       Multiple: yes
-      Opcion_correcta: 1,2,3
+      Solucion: [1,2,3]
       Opciones:
        - 1) l[0:2]
        - 2) l[:2]

@@ -77,14 +77,13 @@ public final class YamlReaderClass {
 					} else if (pre.get("Tipo").equals("Sintaxis")) {
 						Controller.log.info( "Preguntas de tipo Sintaxis no soportadas");
 					} else if (pre.get("Tipo").equals("Opciones")) {
-						Boolean isMulti = false;
-						if ((Boolean) pre.get("Multiple")) {
-							isMulti = true;
-						}
+						Boolean isMulti = (Boolean) pre.getOrDefault("Multiple", Boolean.FALSE);
 						// Cogemos el texto de las opciones correctas
-						String correctOpc = (String) pre.get("Opcion_correcta");
+						/*String correctOpc = (String) pre.get("Opcion_correcta");
 						String[] corrects = correctOpc.split(",");
 						ArrayList<Integer> correctsAux = StringToInt(corrects); // Cambia el tipo de respuesta a Integer
+						*/
+						List<Integer> correctsAux = (List<Integer>) pre.getOrDefault("Solucion", null);
 						ArrayList<String> opc = (ArrayList<String>) pre.get("Opciones");
 						elem = new OptionQuestion(wording, clue, opc, isMulti, correctsAux);
 					}
@@ -95,11 +94,10 @@ public final class YamlReaderClass {
 				elements.add(elem);// Añade el elemento al array de elementos de Lesson
 
 			}
-			int nLesson = (Integer) lesson.get("Leccion"); // numero de
-																// leccion
-			String tLesson = (String) lesson.get("Titulo_Leccion");// titulo de leccion
-            Lesson lec = new Lesson(nLesson, tLesson);// Crea la leccion
-			lec.setElements(elements);// Modifica el array de elementos de una leccion
+			//int nLesson = (Integer) lesson.get("Leccion"); // numero de leccion
+			String tLesson = (String) lesson.get("Titulo");// titulo de leccion
+            Lesson lec = new Lesson(tLesson, elements);// Crea la leccion
+			//lec.setElements(elements);// Modifica el array de elementos de una leccion
 			lessons.add(lec);// Añade la leccion al array de lecciones
 		}
 		// rellenado de objetos final

@@ -1,19 +1,73 @@
 Tema: 0
-Titulo: Tema TEST
-Introduccion: Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas
+Titulo: Tema de prueba
+Introduccion: Tema para mostrar la potencia de la herramienta
 Lecciones:
- - Leccion: 1 
-   Titulo_Leccion: Operaciones con numeros  
+ - Titulo: Explicaciones
    Elementos:
     - Elem: explicacion
-      Contenido: >
-       El interprete funciona como una **simple calculadora**, Tu tecleas una expresion 
-       y el muestra el resultado. La sintaxis de las expresiones es bastante intuitiva. 
-       Los operadores +, -, * y / funcionan como en otros lenguajes (p. ej. Pascal o C). 
-       Se puede usar parentesis para agrupar operaciones. 
+      Contenido: |
+          Las explicaciones sirven para mostrar información al alumno. 
+
+          Estas esplicaciones se pueden dividir en varios párrafos, y con Markdown se puede formatear de manera sencilla con **negritas**, *itálicas* y `código`.
+
+          También se pueden insertar bloques de código
+          ```python
+          def incrementa(n):
+              print(n)
+              print(n+1)
+              return n + 1
+          ```
     - Elem: explicacion
-      Contenido: >
-       El simbolo de igualdad sirve para asignar valores a variables. *Variable = valor*
+      Contenido: |
+          También se pueden establecer distintas cabeceras.
+
+          # H1
+
+          ## H2
+
+          ### H3
+
+          #### H4
+
+          ##### H5
+
+          ###### H6
+    - Elem: explicacion
+      Contenido: |
+          Markdown soporta listas:
+
+          # Listas numeradas
+          1. Elemento 1
+          1. Elemento 2
+
+          # Listas no numeradas
+          * Elemento 1
+          * Elemento 2
+          * Elemento 3
+
+          # Listas anidadas
+          * Elemento 1
+              1. anidado 1
+              1. anidado 2
+              1. anidada 3
+          * Elemento 2
+              * anidado 1
+              * anidado 2 
+    - Elem: explicacion
+      Contenido: |
+          Markdown soporta la incorporación de **imágenes**:
+          
+          **Imagen desde internet**
+          
+          ![texto alternativo](https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png)
+          
+          **Imagen desde el directorio de temas (*con ruta relativa al directorio del lenguaje*)**
+          
+          ![triangulo](file:///img/triangulo.jpg)
+          
+          **Las imágenes pueden ser GIFs animados**
+          
+          ![dijkstra](https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif)
     - Elem: explicacion
       Contenido: |
        Unos ejemplos:
@@ -27,8 +81,7 @@ Lecciones:
       Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
       Tipo: Opciones
       Pista: las operaciones enteras tienen resultado entero
-#para el tipo opciones
-      Opcion_correcta: "1"
+      Solucion: [1]
       Multiple: no
       Opciones: 
        - 3
@@ -39,9 +92,8 @@ Lecciones:
       Enunciado: ¿que opción es correcta para extraer los dos nombres de la lista l=["Rafael", "Carlos", 32, 27]? 
       Tipo: Opciones
       Pista: los elementos de una lista se tratan como los de un array
-  #para el tipo opciones
       Multiple: yes
-      Opcion_correcta: 1,2,4
+      Solucion: [1,2,4]
       Opciones:
        - 1) True
        - 2) True
@@ -84,10 +136,7 @@ Lecciones:
        ancho = 8
        area = altura * ancho
        ```
- - Leccion: 3
-   Titulo_Leccion: Dos explicaciones
-   Intro_leccion: >
-    Funcionará??
+ - Titulo: Dos explicaciones
    Elementos:
     - Elem: explicacion
       Contenido: |
@@ -101,17 +150,14 @@ Lecciones:
        
         * Con comillas simples
         * Con comillas dobles
- - Leccion: 5
-   Titulo_Leccion: Empieza con una pregunta
-   Intro_leccion: >
-    Funcionará??
+ - Titulo: Empieza con una pregunta
    Elementos:
     - Elem: pregunta
       Enunciado: si hacemos la operacion '7 / 2' que sale por pantalla?
       Tipo: Opciones
       Pista: las operaciones enteras tienen resultado entero
 #para el tipo opciones
-      Opcion_correcta: "1"
+      Solucion: [1]
       Multiple: no
       Opciones: 
        - 3
@@ -130,10 +176,7 @@ Lecciones:
        
         * Con comillas simples
         * Con comillas dobles                                                        
- - Leccion: 4
-   Titulo_Leccion: Muy larga
-   Intro_leccion: >
-    Leccion con 20 fragmentos
+ - Titulo: Muy larga
    Elementos:
     - Elem: explicacion
       Contenido: |

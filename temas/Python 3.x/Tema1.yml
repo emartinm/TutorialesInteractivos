@@ -27,7 +27,7 @@ Lecciones:
       Tipo: Opciones
       Pista: las operaciones enteras tienen resultado entero
 #para el tipo opciones
-      Opcion_correcta: "1"
+      Solucion: [1]
       Multiple: no
       Opciones: 
        - 3
@@ -115,7 +115,7 @@ Lecciones:
       Explicacion: Las cadenas en python se pueden tratar como si fueran un array de elementos, siendo el 0 el primer caracter.
       Tipo: Opciones
       Multiple: no
-      Opcion_correcta: "3"
+      Solucion: [3]
       Opciones: 
        - 1) recamara[2:3]
        - 2) recamara[1:3]

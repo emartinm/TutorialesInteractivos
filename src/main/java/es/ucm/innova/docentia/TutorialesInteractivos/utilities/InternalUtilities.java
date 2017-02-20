@@ -15,6 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
@@ -37,6 +39,8 @@ import javax.swing.*;
  *
  */
 public class InternalUtilities {
+    private static WebView browser = null;
+    private static WebEngine webEngine = null;
 
 	/**
 	 * Modifica el la ruta de la imagen dentro del HTML
@@ -66,10 +70,15 @@ public class InternalUtilities {
 	// Permitir llamar a esta funcion y modificar el html que se le pasa o
 	// modificar el webview desde donde se hae la llamada
 	public static Node creaBrowser(String html) {
-        String os_name = System.getProperty("os.name");
-		//Deshabilitado el workaround para mostrar HMTL en Windows
-		os_name = "";
-
+        if (browser == null) {
+            browser = new WebView();
+            webEngine = browser.getEngine();
+            webEngine.setUserStyleSheetLocation(InternalUtilities.class.getResource("/css/webView.css").toString() );
+        }
+        //Deshabilitado el workaround para mostrar HMTL en Windows
+	    /*
+	    String os_name = System.getProperty("os.name");
+	    os_name = "";
         if (os_name.toLowerCase().contains("windows")) {
             JTextPane jp = new JTextPane();
             jp.setContentType( "text/html" );
@@ -86,35 +95,18 @@ public class InternalUtilities {
             SwingNode browser = new SwingNode();
             browser.setContent(jp);
             return browser;
-        } else {
-            InputStream file;
-            String aux = "";
-            file = InternalUtilities.class.getClassLoader().getResourceAsStream("css/webView.css");
-            aux = fileToString(file);
-            final String CSS = aux;
-            WebView browser = new WebView();
-            final WebEngine webEngine = browser.getEngine();
-
-            webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-                if (newState == State.SUCCEEDED) {
-                    Document doc = webEngine.getDocument();
-                    org.w3c.dom.Element styleNode = doc.createElement("style");
-                    org.w3c.dom.Text styleContent = doc.createTextNode(CSS);
-                    styleNode.appendChild(styleContent);
-                    doc.getDocumentElement().getElementsByTagName("head").item(0).appendChild(styleNode);
-                }
-            });
-            webEngine.loadContent(html);
-            /*
+        } else {*/
+            webEngine.loadContent(html, "text/html");
+            //webEngine.load("http://i.imgur.com/V6aroSo.gif");
             // Para depurar el código que se muestra
-            webEngine.documentProperty().addListener(new ChangeListener<Document>() {
+            /*webEngine.documentProperty().addListener(new ChangeListener<Document>() {
                 @Override public void changed(ObservableValue<? extends Document> prop, Document oldDoc, Document newDoc) {
                     InternalUtilities.enableFirebug(webEngine);
                 }
-            });
-            */
+            });*/
+            System.out.println(html);
             return browser;
-        }
+        //}
 
 	}
 
