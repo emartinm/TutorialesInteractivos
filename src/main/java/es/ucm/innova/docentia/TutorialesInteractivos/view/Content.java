@@ -6,18 +6,10 @@ import java.util.List;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
-import javafx.geometry.Bounds;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Popup;
 
 
@@ -211,6 +203,7 @@ public class Content extends GridPane {
         VBox container = new VBox();
         Element e = this.lessonCurrentElement(le);
 
+        // Genera la cabecera
         String cabecera = c.getCurrentLanguage() + " > " + c.getSubject().getTitle() + " > " + le.getTitle();
         type = new Label(cabecera);
         type.setAlignment(Pos.CENTER);
@@ -219,19 +212,25 @@ public class Content extends GridPane {
         String content = c.markToHtml(e.getText());
         // Campo donde se escribe el enunciado o la explicacion de la pregunta
         text = InternalUtilities.creaBrowser(content);
+        text.minHeight(100);
 
         result = generaResult();
-        boolean neededLabelCode = generateLabelCode(e);
+        generateLabelCode(e);
         boolean neededAnswerBox = generaAnswerBox(c, e);
 
         container.getChildren().addAll(type);
-        container.getChildren().add(text);
-        if (neededLabelCode) {
-            container.getChildren().addAll(labelCode);
+        if (neededAnswerBox) {
+            VBox answer = new VBox();
+            answer.getChildren().addAll(labelCode, answerBox);
+            SplitPane split = new SplitPane();
+            split.setOrientation(Orientation.VERTICAL);
+            split.getItems().addAll(text, answer);
+            split.setDividerPositions(1.0); // Muestra answer con su tamaño minimo por defecto
+            container.getChildren().add(split);
+        } else {
+            container.getChildren().add(text);
         }
-        if (neededAnswerBox ) {
-            container.getChildren().addAll(answerBox);
-        }
+
         container.getChildren().addAll(result);
 
         return container;
@@ -303,24 +302,15 @@ public class Content extends GridPane {
                 OptionQuestion oq = (OptionQuestion)e;
                 oq.setLastAnswer(resp);
                 oq.setLastAnswer_checked(true);
-                //if (c.check(resp, (Question) e).isCorrect()) {
-                //if (oq.check(resp, c.getLanguage()).isCorrect()) {
-                //   c.passCurrentElement();
-                //    ((Question) e).setLastAnswer_correct(true);
-                //    hints.setVisible(false);
-                //} else {
-                //    ((Question) e).setLastAnswer_correct(false);
-                //}
             } else if (e instanceof CodeQuestion) {
                 CodeQuestion pc = (CodeQuestion) e;
-                //String code = taCode.getText();
                 pc.setLastAnswer_checked(true);
             }
             c.reloadCurrentLessonFragment();
         });
 
-        resolve.setMaxWidth(Double.MAX_VALUE);
-        help.setMaxWidth(Double.MAX_VALUE);
+        //resolve.setMaxWidth(Double.MAX_VALUE);
+        //help.setMaxWidth(Double.MAX_VALUE);
         hints.setOnAction( (event) -> {
             Popup popup = new Popup();
             String txt = "";
@@ -422,20 +412,26 @@ public class Content extends GridPane {
         VBox vboxcodes = new VBox();
         if (nGaps == 1) {
             TextArea t = new TextArea();
+            //t.setMaxWidth(Double.MAX_VALUE);
             codes[0] = t;
             t.setPromptText("Escriba aquí su código");
             t.setPrefRowCount(8);
             vboxcodes.getChildren().add(t);
+            //VBox.setVgrow(t, Priority.ALWAYS);
         } else {
             for (int i = 0; i < nGaps; ++i) {
                 TextArea t = new TextArea();
                 t.setPrefRowCount(getPrefLinesFromGaps(nGaps));
                 codes[i] = t;
                 HBox hb = new HBox(10);
-                hb.getChildren().add(new Label("Hueco #" + Integer.toString(i)));
+                HBox.setHgrow(t, Priority.ALWAYS);
+                Label lb = new Label("Hueco #" + Integer.toString(i));
+                hb.getChildren().add(lb);
+                lb.setMinWidth(Region.USE_PREF_SIZE);
                 hb.getChildren().add(t);
                 t.setPromptText("Código del hueco #" + Integer.toString(i));
-                vboxcodes.getChildren().add(t);
+                vboxcodes.getChildren().add(hb);
+                //vboxcodes.getChildren().add(t);
             }
         }
         sp.setContent(vboxcodes);
@@ -484,7 +480,8 @@ public class Content extends GridPane {
             c.updateAndSaveCurrentLessonProgress();
         });*/
 
-        return sp;
+        //return sp;
+        return vboxcodes;
     }
 
     private void restoreLastAnswer(List<String> lastAnswer) {
