@@ -3,14 +3,14 @@ Titulo: Tema TEST
 Introduccion: Para mostrar la interaccion basica de python haremos unos pocos ejemplos con numeros y cadenas
 Lecciones:
  - Leccion: 1 
-   Titulo_Leccion: Operaciones con numeros
-   Intro_leccion: >
-    El interprete funciona como una **simple calculadora**, Tu tecleas una expresion 
-    y el muestra el resultado. La sintaxis de las expresiones es bastante intuitiva. 
-    Los operadores +, -, * y / funcionan como en otros lenguajes (p. ej. Pascal o C). 
-    Se puede usar parentesis para agrupar operaciones. 
-    
+   Titulo_Leccion: Operaciones con numeros  
    Elementos:
+    - Elem: explicacion
+      Contenido: >
+       El interprete funciona como una **simple calculadora**, Tu tecleas una expresion 
+       y el muestra el resultado. La sintaxis de las expresiones es bastante intuitiva. 
+       Los operadores +, -, * y / funcionan como en otros lenguajes (p. ej. Pascal o C). 
+       Se puede usar parentesis para agrupar operaciones. 
     - Elem: explicacion
       Contenido: >
        El simbolo de igualdad sirve para asignar valores a variables. *Variable = valor*
