@@ -156,7 +156,7 @@ public class Lesson
         if ( currentElement >= 0 && currentElement < this.elements.size() ){
 	        return this.elements.get(currentElement);
 	    } else {
-            Controller.log.warning( "Accediendo a elemento de leccion fuera de rango ");
+            Controller.log.info( "Accediendo a elemento de leccion fuera de rango: " + currentElement);
             return null;
         }
     }

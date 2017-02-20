@@ -149,7 +149,7 @@ public abstract class Language {
     Añade al inicio de cada una (salvo la primera) el prefix
      */
     private String insertaInicio(String prefix, String s) {
-	    return s.replaceAll("\n", prefix + "\n");
+	    return s.replaceAll("\n", "\n" + prefix);
     }
 
     /*
