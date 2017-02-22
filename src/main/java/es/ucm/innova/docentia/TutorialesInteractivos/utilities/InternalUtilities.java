@@ -1,6 +1,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.utilities;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -93,6 +94,7 @@ public class InternalUtilities {
             webEngine = browser.getEngine();
             webEngine.setUserStyleSheetLocation(InternalUtilities.class.getResource("/css/webView.css").toString() );
         }
+
         //Deshabilitado el workaround para mostrar HMTL en Windows
 	    /*
 	    String os_name = System.getProperty("os.name");
@@ -114,18 +116,31 @@ public class InternalUtilities {
             browser.setContent(jp);
             return browser;
         } else {*/
-            webEngine.loadContent(html, "text/html");
-            //webEngine.load("http://i.imgur.com/V6aroSo.gif");
-            // Para depurar el código que se muestra
-            /*webEngine.documentProperty().addListener(new ChangeListener<Document>() {
-                @Override public void changed(ObservableValue<? extends Document> prop, Document oldDoc, Document newDoc) {
-                    InternalUtilities.enableFirebug(webEngine);
-                }
-            });*/
-            System.out.println(html);
-            return browser;
-        //}
 
+	    /*html = "<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "<body>\n" +
+                    "\n" +
+                    "<p id=\"demo\" onclick=\"myFunction()\">Click me to change my text color.</p>\n" +
+                    "\n" +
+                    "<script>\n" +
+                    "function myFunction() {\n" +
+                    "    document.getElementById(\"demo\").style.color = \"red\";\n" +
+                    "}\n" +
+                    "</script>\n" +
+                    "\n" +
+                    "</body>\n" +
+                    "</html>";
+        */
+        webEngine.loadContent(html, "text/html");
+        //webEngine.load("http://i.imgur.com/V6aroSo.gif");
+        // Para depurar el código que se muestra
+        /*webEngine.documentProperty().addListener(new ChangeListener<Document>() {
+            @Override public void changed(ObservableValue<? extends Document> prop, Document oldDoc, Document newDoc) {
+                InternalUtilities.enableFirebug(webEngine);
+            }
+        });*/
+        return browser;
 	}
 
 	/**
@@ -154,7 +169,6 @@ public class InternalUtilities {
 	 * @return
 	 */
 	public String parserMarkDown(String mark, String baseDir) {
-	    System.out.println(mark);
 		String html;
 		//Parser parser = Parser.builder().build();
         com.vladsch.flexmark.ast.Node document = PARSER.parse(mark);

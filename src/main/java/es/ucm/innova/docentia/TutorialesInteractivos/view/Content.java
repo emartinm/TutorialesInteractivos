@@ -1,11 +1,14 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -37,6 +40,9 @@ public class Content extends GridPane {
     private VBox options;
     private SimplePagination paginator;
     private Correction correction;
+
+    // Mapa para recordar la posición del SplitPane de cada pregunta
+    private static Map<String, Double> divisiones = new HashMap<String, Double>();
 
 
 	/* Crea la vista del elemento de actual de la lección actual */
@@ -225,8 +231,19 @@ public class Content extends GridPane {
             SplitPane split = new SplitPane();
             split.setOrientation(Orientation.VERTICAL);
             split.getItems().addAll(text, answer);
-            split.setDividerPositions(1.0); // Muestra answer con su tamaño minimo por defecto
+            //split.setDividerPositions(1.0); // Muestra answer con su tamaño minimo por defecto
             container.getChildren().add(split);
+
+            // Establece la posición del divisor a 1.0 o la restaura del mapeo estático
+            String v = e.toString();
+            Double posicion = divisiones.getOrDefault(v, 1.0);
+            split.setDividerPositions(posicion); // Muestra answer con su tamaño anterior (por defecto 1.o)
+            DoubleProperty dividerPositionProperty = split.getDividers().get(0).positionProperty();
+            dividerPositionProperty.addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                divisiones.put(v, newValue.doubleValue());
+                // Almacena los cambios de posicionador
+            });
+
         } else {
             container.getChildren().add(text);
         }

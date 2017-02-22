@@ -22,6 +22,7 @@ import es.ucm.innova.docentia.TutorialesInteractivos.view.EndLessonPane;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.InitialWindow;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.LessonsMenu;
 import es.ucm.innova.docentia.TutorialesInteractivos.view.SubjectsMenu;
+import javafx.application.HostServices;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -43,6 +44,7 @@ public class Controller {
     public static final String progressFileName = "progress.json";
 
 	private Stage primaryStage;// Vista principal de la aplicación
+	private HostServices hostservices;
 	private Pane root;// Panel con los elementos de la vista
 	private Scene scene;
 
@@ -60,9 +62,10 @@ public class Controller {
 	 * Constructora 
 	 * @param primaryStage
 	 */
-	public Controller(Stage primaryStage) {
+	public Controller(Stage primaryStage, HostServices hs) {
 		this.subject = null;
 		this.primaryStage = primaryStage;
+		this.hostservices = hs;
 		this.files = new ArrayList<>();
 		this.config = new ConfigurationData();
 		//this.pref = Preferences.userNodeForPackage(this.getClass());
@@ -448,5 +451,9 @@ public class Controller {
 	public Language getLanguage() {
 		return this.language;
 	}
+
+	public void openWebPage(String url) {
+	    this.hostservices.showDocument(url);
+    }
 
 }

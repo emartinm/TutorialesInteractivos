@@ -33,7 +33,7 @@ public class Main extends Application{
 		this.primaryStage.setTitle("Tutoriales Interactivos");
 		this.primaryStage.setMinWidth(600);
 		this.primaryStage.setMinHeight(400);
-		Controller c = new Controller(primaryStage);
+		Controller c = new Controller(primaryStage, getHostServices());
 		c.start();
 	}
 }
