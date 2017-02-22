@@ -109,7 +109,7 @@ Lecciones:
       Solucion: [1]
       Multiple: no
       Opciones: 
-       - ELIGE ESTA, es la opción correcta
+       - OPCIÓN CORRECTA
        - Opción inválida
        - Opción inválida
        - Opción inválida
@@ -121,10 +121,10 @@ Lecciones:
       Multiple: yes
       Solucion: [1,2,4]
       Opciones:
-       - 1) ELIGE ESTA
-       - 2) ELIGE ESTA
+       - 1) OPCIÓN CORRECTA
+       - 2) OPCIÓN CORRECTA
        - 3) Opción inválida
-       - 4) ELIGE ESTA
+       - 4) OPCIÓN CORRECTA
     - Elem: pregunta
       Enunciado: |
           Nada impide que las preguntas de varias opciones tengan una sola opción válida
@@ -136,7 +136,7 @@ Lecciones:
        - 1) Opción inválida
        - 2) Opción inválida
        - 3) Opción inválida
-       - 4) ELIGE ESTA  
+       - 4) OPCIÓN CORRECTA
     - Elem: pregunta
       Enunciado: |
           Y tampoco hay nada que impida que las preguntas de varias opciones no tengan ninguna opción válida
@@ -151,12 +151,22 @@ Lecciones:
        - 4) Opción inválida  
  - Titulo: Preguntas de tipo código
    Elementos:
+    - Elem: explicacion
+      Contenido: |
+          Las preguntas de código permiten solicitar al usuario framentos de código que son insertados en un programa
+          corrector, que es posteriormente evaluado.
+
+          El programa corrector es un programa con uno o más huecos que son *rellenados* con el código del alumno.
+          La salida de este programa corrector relleno almacena su salida en un fichero **JSON** con el resultado
+          de la corrección junto con posibles mensajes y pistas para el alumno.
     - Elem: pregunta
-      Enunciado: Asigna a la variable i el valor 4
+      Enunciado: Escribe una asignación para almacenar un ```4``` en la variable ```i```
       Tipo: Codigo
       Fichero: correctores/tema0.py
     - Elem: pregunta
       Enunciado: |
+       Las preguntas de tipo código pueden contener más de un hueco, por ejemplo dos:
+
        Rellena los huecos del siguiente código para duplicar el valor de `a` y para almacenar en la variable `c` la multipliación de `a` y `b`:
        ```
        a = 1
@@ -169,6 +179,8 @@ Lecciones:
       Fichero: correctores/tema0b.py
     - Elem: pregunta
       Enunciado: |
+       El número de huecos no tiene ningún límite, únicamente debe ser un número superior a ```0```.
+
        Rellena los huecos del siguiente código para duplicar asignar a las variables`a`, `b`, `c` y `d` los valores 1, 2, 3, y 4 respectivamente.
        ```
        a = <Hueco 0>
