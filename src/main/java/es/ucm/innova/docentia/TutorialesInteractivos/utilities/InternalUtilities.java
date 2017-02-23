@@ -60,6 +60,23 @@ public class InternalUtilities {
             .set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
     private static Parser PARSER = Parser.builder(OPTIONS).build();
     private static HtmlRenderer RENDERER = HtmlRenderer.builder(OPTIONS).build();
+    private static String pre = "<html>\n" +
+            "\t<head>\n" +
+            "\t\t<script>\t\t\n" +
+            "\t\t\tfunction capturaEnlaces() {\n" +
+            "\t\t\t\telems = document.getElementsByTagName(\"a\");\n" +
+            "\t\t\t\tfor(var i = 0; i < elems.length; ++i){\n" +
+            "\t\t\t\t\telems[i].onclick=function(){\n" +
+            "\t\t\t\t\t\tthis.style.color='red';\n" +
+            "\t\t\t\t\t\treturn false;\n" +
+            "\t\t\t\t\t}\n" +
+            "\t\t\t\t}\n" +
+            "\t\t\t}\n" +
+            "\t\t</script>\n" +
+            "\t</head>\n" +
+            "\t<body onload=\"capturaEnlaces();\">\n";
+    private static String post = "\t</body>\n" +
+            "</html>\t";
 
 	/**
 	 * Modifica el la ruta de la imagen dentro del HTML
@@ -132,6 +149,8 @@ public class InternalUtilities {
                     "</body>\n" +
                     "</html>";
         */
+	    html = pre + html + post;
+	    System.out.println(html);
         webEngine.loadContent(html, "text/html");
         //webEngine.load("http://i.imgur.com/V6aroSo.gif");
         // Para depurar el código que se muestra
