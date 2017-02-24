@@ -1,13 +1,10 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.utilities;
 
-import java.io.File;
-import java.net.URI;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.DirectoryStream;
-
-import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,27 +12,27 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.vladsch.flexmark.ext.tables.TablesExtension;
 import com.vladsch.flexmark.util.KeepType;
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.embed.swing.SwingNode;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-import org.w3c.dom.Document;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.concurrent.Worker.State;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.scene.Node;
-import javax.swing.text.html.StyleSheet;
-import javax.swing.text.html.HTMLEditorKit;
+import netscape.javascript.JSObject;
+import org.w3c.dom.Document;
 
-import javax.swing.*;
 
 /**
  * Clase que contiene los metodos de modificaion de elementos dentro de la
@@ -60,23 +57,9 @@ public class InternalUtilities {
             .set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
     private static Parser PARSER = Parser.builder(OPTIONS).build();
     private static HtmlRenderer RENDERER = HtmlRenderer.builder(OPTIONS).build();
-    private static String pre = "<html>\n" +
-            "\t<head>\n" +
-            "\t\t<script>\t\t\n" +
-            "\t\t\tfunction capturaEnlaces() {\n" +
-            "\t\t\t\telems = document.getElementsByTagName(\"a\");\n" +
-            "\t\t\t\tfor(var i = 0; i < elems.length; ++i){\n" +
-            "\t\t\t\t\telems[i].onclick=function(){\n" +
-            "\t\t\t\t\t\tthis.style.color='red';\n" +
-            "\t\t\t\t\t\treturn false;\n" +
-            "\t\t\t\t\t}\n" +
-            "\t\t\t\t}\n" +
-            "\t\t\t}\n" +
-            "\t\t</script>\n" +
-            "\t</head>\n" +
-            "\t<body onload=\"capturaEnlaces();\">\n";
-    private static String post = "\t</body>\n" +
-            "</html>\t";
+    private static String javascript;
+    private static String pre = inicioWebPage();
+    private static String post = finWebPage();
 
 	/**
 	 * Modifica el la ruta de la imagen dentro del HTML
@@ -103,13 +86,48 @@ public class InternalUtilities {
 		return html;
 	}
 
+	public static String resourceToString(String res) {
+        InputStream is = InternalUtilities.class.getResourceAsStream(res);
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+        return buffer.lines().collect(Collectors.joining("\n"));
+    }
+
+    private static String inicioWebPage() {
+	    return "<html>\n" +
+                "<head>\n" +
+                "\t<script>" +
+                resourceToString("/js/scripts.js") + "\n" +
+                "\t</script>\n" +
+                "</head>\n" +
+                "<body onload=\"capturaEnlaces();\">\n";
+    }
+
+    private static String finWebPage() {
+	    return "</body>\n" +
+                "</html>";
+    }
+
 	// Permitir llamar a esta funcion y modificar el html que se le pasa o
 	// modificar el webview desde donde se hae la llamada
-	public static Node creaBrowser(String html) {
+	public static Node creaBrowser(String html, Controller c) {
         if (browser == null) {
             browser = new WebView();
+            browser.setContextMenuEnabled(false);
             webEngine = browser.getEngine();
             webEngine.setUserStyleSheetLocation(InternalUtilities.class.getResource("/css/webView.css").toString() );
+
+            // process page loading
+            webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
+                @Override
+                public void changed(ObservableValue ov, State oldState, State newState) {
+                    // Añade al DOM el objeto "puente" entre JavaScript y Java. Se llamará bridge y está situado en "window"
+                    if (newState == Worker.State.SUCCEEDED) {
+                        //System.out.println("READY");
+                        JSObject jsobj = (JSObject) webEngine.executeScript("window");
+                        jsobj.setMember("bridge", new JavaBridge(c));
+                    }
+                }
+            });
         }
 
         //Deshabilitado el workaround para mostrar HMTL en Windows
@@ -134,25 +152,9 @@ public class InternalUtilities {
             return browser;
         } else {*/
 
-	    /*html = "<!DOCTYPE html>\n" +
-                    "<html>\n" +
-                    "<body>\n" +
-                    "\n" +
-                    "<p id=\"demo\" onclick=\"myFunction()\">Click me to change my text color.</p>\n" +
-                    "\n" +
-                    "<script>\n" +
-                    "function myFunction() {\n" +
-                    "    document.getElementById(\"demo\").style.color = \"red\";\n" +
-                    "}\n" +
-                    "</script>\n" +
-                    "\n" +
-                    "</body>\n" +
-                    "</html>";
-        */
 	    html = pre + html + post;
-	    System.out.println(html);
-        webEngine.loadContent(html, "text/html");
-        //webEngine.load("http://i.imgur.com/V6aroSo.gif");
+	    webEngine.loadContent(html, "text/html");
+
         // Para depurar el código que se muestra
         /*webEngine.documentProperty().addListener(new ChangeListener<Document>() {
             @Override public void changed(ObservableValue<? extends Document> prop, Document oldDoc, Document newDoc) {

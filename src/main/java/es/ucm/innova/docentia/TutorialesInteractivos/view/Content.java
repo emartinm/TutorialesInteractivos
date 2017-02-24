@@ -217,7 +217,7 @@ public class Content extends GridPane {
 
         String content = c.markToHtml(e.getText());
         // Campo donde se escribe el enunciado o la explicacion de la pregunta
-        text = InternalUtilities.creaBrowser(content);
+        text = InternalUtilities.creaBrowser(content, c);
         text.minHeight(100);
 
         result = generaResult();

@@ -73,8 +73,8 @@ Lecciones:
       Contenido: |
           También se pueden incluir enlaces en las explicaciones:
 
-          * [Texto del enlace](https://www.google.com)
-          * [https://www.google.com](https://www.google.com)
+          * [Texto del enlace](https://www.ucm.es)
+          * [http://costa.ls.fi.upm.es](http://costa.ls.fi.upm.es)
 
           
     - Elem: explicacion
@@ -94,7 +94,7 @@ Lecciones:
           
           **Vídeos de Youtube**
           
-          <iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen></iframe>
+          <iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen target="_self"></iframe>
  - Titulo: Preguntas de tipo test
    Elementos:
     - Elem: pregunta
