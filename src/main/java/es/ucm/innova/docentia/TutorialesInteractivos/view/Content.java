@@ -40,6 +40,8 @@ public class Content extends GridPane {
     private VBox options;
     private SimplePagination paginator;
     private Correction correction;
+    private Button borrar;
+    private Button verCodigo;
 
     // Mapa para recordar la posición del SplitPane de cada pregunta
     private static Map<String, Double> divisiones = new HashMap<String, Double>();
@@ -264,17 +266,21 @@ public class Content extends GridPane {
         // Botones para el envio/ayuda de respuestas
         buttonsCode = new VBox(5);
         buttonsCode.setPadding(new Insets(2,2,2,2));
-        help = new Button("Pistas");
+        help = new Button("  Pistas  ");
         resolve = new Button("Resolver");
+        borrar = new Button(  "  Borrar  ");
+        verCodigo = new Button( "Ver código");
         buttonsCode.setAlignment(Pos.CENTER);
-        buttonsCode.getChildren().addAll(resolve);
-        buttonsCode.getChildren().addAll(help);
+        //buttonsCode.getChildren().addAll(help);
+        //buttonsCode.get
 
         Node left = null;
         if (e instanceof OptionQuestion) {
             left = generateOptions(c, (OptionQuestion)e);
+            buttonsCode.getChildren().addAll(resolve,help);
         } else if (e instanceof CodeQuestion) {
             left = generateCode(c, (CodeQuestion)e);
+            buttonsCode.getChildren().addAll(resolve,borrar,help,verCodigo);
         }
         // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
@@ -355,6 +361,13 @@ public class Content extends GridPane {
             }
         });
 
+        borrar.setOnAction( (event) -> {
+            for (int i = 0; i < codes.length; ++ i) {
+                codes[i].clear();
+            }
+            c.reloadCurrentLessonFragment();
+        });
+
         answerBox.getStyleClass().add("respuestaBox");
         return (e instanceof OptionQuestion || e instanceof CodeQuestion);
     }
@@ -431,7 +444,7 @@ public class Content extends GridPane {
             TextArea t = new TextArea();
             //t.setMaxWidth(Double.MAX_VALUE);
             codes[0] = t;
-            t.setPromptText("Escriba aquí su código");
+            t.setPromptText(cq.promptAt(0));
             t.setPrefRowCount(8);
             vboxcodes.getChildren().add(t);
             //VBox.setVgrow(t, Priority.ALWAYS);
@@ -446,7 +459,8 @@ public class Content extends GridPane {
                 hb.getChildren().add(lb);
                 lb.setMinWidth(Region.USE_PREF_SIZE);
                 hb.getChildren().add(t);
-                t.setPromptText("Código del hueco #" + Integer.toString(i));
+                //t.setPromptText("Código del hueco #" + Integer.toString(i));
+                t.setPromptText(cq.promptAt(i));
                 vboxcodes.getChildren().add(hb);
                 //vboxcodes.getChildren().add(t);
             }

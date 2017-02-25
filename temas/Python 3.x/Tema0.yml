@@ -163,6 +163,8 @@ Lecciones:
       Enunciado: Escribe una asignación para almacenar un ```4``` en la variable ```i```
       Tipo: Codigo
       Fichero: correctores/tema0.py
+      Prompt: ["Escriba aquí el código"]
+      Pista: Se pueden incluir pistas en generales en las preguntas de código.
     - Elem: pregunta
       Enunciado: |
        Las preguntas de tipo código pueden contener más de un hueco, por ejemplo dos:
@@ -190,4 +192,6 @@ Lecciones:
        ```
       Tipo: Codigo
       Huecos: 4
+      Prompt: ["Valor de la variable 'a'","Valor de la variable 'b'","Valor de la variable 'c'","Valor de la variable 'd'"]
+      Pista: Esto es una pista general.
       Fichero: correctores/tema0c.py

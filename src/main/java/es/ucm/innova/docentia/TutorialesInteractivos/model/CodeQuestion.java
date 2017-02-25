@@ -14,18 +14,31 @@ import java.util.List;
 public class CodeQuestion extends Question<List<String>> {
     private String corrector;
     private int numGaps = 1;
+    private List<String> prompt;
 
 	public String toString(){
-		return String.format("CodeQuestion(%s,%s,%s)", this.text,
-				this.solution, this.corrector, this.clue);
+		return String.format("CodeQuestion(%s,%s,%s,%s)", this.text,
+				this.solution, this.corrector, this.clue, this.prompt);
 	}
 
-	public CodeQuestion(String wording, String clue, String corrector, int numGaps) {
+	public CodeQuestion(String wording, String clue, String corrector, int numGaps, List<String> prompt) {
 	    super(wording, clue);
 	    this.corrector = corrector;
 	    this.numGaps = numGaps;
+	    this.prompt = prompt;
+
+	    if (this.prompt == null) {
+			this.prompt = new ArrayList<>();
+		}
+		// Relleno los posibles prompts que falten
+		for (int i = this.prompt.size(); i < this.numGaps; ++i) {
+	    	this.prompt.add("Código del hueco #" + i);
+		}
 	}
 
+	public String promptAt(int pos) {
+	    return this.prompt.get(pos);
+    }
 
 	public Correction check(Language lang) {
         return lang.compileAndExecute(this.corrector, this.answer);
