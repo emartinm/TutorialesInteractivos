@@ -80,3 +80,11 @@
     -fx-border-color: black;
     -fx-background-color: white;
 }
+
+.CodePopUp {
+    -fx-border-color: black;
+    -fx-background-color: #f1f1f1;
+    -fx-border: 1px solid black;
+    -fx-padding: 5px;
+    -fx-font-family: monospace;
+}

@@ -2,6 +2,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.*;
 
+import com.vladsch.flexmark.ast.Code;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
@@ -281,12 +282,15 @@ public class Content extends GridPane {
         } else if (e instanceof CodeQuestion) {
             left = generateCode(c, (CodeQuestion)e);
             buttonsCode.getChildren().addAll(resolve,borrar,help,verCodigo);
+            verCodigo.setVisible( ((CodeQuestion)e).hasSnippet() );
         }
         // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
         answerBox.setCenter(left);
         answerBox.setRight(buttonsCode);
 
+        Tooltip tt_help = new Tooltip("Muestra la pista general para resolver la pregunta");
+        help.setTooltip(tt_help);
         help.setOnAction( (event) -> {
             final Popup popup = new Popup();
             String helpText = e.getHint();
@@ -303,6 +307,8 @@ public class Content extends GridPane {
             popup.show(c.getPrimaryStage());
         });
 
+        Tooltip tt_resolve = new Tooltip("Resuelve la pregunta");
+        resolve.setTooltip(tt_resolve);
         resolve.setOnAction( (event) -> {
             if (e instanceof OptionQuestion) {
                 List<Integer> resp = new ArrayList<Integer>();
@@ -334,6 +340,8 @@ public class Content extends GridPane {
 
         //resolve.setMaxWidth(Double.MAX_VALUE);
         //help.setMaxWidth(Double.MAX_VALUE);
+        Tooltip tt_hints = new Tooltip("Muestra las pistas concretas relacionadas con la última corrección fallida");
+        hints.setTooltip(tt_hints);
         hints.setOnAction( (event) -> {
             Popup popup = new Popup();
             String txt = "";
@@ -346,7 +354,6 @@ public class Content extends GridPane {
 
                 Label popupLabel = new Label(txt);
                 popupLabel.getStyleClass().add("hints");
-                //popupLabel.setStyle("-fx-border-color: black; -fx-background-color: white");
                 popup.setAutoHide(true);
                 popup.setAutoFix(true);
                 popup.setOpacity(1.00);
@@ -361,11 +368,35 @@ public class Content extends GridPane {
             }
         });
 
+        Tooltip tt_borrar = new Tooltip("Borra todo el código escrito en los campos de texto");
+        borrar.setTooltip(tt_borrar);
         borrar.setOnAction( (event) -> {
             for (int i = 0; i < codes.length; ++ i) {
                 codes[i].clear();
             }
+            c.updateAndSaveCurrentLessonProgress();
             c.reloadCurrentLessonFragment();
+        });
+
+        Tooltip tt_verCodigo = new Tooltip("Muestra el resultado de rellenar los huecos con el código escrito en los campos de texto");
+        verCodigo.setTooltip(tt_verCodigo);
+        verCodigo.setOnAction( (event) -> {
+            CodeQuestion cq = (CodeQuestion)e;
+            String s = cq.snippet();
+            Popup popup = new Popup();
+            Label popupLabel = new Label(s);
+            popupLabel.getStyleClass().add("CodePopUp");
+            popup.setAutoHide(true);
+            popup.setAutoFix(true);
+            popup.setOpacity(1.00);
+            // Calculate popup placement coordinates.
+            Node eventSource = (Node) event.getSource();
+            Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
+            popup.setX(sourceNodeBounds.getMinX() + 5.0);
+            popup.setY(sourceNodeBounds.getMaxY() + 1.0);
+            popup.getContent().addAll(popupLabel);
+            popupLabel.getStylesheets().add(getClass().getResource("/css/content.css").toExternalForm());
+            popup.show(c.getPrimaryStage());
         });
 
         answerBox.getStyleClass().add("respuestaBox");

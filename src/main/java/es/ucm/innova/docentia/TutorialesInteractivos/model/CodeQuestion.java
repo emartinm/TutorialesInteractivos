@@ -12,6 +12,8 @@ import java.util.List;
  *
  */
 public class CodeQuestion extends Question<List<String>> {
+    private static String snippetMark = "<+|SNIPPET|+>";
+
     private String corrector;
     private int numGaps = 1;
     private List<String> prompt;
@@ -51,5 +53,15 @@ public class CodeQuestion extends Question<List<String>> {
 	public int getNumberGaps() {
 		return numGaps;
 	}
+
+	public boolean hasSnippet(){
+		return true;
+	}
+
+	public String snippet() {
+	    return "Esto es lo que se veria al mostrar el snippet\n" +
+                "\t\tojete máximo\n" +
+                "\tqué más querés?";
+    }
 
 }

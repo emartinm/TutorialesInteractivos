@@ -36,6 +36,7 @@ public class Configuration extends Pane {
 	public Pane configuration(Controller c) {
 
 		GridPane root = new GridPane(); // Panel principal
+		//root.setGridLinesVisible(true); // Para depurar
 
 		Label dependencies = new Label("Directorio de cursos: ");// label de dependencias
 		TextField pathDep = new TextField();// Campo donde se muestra la ruta del archivo dependences
@@ -81,10 +82,10 @@ public class Configuration extends Pane {
 		Button accept = new Button("Aceptar");
 		
 		// Label warning = new Label("Para avanzar todos los lenguajes han de estar configurados");
-        Label warning = new Label("");
+        /*Label warning = new Label("");
         if (!c.getConfig().isDirTemas() ){
             warning.setText("Debes configurar el directorio de cursos");
-        }
+        }*/
 
 		root.add(dependencies, 0, 0);
 		root.add(pathDep, 1, 0 );
@@ -95,31 +96,31 @@ public class Configuration extends Pane {
 		root.add(back, 0, 3);
 		root.add(change, 1, 3);
 		root.add(accept, 2, 3);
-		root.add(warning, 0, 4);
+		//root.add(warning, 0, 4);
 
 		languagesLabel.setAlignment(Pos.TOP_CENTER);
-		warning.setAlignment(Pos.TOP_CENTER);
+		//warning.setAlignment(Pos.TOP_CENTER);
 		
 		GridPane.setConstraints(dependencies, 0, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
 		GridPane.setConstraints(pathDep, 1, 0, 2, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
-		GridPane.setConstraints(search, 3, 0, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
+		GridPane.setConstraints(search, 3, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
 		//GridPane.setConstraints(acceptPath, 3, 0, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
 		//		new Insets(5));
-		GridPane.setConstraints(languagesLabel, 0, 1, 4, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
-				new Insets(5));
+		GridPane.setConstraints(languagesLabel, 0, 1, 4, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
+				new Insets(20,5,5,5));
 		GridPane.setConstraints(languageList, 0, 2, 4, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
+				new Insets( 5));
+		GridPane.setConstraints(back, 0, 3, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
-		GridPane.setConstraints(back, 0, 3, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
+		GridPane.setConstraints(change, 1, 3, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
-		GridPane.setConstraints(change, 1, 3, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
+		GridPane.setConstraints(accept, 3, 3, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER,
 				new Insets(5));
-		GridPane.setConstraints(accept, 3, 3, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
-				new Insets(5));
-		GridPane.setConstraints(warning, 0, 4, 4, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
-				new Insets(5));
+		//GridPane.setConstraints(warning, 0, 4, 4, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS,
+		//		new Insets(5));
 
 		// Listeners
 		back.setOnAction( (event) -> {
@@ -163,7 +164,7 @@ public class Configuration extends Pane {
 			if ( newDir != null && newDir.exists() && newDir.isDirectory() &&
                     !newDir.getAbsolutePath().equals(pathDep.getText())) {
 				pathDep.setText(newDir.getAbsolutePath());
-				warning.setText("");
+				//warning.setText("");
 				Controller.log.info(newDir.getAbsolutePath());
 				c.getConfig().clear(); // Borro todas las configuraciones antiguas
 				c.getConfig().setDirTemas(newDir.getAbsolutePath());
@@ -186,7 +187,7 @@ public class Configuration extends Pane {
 		accept.getStyleClass().add("conf_aceptar");
 		back.getStyleClass().add("conf_cancelar");
 		languageList.setId("table");
-		warning.getStyleClass().add("error");
+		//warning.getStyleClass().add("error");
 		root.getStylesheets().add(getClass().getResource("/css/menu.css").toExternalForm());
 
 		return root;

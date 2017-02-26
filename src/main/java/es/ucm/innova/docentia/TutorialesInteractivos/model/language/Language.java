@@ -127,7 +127,7 @@ public abstract class Language {
 	Reemplaza los huecos marcados con 'marker' en el fichero file_in con los códigos almacenados
 	en codes (en el mismo orden). A la hora de pegar un código se preserva la posible tabulación/espacios
 	 */
-	protected void reemplazaHuecos(File file_in, File file_out, List<String> codes) {
+	public static void reemplazaHuecos(File file_in, File file_out, List<String> codes) {
 	    final int numCodes = codes.size();
         try {
             String content = new String(Files.readAllBytes(Paths.get(file_in.toURI())));
@@ -148,14 +148,14 @@ public abstract class Language {
     Acepta una cadena s que puede tener varias lineas
     Añade al inicio de cada una (salvo la primera) el prefix
      */
-    private String insertaInicio(String prefix, String s) {
+    private static String insertaInicio(String prefix, String s) {
 	    return s.replaceAll("\n", "\n" + prefix);
     }
 
     /*
     Busca hacia atras desde la posición pos de la cadena content, hasta que encuentra el inicio de la línea
      */
-    private int inicioLinea(String content, int pos){
+    private static int inicioLinea(String content, int pos){
 	    int curr = pos;
 	    while (curr >= 0 && content.charAt(curr) != '\n') {
             curr--;
