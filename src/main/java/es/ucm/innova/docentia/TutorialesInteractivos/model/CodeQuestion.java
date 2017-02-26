@@ -41,6 +41,12 @@ public class CodeQuestion extends Question<List<String>> {
 		for (int i = this.prompt.size(); i < this.numGaps; ++i) {
 	    	this.prompt.add("Código del hueco #" + i);
 		}
+
+		// Incluye una respuesta actual vacía (numGaps cadenas vacías)
+		this.answer = new ArrayList<>(this.numGaps);
+		for (int i = 0; i < this.numGaps; ++i) {
+			this.answer.add("");
+		}
 	}
 
 	public String promptAt(int pos) {
