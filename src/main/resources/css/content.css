@@ -88,3 +88,7 @@
     -fx-padding: 5px;
     -fx-font-family: monospace;
 }
+
+.campoTexto {
+    -fx-font-family: monospace;
+}

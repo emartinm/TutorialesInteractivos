@@ -2,7 +2,9 @@ using System;
 
 public class Corrector {
 
+    //<+|SNIPPET|+>
 	<+|CODIGO|+>
+	//<+|SNIPPET|+>
 	//static int incrementa(int n) {
 	//	return n + 1;
 	//}

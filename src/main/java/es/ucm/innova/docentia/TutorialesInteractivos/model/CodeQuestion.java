@@ -1,7 +1,12 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
 
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,14 +59,53 @@ public class CodeQuestion extends Question<List<String>> {
 		return numGaps;
 	}
 
-	public boolean hasSnippet(){
-		return true;
+	public boolean hasSnippet(Language lang){;
+	    ArrayList<String> codes = new ArrayList<String>();
+	    for( int i = 0;  i < this.numGaps; ++ i) {
+	        codes.add("");
+        }
+        String codigo = lang.leeYreemplazaHuecos(this.corrector, codes);
+	    int first = codigo.indexOf(this.snippetMark);
+	    int second = codigo.indexOf(this.snippetMark, first + 1);
+	    int third = codigo.indexOf(this.snippetMark, second+ 1);
+	    return (first != -1 && second != -1 && third == -1);
 	}
 
-	public String snippet() {
-	    return "Esto es lo que se veria al mostrar el snippet\n" +
+	public String snippet(Language lang) {
+	    List<String> ans = this.answer;
+	    if (ans == null) {
+	        // Para rellenar el snippet con cadenas vacías
+	        ans = new ArrayList<String>(this.numGaps);
+	        for (int i = 0; i < this.numGaps; ++i) {
+	            ans.add("");
+            }
+        }
+        String codigo = lang.leeYreemplazaHuecos(this.corrector, ans);
+        int first = codigo.indexOf(this.snippetMark);
+        int second = codigo.indexOf(this.snippetMark, first + 1);
+
+        int pos = first;
+        int ini = -1;
+        int fin = -1;
+        while (pos < codigo.length() && ini == -1) {
+            // Buscamos el siguiente salto de línea a la primera marca
+            if (codigo.charAt(pos) == '\n') {
+                ini = pos + 1;
+            }
+            pos++;
+        }
+        pos = second;
+        while (pos > 0 && fin == -1) {
+            // Buscamos el salto de linea anterior a la segunda marca
+            if (codigo.charAt(pos) == '\n') {
+                fin = pos; //La letra en 'fin' no se considera
+            }
+            pos--;
+        }
+        return codigo.substring(ini, fin);
+	    /*return "Esto es lo que se veria al mostrar el snippet\n" +
                 "\t\tojete máximo\n" +
-                "\tqué más querés?";
+                "\tqué más querés?";*/
     }
 
 }

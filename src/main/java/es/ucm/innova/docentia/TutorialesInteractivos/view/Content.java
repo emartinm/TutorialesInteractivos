@@ -282,7 +282,7 @@ public class Content extends GridPane {
         } else if (e instanceof CodeQuestion) {
             left = generateCode(c, (CodeQuestion)e);
             buttonsCode.getChildren().addAll(resolve,borrar,help,verCodigo);
-            verCodigo.setVisible( ((CodeQuestion)e).hasSnippet() );
+            verCodigo.setVisible( ((CodeQuestion)e).hasSnippet(c.getLanguage()) );
         }
         // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
@@ -382,7 +382,7 @@ public class Content extends GridPane {
         verCodigo.setTooltip(tt_verCodigo);
         verCodigo.setOnAction( (event) -> {
             CodeQuestion cq = (CodeQuestion)e;
-            String s = cq.snippet();
+            String s = cq.snippet(c.getLanguage());
             Popup popup = new Popup();
             Label popupLabel = new Label(s);
             popupLabel.getStyleClass().add("CodePopUp");
@@ -473,6 +473,7 @@ public class Content extends GridPane {
         VBox vboxcodes = new VBox();
         if (nGaps == 1) {
             TextArea t = new TextArea();
+            t.getStyleClass().add("campoTexto");
             //t.setMaxWidth(Double.MAX_VALUE);
             codes[0] = t;
             t.setPromptText(cq.promptAt(0));
@@ -482,6 +483,7 @@ public class Content extends GridPane {
         } else {
             for (int i = 0; i < nGaps; ++i) {
                 TextArea t = new TextArea();
+                t.getStyleClass().add("campoTexto");
                 t.setPrefRowCount(getPrefLinesFromGaps(nGaps));
                 codes[i] = t;
                 HBox hb = new HBox(10);

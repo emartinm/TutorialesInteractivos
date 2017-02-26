@@ -53,7 +53,7 @@ public final class YamlReaderClass {
 
 		// Elementos para rellenar el objeto Subject
 		Integer numberSubject = (Integer) mapObjet.get("Tema");// numero del tema
-		String tittleSubject = (String) mapObjet.get("Titulo");// Nombre del tema
+		String subjectTitle = (String) mapObjet.get("Titulo");// Nombre del tema
 		String introSubject = (String) mapObjet.get("Introduccion");// introduccion del tema
 		List<Element> elements = new ArrayList<Element>();// lista de elementos
 		List<Lesson> lessons = new ArrayList<Lesson>();// lista de lecciones
@@ -102,7 +102,7 @@ public final class YamlReaderClass {
 			lessons.add(lec);// Añade la leccion al array de lecciones
 		}
 		// rellenado de objetos final
-		Subject t = new Subject(numberSubject, tittleSubject, introSubject);// Crea el tema con todos los elementos
+		Subject t = new Subject(numberSubject, subjectTitle, introSubject);// Crea el tema con todos los elementos
 		t.setLessons(lessons);// Modifica el Array de lecciones de Subject
 		return t;
 	}

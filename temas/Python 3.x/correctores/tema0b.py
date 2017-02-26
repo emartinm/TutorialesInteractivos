@@ -4,10 +4,12 @@ import json
 
 def pregunta11(filename):    
     try:
+        #<+|SNIPPET|+>
         a = 1
         <+|CODIGO|+>
         b = 3
         <+|CODIGO|+>
+        #<+|SNIPPET|+>
         dicc = {}
         things = locals()
         if 'c' in things:

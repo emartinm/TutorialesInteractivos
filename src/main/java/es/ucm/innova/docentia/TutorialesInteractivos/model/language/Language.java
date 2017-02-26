@@ -123,21 +123,26 @@ public abstract class Language {
 		return name;
 	}
 
+	public static String reemplazaHuecos(String content, List<String> codes) {
+        final int numCodes = codes.size();
+        for (int i = 0; i < numCodes; ++i) {
+            int pos = content.indexOf(marker);
+            int inicioLinea = inicioLinea(content,pos);
+            String previo = content.substring(inicioLinea, pos);
+            String cod = insertaInicio(previo, codes.get(i));
+            content = content.replaceFirst(Pattern.quote(marker), cod);
+        }
+        return content;
+    }
+
 	/*
 	Reemplaza los huecos marcados con 'marker' en el fichero file_in con los códigos almacenados
 	en codes (en el mismo orden). A la hora de pegar un código se preserva la posible tabulación/espacios
 	 */
-	public static void reemplazaHuecos(File file_in, File file_out, List<String> codes) {
-	    final int numCodes = codes.size();
+	protected void reemplazaHuecos(File file_in, File file_out, List<String> codes) {
         try {
             String content = new String(Files.readAllBytes(Paths.get(file_in.toURI())));
-            for (int i = 0; i < numCodes; ++i) {
-                int pos = content.indexOf(marker);
-                int inicioLinea = inicioLinea(content,pos);
-                String previo = content.substring(inicioLinea, pos);
-                String cod = insertaInicio(previo, codes.get(i));
-                content = content.replaceFirst(Pattern.quote(marker), cod);
-            }
+            content = reemplazaHuecos(content, codes);
             Files.write(Paths.get(file_out.toURI()), content.getBytes());
         } catch (java.io.IOException e) {
             Controller.log.warning("Error al reemplazar hueco: " + e.getMessage());
@@ -161,6 +166,19 @@ public abstract class Language {
             curr--;
         }
         return curr + 1;
+    }
+
+    public String leeYreemplazaHuecos(String correctorRelativePath, List<String> codes) {
+        String content = null;
+        try {
+            String correctorPath = this.path + FileSystems.getDefault().getSeparator() + correctorRelativePath;
+            File correctorFile = new File(correctorPath);
+            content = new String(Files.readAllBytes(Paths.get(correctorFile.toURI())));
+            content = reemplazaHuecos(content, codes);
+        } catch (java.io.IOException e) {
+            Controller.log.warning("Error al reemplazar hueco: " + e.getMessage());
+        }
+        return content;
     }
 
     protected List<String> fileToListString(BufferedReader br) {
