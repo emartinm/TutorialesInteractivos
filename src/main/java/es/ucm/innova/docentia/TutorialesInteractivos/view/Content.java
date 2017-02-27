@@ -2,6 +2,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.*;
 
+import com.vladsch.flexmark.ast.Code;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
@@ -40,6 +41,8 @@ public class Content extends GridPane {
     private VBox options;
     private SimplePagination paginator;
     private Correction correction;
+    private Button borrar;
+    private Button verCodigo;
 
     // Mapa para recordar la posición del SplitPane de cada pregunta
     private static Map<String, Double> divisiones = new HashMap<String, Double>();
@@ -258,29 +261,47 @@ public class Content extends GridPane {
         answerBox.setPadding(new Insets(2,2,2,2));
         answerBox.getStyleClass().add("respuestaBox");
 
-
-        //answerBox = new BorderPane();// Contenedor con el campo de respuesta y los botones de la pregunta
-
         // Botones para el envio/ayuda de respuestas
         buttonsCode = new VBox(5);
-        buttonsCode.setPadding(new Insets(2,2,2,2));
+        buttonsCode.setPadding(new Insets(2,2,2,5));
         help = new Button("Pistas");
         resolve = new Button("Resolver");
+        borrar = new Button(  "Borrar");
+        verCodigo = new Button( "Ver código");
+
+        // Para que todos los botones tengasn el mismo tamaño
+        help.setMaxWidth(Double.MAX_VALUE);
+        resolve.setMaxWidth(Double.MAX_VALUE);
+        borrar.setMaxWidth(Double.MAX_VALUE);
+        verCodigo.setMaxWidth(Double.MAX_VALUE);
         buttonsCode.setAlignment(Pos.CENTER);
-        buttonsCode.getChildren().addAll(resolve);
-        buttonsCode.getChildren().addAll(help);
 
         Node left = null;
         if (e instanceof OptionQuestion) {
-            left = generateOptions(c, (OptionQuestion)e);
+            OptionQuestion oq = (OptionQuestion)e;
+            left = generateOptions(c, oq);
+            buttonsCode.getChildren().add(resolve);
+            if( oq.getHint() != null) {
+                buttonsCode.getChildren().add(help);
+            }
         } else if (e instanceof CodeQuestion) {
-            left = generateCode(c, (CodeQuestion)e);
+            CodeQuestion cq = (CodeQuestion)e;
+            left = generateCode(c, cq);
+            buttonsCode.getChildren().addAll(resolve,borrar);
+            if( cq.getHint() != null) {
+                buttonsCode.getChildren().add(help);
+            }
+            if( cq.hasSnippet(c.getLanguage()) ) {
+                buttonsCode.getChildren().add(verCodigo);
+            }
         }
         // Faltaria tratar el caso de SyntaxQuestion, pero las vamos a eliminar
 
         answerBox.setCenter(left);
         answerBox.setRight(buttonsCode);
 
+        Tooltip tt_help = new Tooltip("Muestra la pista general para resolver la pregunta");
+        help.setTooltip(tt_help);
         help.setOnAction( (event) -> {
             final Popup popup = new Popup();
             String helpText = e.getHint();
@@ -297,6 +318,8 @@ public class Content extends GridPane {
             popup.show(c.getPrimaryStage());
         });
 
+        Tooltip tt_resolve = new Tooltip("Resuelve la pregunta");
+        resolve.setTooltip(tt_resolve);
         resolve.setOnAction( (event) -> {
             if (e instanceof OptionQuestion) {
                 List<Integer> resp = new ArrayList<Integer>();
@@ -326,8 +349,8 @@ public class Content extends GridPane {
             c.reloadCurrentLessonFragment();
         });
 
-        //resolve.setMaxWidth(Double.MAX_VALUE);
-        //help.setMaxWidth(Double.MAX_VALUE);
+        Tooltip tt_hints = new Tooltip("Muestra las pistas concretas relacionadas con la última corrección fallida");
+        hints.setTooltip(tt_hints);
         hints.setOnAction( (event) -> {
             Popup popup = new Popup();
             String txt = "";
@@ -335,15 +358,13 @@ public class Content extends GridPane {
                 for (String h : list_hints) {
                     txt += (h + "\n");
                 }
-                ;
-                // hintsContent.setText(txt);
 
                 Label popupLabel = new Label(txt);
                 popupLabel.getStyleClass().add("hints");
-                //popupLabel.setStyle("-fx-border-color: black; -fx-background-color: white");
                 popup.setAutoHide(true);
                 popup.setAutoFix(true);
                 popup.setOpacity(1.00);
+
                 // Calculate popup placement coordinates.
                 Node eventSource = (Node) event.getSource();
                 Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
@@ -355,6 +376,38 @@ public class Content extends GridPane {
             }
         });
 
+        Tooltip tt_borrar = new Tooltip("Borra todo el código escrito en los campos de texto");
+        borrar.setTooltip(tt_borrar);
+        borrar.setOnAction( (event) -> {
+            for (int i = 0; i < codes.length; ++ i) {
+                codes[i].clear();
+            }
+            c.updateAndSaveCurrentLessonProgress();
+            c.reloadCurrentLessonFragment();
+        });
+
+        Tooltip tt_verCodigo = new Tooltip("Muestra el resultado de rellenar los huecos con el código escrito en los campos de texto");
+        verCodigo.setTooltip(tt_verCodigo);
+        verCodigo.setOnAction( (event) -> {
+            CodeQuestion cq = (CodeQuestion)e;
+            String s = cq.snippet(c.getLanguage());
+            Popup popup = new Popup();
+            Label popupLabel = new Label(s);
+            popupLabel.getStyleClass().add("CodePopUp");
+            popup.setAutoHide(true);
+            popup.setAutoFix(true);
+            popup.setOpacity(1.00);
+
+            // Calculate popup placement coordinates.
+            Node eventSource = (Node) event.getSource();
+            Bounds sourceNodeBounds = eventSource.localToScreen(eventSource.getBoundsInLocal());
+            popup.setX(sourceNodeBounds.getMinX() + 5.0);
+            popup.setY(sourceNodeBounds.getMaxY() + 1.0);
+            popup.getContent().addAll(popupLabel);
+            popupLabel.getStylesheets().add(getClass().getResource("/css/content.css").toExternalForm());
+            popup.show(c.getPrimaryStage());
+        });
+
         answerBox.getStyleClass().add("respuestaBox");
         return (e instanceof OptionQuestion || e instanceof CodeQuestion);
     }
@@ -363,7 +416,6 @@ public class Content extends GridPane {
         options = new VBox();
         int i = 1;
         List<Integer> lastAnswer = o.getLastAnswer();
-        help.setVisible( o.getHint() != null );
         if (o.isLastAnswer_checked() ) {
             this.list_hints = correction.getHints();
         }
@@ -381,9 +433,7 @@ public class Content extends GridPane {
                 ++i;
             }
             group.selectedToggleProperty().addListener( (ov, old_v, new_v) -> {
-                // Cada vez que el grupo cambia, almacena la solución actual y borra
-                // el mensaje de corrección
-                //clearCorrectMessage(isCorrect);
+                // Cada vez que el grupo cambia, almacena la solución actual y recarga la ventana
                 o.setLastAnswer_checked(false);
                 List<Integer> currentAnswer = getAnswer_rb(l);
                 o.setLastAnswer(currentAnswer);
@@ -402,10 +452,8 @@ public class Content extends GridPane {
                     cb.setSelected( lastAnswer.contains( new Integer(i) ) );
                 }
                 cb.setOnAction((event) -> {
-                    // Cada vez que un checkbox recibe un evento, almacena la solución actual
-                    // y borra el mensaje de corrección
+                    // Cada vez que un checkbox recibe un evento, almacena la solución actual y recarga la ventana
                     o.setLastAnswer_checked(false);
-                    //clearCorrectMessage(isCorrect);
                     List<Integer> current = getAnswer_cb(l);
                     o.setLastAnswer(current);
                     c.updateAndSaveCurrentLessonProgress();
@@ -429,15 +477,15 @@ public class Content extends GridPane {
         VBox vboxcodes = new VBox();
         if (nGaps == 1) {
             TextArea t = new TextArea();
-            //t.setMaxWidth(Double.MAX_VALUE);
+            t.getStyleClass().add("campoTexto");
             codes[0] = t;
-            t.setPromptText("Escriba aquí su código");
+            t.setPromptText(cq.promptAt(0));
             t.setPrefRowCount(8);
             vboxcodes.getChildren().add(t);
-            //VBox.setVgrow(t, Priority.ALWAYS);
         } else {
             for (int i = 0; i < nGaps; ++i) {
                 TextArea t = new TextArea();
+                t.getStyleClass().add("campoTexto");
                 t.setPrefRowCount(getPrefLinesFromGaps(nGaps));
                 codes[i] = t;
                 HBox hb = new HBox(10);
@@ -446,9 +494,8 @@ public class Content extends GridPane {
                 hb.getChildren().add(lb);
                 lb.setMinWidth(Region.USE_PREF_SIZE);
                 hb.getChildren().add(t);
-                t.setPromptText("Código del hueco #" + Integer.toString(i));
+                t.setPromptText(cq.promptAt(i));
                 vboxcodes.getChildren().add(hb);
-                //vboxcodes.getChildren().add(t);
             }
         }
         sp.setContent(vboxcodes);
@@ -459,7 +506,6 @@ public class Content extends GridPane {
         // Si hay alguna respuesta anterior la reestablecemos
         restoreLastAnswer(cq.getLastAnswer());
 
-        help.setVisible( cq.getHint() != null );
 
         // Si la ultima accion fue una comprobación, se corrije la pregunta
         if (cq.isLastAnswer_checked() ) {
@@ -485,19 +531,6 @@ public class Content extends GridPane {
             });
         }
 
-        /*taCode.textProperty().addListener( (ov, old_v, new_v) -> {
-            //Controller.log.info("El texto ha cambiado");
-            // Cada vez que cambia el texto almacenamos su valor actual y restablecemos el
-            // mensaje de corrección
-            cq.setLastAnswer( new_v );
-            cq.setLastAnswer_checked(false);
-            clearMessage();
-            hints.setVisible(false);
-            //showHintsButton(cq, hints);
-            c.updateAndSaveCurrentLessonProgress();
-        });*/
-
-        //return sp;
         return vboxcodes;
     }
 

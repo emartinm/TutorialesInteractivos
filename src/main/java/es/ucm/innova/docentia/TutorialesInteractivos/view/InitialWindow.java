@@ -37,8 +37,9 @@ public class InitialWindow extends Pane {
 
 		
 		GridPane pane = new GridPane(); //Panel principal
+		//pane.setGridLinesVisible(true); // Para depurar
 		
-		Label labelTittle = new Label("Selecciona un lenguaje"); //Label del titulo de la ventana
+		Label labelTitle = new Label("Selecciona un lenguaje"); //Label del titulo de la ventana
 
 		ListView<String> languageList = new ListView<String>(); //Lista de los temas
 		ObservableList<String> obsTemas = FXCollections.observableArrayList(files);//permite ver la seleccion
@@ -46,27 +47,27 @@ public class InitialWindow extends Pane {
 
 		Button start = new Button("Comenzar");//Boton para comenzar el tutorial con el lenguaje seleccionado
 		//Label advise = new Label("Recuerda enlazar los compiladores");//Mensaje de aviso
-		Label advise = new Label("");//Mensaje de aviso
+		//Label advise = new Label("");//Mensaje de aviso
 		Button settings = new Button("Ajustes");//Boton de ajustes para seleccionar el compilador
 		Label error = new Label(); //Label que se mostrara con el mensaje de error cuando no haya lenguaje seleccionado
 		
-		labelTittle.setAlignment(Pos.TOP_CENTER);
+		labelTitle.setAlignment(Pos.TOP_CENTER);
 
-		pane.add(labelTittle, 0, 0);
+		pane.add(labelTitle, 0, 0);
 		pane.add(languageList, 0, 1);
 		pane.add(start, 2, 2);
-		pane.add(advise, 1, 2);
+		//pane.add(advise, 1, 2);
 		pane.add(settings, 0, 2);
-		pane.add(error,1,3);
+		pane.add(error,1,2);
 		
 		
 		
-		GridPane.setConstraints(labelTittle, 0, 0, 3,1, HPos.CENTER, VPos.TOP, Priority.ALWAYS, Priority.NEVER, new Insets(5));
+		GridPane.setConstraints(labelTitle, 0, 0, 3,1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER, new Insets(20,5,5,5));
 		GridPane.setConstraints(languageList, 0, 1, 3, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
-		GridPane.setConstraints(start, 2, 2, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
-		GridPane.setConstraints(advise, 1, 2, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
-		GridPane.setConstraints(settings, 0, 2, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
-		GridPane.setConstraints(error, 1, 3, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
+		GridPane.setConstraints(start, 2, 2, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER, new Insets(5));
+		//GridPane.setConstraints(advise, 1, 2, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
+		GridPane.setConstraints(settings, 0, 2, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER, new Insets(5));
+		GridPane.setConstraints(error, 1, 2, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.NEVER, new Insets(5));
 	
 		languageList.setOnMouseClicked( (event) -> {
             // TODO
@@ -101,9 +102,9 @@ public class InitialWindow extends Pane {
 		});
 		
 		//Estetica
-		labelTittle.getStyleClass().add("tittle");
+		labelTitle.getStyleClass().add("tittle");
 		start.getStyleClass().add("start");
-		advise.getStyleClass().add("advise");
+		//advise.getStyleClass().add("advise");
 		settings.getStyleClass().add("setting");
 		error.getStyleClass().add("error");
 		pane.getStylesheets().add(getClass().getResource("/css/menu.css").toExternalForm());
