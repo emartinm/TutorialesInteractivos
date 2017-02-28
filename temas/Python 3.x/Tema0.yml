@@ -8,7 +8,7 @@ Lecciones:
       Contenido: |
           Las explicaciones sirven para mostrar información al alumno. 
 
-          Estas esplicaciones se pueden dividir en varios párrafos, y con Markdown se puede formatear de manera sencilla con **negritas**, *itálicas* y `código`.
+          Estas esplicaciones se pueden dividir en varios párrafos, y con [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) se puede formatear de manera sencilla con **negritas**, *itálicas* y `código`.
 
           También se pueden insertar bloques de código
           ```
