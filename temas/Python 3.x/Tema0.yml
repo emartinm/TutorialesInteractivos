@@ -11,7 +11,8 @@ Lecciones:
           Estas esplicaciones se pueden dividir en varios párrafos, y con Markdown se puede formatear de manera sencilla con **negritas**, *itálicas* y `código`.
 
           También se pueden insertar bloques de código
-          ```python
+          ```
+
           def incrementa(n):
               print(n)
               print(n+1)
@@ -75,8 +76,20 @@ Lecciones:
 
           * [Texto del enlace](https://www.ucm.es)
           * [http://costa.ls.fi.upm.es](http://costa.ls.fi.upm.es)
+    - Elem: explicacion
+      Contenido: |
+          # Uso de notación matemática
+          Para insertar notación matemática usaremos **MathJax** ([https://www.mathjax.org/](https://www.mathjax.org/)), un
+          procesador JavaScript que muestra código LaTeX en una página web. Para cargar MathJax se necesita tener **conexión
+          a internet**.
 
-          
+          Las fórmulas mátemáticas *inline* se deben definir entre los símbolos **@ @** y **@ @**, mientras que las
+          fórmulas matemáticas que producen salto de línea se deben definir entre símbolos **@ @ @** y **@ @ @**.
+
+          *Ejemplo*:
+
+          When @@a \ne 0@@, there are two solutions to @@ax^2 + bx + c = 0@@ and they are
+          @@@x = {-b \pm \sqrt{b^2-4ac} \over 2a}.@@@
     - Elem: explicacion
       Contenido: |
           En Markdown se pueden definir tablas de una manera muy sencilla:
@@ -171,6 +184,7 @@ Lecciones:
 
        Rellena los huecos del siguiente código para duplicar el valor de `a` y para almacenar en la variable `c` la multipliación de `a` y `b`:
        ```
+
        a = 1
        <Hueco 0>
        b = 3
@@ -185,6 +199,7 @@ Lecciones:
 
        Rellena los huecos del siguiente código para duplicar asignar a las variables`a`, `b`, `c` y `d` los valores 1, 2, 3, y 4 respectivamente.
        ```
+
        a = <Hueco 0>
        b = <Hueco 1>
        c = <Hueco 2>

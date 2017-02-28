@@ -4,12 +4,12 @@ import json
 
 def pregunta11(filename):    
     try:
-        #<+|SNIPPET|+> #Inicio del fragmento de código para mostrar
+        #@@@SNIPPET@@@ #Inicio del fragmento de código para mostrar
         a = 1
-        <+|CODIGO|+>
+        @@@CODIGO@@@
         b = 3
-        <+|CODIGO|+>
-        #<+|SNIPPET|+> #Fin del fragmento de código para mostrar
+        @@@CODIGO@@@
+        #@@@SNIPPET@@@ #Fin del fragmento de código para mostrar
         dicc = {}
         things = locals()
         if 'c' in things:

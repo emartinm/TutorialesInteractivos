@@ -17,7 +17,7 @@ import java.util.List;
  *
  */
 public class CodeQuestion extends Question<List<String>> {
-    private static String snippetMark = "<+|SNIPPET|+>";
+    private static String snippetMark = "@@@SNIPPET@@@";
 
     private String corrector;
     private int numGaps = 1;

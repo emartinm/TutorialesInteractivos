@@ -5,14 +5,12 @@ import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * Clase base para los lenguajes soportados por la herramienta.
@@ -52,7 +50,7 @@ public abstract class Language {
     // TODO añadir nuevos lenguajes
 
 
-	private static final String marker = "<+|CODIGO|+>";
+	private static final String marker = "@@@CODIGO@@@";
 	private static final List<String> tle_hints = new ArrayList<String>(Arrays.asList(
 	        "La ejecución del código fue abortada porque sobrepasó el límite permitido",
             "Comprueba que todos los bucles terminan y usa técnicas eficientes"));
@@ -130,15 +128,22 @@ public abstract class Language {
             int inicioLinea = inicioLinea(content,pos);
             String previo = content.substring(inicioLinea, pos);
             String cod = insertaInicio(previo, codes.get(i));
-            content = content.replaceFirst(Pattern.quote(marker), cod);
+            content = myReplace(content,pos, pos + marker.length(), cod);
         }
         return content;
     }
 
-	/*
-	Reemplaza los huecos marcados con 'marker' en el fichero file_in con los códigos almacenados
-	en codes (en el mismo orden). A la hora de pegar un código se preserva la posible tabulación/espacios
-	 */
+    // Inserta 'cod' entre el hueco [pos..pos2) de content
+    private static String myReplace(String content, int pos, int pos2, String cod) {
+        String pre = content.substring(0, pos);
+        String post = content.substring(pos2,content.length());
+        return  pre + cod + post;
+    }
+
+    /*
+    Reemplaza los huecos marcados con 'marker' en el fichero file_in con los códigos almacenados
+    en codes (en el mismo orden). A la hora de pegar un código se preserva la posible tabulación/espacios
+     */
 	protected void reemplazaHuecos(File file_in, File file_out, List<String> codes) {
         try {
             String content = new String(Files.readAllBytes(Paths.get(file_in.toURI())));

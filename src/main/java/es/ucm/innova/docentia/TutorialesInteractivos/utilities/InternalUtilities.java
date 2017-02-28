@@ -22,6 +22,7 @@ import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -57,9 +58,6 @@ public class InternalUtilities {
             .set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
     private static Parser PARSER = Parser.builder(OPTIONS).build();
     private static HtmlRenderer RENDERER = HtmlRenderer.builder(OPTIONS).build();
-    private static String javascript;
-    private static String pre = inicioWebPage();
-    private static String post = finWebPage();
 
 	/**
 	 * Modifica el la ruta de la imagen dentro del HTML
@@ -92,21 +90,6 @@ public class InternalUtilities {
         return buffer.lines().collect(Collectors.joining("\n"));
     }
 
-    private static String inicioWebPage() {
-	    return "<html>\n" +
-                "<head>\n" +
-                "\t<script>" +
-                resourceToString("/js/scripts.js") + "\n" +
-                "\t</script>\n" +
-                "</head>\n" +
-                "<body onload=\"capturaEnlaces();\">\n";
-    }
-
-    private static String finWebPage() {
-	    return "</body>\n" +
-                "</html>";
-    }
-
 	// Permitir llamar a esta funcion y modificar el html que se le pasa o
 	// modificar el webview desde donde se hae la llamada
 	public static Node creaBrowser(String html, Controller c) {
@@ -115,6 +98,7 @@ public class InternalUtilities {
             browser.setContextMenuEnabled(false);
             webEngine = browser.getEngine();
             webEngine.setUserStyleSheetLocation(InternalUtilities.class.getResource("/css/webView.css").toString() );
+            browser.setMaxWidth(Double.MAX_VALUE);
 
             // process page loading
             webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
@@ -152,8 +136,10 @@ public class InternalUtilities {
             return browser;
         } else {*/
 
-	    html = pre + html + post;
-	    webEngine.loadContent(html, "text/html");
+	    List<String> l = new ArrayList<>();
+	    l.add(html);
+	    String final_html = Language.reemplazaHuecos(resourceToString("/js/skel.html"), l);
+	    webEngine.loadContent(final_html, "text/html");
 
         // Para depurar el código que se muestra
         /*webEngine.documentProperty().addListener(new ChangeListener<Document>() {
@@ -162,25 +148,6 @@ public class InternalUtilities {
             }
         });*/
         return browser;
-	}
-
-	/**
-	 * Pasa todo el contenido de un fichero a una cadena
-	 * 
-	 * @param file
-	 *            Nomobre del fichero
-	 * @return
-	 */
-	private static String fileToString(InputStream file) {
-		String style = "";
-		Scanner sc = new Scanner(file);
-
-		while (sc.hasNextLine()) {
-			style += sc.nextLine() + "\n";
-		}
-		sc.close();
-
-		return style;
 	}
 
 	/**

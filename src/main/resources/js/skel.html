@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      function capturaEnlaces() {
+        elems = document.getElementsByTagName("a");
+        for(var i = 0; i < elems.length; ++i){
+          elems[i].onclick=function() {
+            bridge.openWebPage(this.href);
+            return false;
+          }
+        }
+      }
+    </script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['@@','@@'] ],
+          displayMath: [ ['@@@','@@@'] ]
+        },
+        messageStyle: "none"
+      });
+    </script>
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+  </head>
+  <body onload="capturaEnlaces()">
+  @@@CODIGO@@@
+  </body>
+</html>

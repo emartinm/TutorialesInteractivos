@@ -12,6 +12,7 @@ Lecciones:
       Contenido: |
        Unos ejemplos:
        ```
+
        s = 'Hola Mundo'
        entero = 6
        ```
@@ -22,6 +23,7 @@ Lecciones:
       Enunciado: | 
        Escribe una función:
        ```
+
        static int incrementa(int n) {
          ...
        }

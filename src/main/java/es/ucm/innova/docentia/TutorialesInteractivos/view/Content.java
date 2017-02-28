@@ -66,9 +66,9 @@ public class Content extends GridPane {
 		this.add(paginator, 0, 1);
 		this.add(buttonsLabel, 0, 2);
 		
-		GridPane.setConstraints(container, 0, 0, 1, 1, HPos.LEFT, VPos.TOP, Priority.ALWAYS, Priority.NEVER,new Insets(5));
-		GridPane.setConstraints(paginator, 0, 1, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
-		GridPane.setConstraints(buttonsLabel, 0, 2, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
+		GridPane.setConstraints(container, 0, 0, 1, 1, HPos.LEFT, VPos.TOP, Priority.ALWAYS, Priority.ALWAYS,new Insets(5));
+		GridPane.setConstraints(paginator, 0, 1, 1, 1, HPos.LEFT, VPos.BOTTOM, Priority.NEVER, Priority.NEVER, new Insets(5));
+		GridPane.setConstraints(buttonsLabel, 0, 2, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.NEVER, Priority.NEVER, new Insets(5));
 		this.getStylesheets().add(getClass().getResource("/css/content.css").toExternalForm());
 	}
 
@@ -217,15 +217,18 @@ public class Content extends GridPane {
         type = new Label(cabecera);
         type.setAlignment(Pos.CENTER);
         type.getStyleClass().add("tipo");
+        container.setVgrow(type, Priority.NEVER);
 
         String content = c.markToHtml(e.getText());
         // Campo donde se escribe el enunciado o la explicacion de la pregunta
         text = InternalUtilities.creaBrowser(content, c);
-        text.minHeight(100);
+        //text.minHeight(100);
+        container.setVgrow(text, Priority.ALWAYS);
 
         result = generaResult();
         generateLabelCode(e);
         boolean neededAnswerBox = generaAnswerBox(c, e);
+        container.setVgrow(result, Priority.NEVER);
 
         container.getChildren().addAll(type);
         if (neededAnswerBox) {
@@ -234,6 +237,7 @@ public class Content extends GridPane {
             SplitPane split = new SplitPane();
             split.setOrientation(Orientation.VERTICAL);
             split.getItems().addAll(text, answer);
+            container.setVgrow(split, Priority.ALWAYS);
             //split.setDividerPositions(1.0); // Muestra answer con su tamaño minimo por defecto
             container.getChildren().add(split);
 
