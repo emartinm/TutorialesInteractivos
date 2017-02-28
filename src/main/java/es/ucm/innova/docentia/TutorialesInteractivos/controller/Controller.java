@@ -1,8 +1,9 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
-import java.io.File;
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,8 +29,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
@@ -453,7 +452,20 @@ public class Controller {
 	}
 
 	public void openWebPage(String url) {
-	    this.hostservices.showDocument(url);
+		final String os_name = System.getProperty("os.name");
+		if (os_name.toLowerCase().contains("windows")) {
+			Desktop dt = Desktop.getDesktop();
+			URI uri = null;
+			try {
+				uri = new URI(url);
+				dt.browse(uri);
+			} catch (Exception e) {
+				this.log.warning("Error al abrir el navegador: " + e.getLocalizedMessage() );
+			}
+		} else {
+			// Linux y Mac
+			this.hostservices.showDocument(url);
+		}
     }
 
 }
