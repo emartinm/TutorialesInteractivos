@@ -1,3 +1,10 @@
+### 126/02/2017: v1.2.0
+
+**Soporte para preguntas de código de varios huecos**
+- Las preguntas de tipo código admiten varios huecos para rellenar.
+- Mejoradas las ventanas para seleccionar archivos y carpetas
+- Corrección de errores.
+
 ### 06/02/2017: v1.2.0
 
 **Soporte para varios lenguajes de programación**
