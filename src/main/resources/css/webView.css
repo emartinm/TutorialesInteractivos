@@ -12,7 +12,30 @@ h1{
 h2{
 	color: #002277;
 	text-align: center;
-	line-height: 1.5;
+	font-family: sans-serif;
+}
+
+h3{
+	color: #002277;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+h4{
+	color: #002277;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+h5{
+	color: #002277;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+h6{
+	color: #002277;
+	text-align: center;
 	font-family: sans-serif;
 }
 

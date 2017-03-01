@@ -64,8 +64,8 @@ public final class YamlReaderClass {
 
 			for (Map pre : e) {// Recorre los elementos de la leccion a cargar y los parsea
 				Element elem = null;
+				String wording = (String) pre.get("Content");// Carga el contenido del texto
 				if (pre.get("Elem").equals("Question")) {
-					String wording = (String) pre.get("Statement");// Enunciado
 					String clue = (String) pre.get("Hint");// Pista
 
 					if (pre.get("Type").equals("Code")) {
@@ -89,7 +89,6 @@ public final class YamlReaderClass {
 						elem = new OptionQuestion(wording, clue, opc, isMulti, correctsAux);
 					}
 				} else {
-					String wording = (String) pre.get("Content");// Carga el contenido de la explicación
 					elem = new Explanation(wording);
 				}
 				elements.add(elem);// Añade el elemento al array de elementos de Lesson
