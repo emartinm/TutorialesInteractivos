@@ -41,6 +41,8 @@ import javafx.stage.Stage;
 public class Controller {
     public static final Logger log = Logger.getLogger("TutorialesInteractivos"); // Logger común para toda la aplicación
     public static final String progressFileName = "progress.json";
+    private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
+    //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
 
 	private Stage primaryStage;// Vista principal de la aplicación
 	private HostServices hostservices;
@@ -67,6 +69,12 @@ public class Controller {
 		this.hostservices = hs;
 		this.files = new ArrayList<>();
 		this.config = new ConfigurationData();
+
+        this.primaryStage.setX(50);
+        this.primaryStage.setY(50);
+        this.primaryStage.setTitle(this.localization.getString("app_name"));
+        this.primaryStage.setMinWidth(600);
+        this.primaryStage.setMinHeight(400);
 		//this.pref = Preferences.userNodeForPackage(this.getClass());
 
 		// TODO
@@ -466,6 +474,16 @@ public class Controller {
 			// Linux y Mac
 			this.hostservices.showDocument(url);
 		}
+    }
+
+    public static String getLocalizedString(String key) {
+	    String val = localization.getString(key);
+	    try {
+            return new String(val.getBytes("ISO-8859-1"), "UTF-8");
+	    } catch (java.io.UnsupportedEncodingException e) {
+	        log.warning("Error al obtener cadena traducida: " + e.getLocalizedMessage());
+        }
+        return val;
     }
 
 }

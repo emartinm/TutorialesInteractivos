@@ -39,16 +39,16 @@ public class InitialWindow extends Pane {
 		GridPane pane = new GridPane(); //Panel principal
 		//pane.setGridLinesVisible(true); // Para depurar
 		
-		Label labelTitle = new Label("Selecciona un lenguaje"); //Label del titulo de la ventana
+		Label labelTitle = new Label(Controller.getLocalizedString("initial.select_lang")); //Label del titulo de la ventana
 
 		ListView<String> languageList = new ListView<String>(); //Lista de los temas
 		ObservableList<String> obsTemas = FXCollections.observableArrayList(files);//permite ver la seleccion
 		languageList.setItems(obsTemas);
 
-		Button start = new Button("Comenzar");//Boton para comenzar el tutorial con el lenguaje seleccionado
+		Button start = new Button(Controller.getLocalizedString("initial.start"));//Boton para comenzar el tutorial con el lenguaje seleccionado
 		//Label advise = new Label("Recuerda enlazar los compiladores");//Mensaje de aviso
 		//Label advise = new Label("");//Mensaje de aviso
-		Button settings = new Button("Ajustes");//Boton de ajustes para seleccionar el compilador
+		Button settings = new Button(Controller.getLocalizedString("initial.settings"));//Boton de ajustes para seleccionar el compilador
 		Label error = new Label(); //Label que se mostrara con el mensaje de error cuando no haya lenguaje seleccionado
 		
 		labelTitle.setAlignment(Pos.TOP_CENTER);
@@ -87,7 +87,7 @@ public class InitialWindow extends Pane {
 			if (!s.isEmpty()){
 				c.selectedLanguage(s.getSelectedItem());//Se carga el tema seleccionado
 			} else {
-				error.setText("Se debe seleccionar un lenguaje");
+				error.setText(Controller.getLocalizedString("initial.warn_select_lang"));
 			}
 		});
 		
@@ -102,7 +102,7 @@ public class InitialWindow extends Pane {
 		});
 		
 		//Estetica
-		labelTitle.getStyleClass().add("tittle");
+		labelTitle.getStyleClass().add("title");
 		start.getStyleClass().add("start");
 		//advise.getStyleClass().add("advise");
 		settings.getStyleClass().add("setting");

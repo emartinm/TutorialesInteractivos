@@ -1,11 +1,11 @@
-Tema: 0
-Titulo: Tema de prueba
-Introduccion: Tema para mostrar la potencia de la herramienta
-Lecciones:
- - Titulo: Explicaciones
-   Elementos:
-    - Elem: explicacion
-      Contenido: |
+Subject: 0
+Title: Tema de prueba
+Intro: Tema para mostrar la potencia de la herramienta
+Lessons:
+ - Title: Explicaciones
+   Elements:
+    - Elem: Text
+      Content: |
           Las explicaciones sirven para mostrar información al alumno. 
 
           Estas esplicaciones se pueden dividir en varios párrafos, y con [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) se puede formatear de manera sencilla con **negritas**, *itálicas* y `código`.
@@ -18,8 +18,8 @@ Lecciones:
               print(n+1)
               return n + 1
           ```
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
           También se pueden establecer distintas cabeceras.
 
           # H1
@@ -33,8 +33,8 @@ Lecciones:
           ##### H5
 
           ###### H6
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
           Markdown soporta listas:
 
           # Listas numeradas
@@ -54,8 +54,8 @@ Lecciones:
           * Elemento 2
               * anidado 1
               * anidado 2 
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
           Markdown soporta la incorporación de **imágenes**:
           
           **Imagen desde internet**
@@ -70,14 +70,14 @@ Lecciones:
           
           ![dijkstra](https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif)
           *(Por alguna razón las animaciones en GIF no funcionan)*
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
           También se pueden incluir enlaces en las explicaciones:
 
           * [Texto del enlace](https://www.ucm.es)
           * [http://costa.ls.fi.upm.es](http://costa.ls.fi.upm.es)
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
           # Uso de notación matemática
           Para insertar notación matemática usaremos **MathJax** ([https://www.mathjax.org/](https://www.mathjax.org/)), un
           procesador JavaScript que muestra código LaTeX en una página web. Para cargar MathJax se necesita tener **conexión
@@ -90,8 +90,8 @@ Lecciones:
 
           When @@a \ne 0@@, there are two solutions to @@ax^2 + bx + c = 0@@ and they are
           @@@x = {-b \pm \sqrt{b^2-4ac} \over 2a}.@@@
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
           En Markdown se pueden definir tablas de una manera muy sencilla:
           
           Cabecera|Cabecera|Cabecera
@@ -99,8 +99,8 @@ Lecciones:
           1|2|3
           1|2|3
           1|2|3
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
           Donde Markdown no llega, se puede insertar código HTML y se mostrará directamente en la apliación.
           
           Concretamente esto puede servir para incrustar recursos HTML5, como videos de Youtube:
@@ -108,81 +108,81 @@ Lecciones:
           **Vídeos de Youtube**
           
           <iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen target="_self"></iframe>
- - Titulo: Preguntas de tipo test
-   Elementos:
-    - Elem: pregunta
-      Enunciado: |
+ - Title: Preguntas de tipo test
+   Elements:
+    - Elem: Question
+      Statement: |
           Existen 2 tipos de preguntas de tipo test:
           * Preguntas con una sola opción
           * Preguntas con varias opciones
               
           La pregunta que vemos aquí es de una sola opción válida
-      Tipo: Opciones
-      Pista: Se pueden incluir pistas en las preguntas.
-      Solucion: [1]
+      Type: Options
+      Hint: Se pueden incluir Hints en las preguntas.
+      Solution: [1]
       Multiple: no
-      Opciones: 
+      Options: 
        - OPCIÓN CORRECTA
        - Opción inválida
        - Opción inválida
        - Opción inválida
-    - Elem: pregunta
-      Enunciado: |
+    - Elem: Question
+      Statement: |
           Las preguntas de varias opciones permiten selección varias respuestas:
-      Tipo: Opciones
-      Pista: Esto es una pista
+      Type: Options
+      Hint: Esto es una Hint
       Multiple: yes
-      Solucion: [1,2,4]
-      Opciones:
+      Solution: [1,2,4]
+      Options:
        - 1) OPCIÓN CORRECTA
        - 2) OPCIÓN CORRECTA
        - 3) Opción inválida
        - 4) OPCIÓN CORRECTA
-    - Elem: pregunta
-      Enunciado: |
+    - Elem: Question
+      Statement: |
           Nada impide que las preguntas de varias opciones tengan una sola opción válida
-      Tipo: Opciones
-      Pista: Esto es una pista
+      Type: Options
+      Hint: Esto es una pista
       Multiple: yes
-      Solucion: [4]
-      Opciones:
+      Solution: [4]
+      Options:
        - 1) Opción inválida
        - 2) Opción inválida
        - 3) Opción inválida
        - 4) OPCIÓN CORRECTA
-    - Elem: pregunta
-      Enunciado: |
+    - Elem: Question
+      Statement: |
           Y tampoco hay nada que impida que las preguntas de varias opciones no tengan ninguna opción válida
-      Tipo: Opciones
-      Pista: Esto es una pista
+      Type: Options
+      Hint: Esto es una pista
       Multiple: yes
-      Solucion: []
-      Opciones:
+      Solution: []
+      Options:
        - 1) Opción inválida
        - 2) Opción inválida
        - 3) Opción inválida
        - 4) Opción inválida  
- - Titulo: Preguntas de tipo código
-   Elementos:
-    - Elem: explicacion
-      Contenido: |
+ - Title: Preguntas de tipo código
+   Elements:
+    - Elem: Text
+      Content: |
           Las preguntas de código permiten solicitar al usuario framentos de código que son insertados en un programa
           corrector, que es posteriormente evaluado.
 
-          El programa corrector es un programa con uno o más huecos que son *rellenados* con el código del alumno.
+          El programa corrector es un programa con uno o más Gaps que son *rellenados* con el código del alumno.
           La salida de este programa corrector relleno almacena su salida en un fichero **JSON** con el resultado
-          de la corrección junto con posibles mensajes y pistas para el alumno.
-    - Elem: pregunta
-      Enunciado: Escribe una asignación para almacenar un ```4``` en la variable ```i```
-      Tipo: Codigo
-      Fichero: correctores/tema0.py
+          de la corrección junto con posibles mensajes y Hints para el alumno.
+    - Elem: Question
+      Statement: Escribe una asignación para almacenar un ```4``` en la variable ```i```
+      Type: Code
+      File: correctores/tema0.py
       Prompt: ["Escriba aquí el código"]
-      Pista: Se pueden incluir pistas en generales en las preguntas de código.
-    - Elem: pregunta
-      Enunciado: |
+      Hint: Se pueden incluir Hints en generales en las preguntas de código.
+    - Elem: Question
+      Statement: |
        Las preguntas de tipo código pueden contener más de un hueco, por ejemplo dos:
 
-       Rellena los huecos del siguiente código para duplicar el valor de `a` y para almacenar en la variable `c` la multipliación de `a` y `b`:
+       Rellena los Gaps del siguiente código para duplicar el valor de `a` y para almacenar en la variable `c` la multipliación de `a` y `b`:
        ```
 
        a = 1
@@ -190,14 +190,14 @@ Lecciones:
        b = 3
        <Hueco 1>
        ```
-      Tipo: Codigo
-      Huecos: 2
-      Fichero: correctores/tema0b.py
-    - Elem: pregunta
-      Enunciado: |
-       El número de huecos no tiene ningún límite, únicamente debe ser un número superior a ```0```.
+      Type: Code
+      Gaps: 2
+      File: correctores/tema0b.py
+    - Elem: Question
+      Statement: |
+       El número de Gaps no tiene ningún límite, únicamente debe ser un número superior a ```0```.
 
-       Rellena los huecos del siguiente código para duplicar asignar a las variables`a`, `b`, `c` y `d` los valores 1, 2, 3, y 4 respectivamente.
+       Rellena los Gaps del siguiente código para duplicar asignar a las variables`a`, `b`, `c` y `d` los valores 1, 2, 3, y 4 respectivamente.
        ```
 
        a = <Hueco 0>
@@ -205,8 +205,8 @@ Lecciones:
        c = <Hueco 2>
        d = <Hueco 3>
        ```
-      Tipo: Codigo
-      Huecos: 4
+      Type: Code
+      Gaps: 4
       Prompt: ["Valor de la variable 'a'","Valor de la variable 'b'","Valor de la variable 'c'","Valor de la variable 'd'"]
-      Pista: Esto es una pista general.
-      Fichero: correctores/tema0c.py
+      Hint: Esto es una Hint general.
+      File: correctores/tema0c.py

@@ -38,10 +38,10 @@ public class Configuration extends Pane {
 		GridPane root = new GridPane(); // Panel principal
 		//root.setGridLinesVisible(true); // Para depurar
 
-		Label dependencies = new Label("Directorio de cursos: ");// label de dependencias
+		Label dependencies = new Label(Controller.getLocalizedString("config.dir"));// label de dependencias
 		TextField pathDep = new TextField();// Campo donde se muestra la ruta del archivo dependences
         pathDep.setEditable(false);
-		Button search = new Button("Buscar...");// Boton para buscar el archivo de dependencias
+		Button search = new Button(Controller.getLocalizedString("config.find"));// Boton para buscar el archivo de dependencias
 		// Lista con las entradas de configuración y su ruta
 		TableView<ConfigEntry> languageList = new TableView<>();
 		languageList.setPlaceholder(new Label("")); // Evita mostrar el mensaje "No content in table" si está vacío
@@ -61,25 +61,25 @@ public class Configuration extends Pane {
 		dependencies.setMnemonicParsing(true);
 		dependencies.setLabelFor(pathDep);
 
-		Label languagesLabel = new Label("CONFIGURACIÓN");
+		Label languagesLabel = new Label(Controller.getLocalizedString("config.config"));
 
 		languageList.setEditable(true);
 		languageList.setVisible(true);
-		TableColumn firstNameCol = new TableColumn("Lenguaje de programación");
+		TableColumn firstNameCol = new TableColumn(Controller.getLocalizedString("config.lang"));
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<ConfigEntry, String>("key"));
-		TableColumn secondNameCol = new TableColumn("Compilador/intérprete");
+		TableColumn secondNameCol = new TableColumn(Controller.getLocalizedString("config.comp"));
 		secondNameCol.setCellValueFactory(new PropertyValueFactory<ConfigEntry, String>("value"));
 
 		languageList.setItems(data);
 		languageList.getColumns().addAll(firstNameCol, secondNameCol);
 		languageList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		Button change = new Button("Cambiar compilador/intérprete");
-		Button back = new Button("Cancelar");
+		Button change = new Button(Controller.getLocalizedString("config.change_compiler"));
+		Button back = new Button(Controller.getLocalizedString("config.cancel"));
 		if (!c.getConfig().isDirTemas()) {
             back.setDisable(true);
         }
-		Button accept = new Button("Aceptar");
+		Button accept = new Button(Controller.getLocalizedString("config.accept"));
 		
 		// Label warning = new Label("Para avanzar todos los lenguajes han de estar configurados");
         /*Label warning = new Label("");
@@ -135,9 +135,9 @@ public class Configuration extends Pane {
 			    c.start();
 			} else {
                 Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("¡Atención!");
-                alert.setHeaderText("Para poder continuar debes configurar al menos\nel directorio donde están almacenados los cursos.");
-                alert.setContentText("Por favor, elige el directorio de cursos utilizando el botón\n\"Buscar...\" de la parte superior de la ventana.");
+                alert.setTitle(Controller.getLocalizedString("config.warning"));
+                alert.setHeaderText(Controller.getLocalizedString("config.msg_select1"));
+                alert.setContentText(Controller.getLocalizedString("config.msg_select2"));
                 alert.showAndWait();
             }
 		});
@@ -183,7 +183,7 @@ public class Configuration extends Pane {
 		});
 
         //change.getStyleClass().add("start");
-		languagesLabel.getStyleClass().add("tittle");
+		languagesLabel.getStyleClass().add("title");
 		accept.getStyleClass().add("conf_aceptar");
 		back.getStyleClass().add("conf_cancelar");
 		languageList.setId("table");
