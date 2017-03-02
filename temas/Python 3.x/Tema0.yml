@@ -110,14 +110,13 @@ Lessons:
           <iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen target="_self"></iframe>
  - Title: Preguntas de tipo test
    Elements:
-    - Elem: Question
+    - Elem: Options
       Content: |
           Existen 2 tipos de preguntas de tipo test:
           * Preguntas con una sola opción
           * Preguntas con varias opciones
               
           La pregunta que vemos aquí es de una sola opción válida
-      Type: Options
       Hint: Se pueden incluir Hints en las preguntas.
       Solution: [1]
       Multiple: no
@@ -126,10 +125,9 @@ Lessons:
        - Opción inválida
        - Opción inválida
        - Opción inválida
-    - Elem: Question
+    - Elem: Options
       Content: |
           Las preguntas de varias opciones permiten selección varias respuestas:
-      Type: Options
       Hint: Esto es una Hint
       Multiple: yes
       Solution: [1,2,4]
@@ -138,10 +136,9 @@ Lessons:
        - 2) OPCIÓN CORRECTA
        - 3) Opción inválida
        - 4) OPCIÓN CORRECTA
-    - Elem: Question
+    - Elem: Options
       Content: |
           Nada impide que las preguntas de varias opciones tengan una sola opción válida
-      Type: Options
       Hint: Esto es una pista
       Multiple: yes
       Solution: [4]
@@ -150,10 +147,9 @@ Lessons:
        - 2) Opción inválida
        - 3) Opción inválida
        - 4) OPCIÓN CORRECTA
-    - Elem: Question
+    - Elem: Options
       Content: |
           Y tampoco hay nada que impida que las preguntas de varias opciones no tengan ninguna opción válida
-      Type: Options
       Hint: Esto es una pista
       Multiple: yes
       Solution: []
@@ -172,13 +168,12 @@ Lessons:
           El programa corrector es un programa con uno o más Gaps que son *rellenados* con el código del alumno.
           La salida de este programa corrector relleno almacena su salida en un fichero **JSON** con el resultado
           de la corrección junto con posibles mensajes y Hints para el alumno.
-    - Elem: Question
+    - Elem: Code
       Content: Escribe una asignación para almacenar un ```4``` en la variable ```i```
-      Type: Code
       File: correctores/tema0.py
       Prompt: ["Escriba aquí el código"]
       Hint: Se pueden incluir Hints en generales en las preguntas de código.
-    - Elem: Question
+    - Elem: Code
       Content: |
        Las preguntas de tipo código pueden contener más de un hueco, por ejemplo dos:
 
@@ -190,10 +185,9 @@ Lessons:
        b = 3
        <Hueco 1>
        ```
-      Type: Code
       Gaps: 2
       File: correctores/tema0b.py
-    - Elem: Question
+    - Elem: Code
       Content: |
        El número de Gaps no tiene ningún límite, únicamente debe ser un número superior a ```0```.
 
@@ -205,7 +199,6 @@ Lessons:
        c = <Hueco 2>
        d = <Hueco 3>
        ```
-      Type: Code
       Gaps: 4
       Prompt: ["Valor de la variable 'a'","Valor de la variable 'b'","Valor de la variable 'c'","Valor de la variable 'd'"]
       Hint: Esto es una Hint general.
