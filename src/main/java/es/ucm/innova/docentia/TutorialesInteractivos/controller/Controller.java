@@ -41,8 +41,8 @@ import javafx.stage.Stage;
 public class Controller {
     public static final Logger log = Logger.getLogger("TutorialesInteractivos"); // Logger común para toda la aplicación
     public static final String progressFileName = "progress.json";
-    //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
-    private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
+    private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
+    //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
 
 	private Stage primaryStage;// Vista principal de la aplicación
 	private HostServices hostservices;
