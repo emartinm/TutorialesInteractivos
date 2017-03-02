@@ -70,9 +70,9 @@ public class SubjectsMenu extends Pane{
 			}
 		});
 		
-		Button start = new Button("Comenzar");
+		Button start = new Button(Controller.getLocalizedString("subjectmenu.start"));
 		Label error = new Label ();
-		Button back = new Button("Volver menú anterior");
+		Button back = new Button(Controller.getLocalizedString("subjectmenu.back"));
 		
 		language.setAlignment(Pos.TOP_CENTER);
 		
@@ -110,7 +110,7 @@ public class SubjectsMenu extends Pane{
 					String filename = files.get(pos);
 					c.selectedSubject( filename ); //Se carga el tema seleccionado
 				} else {
-					error.setText("Se debe seleccionar un tema");
+					error.setText(Controller.getLocalizedString("subjectmenu.selectSubject"));
 				}
 			}
 			

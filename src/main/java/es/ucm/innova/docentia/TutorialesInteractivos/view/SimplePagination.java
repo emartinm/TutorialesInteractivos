@@ -80,21 +80,19 @@ public class SimplePagination extends StackPane {
     private Pane createControls(int n, int enabled, int current, Controller c) {
         GridPane outerGridPane = new GridPane();
 
-        previousButton = new Button("<< Anterior");
+        previousButton = new Button(Controller.getLocalizedString("pagination.prev"));
         previousButton.setDisable( current == 0);
         previousButton.setOnAction( (evt) -> {
-            Controller.log.info( "pulsar " + Integer.toString(current-1) );
             c.lessonPageChange(current-1);
         });
         previousButton.setMinWidth(GridPane.USE_PREF_SIZE);
         previousButton.getStyleClass().add("previous-button");
 
-        nextButton = new Button("Siguiente >>");
+        nextButton = new Button(Controller.getLocalizedString("pagination.next"));
         nextButton.setDisable( current == n || current == enabled );
         nextButton.setMinWidth(GridPane.USE_PREF_SIZE);
         nextButton.getStyleClass().add("next-button");
         nextButton.setOnAction( (evt) -> {
-            Controller.log.info( "pulsar " + Integer.toString(current+1) );
             c.lessonPageChange(current + 1);
         });
 

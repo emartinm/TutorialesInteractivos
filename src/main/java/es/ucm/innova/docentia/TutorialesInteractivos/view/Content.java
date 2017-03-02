@@ -89,8 +89,8 @@ public class Content extends GridPane {
 
     private HBox generateBottomButtons(Controller c) {
         HBox buttonsLabel = new HBox(10);
-        Button subjectButton = new Button("Elegir tema");
-        Button lessonButton = new Button("Elegir lección");
+        Button subjectButton = new Button(Controller.getLocalizedString("content.selectSubject"));
+        Button lessonButton = new Button(Controller.getLocalizedString("content.selectLesson"));
         //Button menu = new Button("Menu principal");
 
         buttonsLabel.getChildren().addAll(subjectButton, lessonButton);
@@ -128,13 +128,13 @@ public class Content extends GridPane {
 
     private void showMessage() {
         if (correction.getResult() == ExecutionMessage.COMPILATION_ERROR ){
-            isCorrect.setText("ERROR DE COMPILACIÓN");
+            isCorrect.setText(Controller.getLocalizedString("content.compilationError"));
             isCorrect.getStyleClass().add("msjIncorrecto");
         } else if (correction.getResult() == ExecutionMessage.EXECUTION_ERROR ) {
-            isCorrect.setText("ERROR EN EJECUCIÓN");
+            isCorrect.setText(Controller.getLocalizedString("content.runtimeError"));
             isCorrect.getStyleClass().add("msjIncorrecto");
         } else if (correction.getResult() == ExecutionMessage.KILLED ) {
-            String msg = "EJECUCIÓN ABORTADA";
+            String msg = Controller.getLocalizedString("content.abort");
             if (correction.getMessage() != null && correction.getMessage().length() > 0){
                 msg = msg + ": " + correction.getMessage();
             }
@@ -142,10 +142,10 @@ public class Content extends GridPane {
             isCorrect.getStyleClass().add("msjIncorrecto");
         } else if (correction.getResult() == ExecutionMessage.OK) {
             if (correction.isCorrect() ) {
-                isCorrect.setText("CORRECTO");
+                isCorrect.setText(Controller.getLocalizedString("content.correct"));
                 isCorrect.getStyleClass().add("msjCorrecto");
             } else {
-                String msg = "RESPUESTA INCORRECTA";
+                String msg = Controller.getLocalizedString("content.incorrect");
                 if (correction.getMessage() != null && correction.getMessage().length() > 0){
                     msg = msg + ": " + correction.getMessage();
                 }
@@ -184,24 +184,12 @@ public class Content extends GridPane {
 		return result;
 	}
 
-    private void logList(List<Integer> l) {
-        if (l == null) {
-			Controller.log.info("Lista vacia");
-        } else {
-            String lista = "";
-            for (Integer e : l) {
-                lista += " " + e.toString();
-            }
-			Controller.log.info(lista);
-        }
-    }
-
     /* Devuelve el elemento actual de la lección, o un elemento Explicación con un mensaje
     * de enhorabuena si es el último elemento de la lección */
     private Element lessonCurrentElement(Lesson le) {
         if (le.getCurrentElementPos() >= le.getElements().size() ) {
-            String mensajeFinal = "# ¡Enhorabuena! \n## Has terminado la lección '" +
-                    le.getTitle() + "'";
+            String mensajeFinal = "# " + Controller.getLocalizedString("content.congrats") + "\n## " +
+                    Controller.getLocalizedString("content.finished") + "'" + le.getTitle() + "'";
             return new Explanation(mensajeFinal);
         } else {
             return le.getCurrentElement();
@@ -268,10 +256,10 @@ public class Content extends GridPane {
         // Botones para el envio/ayuda de respuestas
         buttonsCode = new VBox(5);
         buttonsCode.setPadding(new Insets(2,2,2,5));
-        help = new Button("Pistas");
-        resolve = new Button("Resolver");
-        borrar = new Button(  "Borrar");
-        verCodigo = new Button( "Ver código");
+        help = new Button(Controller.getLocalizedString("content.hints"));
+        resolve = new Button(Controller.getLocalizedString("content.solve"));
+        borrar = new Button(  Controller.getLocalizedString("content.clear"));
+        verCodigo = new Button( Controller.getLocalizedString("content.showCode"));
 
         // Para que todos los botones tengasn el mismo tamaño
         help.setMaxWidth(Double.MAX_VALUE);
@@ -304,7 +292,7 @@ public class Content extends GridPane {
         answerBox.setCenter(left);
         answerBox.setRight(buttonsCode);
 
-        Tooltip tt_help = new Tooltip("Muestra la pista general para resolver la pregunta");
+        Tooltip tt_help = new Tooltip(Controller.getLocalizedString("content.hintsTooltip"));
         help.setTooltip(tt_help);
         help.setOnAction( (event) -> {
             final Popup popup = new Popup();
@@ -322,7 +310,7 @@ public class Content extends GridPane {
             popup.show(c.getPrimaryStage());
         });
 
-        Tooltip tt_resolve = new Tooltip("Resuelve la pregunta");
+        Tooltip tt_resolve = new Tooltip(Controller.getLocalizedString("content.solveTooltip"));
         resolve.setTooltip(tt_resolve);
         resolve.setOnAction( (event) -> {
             if (e instanceof OptionQuestion) {
@@ -353,7 +341,7 @@ public class Content extends GridPane {
             c.reloadCurrentLessonFragment();
         });
 
-        Tooltip tt_hints = new Tooltip("Muestra las pistas concretas relacionadas con la última corrección fallida");
+        Tooltip tt_hints = new Tooltip(Controller.getLocalizedString("content.morehintsTooltip"));
         hints.setTooltip(tt_hints);
         hints.setOnAction( (event) -> {
             Popup popup = new Popup();
@@ -380,7 +368,7 @@ public class Content extends GridPane {
             }
         });
 
-        Tooltip tt_borrar = new Tooltip("Borra todo el código escrito en los campos de texto");
+        Tooltip tt_borrar = new Tooltip(Controller.getLocalizedString("content.clearTooltip"));
         borrar.setTooltip(tt_borrar);
         borrar.setOnAction( (event) -> {
             for (int i = 0; i < codes.length; ++ i) {
@@ -390,7 +378,7 @@ public class Content extends GridPane {
             c.reloadCurrentLessonFragment();
         });
 
-        Tooltip tt_verCodigo = new Tooltip("Muestra el resultado de rellenar los huecos con el código escrito en los campos de texto");
+        Tooltip tt_verCodigo = new Tooltip(Controller.getLocalizedString("content.showCodeTooltip"));
         verCodigo.setTooltip(tt_verCodigo);
         verCodigo.setOnAction( (event) -> {
             CodeQuestion cq = (CodeQuestion)e;
@@ -494,10 +482,11 @@ public class Content extends GridPane {
                 codes[i] = t;
                 HBox hb = new HBox(10);
                 HBox.setHgrow(t, Priority.ALWAYS);
-                Label lb = new Label("Hueco #" + Integer.toString(i));
-                hb.getChildren().add(lb);
-                lb.setMinWidth(Region.USE_PREF_SIZE);
-                hb.getChildren().add(t);
+                Label lb = new Label(Controller.getLocalizedString("content.gap") + Integer.toString(i));
+                hb.getChildren().addAll(lb, t);
+                //lb.setStyle("-fx-border-color: black; -fx-border-width: 3;");
+                hb.setAlignment(Pos.CENTER);
+                //lb.setMinWidth(Region.USE_PREF_SIZE);
                 t.setPromptText(cq.promptAt(i));
                 vboxcodes.getChildren().add(hb);
             }
@@ -557,7 +546,7 @@ public class Content extends GridPane {
     private HBox generaResult() {
         HBox hb = new HBox(10);// Contenedor donde se muestra la resolucion de la pregunta
         isCorrect = new Label();// Indica si la pregunta se ha respondido bien o no
-        hints = new Button("Más pistas");
+        hints = new Button(Controller.getLocalizedString("content.morehints"));
 
         hb.getChildren().addAll(isCorrect);
         hb.getChildren().addAll(hints);
@@ -572,10 +561,10 @@ public class Content extends GridPane {
         labelCode = new Label();
         boolean needed = false;
         if (e instanceof OptionQuestion ) {
-            labelCode.setText("Opciones");
+            labelCode.setText(Controller.getLocalizedString("content.options"));
             needed = true;
         } else if (e instanceof CodeQuestion) {
-            labelCode.setText("Código");
+            labelCode.setText(Controller.getLocalizedString("content.code"));
             needed = true;
         }
         labelCode.getStyleClass().add("labcode");

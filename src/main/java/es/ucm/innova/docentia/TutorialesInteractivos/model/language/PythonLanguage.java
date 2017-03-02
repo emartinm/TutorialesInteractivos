@@ -42,7 +42,7 @@ public class PythonLanguage extends Language {
 
     protected ProcessBuilder getExecutionProcess(String execPath, String jsonPath) {
         ProcessBuilder pb = new ProcessBuilder(this.interpreter, execPath, jsonPath);
-        Controller.log.info( "Ejecutando: " + pb.command());
+        Controller.log.info( "Executing: " + pb.command());
         return pb;
     }
 

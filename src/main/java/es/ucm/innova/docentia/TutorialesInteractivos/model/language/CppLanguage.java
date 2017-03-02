@@ -68,13 +68,13 @@ public class CppLanguage extends Language {
             // g++
             pb = new ProcessBuilder(this.compiler, sourcePath, "-std=c++11", "-o", outputFilePath);
         }
-        Controller.log.info("Ejecutando: " + pb.command());
+        Controller.log.info("Executing: " + pb.command());
         return pb;
     }
 
     protected ProcessBuilder getExecutionProcess(String execPath, String jsonPath) {
         ProcessBuilder pb = new ProcessBuilder(execPath, jsonPath);
-        Controller.log.info("Ejecutando: " + pb.command());
+        Controller.log.info("Executing: " + pb.command());
         return pb;
     }
 

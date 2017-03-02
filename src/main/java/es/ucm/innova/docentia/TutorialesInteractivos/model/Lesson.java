@@ -55,7 +55,7 @@ public class Lesson {
             try {
                 this.md = MessageDigest.getInstance("MD5");
             } catch (java.security.NoSuchAlgorithmException e) {
-                Controller.log.info("MD5 no instalado");
+                Controller.log.info("MD5 is not installed");
             }
         }
 	}
@@ -98,7 +98,7 @@ public class Lesson {
                         if (question_progress != null ) {
                             this.elements.get(i).loadProgress(question_progress);
                         } else {
-                            Controller.log.info( "No existe progreso para la pregunta " + Integer.toString(i) );
+                            Controller.log.info( "There is no progress stored for question " + Integer.toString(i) );
                         }
                     }
                 }
@@ -107,7 +107,7 @@ public class Lesson {
                 latestEnabledElement = (Integer) lesson_prog.getOrDefault( "enabled", 0 );
                 latestElement = (Integer) lesson_prog.getOrDefault( "latest", 0 );
             } catch (ClassCastException e) {
-                Controller.log.warning("Error al leer el progreso de la lección " + version + " -> " + e.getLocalizedMessage() );
+                Controller.log.warning("Error when loading progress of lesson " + version + " -> " + e.getLocalizedMessage() );
             }
 
         }
@@ -150,7 +150,7 @@ public class Lesson {
         if ( currentElement >= 0 && currentElement < this.elements.size() ){
 	        return this.elements.get(currentElement);
 	    } else {
-            Controller.log.info( "Accediendo a elemento de leccion fuera de rango: " + currentElement);
+            Controller.log.info( "Accesing element out of range: " + currentElement);
             return null;
         }
     }

@@ -25,7 +25,7 @@ public class CSharpLanguage extends Language {
     }
 
     private String compilerName(String language) {
-        return language + " (compilador de C#)";
+        return language; // + " (compilador de C#)";
     }
 
     public boolean isConfigured() {
@@ -59,7 +59,7 @@ public class CSharpLanguage extends Language {
             // Mono
             pb = new ProcessBuilder(this.compiler, sourcePath, "-out:" + outputFilePath);
         }
-        Controller.log.info("Ejecutando: " + pb.command());
+        Controller.log.info("Executing: " + pb.command());
         return pb;
         // No es necesario realizar distinción entre Visual Studio y Mono, toman los mismo parámetros
         /*ProcessBuilder pb = new ProcessBuilder(this.compiler, sourcePath, "-out:" + outputFilePath);
@@ -69,7 +69,7 @@ public class CSharpLanguage extends Language {
 
     protected ProcessBuilder getExecutionProcess(String execPath, String jsonPath) {
         ProcessBuilder pb = new ProcessBuilder(execPath, jsonPath);
-        Controller.log.info("Ejecutando: " + pb.command());
+        Controller.log.info("Executing: " + pb.command());
         return pb;
     }
 

@@ -3,7 +3,7 @@ import java.util.List;
 
 class Corrector {
 
-	<+|CODIGO|+>
+	@@@CODIGO@@@
 	/*
 	public static int incrementa(int n){
 		return n+1;
