@@ -2,21 +2,97 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage{color} %para el texto con colores
+\newcommand{\code}[1]{{\lstinline[basicstyle=\sffamily,mathescape]!#1!}}
 
+\lstdefinelanguage{yaml}{
+	%backgroundcolor=\color{white},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	basicstyle=\ttfamily,      % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=none,                 % sets the caption-position to bottom
+	commentstyle=\itshape\color{gray},           % comment style
+	%deletekeywords={...},           % if you want to delete keywords from the given language
+	escapeinside={(*}{*)},           % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=tb,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	columns=fullflexible,
+	%keywordstyle=\color{blue},      % keyword style
+	%language=C++,                 % the language of the code
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny, % the style that is used for the line-numbers
+	%rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	%stringstyle=\color{mymauve},     % string literal style
+	tabsize=2,	                   % sets default tabsize to 2 spaces
+	title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title	
+	mathescape=true
+}
 
 % Title Page
 \title{Tutoriales interactivos - Manual para crear lecciones}
-\author{Enrique Martín $<$\url{emartinm@ucm.es}$>$ \\ Otro autor $<$\url{correo@ucm.es}$>$\\}
+\author{Enrique Martín $<$\url{emartinm@ucm.es}$>$ \\ \emph{Revisor:} Nombre $<$\url{correo@ucm.es}$>$\\}
 
 
 \begin{document}
 \maketitle
 
 \section{Organización de carpetas}
-Organización de carpetas y nombres para los lenguajes soportados
+Todo el contenido de la aplicación se almacena en la \emph{carpeta de temas}, cuya localización debe establecer el usuario desde la ventana de configuración. Esta carpeta contendrá un directorio por cada lenguaje para el que se quiera proporcionar lecciones, aunque pueden existir varios directorios para versiones alternativas del mismo lenguaje de programación (por ejemplo \emph{Python 2.x} y \emph{Python 3.x}). Actualmente se soportan 4 lenguajes de programación:
 
-\section{Formato general del fichero YAML}
-Explicación formato YAML
+\begin{itemize}
+  \item[\textbf{Python}] Los directorios cuyo nombre contenga la subcadena \textbf{<<python>>}\footnote{En todos los casos, no importa si la subcadena aparece en mayúsculas o minúsculas en el nombre del directorio.} serán considerado como directorio de Python. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del intérprete.
+  \item[\textbf{Java}] Los directorios que contienen la subcadena \textbf{<<java>>} en su nombre se consideran directorios de Java. Para cada uno de estos directorios, la ventana de configuración mostrará dos entradas: una para establecer la ruta del compilador \emph{javac} y otra para establecer la ruta del entorno de ejecución \emph{java}.
+  \item[\textbf{C++}] Si un directorio contiene la subcadena \textbf{<<c++>>} en su nombre serán considerado como directorio de Python. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del compilador \emph{GNU C++} (\code{g++}) o la del fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}). 
+  \item[\textbf{C\#}] Finalmente, si el nombre del directorio contiene la subcadena \emph{<<c sharp>>} se considerará un directorio de C\#. Para estos directorios aparecerá una entrada en la ventana de configuración para establecer la ruta del compilador \emph{Mono} (\code{mcs}) o el fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}).
+\end{itemize}
+
+\section{Formato de los temas}
+\begin{figure}[tbp]
+\begin{lstlisting}[language=yaml]
+Subject: 1
+Title: Nombre del tema
+Intro: Breve explicacion de los objetivos del tema
+Lessons:
+ - Title: Titulo de la primera leccion
+   Elements:
+    - Elem: Text
+      Content: |
+          Explicacion que introduce la primera leccion
+    - Elem: Text
+    (...)
+ - Title: Titulo de la segunda leccion
+   Elements:
+    - Elem: Options
+      Content: |
+          Texto de la pregunta de varias opciones
+    (...)
+\end{lstlisting}
+\caption{Ejemplo de fichero de tema.\label{fig:tema}}
+\end{figure}
+
+Cada lenguaje, es decir, cada directorio que aparece en la carpeta de temas, puede contener varios temas. Estos temas se definirán en ficheros en formato \code{YAML} (\url{http://www.yaml.org/spec/1.2/spec.html}) y que deben tener extensión \code{.yml}. El formato \code{YAML} es similar a \code{JSON} y sirve para representar información como texto plano en base a diccionarios clave-valor, listas y tipos de datos básicos (booleanos, números, cadenas, etc.).
+
+Un ejemplo de fichero de tema se puede observar en la Figura~\ref{fig:tema}. El formato concreto es un diccionario YAML con las siguientes claves:
+\begin{itemize}
+\item \code{Subject}: \textbf{número} de tema ($\geq 0$). Sirve para ordenar los distintos temas de un lenguaje a la hora de mostrarlos.
+\item \code{Title}: \textbf{cadena de texto} con el título del tema. 
+\item \code{Intro}: \textbf{cadena de texto} que explica brevemente el objetivo del tema. Este texto puede incluir marcado \emph{Markdown} (\url{https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet}) o incluso código HMTL directamente.
+\item \code{Lessons}: lista de \textbf{lecciones} dentro del tema.
+\end{itemize}
+
+Cada una de las lecciones del tema se representa como a su vez como diccionarios con dos claves:
+\begin{itemize}
+\item \code{Title}: \textbf{cadena de texto} con el título de la lección.
+\item \code{Elements}: lista de \textbf{elementos} que conforman la lección. Existen 3 tipos de elementos: \textbf{explicaciones}, \textbf{preguntas de varias opciones} y \textbf{preguntas de código}. Los distintos elementos se tratarán con detalle en las siguientes secciones.
+\end{itemize}
+
 
 \section{Explicaciones}
 Explicación formato y funcionamiento de explicación
