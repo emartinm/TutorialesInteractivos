@@ -309,9 +309,10 @@ public class Controller {
 		if (language == null || !language.isConfigured() ) {
 			// El lenguaje no está configurado
 			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("¡Atención!");
-			alert.setHeaderText("El lenguaje \"" + selectedLanguage + "\" no está configurado");
-			alert.setContentText("Serás redirigido a la ventana de configuración.\nPor favor, configura el compilador/intérprete\ndel lenguaje \"" +  selectedLanguage + "\".");
+			alert.setTitle(Controller.getLocalizedString("controller.warning"));
+			alert.setHeaderText( Controller.getLocalizedString("controller.language") + " " + selectedLanguage +
+                    " " + Controller.getLocalizedString("controller.notConfig"));
+			alert.setContentText(Controller.getLocalizedString("controller.redirect"));
 			alert.showAndWait();
 			this.showConfiguration();
 		} else {

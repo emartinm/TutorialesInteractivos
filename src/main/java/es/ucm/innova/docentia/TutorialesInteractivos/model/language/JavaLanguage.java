@@ -24,11 +24,11 @@ public class JavaLanguage extends  Language{
         }
 
     private String compilerName(String language) {
-        return language + " (compilador 'javac')";
+        return language + " (" + Controller.getLocalizedString("lang.compiler") + " 'javac')";
     }
 
     private String interpreterName(String language) {
-        return language + " (intérprete 'java')";
+        return language + " (" + Controller.getLocalizedString("lang.interpreter") + " 'java')";
     }
 
     public boolean isConfigured() {
@@ -46,14 +46,14 @@ public class JavaLanguage extends  Language{
     protected ProcessBuilder getCompilationProcess(String sourcePath, String outputFilePath) {
         ProcessBuilder pb = new ProcessBuilder(this.compiler, sourcePath);
         File f = new File(sourcePath);
-        Controller.log.info("Ejecutando: " + pb.command());
+        Controller.log.info("Executing: " + pb.command());
         return pb;
     }
 
     protected ProcessBuilder getExecutionProcess(String execPath, String jsonPath) {
         File f = new File(execPath);
         ProcessBuilder pb = new ProcessBuilder(this.interpreter, "-cp", f.getParent(), "Corrector", jsonPath);
-        Controller.log.info("Ejecutando: " + pb.command());
+        Controller.log.info("Executing: " + pb.command());
         return pb;
     }
 

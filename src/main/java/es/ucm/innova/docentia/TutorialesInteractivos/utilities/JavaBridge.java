@@ -21,7 +21,7 @@ public class JavaBridge {
     }
 
     public void openWebPage(String url) {
-        c.log.info("Abriendo página <" + url + "> en navegador");
+        c.log.info("Opening web page <" + url + "> in browser");
         c.openWebPage(url);
     }
 }

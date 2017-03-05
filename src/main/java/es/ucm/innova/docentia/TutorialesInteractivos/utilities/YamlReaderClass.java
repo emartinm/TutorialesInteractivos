@@ -64,40 +64,32 @@ public final class YamlReaderClass {
 
 			for (Map pre : e) {// Recorre los elementos de la leccion a cargar y los parsea
 				Element elem = null;
-				String wording = (String) pre.get("Content");// Carga el contenido del texto
-				if (pre.get("Elem").equals("Question")) {
-					String clue = (String) pre.get("Hint");// Pista
-
-					if (pre.get("Type").equals("Code")) {
-						// Question de tipo codigo
-						String answer = (String) pre.get("File");
-						List<String> prompt = (List<String>) pre.get("Prompt");
-						Integer numGaps = (Integer) pre.getOrDefault("Gaps", 1);
-						elem = new CodeQuestion(wording, clue, answer, numGaps, prompt);
-
-					} else if (pre.get("Type").equals("Syntax")) {
-						Controller.log.info( "Syntax questions not supported");
-					} else if (pre.get("Type").equals("Options")) {
-						Boolean isMulti = (Boolean) pre.getOrDefault("Multiple", Boolean.FALSE);
-						// Cogemos el texto de las opciones correctas
-						/*String correctOpc = (String) pre.get("Opcion_correcta");
-						String[] corrects = correctOpc.split(",");
-						ArrayList<Integer> correctsAux = StringToInt(corrects); // Cambia el tipo de respuesta a Integer
-						*/
-						List<Integer> correctsAux = (List<Integer>) pre.getOrDefault("Solution", null);
-						ArrayList<String> opc = (ArrayList<String>) pre.get("Options");
-						elem = new OptionQuestion(wording, clue, opc, isMulti, correctsAux);
-					}
-				} else {
+				String wording = (String) pre.get("Content");// Carga el contenido del texto, que siempre aparece
+				if (pre.get("Elem").equals("Code")) {
+                    // Pregunta de tipo codigo
+                    String clue = (String) pre.get("Hint");// Pista
+                    String answer = (String) pre.get("File");
+                    List<String> prompt = (List<String>) pre.get("Prompt");
+                    Integer numGaps = (Integer) pre.getOrDefault("Gaps", 1);
+                    elem = new CodeQuestion(wording, clue, answer, numGaps, prompt);
+				} else if (pre.get("Elem").equals("Options")) {
+                    String clue = (String) pre.get("Hint");// Pista
+					Boolean isMulti = (Boolean) pre.getOrDefault("Multiple", Boolean.FALSE);
+					List<Integer> correctsAux = (List<Integer>) pre.getOrDefault("Solution", null);
+					ArrayList<String> opc = (ArrayList<String>) pre.get("Options");
+					elem = new OptionQuestion(wording, clue, opc, isMulti, correctsAux);
+                } else if (pre.get("Elem").equals("Text")) {
 					elem = new Explanation(wording);
-				}
+				} else if (pre.get("Elem").equals("Syntax")) {
+                    Controller.log.info( "Syntax questions not supported");
+                } else {
+                    Controller.log.warning( "Unsoported element in lesson " + filename + ": " + pre);
+                }
 				elements.add(elem);// Añade el elemento al array de elementos de Lesson
-
 			}
-			//int nLesson = (Integer) lesson.get("Leccion"); // numero de leccion
+
 			String tLesson = (String) lesson.get("Title");// titulo de leccion
             Lesson lec = new Lesson(tLesson, elements);// Crea la leccion
-			//lec.setElements(elements);// Modifica el array de elementos de una leccion
 			lessons.add(lec);// Añade la leccion al array de lecciones
 		}
 		// rellenado de objetos final

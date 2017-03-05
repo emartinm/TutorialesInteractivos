@@ -39,7 +39,7 @@ public class CodeQuestion extends Question<List<String>> {
 		}
 		// Relleno los posibles prompts que falten
 		for (int i = this.prompt.size(); i < this.numGaps; ++i) {
-	    	this.prompt.add("Código del hueco #" + i);
+	    	this.prompt.add(Controller.getLocalizedString("codeQ.codeGap") + i);
 		}
 
 		// Incluye una respuesta actual vacía (numGaps cadenas vacías)

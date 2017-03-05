@@ -1,15 +1,14 @@
-Tema: 0
-Titulo: Tema TEST
-Introduccion: Tema de ejemplo para probar C#
-Lecciones:
- - Leccion: 1 
-   Titulo: Operaciones con numeros
-   Elementos:
-    - Elem: explicacion
-      Contenido: >
+Subject: 0
+Title: Tema TEST
+Intro: Tema de ejemplo para probar C#
+Lessons:
+ - Title: Operaciones con numeros
+   Elements:
+    - Elem: Text
+      Content: >
        El simbolo de igualdad sirve para asignar valores a variables. *Variable = valor*
-    - Elem: explicacion
-      Contenido: |
+    - Elem: Text
+      Content: |
        Unos ejemplos:
        ```
 
@@ -19,8 +18,8 @@ Lecciones:
        También podemos incrustar imagenes
 
        ![triangulo](file:///img/triangulo.jpg)
-    - Elem: pregunta
-      Enunciado: | 
+    - Elem: Code
+      Content: |
        Escribe una función:
        ```
 
@@ -29,5 +28,4 @@ Lecciones:
        }
        ```
        que recibe un número y lo devuelve incrementado en uno.
-      Tipo: Codigo
-      Fichero: correctores/tema0.cs
+      File: correctores/tema0.cs

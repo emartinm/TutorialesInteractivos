@@ -52,8 +52,7 @@ public abstract class Language {
 
 	private static final String marker = "@@@CODIGO@@@";
 	private static final List<String> tle_hints = new ArrayList<String>(Arrays.asList(
-	        "La ejecución del código fue abortada porque sobrepasó el límite permitido",
-            "Comprueba que todos los bucles terminan y usa técnicas eficientes"));
+	        Controller.getLocalizedString("lang.abortHint1"), Controller.getLocalizedString("lang.abortHint2")));
 	protected String name;
 	protected String path; // Ruta del lenguaje en cuestión
 
@@ -90,7 +89,7 @@ public abstract class Language {
         } else if (csharp.isLanguageName(language)) {
 	        l = csharp.getConfigNames(language);
         } else {
-	        Controller.log.warning("Lenguaje desconocido: " + language);
+	        Controller.log.warning("Unknown programming language: " + language);
 	        l = null;
         }
         return l;
@@ -110,7 +109,7 @@ public abstract class Language {
         } else if (csharp.isLanguageName(language)) {
             l = new CSharpLanguage(language, path, config);
         } else {
-            Controller.log.warning("Lenguaje desconocido: " + language);
+            Controller.log.warning("Unknown programming language: " + language);
             l = null;
         }
         // TODO: añadir aqui los demás lenguajes soportados
@@ -150,7 +149,7 @@ public abstract class Language {
             content = reemplazaHuecos(content, codes);
             Files.write(Paths.get(file_out.toURI()), content.getBytes());
         } catch (java.io.IOException e) {
-            Controller.log.warning("Error al reemplazar hueco: " + e.getMessage());
+            Controller.log.warning("Error while filling a gap: " + e.getMessage());
         }
     }
 
@@ -181,7 +180,7 @@ public abstract class Language {
             content = new String(Files.readAllBytes(Paths.get(correctorFile.toURI())));
             content = reemplazaHuecos(content, codes);
         } catch (java.io.IOException e) {
-            Controller.log.warning("Error al reemplazar hueco: " + e.getMessage());
+            Controller.log.warning("Error while filling a gap: " + e.getMessage());
         }
         return content;
     }
@@ -194,7 +193,7 @@ public abstract class Language {
 	            sa.add(line);
             }
         } catch (java.io.IOException e) {
-            Controller.log.info("Imposible leer el fichero linea a linea");
+            Controller.log.info("Unable to read file line by line");
         }
         return sa;
     }
@@ -211,7 +210,7 @@ public abstract class Language {
 			List<String> hints = (List<String>) json.getOrDefault("Hints", null);
 			c = new Correction(ExecutionMessage.OK, error, hints, correct);
 		} else {
-			c = new Correction(ExecutionMessage.OK, "Imposible obtener resultados", null, false);
+			c = new Correction(ExecutionMessage.OK, Controller.getLocalizedString("lang.unable"), null, false);
 		}
 		return c;
 	}
@@ -236,7 +235,7 @@ public abstract class Language {
                 BufferedReader brOutput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 List<String> salida = fileToListString(brError);
                 salida.addAll(fileToListString(brOutput));
-                c = new Correction(ExecutionMessage.COMPILATION_ERROR, "Error en compilación", salida, false);
+                c = new Correction(ExecutionMessage.COMPILATION_ERROR, Controller.getLocalizedString("lang.compilationError"), salida, false);
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -257,15 +256,18 @@ public abstract class Language {
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
             boolean errCode = p.waitFor(getExecutionMillis(), TimeUnit.MILLISECONDS);
             if (!errCode) { // si ocurre esto es que el python está mal escrito, o bucle infinito
-                Controller.log.info("Ejecución abortada tras " + getExecutionMillis() + " milisegundos");
+                Controller.log.info("Execution aborted after " + getExecutionMillis() + " milliseconds");
 
-                c = new Correction(ExecutionMessage.KILLED, "Excedido límite de " + getExecutionMillis() + " ms", tle_hints, false);
+                c = new Correction(ExecutionMessage.KILLED, Controller.getLocalizedString("lang.timeExceeded")
+                        + getExecutionMillis() + " ms", tle_hints, false);
             } else {
                 int exit = p.exitValue();
                 // SOLO EN CASO DE ERROR DE LA FUNCION CORRECTORA DEVOLVERA UN VALOR DISTINTO DE 0,
                 switch (exit) {
                     case 1: {
-                        c = new Correction(ExecutionMessage.EXECUTION_ERROR, "Error en ejecución", fileToListString(br), false);
+                        c = new Correction(ExecutionMessage.EXECUTION_ERROR,
+                                Controller.getLocalizedString("lang.runtimeError"), fileToListString(br),
+                                false);
                         break;
                     }
                     case 0: { // comprobar si están vacios
@@ -318,7 +320,7 @@ public abstract class Language {
                 c = execute(sourceFilename, jsonFilename);
             }
         } catch (IOException e) {
-            c = new Correction(ExecutionMessage.EXECUTION_ERROR, "Imposible crear ficheros temporales",
+            c = new Correction(ExecutionMessage.EXECUTION_ERROR, Controller.getLocalizedString("lang.unableFiles"),
                     null, false);
             e.printStackTrace();
         } finally {
@@ -358,7 +360,7 @@ public abstract class Language {
             temp.delete();
             bat.delete();
         } catch (Exception e) {
-            Controller.log.warning("Imposible obtener el entorno de Visual Studio: " + e.getLocalizedMessage() );
+            Controller.log.warning("Unable to obtain Visual Studio environment: " + e.getLocalizedMessage() );
         }
         return env;
     }

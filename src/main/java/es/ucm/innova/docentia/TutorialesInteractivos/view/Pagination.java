@@ -4,6 +4,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -229,10 +230,10 @@ public class Pagination extends StackPane {
 
 	private Pane createControls(int numSteps) {
 		GridPane outerGridPane = new GridPane();
-		previousButton = new Button("<< Anterior");
+		previousButton = new Button(Controller.getLocalizedString("pagination.ant"));
 		previousButton.setMinWidth(GridPane.USE_PREF_SIZE);
 		previousButton.getStyleClass().add("previous-button");
-		nextButton = new Button("Siguiente >>");
+		nextButton = new Button(Controller.getLocalizedString("pagination.sig"));
 		nextButton.setMinWidth(GridPane.USE_PREF_SIZE);
 		nextButton.getStyleClass().add("next-button");
 		HBox hboxStepButtons = generateButtons(numSteps+2);

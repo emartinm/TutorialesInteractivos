@@ -25,24 +25,24 @@ public final class JSONReaderClass {
             progress = mapper.readValue(f, Map.class);
         } catch (java.io.IOException e ) {
             //e.printStackTrace();
-            Controller.log.info( "Imposible abrir el fichero: " + filename);
+            Controller.log.info( "Unable to open file: " + filename);
         }
-        Controller.log.info( "Cargado con éxito el fichero: " + filename);
+        Controller.log.info( "Loaded file: " + filename);
         return progress;
     }
 
     public static void writeProgress(Map<String,Object> progress, String filename) {
         if (progress == null) {
-            Controller.log.info( "No hay progreso que salvar: " + filename);
+            Controller.log.info( "There is no progress to save: " + filename);
         }
 
         try{
             File f = new File(filename);
             mapper.writerWithDefaultPrettyPrinter().writeValue(f, progress);
-            Controller.log.info( "Escrito en el fichero: " + filename);
+            Controller.log.info( "Saved to file: " + filename);
         } catch (java.io.IOException e ) {
             e.printStackTrace();
-            Controller.log.info( "Imposible escribir en el fichero: " + filename);
+            Controller.log.info( "Unable to save in file: " + filename);
         }
     }
 

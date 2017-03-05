@@ -38,11 +38,11 @@ public class LessonsMenu extends Pane{
 		//Creacion de webview
 		// Inserta # y ## para mostrar el titulo y la introducción como cabeceras HMTL
 		String content = c.markToHtml("# " + t.getTitle() + "\n## " + t.getIntroduction());
-		Node tittle = InternalUtilities.creaBrowser(content, c);
-		//WebEngine engine = tittle.getEngine();
+		Node title = InternalUtilities.creaBrowser(content, c);
+		//WebEngine engine = title.getEngine();
 		//engine.loadContent(content);
 		
-		Label tittleList = new Label("Lecciones");//TItulo de la lista de lecciones
+		Label titleList = new Label(Controller.getLocalizedString("lessons.lessons"));//TItulo de la lista de lecciones
 		//Lista de lecciones
 		ListView<String> leccionList = new ListView<String>();
 		ObservableList<String> obsLecciones = FXCollections.observableArrayList (t.getLessonNames());
@@ -66,22 +66,22 @@ public class LessonsMenu extends Pane{
 		});
 		
 		
-		Button start = new Button("Comenzar leccion");//Boton para comenzar la leccion
+		Button start = new Button(Controller.getLocalizedString("lessons.start"));//Boton para comenzar la leccion
 		Label error = new Label();//Label de error
-		Button back = new Button("Menú anterior");
+		Button back = new Button(Controller.getLocalizedString("lessons.back"));
 		
 		
 		//Colocacion de elementos en el panel
-		box.add(tittle, 0, 0);
-		box.add(tittleList, 0, 1);
+		box.add(title, 0, 0);
+		box.add(titleList, 0, 1);
 		box.add(leccionList, 0, 2);
 		box.add(start, 2, 3);
 		box.add(error, 1, 3);
 		box.add(back, 0, 3);
 				
 		
-		GridPane.setConstraints(tittle, 0, 0, 3,1, HPos.CENTER, VPos.TOP, Priority.ALWAYS, Priority.NEVER, new Insets(5));
-		GridPane.setConstraints(tittleList, 0, 1, 3, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS, new Insets(5));
+		GridPane.setConstraints(title, 0, 0, 3,1, HPos.CENTER, VPos.TOP, Priority.ALWAYS, Priority.NEVER, new Insets(5));
+		GridPane.setConstraints(titleList, 0, 1, 3, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.ALWAYS, new Insets(5));
 		GridPane.setConstraints(leccionList, 0, 2, 3, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 		GridPane.setConstraints(start, 2, 3, 1, 1, HPos.RIGHT, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
 		GridPane.setConstraints(error, 1, 3, 1, 1, HPos.CENTER, VPos.BOTTOM, Priority.ALWAYS, Priority.ALWAYS, new Insets(5));
@@ -97,7 +97,7 @@ public class LessonsMenu extends Pane{
 						c.selectedLesson(s.getSelectedIndex());
 					else 
 					{
-						error.setText("Se debe seleccionar una leccion");
+						error.setText(Controller.getLocalizedString("lessons.select"));
 					}
 					
 				}
@@ -130,7 +130,7 @@ public class LessonsMenu extends Pane{
 		start.getStyleClass().add("start");
 		error.getStyleClass().add("error");
 		back.getStyleClass().add("start");
-		tittleList.getStyleClass().add("tittle");
+		//titleList.getStyleClass().add("title");
 		box.getStylesheets().add(getClass().getResource("/css/menu.css").toExternalForm());
 		return box;
 		

@@ -1,21 +1,17 @@
-Tema: 0
-Titulo: Tema TEST
-Introduccion: Tema de ejemplo para probar C++
-Lecciones:
- - Leccion: 1 
-   Titulo_Leccion: Operaciones con numeros
-   Intro_leccion: >
+Subject: 0
+Title: Tema TEST
+Intro: Tema de ejemplo para probar C++
+Lessons:
+ - Title: Operaciones con numeros
+   Intro: >
     El interprete funciona como una **simple calculadora**, Tu tecleas una expresion 
     y el muestra el resultado. La sintaxis de las expresiones es bastante intuitiva. 
     Los operadores +, -, * y / funcionan como en otros lenguajes (p. ej. Pascal o C). 
     Se puede usar parentesis para agrupar operaciones. 
     
-   Elementos:
-    - Elem: explicacion
-      Contenido: >
-       El simbolo de igualdad sirve para asignar valores a variables. *Variable = valor*
-    - Elem: explicacion
-      Contenido: |
+   Elements:
+    - Elem: Text
+      Content: |
        Unos ejemplos:
        ```
        s = 'Hola Mundo'
@@ -23,9 +19,8 @@ Lecciones:
        ```
        También podemos incrustar imagenes
        ![triangulo](file:///img/triangulo.jpg)
-    - Elem: pregunta
-      Numero: 3
-      Enunciado: | 
+    - Elem: Code
+      Content: |
        Escribe una función:
        ```
        int incrementa(int n) {
@@ -33,5 +28,4 @@ Lecciones:
        }
        ```
        que recibe un número y lo devuelve incrementado en uno.
-      Tipo: Codigo
-      Fichero: correctores/tema0.cpp
+      File: correctores/tema0.cpp
