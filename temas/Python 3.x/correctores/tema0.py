@@ -8,7 +8,7 @@ import json
 def pregunta11(filename):
     
     try:
-        @@@CODIGO@@@
+        @@@CODE@@@
         dicc = {}
         things = locals()
         if 'i' in things:

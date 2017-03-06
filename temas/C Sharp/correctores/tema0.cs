@@ -3,7 +3,7 @@ using System;
 public class Corrector {
 
     //@@@SNIPPET@@@
-	@@@CODIGO@@@
+	@@@CODE@@@
 	//@@@SNIPPET@@@
 	//static int incrementa(int n) {
 	//	return n + 1;

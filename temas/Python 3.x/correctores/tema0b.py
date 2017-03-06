@@ -6,9 +6,9 @@ def pregunta11(filename):
     try:
         #@@@SNIPPET@@@ #Inicio del fragmento de código para mostrar
         a = 1
-        @@@CODIGO@@@
+        @@@CODE@@@
         b = 3
-        @@@CODIGO@@@
+        @@@CODE@@@
         #@@@SNIPPET@@@ #Fin del fragmento de código para mostrar
         dicc = {}
         things = locals()

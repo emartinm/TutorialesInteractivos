@@ -50,7 +50,7 @@ public abstract class Language {
     // TODO añadir nuevos lenguajes
 
 
-	private static final String marker = "@@@CODIGO@@@";
+	private static final String marker = "@@@CODE@@@";
 	private static final List<String> tle_hints = new ArrayList<String>(Arrays.asList(
 	        Controller.getLocalizedString("lang.abortHint1"), Controller.getLocalizedString("lang.abortHint2")));
 	protected String name;

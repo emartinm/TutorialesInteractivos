@@ -18,7 +18,7 @@ Lessons:
        entero = 6
        ```
        También podemos incrustar imagenes
-       ![triangulo](file:///img/triangulo.jpg)
+       ![triangulo](file://img/triangulo.jpg)
     - Elem: Code
       Content: |
        Escribe una función:

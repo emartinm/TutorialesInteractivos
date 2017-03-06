@@ -52,7 +52,7 @@ Lecciones:
       Numero: 3
       Enunciado: |
        Calcula el area de este triangulo y almacénalo en la variable **a**
-       ![triangulo](file:///python34/img/triangulo.jpg)
+       ![triangulo](file://python34/img/triangulo.jpg)
       Tipo: Codigo
       Fichero: pregunta_triang.py
  - Leccion: 2

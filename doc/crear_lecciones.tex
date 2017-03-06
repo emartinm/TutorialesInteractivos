@@ -8,6 +8,35 @@
 \newcommand{\code}[1]{{\lstinline[basicstyle=\ttfamily,mathescape]!#1!}}
 \newcommand{\toolname}{\emph{Tutoriales Interactivos}}
 
+\lstset{ %
+	%backgroundcolor=\color{white},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	basicstyle=\sffamily,      % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=none,                 % sets the caption-position to bottom
+	commentstyle=\itshape\color{gray},           % comment style
+	%deletekeywords={...},           % if you want to delete keywords from the given language
+	escapeinside={(*}{*)},           % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=tb,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	columns=fullflexible,
+	%keywordstyle=\color{blue},      % keyword style
+	 keywordstyle=\sffamily\color{teal},
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny, % the style that is used for the line-numbers
+	%rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{blue},     % string literal style
+	tabsize=2,	                   % sets default tabsize to 2 spaces
+	title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title	
+	mathescape=true
+}
+
 \lstdefinelanguage{yaml}{
 	%backgroundcolor=\color{white},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
 	basicstyle=\ttfamily,      % the size of the fonts that are used for the code
@@ -40,7 +69,9 @@
 
 % Title Page
 \title{\toolname{} -- Creación de lecciones}
-\author{Enrique Martín $<$\url{emartinm@ucm.es}$>$ \\ \emph{Revisor:} Nombre $<$\url{correo@ucm.es}$>$\\}
+\author{Enrique Martín Martín (\url{emartinm@ucm.es}) \\ \emph{Revisor:} Nombre Apellidos (\url{correo@ucm.es})\\~\\[-.4cm]
+	\normalsize{Dpto. Sistemas Informáticos y Computación, Fac. Informática}\\[-0.1cm]
+    \normalsize{Universidad Complutense de Madrid}}
 
 
 \begin{document}
@@ -52,13 +83,13 @@ La herramienta \toolname{} organiza su contenido en distintas carpetas dentro de
 
 
 \section{Organización de carpetas}
-Todo el contenido de la aplicación se almacena en la \emph{carpeta de temas}, cuya localización debe establecer el usuario desde la ventana de configuración. Esta carpeta contendrá un directorio por cada lenguaje para el que se quiera proporcionar temas, aunque pueden existir varios directorios para versiones alternativas del mismo lenguaje de programación (por ejemplo \emph{Python 2.x} y \emph{Python 3.x}, o \emph{OpenJDK 6} y \emph{Oracle Java 8}). Para determinar cuál es el lenguaje de programación asociado a un directorio se inspecciona su nombre, comprobando si contiene alguna subcadena. Actualmente se soportan 4 lenguajes de programación, y la comprobación de nombre se realiza en el siguiente orden:
+Todo el contenido de la aplicación se almacena en la \emph{carpeta de temas}, cuya localización debe establecer el usuario desde la ventana de configuración. Esta carpeta contendrá un directorio por cada lenguaje para el que se quiera proporcionar temas, aunque pueden existir varios directorios para versiones alternativas del mismo lenguaje de programación (por ejemplo \emph{Python 2.x} y \emph{Python 3.x}, o \emph{OpenJDK 6} y \emph{Oracle Java 8}). Para determinar cuál es el lenguaje de programación asociado a un directorio la herramienta \toolname{} inspecciona su nombre, comprobando si contiene alguna subcadena. Actualmente se soportan 4 lenguajes de programación, y la comprobación de nombre se realiza en el siguiente orden:
 
 \begin{enumerate}
-  \item \textbf{Python}: si el nombre del directorio contiene la subcadena \textbf{<<python>>}\footnote{En todos los casos, no importa si la subcadena aparece en mayúsculas o minúsculas en el nombre del directorio.}. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del intérprete.
+  \item \textbf{Python}: si el nombre del directorio contiene la subcadena \textbf{<<python>>}\footnote{No importa si las subcadenas aparecen en mayúsculas o minúsculas en el nombre del directorio.}. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del intérprete.
   \item \textbf{Java}: si contienen la subcadena \textbf{<<java>>} en su nombre. Para cada uno de estos directorios, la ventana de configuración mostrará dos entradas: una para establecer la ruta del compilador \emph{javac} y otra para establecer la ruta del entorno de ejecución \emph{java}.
   \item \textbf{C++}: si contienen la subcadena \textbf{<<c++>>}. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del compilador \emph{GNU C++} (\code{g++}) o la del fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}). 
-  \item \textbf{C\#}: si el nombre contiene la subcadena \emph{<<c sharp>>}. Para estos directorios aparecerá una entrada en la ventana de configuración para establecer la ruta del compilador \emph{Mono} (\code{mcs}) o el fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}).
+  \item \textbf{C\#}: si el nombre contiene la subcadena \textbf{<<c sharp>>}. Para estos directorios aparecerá una entrada en la ventana de configuración para establecer la ruta del compilador \emph{Mono} (\code{mcs}) o el fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}).
 \end{enumerate}
 
 \section{Formato de los temas}
@@ -72,70 +103,70 @@ Lessons:
       Elements: #Lista de elementos de la leccion
           - Elem: Text #Elemento de tipo explicacion
             Content: | #Texto de varias lineas
-              Las explicaciones sirven para mostrar informaci(*ó*)n al alumno. 
+              Las explicaciones sirven para mostrar informaci(*ó*)n al alumno. (*\label{fig:tema:exp1}*)
 
               Estas esplicaciones se pueden dividir en varios p(*á*)rrafos, y con 
-              Markdown se pueden incluir **negritas**, *it(*a*)licas* y `c(*ó*)digo`.
+              Markdown se pueden incluir **negritas**, *it(*a*)licas* y `c(*ó*)digo`. (*\label{fig:tema:exp2}*)
           - Elem: Text
             Content: |
-                **Imagen desde internet**
+                **Imagen desde internet** (*\label{fig:tema:exp3}*)
                 ![texto alternativo](http://URL/imagen.png)
 
                 **Imagen desde el directorio de temas con ruta relativa**
-                ![triangulo](file:///img/triangulo.jpg)
+                ![triangulo](file://img/triangulo.jpg)
   
                 **Se pueden incluir enlaces en las explicaciones:**
-                [Texto del enlace](https://www.ucm.es)
+                [Texto del enlace](https://www.ucm.es) (*\label{fig:tema:exp4}*)
           - Elem: (...)
     - Title: Preguntas de tipo test #Segunda leccion
       Elements:
-          - Elem: Options #Pregunta de varias opciones
+          - Elem: Options #Pregunta de varias opciones (*\label{fig:tema:opt1}*)
             Content: Pregunta de 3 opciones y una correcta #Texto de la pregunta
             Hint: Esto es la pista general de la pregunta
-            Solution: [1] #Opciones correcta, empezando en 1
+            Solution: [1] #Opciones correctas, empezando en 1
             Multiple: no #Hay varias opcinones correctas?
             Options: # Lista de opciones para mostrar
                 - OPCI(*Ó*)N CORRECTA
                 - Opci(*ó*)n incorrecta
-                - Opci(*ó*)n incorrecta
+                - Opci(*ó*)n incorrecta (*\label{fig:tema:opt2}*)
           - Elem: (...)
     - Title: Preguntas de tipo c(*ó*)igo #Tercera leccion
       Elements:
-          - Elem: Code #Pregunta de codigo
+          - Elem: Code #Pregunta de codigo (*\label{fig:tema:code1}*)
             Content: | #Texto de la pregunta, varias lineas
                 Estas preguntas solicitan al usuario framentos de c(*ó*)digo que
-                son insertados en un programa corrector, que es evaluado.
+                son insertados en una plantilla correctora, que es evaluada.
             Gaps: 2 #Numero de huecos a rellenar
             Prompt: ["Codigo hueco 1","Codigo hueco 2"] #Informacion de cada hueco
             Hint: Esto es la pista general. 
-            File: correctores/tema0c.py #Fichero corrector con 'huecos'
+            File: correctores/tema0c.py #Plantilla correctora con 'huecos' (*\label{fig:tema:code2}*)
           - Elem: (...)
 \end{lstlisting}
 \caption{Ejemplo de fichero de tema con tres lecciones y varios elementos en cada lección.\label{fig:tema}}
 \end{figure}
 
-Cada directorio que aparece en la carpeta de temas puede contener varios temas. Estos temas se definirán en ficheros con formato \code{YAML}\footnote{\url{http://www.yaml.org/spec/1.2/spec.html}} y que deben tener extensión \code{.yml}. El formato \code{YAML} es similar a \code{JSON} y sirve para representar información como texto plano organizándola como diccionarios clave-valor, listas y tipos de datos básicos (booleanos, números, cadenas, etc.).
+Cada directorio que aparece en la carpeta de temas puede contener varios temas. Estos temas se definirán en ficheros con formato \code{YAML}\footnote{\url{http://www.yaml.org/spec/1.2/spec.html}} con extensión \textbf{obligatoria} \code{.yml}. El formato \code{YAML} es similar a \code{JSON} y sirve para representar información como texto plano en diccionarios clave-valor, listas y tipos de datos básicos como booleanos, números, cadenas, etc.
 
-Un ejemplo de fichero de tema se puede observar en la Figura~\ref{fig:tema}, donde se han añadido comentarios de línea (que comienzan con \code{\#}) para aclarar los distintos apartados. El formato concreto es un diccionario YAML con las siguientes claves:
+Un ejemplo de fichero de tema se puede observar en la Figura~\ref{fig:tema}, donde se han añadido comentarios de línea (que comienzan con \code{\#}) para aclarar algunos apartados. El formato concreto es un diccionario YAML con las siguientes claves y valores:
 \begin{itemize}
-\item \code{Subject}: \textbf{número} de tema. Sirve para ordenar los distintos temas de un lenguaje a la hora de mostrarlos.
-\item \code{Title}: \textbf{cadena de texto} con el título del tema. 
-\item \code{Intro}: \textbf{cadena de texto} que explica brevemente el objetivo del tema. Este texto puede incluir código \emph{Markdown}\footnote{\url{https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet}} o incluso código HMTL directamente, como veremos en la Sección~\ref{sec:explicaciones}.
-\item \code{Lessons}: lista de \textbf{lecciones} dentro del tema.
+\item \code{Subject}: {\sf (OBLIGATORIO)} \textbf{número} de tema. Sirve para ordenar los distintos temas de un lenguaje a la hora de mostrarlos.
+\item \code{Title}: {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el título del tema. 
+\item \code{Intro}: {\sf (OBLIGATORIO)} \textbf{cadena de texto} que explica brevemente el objetivo del tema. Este texto puede incluir código \emph{Markdown} o incluso código HMTL, como veremos en la Sección~\ref{sec:explicaciones}.
+\item \code{Lessons}: {\sf (OBLIGATORIO)} lista de \textbf{lecciones} dentro del tema.
 \end{itemize}
 
 Cada una de las lecciones del tema se representa a su vez como diccionarios con dos claves:
 \begin{itemize}
-\item \code{Title}: \textbf{cadena de texto} con el título de la lección.
-\item \code{Elements}: lista de \textbf{elementos} que conforman la lección. Existen 3 tipos de elementos: \textbf{explicaciones}, \textbf{preguntas de varias opciones} y \textbf{preguntas de código}. Los distintos elementos se tratarán con detalle en las siguientes secciones.
+\item \code{Title}: {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el título de la lección.
+\item \code{Elements}: {\sf (OBLIGATORIO)}  lista de \textbf{elementos} que conforman la lección. Existen 3 tipos de elementos: \textbf{explicaciones}, \textbf{preguntas de varias opciones} y \textbf{preguntas de código}. Los distintos elementos se tratarán con detalle en las siguientes secciones.
 \end{itemize}
 
 
 \section{Explicaciones}\label{sec:explicaciones}
 Los elementos de tipo \emph{explicación} sirven para mostrar texto y otros elementos gráficos al alumno. Se representan como un diccionario de dos claves:
 \begin{itemize}
-	 \item \code{Elem: Text}
-	 \item \code{Content}: \textbf{cadena de texto} con el contenido que se quiere mostrar. Puede ser texto plano, código Markdown o código HTML. La opción preferida es código Markdown por ser el más sencillo y ser suficientemente flexible.
+	 \item \code{Elem: Text} {\sf (OBLIGATORIO)}
+	 \item \code{Content}: {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el contenido que se quiere mostrar. Puede ser texto plano, código Markdown\footnote{\url{https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet}} o código HTML. La opción preferida es código Markdown por ser el más sencillo y ser suficientemente flexible. En la Figura~\ref{fig:tema} se pueden ver ejemplos de contenidos en las líneas~\ref{fig:tema:exp1}--\ref{fig:tema:exp2} y~\ref{fig:tema:exp3}--\ref{fig:tema:exp4}
 \end{itemize}
 
 \subsection{Markdown}
@@ -180,38 +211,142 @@ bla bla bla
 ![texto alternativo](https://URL/imagen.png)
 
 **Imagen desde el directorio de temas, con ruta relativa**
-![triangulo](file:///img/triangulo.jpg)
+![triangulo](file://img/triangulo.jpg)
 \end{lstlisting}		
-Todas las imágenes cuya ruta comience con \code{file://} serán consideradas imágenes locales cuya ruta es relativa al directorio donde reside el tema actual. Por ejemplo, si el tema actual reside en \code{/opt/temas/Python 3.x}, la imagen \code{file:///img/triangulo.jpg} se referirá al fichero situado en \code{/opt/temas/Python 3.x/img/triangulo.jpg}.
+Todas las imágenes cuya ruta comience con \code{file://} serán consideradas imágenes locales cuya ruta es relativa al directorio donde reside el tema actual. Por ejemplo, si el tema actual reside en <<\code{/opt/temas/Python 3.x}>>, la imagen <<\code{file://img/triangulo.jpg}>> se referirá al fichero situado en <<\code{/opt/temas/Python 3.x/img/triangulo.jpg}>>.
 	\item \textbf{Enlaces} que se abren en el navegador por defecto:
 \begin{lstlisting}[language=yaml,numbers=none]
 [Texto del enlace](https://www.ucm.es)
 \end{lstlisting}
-	\item \textbf{Notación matemática \LaTeX}. Gracias el entorno MathJax\footnote{\url{https://www.mathjax.org/}} es posible incrustar código \LaTeX{} en el texto, y que este se encarga de mostrarlo adecuadamente. El código \LaTeX{} debe encerrarse entre los símbolos \code{@@} para fórmulas en la misma línea y \code{@@@} para fórmulas en párrafos nuevos:
+	\item \textbf{Notación matemática \LaTeX}. Gracias el entorno MathJax\footnote{\url{https://www.mathjax.org/}} es posible incrustar código \LaTeX{} en el texto. El código \LaTeX{} debe encerrarse entre los símbolos \code{@@} para fórmulas en la misma línea y \code{@@@} para fórmulas en párrafos nuevos:
 \begin{lstlisting}[language=yaml,numbers=none]
-When @@a \ne 0@@, there are two solutions to @@ax^2 + bx + c = 0@@ and they are
+Consideremos el polinomio @@ax^2 + bx + c = 0@@
+Cuando @@a \ne 0@@, existen dos soluciones:
 @@@x = {-b \pm \sqrt{b^2-4ac} \over 2a}.@@@	
 \end{lstlisting}
 	\item \textbf{Tablas}:
 \begin{lstlisting}[language=yaml,numbers=none]
 Cabecera|Cabecera|Cabecera
----|---|---
-1|2|3
-1|2|3
-1|2|3
+:-------|:------:|-------:  #Distintos tipos de alineacion horizontal
+ 1      | 2      | 3
+ 1      | 2      | 3
 \end{lstlisting}	
 \end{itemize}
 
 \subsection{HMTL}
-En aquellas situaciones donde la potencia de Markdown no es suficiente, se puede incluir código HMTL directamente. Esto puede servir para incrustar vídeos y otros elementos interactivos\footnote{La herramienta \toolname{} utiliza internamente un navegador basado en WebKit (\url{https://webkit.org/}), por lo que su capacidad para procesar HTML será algo menor al de los navegadores de escritorio usuales.}.
+En aquellas situaciones donde Markdown no es suficiente, se puede incluir código HMTL directamente. Esto puede servir para incrustar vídeos y otros elementos interactivos.\footnote{La herramienta \toolname{} utiliza internamente un navegador basado en WebKit (\url{https://webkit.org/}), por lo que su capacidad para procesar HTML será algo menor al de los navegadores de escritorio usuales.} Por ejemplo el siguiente código incrustaría el vídeo \url{https://www.youtube.com/embed/PDpMgx7avzA} como un \code{iframe}:
 \begin{lstlisting}[language=yaml,numbers=none]
 <iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen target="_self"></iframe>
 \end{lstlisting}		
 
 \section{Preguntas de varias opciones}
-Explicación formato y funcionamiento preguntas tipo test
+Este tipo de elementos sirve para preguntas en las que el alumno debe elegir la opción u opciones correctas entre varias disponibles. En el fichero YAML las preguntas de varias opciones se representan como un diccionario con las siguientes claves y valores:
+\begin{itemize}
+	\item \code{Elem: Options} {\sf (OBLIGATORIO)}
+	\item \code{Content:} {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el enunciado de la pregunta. Al igual que en las explicaciones, este texto puede contener código Markdown o HTML. 
+ 	\item \code{Hint:} {\sf (OPCIONAL)} \textbf{cadena de texto} con una pista sobre la solución a la pregunta que el alumno puede visualizar pulsando el botón <<Pistas>>.
+ 	\item \code{Options:} {\sf (OBLIGATORIO)} \textbf{lista de cadenas} con las distintas opciones que se mostrarán al alumno.
+ 	\item \code{Multiple:} {\sf (OPCIONAL)} \textbf{booleano} que indica si la pregunta puede tener cualquier número de opciones válidas (\code{yes}) o si únicamente una opción será la correcta (\code{no}). En caso de no incluir esta clave, el valor por defecto es \code{no}.
+ 	\item \code{Solution:} {\sf (OBLIGATORIO)} \textbf{lista de números} con las posiciones de las opciones correctas, donde la primera opción tiene posición \code{1}. Este campo puede contener la lista vacía (\code{[]}) si ninguna opción es correcta.
+\end{itemize}
+Se puede ver un ejemplo de pregunta de 3 opciones donde únicamente la primera es correcta: Figura~\ref{fig:tema}, lineas~\ref{fig:tema:opt1}--\ref{fig:tema:opt2}.
 
 \section{Preguntas de código}
-Explicación formato y funcionamiento preguntas de código. Marcar huecos y snippet.
+Las preguntas de tipo código permiten solicitar al alumno uno o varios fragmentos de código y evaluar su resultado. Para dicha evaluación los fragmentos de código introducidos por el alumno se insertan en los \emph{huecos} definidos en una \emph{plantilla correctora}, que está escrita en el mismo lenguaje de programación que está aprendiendo el alumno. Esta plantilla se rellena y se ejecuta para obtener su veredicto, lo que involucra distintas fases dependiendo del lenguaje de programación: invocar directamente al intérprete (Python), compilar la plantilla rellena y luego invocar el binario generado (C++ y C\#), compilar la plantilla rellena y luego interpretar el fichero generado (Java). La estructura de las plantillas correctoras se detallará en la Sección~\ref{sec:plantillas}.
 
+En el fichero YAML las preguntas de código se representan como un diccionario con las siguientes claves y valores:
+\begin{itemize}
+	\item \code{Elem: Code} {\sf (OBLIGATORIO)}
+	\item \code{Content:} {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el enunciado de la pregunta. Como es usual, este texto puede contener código Markdown o HTML. 
+	\item \code{Gaps:} {\sf (OPCIONAL)} \textbf{número entero} ($> 0$) que indica el número de huecos que debe rellenar el alumno. Si no se incluye este campo, el valor por defecto es $0$.	
+	\item \code{Prompt:} {\sf (OPCIONAL)} \textbf{lista de cadenas de texto} con tantos elementos como se indique en el campo \code{Gaps}. Indica el texto por defecto que debe aparecer en cada campo de texto cuando está vacío. Sirve para dar indicaciones al alumno sobre lo que debe introducir en cada hueco.
+	\item \code{Hint:}  {\sf (OPCIONAL)} \textbf{cadena de texto} con una pista sobre la solución a la pregunta que el alumno puede visualizar pulsando el botón <<Pistas>>.
+	\item \code{File:} {\sf (OBLIGATORIO)} \textbf{cadena de texto} con la ruta de la plantilla correctora \emph{relativa al directorio en el que está el tema actual}. Por ejemplo, si el tema actual está en el directorio <<\code{/opt/temas/Python 3.x}>> y la ruta de la plantilla correctar es <<\code{correctores/tema1_p3.py}>>, la ruta completa de la plantilla será <<\code{/opt/temas/Python 3.x/correctores/tema1_p3.py}>>.
+\end{itemize}
+
+\subsection{Plantillas correctoras}\label{sec:plantillas}
+\begin{figure}[tb]
+\begin{lstlisting}[language=Python,basicstyle=\ttfamily, otherkeywords={with}]
+# -*- coding: UTF-8 -*-
+import sys
+import json
+	
+def corrige(filename):
+   (*\framebox{@@@CODIGO@@@}*) (*\label{fig:plantilla:hueco}*)
+   dicc = {}
+   things = locals()
+   if 'i' in things:
+      if things['i'] == 4:
+         dicc = {'isCorrect': True} (*\label{fig:plantilla:json1}*)
+      else:
+         dicc = {'isCorrect': False,  (*\label{fig:plantilla:json2}*)
+                 'typeError': "Valor incorrecto", 
+                 'Hints': ['La variable tiene valor' + str(i),
+                           'Deberia tener valor 4.'] }
+   else:
+      dicc = {'isCorrect': False, (*\label{fig:plantilla:json3}*)
+              'typeError':"Variable 'i' no asignada", 
+              'Hints':["Asigna algun valor a la variable 'i'"]}
+	
+   with open(filename, 'w') as outfile:
+      json.dump(dicc, outfile) #Vuelca 'dicc' como JSON
+      sys.exit(0);    
+	
+if __name__ == "__main__":
+   corrige(sys.argv[1]) #sys.argv[1] es la ruta del fichero JSON
+\end{lstlisting}	
+\caption{Ejemplo de plantilla correctora en Python\label{fig:plantilla}}
+\end{figure}
+
+\begin{figure}[tb]
+\begin{lstlisting}[language=Python,basicstyle=\ttfamily, otherkeywords={with}]
+# -*- coding: UTF-8 -*-
+import sys
+import json
+	
+def corrige(filename):
+   a = 1
+   b = a * 4
+   i = b
+   dicc = {}
+   ...
+\end{lstlisting}	
+\caption{Plantilla correctora rellena con código del alumno\label{fig:plantillaRellena}}
+\end{figure}
+
+Las plantillas correctoras son programas en los que se han insertado uno o más \emph{huecos}. Para indicar en qué punto de la plantilla hay un hueco, se utiliza el marcador \code{@@@CODE@@@}. En la plantilla correctora deben aparecer tantas marcas \code{@@@CODE@@@} como huecos se han definido en la clave \code{Gaps} del elemento. La Figura~\ref{fig:plantilla} muestra un ejemplo de plantilla de un solo hueco para Python, considerando una pregunta en la que se debe asignar el valor 4 a la variable \code{i}. Como se puede observar, existe un único hueco en la línea~\ref{fig:plantilla:hueco}.
+
+A la hora de corregir una pregunta de tipo código, la herramienta \toolname{} inserta en orden los fragmentos de código del alumno en los distintos huecos y ejecuta la plantilla. Para rellenar estos huecos se tiene en cuenta el \emph{espaciado antes de la marca de hueco}. Volviendo al ejemplo, el hueco de la Figura~\ref{fig:plantilla} está a 3 espacios del inicio de fichero. Eso significa que a la hora de reemplazar el hueco con código del alumno, \textbf{se insertarán 3 espacios al inicio de cada línea}. Imaginemos que el código del alumno es:
+\begin{lstlisting}[language=Python,basicstyle=\ttfamily, otherkeywords={with}]
+a = 1
+b = a * 4
+i = b
+\end{lstlisting}
+A la hora de reemplazar el hueco en la plantilla esta quedaría como se ve en la Figura~\ref{fig:plantillaRellena}, donde todas las líneas han sido precedidas por exactamente 3 espacios.
+
+\subsection{Corrección de plantillas: JSON}
+Cuando se ejecuta una plantilla rellena, la herramienta \toolname{} pasa como parámetro una ruta de fichero absoluta donde se debe almacenar el veredicto de la corrección en formato JSON\footnote{\url{http://www.json.org/}}. Este fichero debe contener un diccionario con las siguientes claves:
+\begin{itemize}
+	\item \code{'isCorrect':} {\sf (OBLIGATORIO)} \textbf{booleano (\code{true}/\code{false})} que indica si el código es correcto.
+	\item \code{'typeError':} {\sf (OPCIONAL)} \textbf{cadena de texto} con un mensaje sobre la naturaleza del error. 
+	\item \code{'Hints':} {\sf (OPCIONAL)} \textbf{lista de cadenas de texto} con pistas detalladas sobre lo que ha fallado o sobre cómo se podría arreglar el código enviado. Cada elemento de la lista se mostrará como una línea de texto cuando el alumno pulse el botón <<Más pistas>>.
+\end{itemize}
+La Figura~\ref{fig:plantilla} muestra cómo se construyen 3 diccionarios para volcar el resultado en formato JSON: en la línea~\ref{fig:plantilla:json1} el código es correcto, por lo que sólo se crea la clave \code{'isCorrect'} con valor \code{True}; por otro lado, en las líneas~\ref{fig:plantilla:json2} y~\ref{fig:plantilla:json3} la clave \code{'isCorrect'} toma valor \code{False} y se añaden las otras dos claves opcionales con mensajes concretos para el alumno.
+
+Como hemos comentado anteriormente, cuando \toolname{} corrige una pregunta de código primero rellena la plantilla y luego la ajecuta. Si esta ejecución lanza algún error (por ejemplo errores de sintaxis durante la compilación, excepciones durante la ejecución\ldots) el alumno recibirá un mensaje indicando esta situación. Únicamente en el caso de que la ejecución tenga éxito, la herramienta leerá el fichero JSON generado y mostrará los resultados al alumno.
+
+\subsection{Visualización de plantillas rellenas}
+Por último, \toolname{} permite que el alumno visualice cómo serán rellenados los huecos con su código sin llegar a ejecutarlo. Para ello es necesario que en la plantilla correctora se haya marcado qué fragmento de código se debe mostrar al alumno mediante las marcas \code{@@@SNIPPET@@@}. Consideremos una pregunta de ćodigo en la que hay que escribir el cuerpo de una función Python que duplica el argumento \code{n}. La plantilla correctora contendrá el siguiente código:
+\begin{lstlisting}[language=Python,basicstyle=\ttfamily, otherkeywords={with}]
+#@@@SNIPPET@@@ (*\label{snippet1}*)
+def duplica(n):
+   @@@CODE@@@
+#@@@SNIPPET@@@ (*\label{snippet2}*)
+\end{lstlisting}
+Como se puede observar, toda la función \code{duplica} aparece encerrada entre marcas \code{@@@SNIPPET@@@}. Si el usuario rellena el código <<\code{return n * 2}>> en el campo de texto y pulsa el botón <<Ver Código>> la herramienta reemplazará el hueco y posteriormente mostrará las líneas que están entre las marcas \code{@@@SNIPPET@@@}. El resultado que vería el alumno sería:
+\begin{lstlisting}[language=Python,basicstyle=\ttfamily, otherkeywords={with}]
+def duplica(n):
+   return n + 2
+\end{lstlisting}
+Obsérvese que las líneas donde aparecen las marcas nunca se mostrarán cuando el alumno visualice el código, sino únicamente las líneas que están \textbf{entre las marcas}. Normalmente las marcas \code{@@@SNIPPET@@@} aparecerán dentro de comentarios, para no afectar a la compilación/ejecución de la plantilla.
 \end{document}          

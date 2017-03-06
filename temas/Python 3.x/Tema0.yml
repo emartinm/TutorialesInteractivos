@@ -64,7 +64,7 @@ Lessons:
           
           **Imagen desde el directorio de temas (*con ruta relativa al directorio del lenguaje*)**
           
-          ![triangulo](file:///img/triangulo.jpg)
+          ![triangulo](file://img/triangulo.jpg)
           
           **Las imágenes pueden ser GIFs animados**
           
@@ -95,10 +95,9 @@ Lessons:
           En Markdown se pueden definir tablas de una manera muy sencilla:
           
           Cabecera|Cabecera|Cabecera
-          ---|---|---
-          1|2|3
-          1|2|3
-          1|2|3
+          :-------|:------:|-------:
+           1      | 2      | 3
+           1      | 2      | 3
     - Elem: Text
       Content: |
           Donde Markdown no llega, se puede insertar código HTML y se mostrará directamente en la apliación.

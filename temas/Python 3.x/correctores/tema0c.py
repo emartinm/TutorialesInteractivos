@@ -5,10 +5,10 @@ import json
 def pregunta(filename):    
     try:
         #@@@SNIPPET@@@
-        a = @@@CODIGO@@@
-        b = @@@CODIGO@@@
-        c = @@@CODIGO@@@
-        d = @@@CODIGO@@@
+        a = @@@CODE@@@
+        b = @@@CODE@@@
+        c = @@@CODE@@@
+        d = @@@CODE@@@
         #@@@SNIPPET@@@
         dicc = {}
         things = locals()

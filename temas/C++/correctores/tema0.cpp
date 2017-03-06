@@ -2,7 +2,7 @@
 #include <fstream>
 using namespace std;
 
-@@@CODIGO@@@
+@@@CODE@@@
 /*
 int incrementa(int n) {
 	return n + 1;
