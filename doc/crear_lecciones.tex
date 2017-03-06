@@ -3,8 +3,10 @@
 \usepackage{hyperref}
 \usepackage[spanish]{babel}
 \usepackage{listings}
-\usepackage{color} %para el texto con colores
-\newcommand{\code}[1]{{\lstinline[basicstyle=\sffamily,mathescape]!#1!}}
+\usepackage{xcolor} %para el texto con colores
+
+\newcommand{\code}[1]{{\lstinline[basicstyle=\ttfamily,mathescape]!#1!}}
+\newcommand{\toolname}{\emph{Tutoriales Interactivos}}
 
 \lstdefinelanguage{yaml}{
 	%backgroundcolor=\color{white},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
@@ -12,7 +14,7 @@
 	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
 	breaklines=true,                 % sets automatic line breaking
 	captionpos=none,                 % sets the caption-position to bottom
-	commentstyle=\itshape\color{gray},           % comment style
+	commentstyle=\sffamily\color{gray},           % comment style
 	%deletekeywords={...},           % if you want to delete keywords from the given language
 	escapeinside={(*}{*)},           % if you want to add LaTeX within your code
 	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
@@ -32,7 +34,8 @@
 	%stringstyle=\color{mymauve},     % string literal style
 	tabsize=2,	                   % sets default tabsize to 2 spaces
 	title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title	
-	mathescape=true
+	mathescape=true,
+	comment=[l]{\#}
 }
 
 % Title Page
@@ -43,59 +46,167 @@
 \begin{document}
 \maketitle
 
-\section{Organización de carpetas}
-Todo el contenido de la aplicación se almacena en la \emph{carpeta de temas}, cuya localización debe establecer el usuario desde la ventana de configuración. Esta carpeta contendrá un directorio por cada lenguaje para el que se quiera proporcionar lecciones, aunque pueden existir varios directorios para versiones alternativas del mismo lenguaje de programación (por ejemplo \emph{Python 2.x} y \emph{Python 3.x}). Actualmente se soportan 4 lenguajes de programación:
+\begin{abstract}
+La herramienta \toolname{} organiza su contenido en distintas carpetas dentro del \emph{directorio de temas}. Estas carpetas corresponden a cada uno de los lenguajes de programación soportados, y contienen un fichero YAML por cada tema. A su vez, los temas están definidos como una secuencia de lecciones, que contiene distintos elementos. En este documento se explicará la organización de carpetas y el formato concreto de los ficheros de temas.
+\end{abstract}
 
-\begin{itemize}
-  \item[\textbf{Python}] Los directorios cuyo nombre contenga la subcadena \textbf{<<python>>}\footnote{En todos los casos, no importa si la subcadena aparece en mayúsculas o minúsculas en el nombre del directorio.} serán considerado como directorio de Python. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del intérprete.
-  \item[\textbf{Java}] Los directorios que contienen la subcadena \textbf{<<java>>} en su nombre se consideran directorios de Java. Para cada uno de estos directorios, la ventana de configuración mostrará dos entradas: una para establecer la ruta del compilador \emph{javac} y otra para establecer la ruta del entorno de ejecución \emph{java}.
-  \item[\textbf{C++}] Si un directorio contiene la subcadena \textbf{<<c++>>} en su nombre serán considerado como directorio de Python. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del compilador \emph{GNU C++} (\code{g++}) o la del fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}). 
-  \item[\textbf{C\#}] Finalmente, si el nombre del directorio contiene la subcadena \emph{<<c sharp>>} se considerará un directorio de C\#. Para estos directorios aparecerá una entrada en la ventana de configuración para establecer la ruta del compilador \emph{Mono} (\code{mcs}) o el fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}).
-\end{itemize}
+
+\section{Organización de carpetas}
+Todo el contenido de la aplicación se almacena en la \emph{carpeta de temas}, cuya localización debe establecer el usuario desde la ventana de configuración. Esta carpeta contendrá un directorio por cada lenguaje para el que se quiera proporcionar temas, aunque pueden existir varios directorios para versiones alternativas del mismo lenguaje de programación (por ejemplo \emph{Python 2.x} y \emph{Python 3.x}, o \emph{OpenJDK 6} y \emph{Oracle Java 8}). Para determinar cuál es el lenguaje de programación asociado a un directorio se inspecciona su nombre, comprobando si contiene alguna subcadena. Actualmente se soportan 4 lenguajes de programación, y la comprobación de nombre se realiza en el siguiente orden:
+
+\begin{enumerate}
+  \item \textbf{Python}: si el nombre del directorio contiene la subcadena \textbf{<<python>>}\footnote{En todos los casos, no importa si la subcadena aparece en mayúsculas o minúsculas en el nombre del directorio.}. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del intérprete.
+  \item \textbf{Java}: si contienen la subcadena \textbf{<<java>>} en su nombre. Para cada uno de estos directorios, la ventana de configuración mostrará dos entradas: una para establecer la ruta del compilador \emph{javac} y otra para establecer la ruta del entorno de ejecución \emph{java}.
+  \item \textbf{C++}: si contienen la subcadena \textbf{<<c++>>}. Para cada uno de estos directorios, la ventana de configuración mostrará una entrada para establecer la ruta del compilador \emph{GNU C++} (\code{g++}) o la del fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}). 
+  \item \textbf{C\#}: si el nombre contiene la subcadena \emph{<<c sharp>>}. Para estos directorios aparecerá una entrada en la ventana de configuración para establecer la ruta del compilador \emph{Mono} (\code{mcs}) o el fichero de entorno de \emph{Visual Studio} (\code{vcvars*.bat}).
+\end{enumerate}
 
 \section{Formato de los temas}
 \begin{figure}[tbp]
-\begin{lstlisting}[language=yaml]
+\begin{lstlisting}[language=yaml,basicstyle=\ttfamily\footnotesize]
 Subject: 1
-Title: Nombre del tema
-Intro: Breve explicacion de los objetivos del tema
+Title: Titulo del tema
+Intro: Breve explicaci(*ó*)n del tema
 Lessons:
- - Title: Titulo de la primera leccion
-   Elements:
-    - Elem: Text
-      Content: |
-          Explicacion que introduce la primera leccion
-    - Elem: Text
-    (...)
- - Title: Titulo de la segunda leccion
-   Elements:
-    - Elem: Options
-      Content: |
-          Texto de la pregunta de varias opciones
-    (...)
+    - Title: Explicaciones #Primera leccion
+      Elements: #Lista de elementos de la leccion
+          - Elem: Text #Elemento de tipo explicacion
+            Content: | #Texto de varias lineas
+              Las explicaciones sirven para mostrar informaci(*ó*)n al alumno. 
+
+              Estas esplicaciones se pueden dividir en varios p(*á*)rrafos, y con 
+              Markdown se pueden incluir **negritas**, *it(*a*)licas* y `c(*ó*)digo`.
+          - Elem: Text
+            Content: |
+                **Imagen desde internet**
+                ![texto alternativo](http://URL/imagen.png)
+
+                **Imagen desde el directorio de temas con ruta relativa**
+                ![triangulo](file:///img/triangulo.jpg)
+  
+                **Se pueden incluir enlaces en las explicaciones:**
+                [Texto del enlace](https://www.ucm.es)
+          - Elem: (...)
+    - Title: Preguntas de tipo test #Segunda leccion
+      Elements:
+          - Elem: Options #Pregunta de varias opciones
+            Content: Pregunta de 3 opciones y una correcta #Texto de la pregunta
+            Hint: Esto es la pista general de la pregunta
+            Solution: [1] #Opciones correcta, empezando en 1
+            Multiple: no #Hay varias opcinones correctas?
+            Options: # Lista de opciones para mostrar
+                - OPCI(*Ó*)N CORRECTA
+                - Opci(*ó*)n incorrecta
+                - Opci(*ó*)n incorrecta
+          - Elem: (...)
+    - Title: Preguntas de tipo c(*ó*)igo #Tercera leccion
+      Elements:
+          - Elem: Code #Pregunta de codigo
+            Content: | #Texto de la pregunta, varias lineas
+                Estas preguntas solicitan al usuario framentos de c(*ó*)digo que
+                son insertados en un programa corrector, que es evaluado.
+            Gaps: 2 #Numero de huecos a rellenar
+            Prompt: ["Codigo hueco 1","Codigo hueco 2"] #Informacion de cada hueco
+            Hint: Esto es la pista general. 
+            File: correctores/tema0c.py #Fichero corrector con 'huecos'
+          - Elem: (...)
 \end{lstlisting}
-\caption{Ejemplo de fichero de tema.\label{fig:tema}}
+\caption{Ejemplo de fichero de tema con tres lecciones y varios elementos en cada lección.\label{fig:tema}}
 \end{figure}
 
-Cada lenguaje, es decir, cada directorio que aparece en la carpeta de temas, puede contener varios temas. Estos temas se definirán en ficheros en formato \code{YAML} (\url{http://www.yaml.org/spec/1.2/spec.html}) y que deben tener extensión \code{.yml}. El formato \code{YAML} es similar a \code{JSON} y sirve para representar información como texto plano en base a diccionarios clave-valor, listas y tipos de datos básicos (booleanos, números, cadenas, etc.).
+Cada directorio que aparece en la carpeta de temas puede contener varios temas. Estos temas se definirán en ficheros con formato \code{YAML}\footnote{\url{http://www.yaml.org/spec/1.2/spec.html}} y que deben tener extensión \code{.yml}. El formato \code{YAML} es similar a \code{JSON} y sirve para representar información como texto plano organizándola como diccionarios clave-valor, listas y tipos de datos básicos (booleanos, números, cadenas, etc.).
 
-Un ejemplo de fichero de tema se puede observar en la Figura~\ref{fig:tema}. El formato concreto es un diccionario YAML con las siguientes claves:
+Un ejemplo de fichero de tema se puede observar en la Figura~\ref{fig:tema}, donde se han añadido comentarios de línea (que comienzan con \code{\#}) para aclarar los distintos apartados. El formato concreto es un diccionario YAML con las siguientes claves:
 \begin{itemize}
-\item \code{Subject}: \textbf{número} de tema ($\geq 0$). Sirve para ordenar los distintos temas de un lenguaje a la hora de mostrarlos.
+\item \code{Subject}: \textbf{número} de tema. Sirve para ordenar los distintos temas de un lenguaje a la hora de mostrarlos.
 \item \code{Title}: \textbf{cadena de texto} con el título del tema. 
-\item \code{Intro}: \textbf{cadena de texto} que explica brevemente el objetivo del tema. Este texto puede incluir marcado \emph{Markdown} (\url{https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet}) o incluso código HMTL directamente.
+\item \code{Intro}: \textbf{cadena de texto} que explica brevemente el objetivo del tema. Este texto puede incluir código \emph{Markdown}\footnote{\url{https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet}} o incluso código HMTL directamente, como veremos en la Sección~\ref{sec:explicaciones}.
 \item \code{Lessons}: lista de \textbf{lecciones} dentro del tema.
 \end{itemize}
 
-Cada una de las lecciones del tema se representa como a su vez como diccionarios con dos claves:
+Cada una de las lecciones del tema se representa a su vez como diccionarios con dos claves:
 \begin{itemize}
 \item \code{Title}: \textbf{cadena de texto} con el título de la lección.
 \item \code{Elements}: lista de \textbf{elementos} que conforman la lección. Existen 3 tipos de elementos: \textbf{explicaciones}, \textbf{preguntas de varias opciones} y \textbf{preguntas de código}. Los distintos elementos se tratarán con detalle en las siguientes secciones.
 \end{itemize}
 
 
-\section{Explicaciones}
-Explicación formato y funcionamiento de explicación
+\section{Explicaciones}\label{sec:explicaciones}
+Los elementos de tipo \emph{explicación} sirven para mostrar texto y otros elementos gráficos al alumno. Se representan como un diccionario de dos claves:
+\begin{itemize}
+	 \item \code{Elem: Text}
+	 \item \code{Content}: \textbf{cadena de texto} con el contenido que se quiere mostrar. Puede ser texto plano, código Markdown o código HTML. La opción preferida es código Markdown por ser el más sencillo y ser suficientemente flexible.
+\end{itemize}
+
+\subsection{Markdown}
+Markdown proporciona muchas características para dar formato a un texto. La herramienta \toolname{} soporta como mínimo las siguientes:
+\begin{itemize}
+	\item \textbf{Negrita, itálica y código integrado en la línea}:
+\begin{lstlisting}[language=yaml,numbers=none]
+**negrita**, *italica*, `codigo de una linea`
+\end{lstlisting}	
+	\item \textbf{Bloques de código de varias lineas}:
+\begin{lstlisting}[language=yaml,numbers=none]
+```
+def f(n):
+    return n + 1
+```
+\end{lstlisting}
+	\item \textbf{Cabeceras de sección}:
+\begin{lstlisting}[language=yaml,numbers=none]
+(*\# Cabecera 1*)
+bla bla bla
+
+(*\#\# Cabecera 2*)
+bla bla bla
+
+(*\#\#\# Cabecera 3*)
+bla bla bla
+
+\end{lstlisting}
+	\item Listas numeradas y no numeradas:
+\begin{lstlisting}[language=yaml,numbers=none]
+* Elemento no numerado 1
+    1. elemento numerado anidado 1
+    1. elemento numerado anidado 2
+    1. elemento numerado anidada 3
+* Elemento no numerado 2
+    * elemento no numerado anidado 1
+    * elemento no numerado anidado 2 
+\end{lstlisting}	
+	\item \textbf{Imágenes}: pueden ser imágenes remotas o almacenadas en el directorio del tema.
+\begin{lstlisting}[language=yaml,numbers=none]
+**Imagen remota**
+![texto alternativo](https://URL/imagen.png)
+
+**Imagen desde el directorio de temas, con ruta relativa**
+![triangulo](file:///img/triangulo.jpg)
+\end{lstlisting}		
+Todas las imágenes cuya ruta comience con \code{file://} serán consideradas imágenes locales cuya ruta es relativa al directorio donde reside el tema actual. Por ejemplo, si el tema actual reside en \code{/opt/temas/Python 3.x}, la imagen \code{file:///img/triangulo.jpg} se referirá al fichero situado en \code{/opt/temas/Python 3.x/img/triangulo.jpg}.
+	\item \textbf{Enlaces} que se abren en el navegador por defecto:
+\begin{lstlisting}[language=yaml,numbers=none]
+[Texto del enlace](https://www.ucm.es)
+\end{lstlisting}
+	\item \textbf{Notación matemática \LaTeX}. Gracias el entorno MathJax\footnote{\url{https://www.mathjax.org/}} es posible incrustar código \LaTeX{} en el texto, y que este se encarga de mostrarlo adecuadamente. El código \LaTeX{} debe encerrarse entre los símbolos \code{@@} para fórmulas en la misma línea y \code{@@@} para fórmulas en párrafos nuevos:
+\begin{lstlisting}[language=yaml,numbers=none]
+When @@a \ne 0@@, there are two solutions to @@ax^2 + bx + c = 0@@ and they are
+@@@x = {-b \pm \sqrt{b^2-4ac} \over 2a}.@@@	
+\end{lstlisting}
+	\item \textbf{Tablas}:
+\begin{lstlisting}[language=yaml,numbers=none]
+Cabecera|Cabecera|Cabecera
+---|---|---
+1|2|3
+1|2|3
+1|2|3
+\end{lstlisting}	
+\end{itemize}
+
+\subsection{HMTL}
+En aquellas situaciones donde la potencia de Markdown no es suficiente, se puede incluir código HMTL directamente. Esto puede servir para incrustar vídeos y otros elementos interactivos\footnote{La herramienta \toolname{} utiliza internamente un navegador basado en WebKit (\url{https://webkit.org/}), por lo que su capacidad para procesar HTML será algo menor al de los navegadores de escritorio usuales.}.
+\begin{lstlisting}[language=yaml,numbers=none]
+<iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen target="_self"></iframe>
+\end{lstlisting}		
 
 \section{Preguntas de varias opciones}
 Explicación formato y funcionamiento preguntas tipo test
