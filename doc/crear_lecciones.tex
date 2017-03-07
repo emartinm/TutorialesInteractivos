@@ -3,8 +3,11 @@
 \usepackage{hyperref}
 \usepackage[spanish]{babel}
 \usepackage{listings}
-\usepackage{xcolor} %para el texto con colores
+\usepackage{xcolor} %para el texto con coloresç
+\usepackage{tocloft}
+\usepackage{graphicx}
 
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Para que todo el índice tenga puntos
 \newcommand{\code}[1]{{\lstinline[basicstyle=\ttfamily,mathescape]!#1!}}
 \newcommand{\toolname}{\emph{Tutoriales Interactivos}}
 
@@ -81,6 +84,10 @@
 La herramienta \toolname{} organiza su contenido en distintas carpetas dentro del \emph{directorio de temas}. Estas carpetas corresponden a cada uno de los lenguajes de programación soportados, y contienen un fichero YAML por cada tema. A su vez, los temas están definidos como una secuencia de lecciones, que contiene distintos elementos. En este documento se explicará la organización de carpetas y el formato concreto de los ficheros de temas.
 \end{abstract}
 
+\tableofcontents
+
+\clearpage
+
 
 \section{Organización de carpetas}
 Todo el contenido de la aplicación se almacena en la \emph{carpeta de temas}, cuya localización debe establecer el usuario desde la ventana de configuración. Esta carpeta contendrá un directorio por cada lenguaje para el que se quiera proporcionar temas, aunque pueden existir varios directorios para versiones alternativas del mismo lenguaje de programación (por ejemplo \emph{Python 2.x} y \emph{Python 3.x}, o \emph{OpenJDK 6} y \emph{Oracle Java 8}). Para determinar cuál es el lenguaje de programación asociado a un directorio la herramienta \toolname{} inspecciona su nombre, comprobando si contiene alguna subcadena. Actualmente se soportan 4 lenguajes de programación, y la comprobación de nombre se realiza en el siguiente orden:
@@ -101,7 +108,7 @@ Intro: Breve explicaci(*ó*)n del tema
 Lessons:
     - Title: Explicaciones #Primera leccion
       Elements: #Lista de elementos de la leccion
-          - Elem: Text #Elemento de tipo explicacion
+          - Elem: Text #Elemento de tipo explicacion (*\label{fig:tema:explicacion}*)
             Content: | #Texto de varias lineas
               Las explicaciones sirven para mostrar informaci(*ó*)n al alumno. (*\label{fig:tema:exp1}*)
 
@@ -117,7 +124,6 @@ Lessons:
   
                 **Se pueden incluir enlaces en las explicaciones:**
                 [Texto del enlace](https://www.ucm.es) (*\label{fig:tema:exp4}*)
-          - Elem: (...)
     - Title: Preguntas de tipo test #Segunda leccion
       Elements:
           - Elem: Options #Pregunta de varias opciones (*\label{fig:tema:opt1}*)
@@ -129,8 +135,7 @@ Lessons:
                 - OPCI(*Ó*)N CORRECTA
                 - Opci(*ó*)n incorrecta
                 - Opci(*ó*)n incorrecta (*\label{fig:tema:opt2}*)
-          - Elem: (...)
-    - Title: Preguntas de tipo c(*ó*)igo #Tercera leccion
+    - Title: Preguntas de tipo c(*ó*)digo #Tercera leccion
       Elements:
           - Elem: Code #Pregunta de codigo (*\label{fig:tema:code1}*)
             Content: | #Texto de la pregunta, varias lineas
@@ -139,8 +144,7 @@ Lessons:
             Gaps: 2 #Numero de huecos a rellenar
             Prompt: ["Codigo hueco 1","Codigo hueco 2"] #Informacion de cada hueco
             Hint: Esto es la pista general. 
-            File: correctores/tema0c.py #Plantilla correctora con 'huecos' (*\label{fig:tema:code2}*)
-          - Elem: (...)
+            File: correctores/plantilla.py #Plantilla correctora con 'huecos' (*\label{fig:tema:code2}*)
 \end{lstlisting}
 \caption{Ejemplo de fichero de tema con tres lecciones y varios elementos en cada lección.\label{fig:tema}}
 \end{figure}
@@ -158,15 +162,22 @@ Un ejemplo de fichero de tema se puede observar en la Figura~\ref{fig:tema}, don
 Cada una de las lecciones del tema se representa a su vez como diccionarios con dos claves:
 \begin{itemize}
 \item \code{Title}: {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el título de la lección.
-\item \code{Elements}: {\sf (OBLIGATORIO)}  lista de \textbf{elementos} que conforman la lección. Existen 3 tipos de elementos: \textbf{explicaciones}, \textbf{preguntas de varias opciones} y \textbf{preguntas de código}. Los distintos elementos se tratarán con detalle en las siguientes secciones.
+\item \code{Elements}: {\sf (OBLIGATORIO)}  lista de \textbf{elementos} que conforman la lección. Existen tres tipos de elementos: \textbf{explicaciones}, \textbf{preguntas de varias opciones} y \textbf{preguntas de código}. Los distintos elementos se tratarán con detalle en las siguientes secciones.
 \end{itemize}
+
+\begin{figure}[tb]
+	\centerline{\includegraphics[scale=0.4]{lecciones}}
+	\caption{Pantalla de selección de lecciones\label{fig:lecciones}}
+\end{figure}
+
+El título de tema, su introducción y los títulos de temas son los que \toolname{} utiliza para mostrar las pantallas de selección de tema y lecciones. En la Figura~\ref{fig:lecciones} se puede ver cómo se mostrarían la pantalla de selección para elegir entre las tres lecciones del tema definido en la Figura~\ref{fig:tema}.
 
 
 \section{Explicaciones}\label{sec:explicaciones}
-Los elementos de tipo \emph{explicación} sirven para mostrar texto y otros elementos gráficos al alumno. Se representan como un diccionario de dos claves:
+Los elementos de tipo \emph{explicación} sirven para mostrar al alumno texto y otros contenidos gráficos. Se representan como un diccionario de dos claves:
 \begin{itemize}
 	 \item \code{Elem: Text} {\sf (OBLIGATORIO)}
-	 \item \code{Content}: {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el contenido que se quiere mostrar. Puede ser texto plano, código Markdown\footnote{\url{https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet}} o código HTML. La opción preferida es código Markdown por ser el más sencillo y ser suficientemente flexible. En la Figura~\ref{fig:tema} se pueden ver ejemplos de contenidos en las líneas~\ref{fig:tema:exp1}--\ref{fig:tema:exp2} y~\ref{fig:tema:exp3}--\ref{fig:tema:exp4}
+	 \item \code{Content}: {\sf (OBLIGATORIO)} \textbf{cadena de texto} con el contenido que se quiere mostrar. Puede ser texto plano, código Markdown\footnote{\url{https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet}} o código HTML. La opción preferida es código Markdown por ser el más sencillo y ser suficientemente flexible. En la Figura~\ref{fig:tema} se pueden ver ejemplos de contenidos Markdown en las líneas~\ref{fig:tema:exp1}--\ref{fig:tema:exp2} y~\ref{fig:tema:exp3}--\ref{fig:tema:exp4}
 \end{itemize}
 
 \subsection{Markdown}
@@ -233,8 +244,15 @@ Cabecera|Cabecera|Cabecera
 \end{lstlisting}	
 \end{itemize}
 
+\begin{figure}[tb]
+	\centerline{\includegraphics[scale=0.5]{explicacion}}
+	\caption{Pantalla mostrando la primera explicación de la lección <<Explicaciones>>\label{fig:explicacion}}
+\end{figure}
+
+La Figura~\ref{fig:explicacion} muestra cómo se mostraría la primera explicación definida en la línea~\ref{fig:tema:explicacion} de la Figura~\ref{fig:tema}, que contiene dos párrafos y texto en negrita, itálica y monoespaciado. Recomendamos consultar el <<Tema de prueba>> que se puede encontrar en \url{https://github.com/emartinm/TutorialesInteractivos/blob/master/temas/Python%203.x/Tema0.yml} para ver en detalle las distintas características Markdown que se han presentado en esta sección.
+
 \subsection{HMTL}
-En aquellas situaciones donde Markdown no es suficiente, se puede incluir código HMTL directamente. Esto puede servir para incrustar vídeos y otros elementos interactivos.\footnote{La herramienta \toolname{} utiliza internamente un navegador basado en WebKit (\url{https://webkit.org/}), por lo que su capacidad para procesar HTML será algo menor al de los navegadores de escritorio usuales.} Por ejemplo el siguiente código incrustaría el vídeo \url{https://www.youtube.com/embed/PDpMgx7avzA} como un \code{iframe}:
+En aquellas situaciones donde Markdown no es suficiente, se puede incluir código HMTL directamente. Esto puede servir para incrustar vídeos y otros elementos interactivos.\footnote{La herramienta \toolname{} utiliza internamente la componente \emph{WebView} de JavaFX, que está basada en WebKit (\url{https://webkit.org/}). Por lo tanto, la capacidad para procesar HTML será algo menor al de los navegadores de escritorio usuales y habrá algunas características que no funcionen correctamente o directamente no estén soportadas.} Por ejemplo el siguiente código incrustaría el vídeo \url{https://www.youtube.com/embed/PDpMgx7avzA} como un \code{iframe}:
 \begin{lstlisting}[language=yaml,numbers=none]
 <iframe width="640" height="360" src="https://www.youtube.com/embed/PDpMgx7avzA" frameborder="0" allowfullscreen target="_self"></iframe>
 \end{lstlisting}		
@@ -249,7 +267,13 @@ Este tipo de elementos sirve para preguntas en las que el alumno debe elegir la 
  	\item \code{Multiple:} {\sf (OPCIONAL)} \textbf{booleano} que indica si la pregunta puede tener cualquier número de opciones válidas (\code{yes}) o si únicamente una opción será la correcta (\code{no}). En caso de no incluir esta clave, el valor por defecto es \code{no}.
  	\item \code{Solution:} {\sf (OBLIGATORIO)} \textbf{lista de números} con las posiciones de las opciones correctas, donde la primera opción tiene posición \code{1}. Este campo puede contener la lista vacía (\code{[]}) si ninguna opción es correcta.
 \end{itemize}
-Se puede ver un ejemplo de pregunta de 3 opciones donde únicamente la primera es correcta: Figura~\ref{fig:tema}, lineas~\ref{fig:tema:opt1}--\ref{fig:tema:opt2}.
+
+\begin{figure}[tb]
+	\centerline{\includegraphics[scale=0.5]{opciones}}
+	\caption{Pantalla mostrando una pregunta de 3 opciones con solución única.\label{fig:opciones}}
+\end{figure}
+
+Las lineas~\ref{fig:tema:opt1}--\ref{fig:tema:opt2} de la Figura~\ref{fig:tema} contienen un ejemplo de pregunta de tres opciones donde únicamente la primera es correcta. A la hora de mostrar esta pregunta, \toolname{} generaría la pantalla de la Figura~\ref{fig:opciones}.
 
 \section{Preguntas de código}
 Las preguntas de tipo código permiten solicitar al alumno uno o varios fragmentos de código y evaluar su resultado. Para dicha evaluación los fragmentos de código introducidos por el alumno se insertan en los \emph{huecos} definidos en una \emph{plantilla correctora}, que está escrita en el mismo lenguaje de programación que está aprendiendo el alumno. Esta plantilla se rellena y se ejecuta para obtener su veredicto, lo que involucra distintas fases dependiendo del lenguaje de programación: invocar directamente al intérprete (Python), compilar la plantilla rellena y luego invocar el binario generado (C++ y C\#), compilar la plantilla rellena y luego interpretar el fichero generado (Java). La estructura de las plantillas correctoras se detallará en la Sección~\ref{sec:plantillas}.
@@ -263,6 +287,13 @@ En el fichero YAML las preguntas de código se representan como un diccionario c
 	\item \code{Hint:}  {\sf (OPCIONAL)} \textbf{cadena de texto} con una pista sobre la solución a la pregunta que el alumno puede visualizar pulsando el botón <<Pistas>>.
 	\item \code{File:} {\sf (OBLIGATORIO)} \textbf{cadena de texto} con la ruta de la plantilla correctora \emph{relativa al directorio en el que está el tema actual}. Por ejemplo, si el tema actual está en el directorio <<\code{/opt/temas/Python 3.x}>> y la ruta de la plantilla correctar es <<\code{correctores/tema1_p3.py}>>, la ruta completa de la plantilla será <<\code{/opt/temas/Python 3.x/correctores/tema1_p3.py}>>.
 \end{itemize}
+
+\begin{figure}[tb]
+	\centerline{\includegraphics[scale=0.5]{codigo}}
+	\caption{Pantalla mostrando una pregunta de código con dos huecos.\label{fig:codigo}}
+\end{figure}
+
+Las líneas~\ref{fig:tema:code1}--\ref{fig:tema:code2} contienen una pregunta de tipo código con dos huecos y que se corrige usando la plantilla. \code{correctores/plantilla.py}. A la hora de mostrar esta pregunta, \toolname{} generaría la pantalla que se puede ver en la Figura~\ref{fig:codigo}.
 
 \subsection{Plantillas correctoras}\label{sec:plantillas}
 \begin{figure}[tb]
@@ -314,7 +345,7 @@ def corrige(filename):
 \caption{Plantilla correctora rellena con código del alumno\label{fig:plantillaRellena}}
 \end{figure}
 
-Las plantillas correctoras son programas en los que se han insertado uno o más \emph{huecos}. Para indicar en qué punto de la plantilla hay un hueco, se utiliza el marcador \code{@@@CODE@@@}. En la plantilla correctora deben aparecer tantas marcas \code{@@@CODE@@@} como huecos se han definido en la clave \code{Gaps} del elemento. La Figura~\ref{fig:plantilla} muestra un ejemplo de plantilla de un solo hueco para Python, considerando una pregunta en la que se debe asignar el valor 4 a la variable \code{i}. Como se puede observar, existe un único hueco en la línea~\ref{fig:plantilla:hueco}.
+Las plantillas correctoras son programas en los que se ha insertado uno o más \emph{huecos}. Para indicar en qué punto de la plantilla hay un hueco, se utiliza el marcador \code{@@@CODE@@@}. En la plantilla correctora deben aparecer tantas marcas \code{@@@CODE@@@} como huecos se han definido en la clave \code{Gaps} del elemento. La Figura~\ref{fig:plantilla} muestra un ejemplo de plantilla de un solo hueco para Python, considerando una pregunta en la que se debe asignar el valor 4 a la variable \code{i}. Como se puede observar, existe un único hueco en la línea~\ref{fig:plantilla:hueco}.
 
 A la hora de corregir una pregunta de tipo código, la herramienta \toolname{} inserta en orden los fragmentos de código del alumno en los distintos huecos y ejecuta la plantilla. Para rellenar estos huecos se tiene en cuenta el \emph{espaciado antes de la marca de hueco}. Volviendo al ejemplo, el hueco de la Figura~\ref{fig:plantilla} está a 3 espacios del inicio de fichero. Eso significa que a la hora de reemplazar el hueco con código del alumno, \textbf{se insertarán 3 espacios al inicio de cada línea}. Imaginemos que el código del alumno es:
 \begin{lstlisting}[language=Python,basicstyle=\ttfamily, otherkeywords={with}]
@@ -323,6 +354,8 @@ b = a * 4
 i = b
 \end{lstlisting}
 A la hora de reemplazar el hueco en la plantilla esta quedaría como se ve en la Figura~\ref{fig:plantillaRellena}, donde todas las líneas han sido precedidas por exactamente 3 espacios.
+
+Las plantillas correctoras no imponen ninguna restricción a la hora de dar nombre a sus distintas componentes: variables, métodos, etc. La única restricción general es que deben estar definidas en un solo fichero y que deben contener una función principal que acepte un parámetro, realice las pruebas necesarias y vuelque el veredicto en un fichero JSON (ver siguiente sección). El caso de \textbf{Java} tiene una \textbf{restricción adicional}: el método \code{main(String[] args)} debe estar definido en una clase con nombre \code{Corrector}, puesto que será la clase que usará \toolname{} para lanzar la corrección. Recomendamos revisar los correctores de prueba que están en la carpeta \url{https://github.com/emartinm/TutorialesInteractivos/tree/master/temas} para ver ejemplos de correctores en los distintos lenguajes soportados.
 
 \subsection{Corrección de plantillas: JSON}
 Cuando se ejecuta una plantilla rellena, la herramienta \toolname{} pasa como parámetro una ruta de fichero absoluta donde se debe almacenar el veredicto de la corrección en formato JSON\footnote{\url{http://www.json.org/}}. Este fichero debe contener un diccionario con las siguientes claves:
@@ -349,4 +382,12 @@ def duplica(n):
    return n + 2
 \end{lstlisting}
 Obsérvese que las líneas donde aparecen las marcas nunca se mostrarán cuando el alumno visualice el código, sino únicamente las líneas que están \textbf{entre las marcas}. Normalmente las marcas \code{@@@SNIPPET@@@} aparecerán dentro de comentarios, para no afectar a la compilación/ejecución de la plantilla.
+
+\section{Crear una lección nueva}
+Para crear una lección nueva los pasos a seguir serían:
+\begin{enumerate}
+	\item Crear un subdirectorio dentro de la carpeta de temas para el lenguaje de programación (o versión) concreto, si no existe ya.
+	\item Crear un fichero YAML con extensión \code{.yml} dentro de dicho subdirectorio. En lugar de escribirlo desde cero recomendamos tomar el <<Tema de prueba>> que se puede encontrar en \url{https://github.com/emartinm/TutorialesInteractivos/blob/master/temas/Python%203.x/Tema0.yml} y realizar modificaciones sobre él. El formato YAML es bastante sensible al sangrado, así que es importante tenerlo en cuenta a la hora de anidar los distintos elementos.
+	\item Para crear las plantillas correctoras, recomendamos tomar las usadas en las lecciones de prueba de cada uno de los lenguajes de programación (\url{https://github.com/emartinm/TutorialesInteractivos/tree/master/temas}) y realizar las modificaciones necesarias respetando el esqueleto general.
+\end{enumerate}
 \end{document}          
