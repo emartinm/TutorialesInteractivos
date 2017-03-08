@@ -21,14 +21,14 @@ Participantes:
 ## Ejecución
 
 Se puede ejecutar la última versión compilada que hay en el repositorio de la siguiente manera:
-  1. Abrir un terminal en el directorio donde está la carpeta ```src/``` y el fichero ```pom.xml```
-  1. Ejecutar ```java -jar target/TutorialesInteractivos-jar-with-dependencies.jar```
+  1. Abrir un terminal en el directorio donde está la carpeta `src/` y el fichero `pom.xml`
+  1. Ejecutar `java -jar target/TutorialesInteractivos-jar-with-dependencies.jar`
 
 Si se desea compilar y ejecutar la herramienta a partir de las fuentes, se necesita tener *maven* instalado:
-  1. Abrir un terminal en el directorio donde está la carpeta ```src/``` y el fichero ```pom.xml```
-  1. Ejecutar ```mvn package``` para compilar
-  2. Lanzar la aplicación con ```java -jar target/TutorialesInteractivos-jar-with-dependencies.jar```
+  1. Abrir un terminal en el directorio donde está la carpeta `src/` y el fichero `pom.xml`
+  1. Ejecutar `mvn package` para compilar
+  2. Lanzar la aplicación con `java -jar target/TutorialesInteractivos-jar-with-dependencies.jar`
   
 
 ## Más información
-Consultar la memoria disponible en : [http://eprints.ucm.es/38408/](http://eprints.ucm.es/38408/)
+Consultar la memoria disponible en: [http://eprints.ucm.es/38408/](http://eprints.ucm.es/38408/)
