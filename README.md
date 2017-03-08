@@ -11,14 +11,14 @@ Innova-Docencia titulado *Implementación de un sistema para el aprendizaje de l
 Participantes:
 * Enrique Martín (Fac. Informática, UCM)
 * Adrián Riesco (Fac. Informática, UCM)
-* Jaume Sánchez (Fac. Informática, UCM)
+* Jaime Sánchez (Fac. Informática, UCM)
 * Carlos Gregorio (Fac. Matemáticas, UCM)
 * Francisco J. López (Fac. Informática, UCM)
 * Salvador Tamarit (Fac. Informática, UPV)
 * Carlos Congosto
 * Rafael Caturla
 
-## Uso
+## Ejecución
 
 Se puede ejecutar la última versión compilada que hay en el repositorio de la siguiente manera:
   1. Abrir un terminal en el directorio donde está la carpeta ```src/``` y el fichero ```pom.xml```
