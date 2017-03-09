@@ -35,8 +35,8 @@ Si se desea compilar y ejecutar la herramienta a partir de las fuentes, se neces
 El sistema de tutoriales interactivos se describe en dos manuales, que se pueden encontrar en la carpeta 
 [doc](doc/):
 
- 1. **Manual del alumno** (*próximamente*): donde se explica el funcionamiento del sistema desde el punto de vista del
+ - **Manual del alumno** (*próximamente*): donde se explica el funcionamiento del sistema desde el punto de vista del
  alumno, centrándose en la navegación y los distintos elementos de la interfaz gráfica.
- 1. **[Manual del profesor](doc/Manual_crear_lecciones.pdf)**:
+ - **[Manual del profesor](doc/Manual_crear_lecciones.pdf)**:
   donde se describe con detalle el formato de los temas, los distintos elementos que componene las lecciones y cómo 
    se pueden definir nuevos temas.
