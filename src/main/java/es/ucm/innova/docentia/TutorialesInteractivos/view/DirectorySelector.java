@@ -1,3 +1,7 @@
+/* Copyright 2016-2017 Enrique Martín <emartinm@ucm.es>
+ *
+ * SPDX-License-Identifier: MIT
+ */
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import javafx.stage.DirectoryChooser;

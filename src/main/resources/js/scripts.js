@@ -1,3 +1,7 @@
+/* Copyright 2017 Enrique Martín <emartinm@ucm.es>
+ *
+ * SPDX-License-Identifier: MIT
+ */
 function capturaEnlaces() {
     elems = document.getElementsByTagName("a");
 	for(var i = 0; i < elems.length; ++i){

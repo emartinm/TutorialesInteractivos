@@ -1,3 +1,7 @@
+/* Copyright 2016 Rafael Caturla, Carlos Congosto
+ *
+ * SPDX-License-Identifier: MIT
+ */
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
 import java.util.function.BiFunction;

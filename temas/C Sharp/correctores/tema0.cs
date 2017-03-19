@@ -1,3 +1,8 @@
+/* Copyright 2017 Enrique Martín <emartinm@ucm.es>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 using System;
 
 public class Corrector {

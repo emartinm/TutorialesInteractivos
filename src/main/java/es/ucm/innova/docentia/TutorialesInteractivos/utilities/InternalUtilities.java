@@ -1,3 +1,8 @@
+/* Copyright 2016 Rafael Caturla, Carlos Congosto
+ * Copyright 2016-2017 Enrique Martín <emartinm@ucm.es>
+ *
+ * SPDX-License-Identifier: MIT
+ */
 package es.ucm.innova.docentia.TutorialesInteractivos.utilities;
 
 import java.io.*;

@@ -1,3 +1,9 @@
+/* Copyright 2016 Rafael Caturla, Carlos Congosto
+ * Copyright 2016-2017 Enrique Martín <emartinm@ucm.es>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /*.progress-indicator .percentage {
     visibility: hidden;
     -fx-fill: null;
