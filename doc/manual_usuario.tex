@@ -2,23 +2,79 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage{xcolor} %para el texto con coloresç
+\usepackage{tocloft}
+\usepackage{graphicx}
 
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Para que todo el índice tenga puntos
+\newcommand{\code}[1]{{\lstinline[basicstyle=\ttfamily,mathescape]!#1!}}
+\newcommand{\toolname}{\emph{Tutoriales Interactivos}}
+
+\lstset{ %
+	%backgroundcolor=\color{white},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	basicstyle=\sffamily,      % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=none,                 % sets the caption-position to bottom
+	commentstyle=\itshape\color{gray},           % comment style
+	%deletekeywords={...},           % if you want to delete keywords from the given language
+	escapeinside={(*}{*)},           % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=tb,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	columns=fullflexible,
+	%keywordstyle=\color{blue},      % keyword style
+	keywordstyle=\sffamily\color{teal},
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny, % the style that is used for the line-numbers
+	%rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{blue},     % string literal style
+	tabsize=2,	                   % sets default tabsize to 2 spaces
+	title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title	
+	mathescape=true
+}
 
 % Title Page
-\title{Tutoriales interactivos - Manual de usuario}
-\author{Enrique Martín $<$\url{emartinm@ucm.es}$>$ \\ Otro autor $<$\url{correo@ucm.es}$>$\\}
+\title{\toolname{} - Manual de usuario \\ \emph{(Borrador)}}
+\author{Enrique Martín Martín$^a$ (\url{emartinm@ucm.es}) \\ 
+	Salvador Tamarit$^b$ (\url{stamarit@dsic.upv.es}) \\
+	\emph{Revisor:} Jaime Sánchez Hernández$^a$ (\url{jaime@sip.ucm.es}) \\~\\[-.4cm]
+	\normalsize{\emph{$^a$Dpto. de Sistemas Informáticos y Computación}}\\[-0.1cm]
+	\normalsize{\emph{Fac. Informática, Universidad Complutense de Madrid}}\\[-0.1cm]
+	%\normalsize{\emph{C/ Profesor José García Santesmases, 9. 28040 Madrid, Spain}}\\[-0.1cm]
+	\normalsize{\emph{$^b$Dep. Sistemes Informàtics i Computació}}\\[-0.1cm]
+	\normalsize{\emph{Universitat Politècnica de València}}\\[-0.1cm]
+	%\normalsize{\emph{Camí de Vera, s/n. 46022 València}}\\[-0.1cm]
+}
 
 
 \begin{document}
 \maketitle
 
-\section{Configuración de la aplicación}
+\tableofcontents
+
+\clearpage
+
+\section{Instalación y ejecución}\todo{Enrique}
+
+\section{Configuración de la aplicación}\todo{Enrique}
 Explicación de la pantalla de configuración. Lenguajes soportados
 
-\section{Navegación general}
-Breve explicación de cómo llegar a una lección
+\section{Navegación general}\todo{Tama}
+Breve explicación de cómo llegar a una lección y los distintos apartados navegables
 
-\section{Lecciones}
-Distintas preguntas de una lección, corrección y navegación
+\section{Lecciones}\todo{Tama}
+Navegación dentro de una lección. Distintas preguntas de una lección y qué hace cada botón
+
+\section{Solución de problemas}\todo{Enrique}
+Básicamente borrar el fichero progress.json y los directorios de Preferences API
 
 \end{document}          
