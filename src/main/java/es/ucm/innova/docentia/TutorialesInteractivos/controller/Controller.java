@@ -44,10 +44,26 @@ import javafx.stage.Stage;
  *
  */
 public class Controller {
+
+	/**
+	 * Clase utilizada en el ResourceBundle para definir el español de España ("es_ES") como Locale por defecto
+	 * Evita errores en ejecución si el lenguaje por defecto no está soportado
+	 */
+	private static class LocaleControl extends ResourceBundle.Control {
+
+		@Override
+		public Locale getFallbackLocale(String baseName, Locale locale) {
+			return new Locale("es", "ES");
+		}
+	}
+
+
     public static final Logger log = Logger.getLogger("TutorialesInteractivos"); // Logger común para toda la aplicación
     public static final String progressFileName = "progress.json";
-    private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
-    //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
+    //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
+	//private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
+	private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", new LocaleControl());
+
 
 	private Stage primaryStage;// Vista principal de la aplicación
 	private HostServices hostservices;
