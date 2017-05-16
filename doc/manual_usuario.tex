@@ -65,20 +65,50 @@
 
 \section{Instalación y ejecución}\todo{Enrique}
 
-Para poder ejecutar la herramienta \toolname{} debéis tener instalada en vuestro sistema la última versión de Java (en el momento de escribir este manual es la versión \emph{Java SE 8u131)}. Para ello debéis acceder a la página \url{http://www.oracle.com/technetwork/java/javase/downloads/}, pulsar el botón \emph{JRE DOWNLOAD} y escoger la versión adecuada para vuestro sistema.
+Para poder ejecutar la herramienta \toolname{} debéis tener instalada en vuestro sistema la última versión de Java (en el momento de escribir este manual es la \emph{versión 8 update 131)}. Para ello debéis acceder a la página \url{https://www.java.com/es/download/} y seguir las instrucciones.
 
-Una vez se dispone de la última versión de Java, la instalación de la herramienta \toolname{} es muy sencilla: únicamente es necesario descargar el programa junto con las lecciones y situarlo en alguna carpeta del sistema (por ejemplo el directorio personal o el escritorio). Si vais a utilizar \toolname{} es una asignatura, lo más probable es que el profesor os proporcione un fichero comprimido con todos los elementos incorporados que deberéis descomprimir y situar en alguna carpeta del sistema. En el caso de no disponer de este fichero comprimido proporcionado por el profesor, deberéis descargar la herramienta de su repositorio oficial. La manera más sencilla es descargar el fichero comprimido \url{https://github.com/emartinm/TutorialesInteractivos/archive/master.zip} y descomprimirlo en alguna carpeta del sistema\footnote{Si disponéis del sistema de control de versiones \emph{GIT} también podréis clonar el repositorio de la herramienta  usando la dirección \url{https://github.com/emartinm/TutorialesInteractivos.git}}.
+Una vez disponemos de la última versión de Java, la instalación de la herramienta \toolname{} es muy sencilla: únicamente es necesario descargar el programa junto con las lecciones y situarlo en alguna carpeta del sistema (por ejemplo el directorio personal o el escritorio). Si vais a utilizar \toolname{} es una asignatura, lo más probable es que el profesor os proporcione un fichero comprimido con todos los elementos incorporados. En el caso de no disponer de este fichero comprimido proporcionado por el profesor, podéis descargar la herramienta de su repositorio oficial: \url{https://github.com/emartinm/TutorialesInteractivos/archive/master.zip}.
+% y descomprimirlo en alguna carpeta del sistema\footnote{Si disponéis del sistema de control de versiones \emph{GIT} también podréis clonar el repositorio de la herramienta  usando la dirección \url{https://github.com/emartinm/TutorialesInteractivos.git}}.
 
-Para ejecutar...
-
-\begin{itemize}
-	\item Windows: doble clic en .bat o en target/blablabla.jar, lanzar .bat desde Command Prompt
-	\item Linux: doble clic en target/blablabla.jar, lanzar .sh desde Command Prompt
-	\item Mac: doble clic en target/blablabla.jar, lanzar .sh desde Command Prompt
-\end{itemize}
+Para ejecutar la herramienta, únicamente hay que hacer doble clic en el fichero \texttt{TutorialesInteractivos-jar-with-dependencies.jar} situado en la carpeta \texttt{target} dentro del directorio principal de la herramienta. En caso de no poder iniciar la herramienta de esta manera consulta la sección~\ref{sec:problemas_arrancar}.
 
 \section{Configuración de la aplicación}\todo{Enrique}
-Explicación de la pantalla de configuración. Lenguajes soportados
+
+La primera vez que se inicia la herramienta se acceder directamente a la ventana de configuración (ver figura~\ref{fig:config1}).
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.4]{Configuracion_vacia.png}
+\end{center}
+\caption{Ventana inicial de configuración\label{fig:config1}}
+\end{figure}
+%
+En esta ventana lo primero que hay que hacer es configurar el \textbf{directorio de temas} pulsando el botón \emph{Buscar\ldots} que aparece aparece en la parte superior derecha. El directorio de temas normalmente se encuentra dentro del directorio principal de la herramienta, contiene carpetas por cada uno de los lenguajes disponibles: Python 3.x, C++, Java, etc. 
+
+Tras configurar el directorio de temas, nos aparecerán varias entradas en el listado central de la ventana de configuración para establecer los compiladores o intérpretes para cada lenguaje disponible (ver figura~\ref{fig:config2}).
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.4]{Configuracion_lenguajes_vacio.png}
+\end{center}
+\caption{Ventana inicial de configuración con directorio de temas\label{fig:config2}}
+\end{figure}
+%
+
+
+Al finalizar la configuración de la herramienta, la ventana debe tener un aspecto similar al mostrado en la figura~\ref{fig:config3}.
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.4]{Configuracion_lenguajes_relleno.png}
+\end{center}
+\caption{Ventana final configuración\label{fig:config3}}
+\end{figure}
+%
+Ten en cuenta que \textbf{no es obligatorio configurar los compiladores o intérpretes de todos los lenguajes de programación disponibles}, únicamente de aquellos que vayas a utilizar para realizar tutoriales.
+
+\todo{Explicación de la pantalla de configuración. Lenguajes soportados y diferencias linux-mac vs Windows (C\# y C++ a través de vcvars32.bat)}
 
 \section{Navegación general}\todo{Tama}
 Breve explicación de cómo llegar a una lección y los distintos apartados navegables
@@ -87,6 +117,36 @@ Breve explicación de cómo llegar a una lección y los distintos apartados nave
 Navegación dentro de una lección. Distintas preguntas de una lección y qué hace cada botón
 
 \section{Solución de problemas}\todo{Enrique}
-Básicamente borrar el fichero progress.json y los directorios de Preferences API
+
+\subsection{No puedo iniciar la herramienta}\label{sec:problemas_arrancar}
+Si al hacer doble clic sobre el fichero \texttt{.jar} no se arranca la aplicación, comprueba que dicho fichero es \textbf{ejecutable}. Para ello abre el menú contextual con el botón derecho y explora las distintas opciones disponibles para cambiar los permisos del fichero.
+
+Si aún así los problemas persisten, prueba alguna de las siguientes opciones:
+\begin{itemize}
+	\item \textbf{En sistemas Windows}: 
+	\begin{itemize}
+	\item Haz doble clic en el fichero \texttt{TutorialesInteractivos.bat} que está en el directorio \textbf{principal} de la herramienta. 
+	\item Abre un teminal (\emph{Command Prompt}), dirígete al directorio principal de la herramienta y ejecuta alguno de estos comandos:
+	\\
+	{\small \texttt{>\ TutorialesInteractivos.bat}}\\
+	{\small \texttt{>\ java -jar target/TutorialesInteractivos-jar-with-dependencies.jar}}\\
+	\end{itemize}
+	\item \textbf{En sistemas Linux y Mac}:
+	\begin{itemize}
+		\item Haz doble clic en el fichero \texttt{TutorialesInteractivos.sh} que está en el directorio \textbf{principal} de la herramienta. 
+		\item Abre un teminal, dirígete al directorio principal de la herramienta y ejecuta alguno de estos comandos:
+		\\
+		{\small \texttt{\$ TutorialesInteractivos.sh}}\\
+		{\small \texttt{\$ java -jar target/TutorialesInteractivos-jar-with-dependencies.jar}}\\
+	\end{itemize}
+\end{itemize}	
+	
+%	 doble clic en target/blablabla.jar, lanzar .sh desde Command Prompt
+%	\item Mac: doble clic en target/blablabla.jar, lanzar .sh desde Command Prompt
+
+
+\subsection{La herramienta se inicia con errores}
+Elimina el fichero \texttt{progress.json} situado en la carpeta de temas de la herramienta y vuelve a iniciar la herramienta.
+% Eliminar las preferencias de Preferences API es muy lioso de explicar (Linux/Mac son ficheros, pero Windows es el registro) -> ¿Hacer un pequeño programa que lo borre todo?
 
 \end{document}          

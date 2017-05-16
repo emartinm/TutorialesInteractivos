@@ -201,7 +201,13 @@ public class Configuration extends Pane {
 	private List<String> configEntries( List<String> directoryNames ) {
         List<String> lentrynames = new ArrayList<>();
         for (String k : directoryNames) {
-            lentrynames.addAll(Language.configuration(k));
+			List<String> entries = Language.configuration(k);
+			/* Si el directorio 'k' no se reconoce de ningun lenguaje de programación
+			 * no se añade ninguna entrada
+			 */
+			if (entries != null ) {
+                lentrynames.addAll(entries);
+			}
         }
         return lentrynames;
     }
