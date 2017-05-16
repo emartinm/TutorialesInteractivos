@@ -31,7 +31,8 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
         this.primaryStage=primaryStage;
-		Controller c = new Controller(primaryStage, getHostServices());
+        boolean reset = this.getParameters().getRaw().contains("--reset");
+		Controller c = new Controller(primaryStage, getHostServices(), reset);
 		c.start();
 	}
 }

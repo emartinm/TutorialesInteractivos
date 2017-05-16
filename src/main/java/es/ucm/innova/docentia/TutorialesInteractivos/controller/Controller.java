@@ -7,6 +7,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.DirectoryStream;
@@ -84,12 +85,24 @@ public class Controller {
 	 * Constructora 
 	 * @param primaryStage
 	 */
-	public Controller(Stage primaryStage, HostServices hs) {
+	public Controller(Stage primaryStage, HostServices hs, boolean reset) {
 		this.subject = null;
 		this.primaryStage = primaryStage;
 		this.hostservices = hs;
 		this.files = new ArrayList<>();
 		this.config = new ConfigurationData();
+		this.config.load();
+
+		/* Elimina las configuraciones de directorio de temas y compiladores;
+		 *  además del fichero de progreso
+		 */
+		if (reset ) {
+            File f = new File(config.getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
+            f.delete();
+
+            this.config.clear();
+            this.config.save();
+        }
 
         this.primaryStage.setX(50);
         this.primaryStage.setY(50);
@@ -196,7 +209,7 @@ public class Controller {
 		// serán para el usuario concreto, de sistema funciona para todo
 		Pane p = new Pane();
 		List<String> languagesList = new ArrayList<String>();
-		getConfig().load();
+		//getConfig().load();
 
 		if (getConfig().isDirTemas()) {
             progress = JSONReaderClass.loadJSON(getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
