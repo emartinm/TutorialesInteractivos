@@ -194,7 +194,7 @@ public class Content extends GridPane {
     private Element lessonCurrentElement(Lesson le) {
         if (le.getCurrentElementPos() >= le.getElements().size() ) {
             String mensajeFinal = "# " + Controller.getLocalizedString("content.congrats") + "\n## " +
-                    Controller.getLocalizedString("content.finished") + "'" + le.getTitle() + "'";
+                    Controller.getLocalizedString("content.finished") + " '" + le.getTitle() + "'";
             return new Explanation(mensajeFinal);
         } else {
             return le.getCurrentElement();
