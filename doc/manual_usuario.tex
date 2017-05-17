@@ -83,7 +83,7 @@ La primera vez que se inicia la herramienta se acceder directamente a la ventana
 \caption{Ventana inicial de configuración\label{fig:config1}}
 \end{figure}
 %
-En esta ventana lo primero que hay que hacer es configurar el \textbf{directorio de temas} pulsando el botón \emph{Buscar\ldots} que aparece aparece en la parte superior derecha. El directorio de temas normalmente se encuentra dentro del directorio principal de la herramienta, contiene carpetas por cada uno de los lenguajes disponibles: Python 3.x, C++, Java, etc. 
+En esta ventana lo primero que hay que hacer es configurar el \textbf{directorio de temas} pulsando el botón <<Buscar\ldots>> que aparece en la parte superior derecha. El directorio de temas normalmente se encuentra dentro del directorio principal de la herramienta con el nombre \texttt{temas}, y contiene carpetas por cada uno de los lenguajes disponibles: Python 3.x, C++, Java, etc. 
 
 Tras configurar el directorio de temas, nos aparecerán varias entradas en el listado central de la ventana de configuración para establecer los compiladores o intérpretes para cada lenguaje disponible (ver figura~\ref{fig:config2}).
 %
@@ -94,16 +94,26 @@ Tras configurar el directorio de temas, nos aparecerán varias entradas en el li
 \caption{Ventana inicial de configuración con directorio de temas\label{fig:config2}}
 \end{figure}
 %
+Normalmente cada lenguaje añade una única entrada para configurar la ruta de su compilador (C++, C\#) o de su intérprete (Python), sin embargo algunos como Java necesitan configurar la ruta tanto del compilador \texttt{javac} como del intérprete \texttt{java}.
 
+Para establecer la ruta de un compilador/intérprete selecciona una entrada y pulsa el botón <<Cambiar compilador/intéprete>> que aparece en la parte inferior de la ventana. Aparecerá una ventana de selección de archivos en la que deberás elegir la ruta concreta del compilador o intérprete. Dependiendo del lenguaje de programación y del sistema operativo tienes distintas opciones:
 
-Al finalizar la configuración de la herramienta, la ventana debe tener un aspecto similar al mostrado en la figura~\ref{fig:config3}.
+\begin{itemize}
+ \item \textbf{Python 3.x}: debes establecer la ruta del \textbf{intérprete} de Python versión 3.x. En entornos Linux suele estar en \texttt{/usr/bin/python3}, aunque también se puede utilizar el binario instalado por \emph{Anaconda}. En entornos Windows el binario suele llamarse \texttt{python.exe} o \texttt{python3.exe}.
+ \item \textbf{C++}: debes establecer la ruta del compilador de C++. En entornos Linux se utilizará el compilador GNU C++ que suele estar en la ruta \texttt{/usr/bin/g++}. En entornos Windows se puede utilizar GNU C++ también, pero también se soporta el compilador de C++ incluido en \emph{Visual Studio}. En este caso debes establecer la ruta del \emph{script} \texttt{vcvars32.bat} o \texttt{vcvars64.bat} (dependiendo de si el sistema es de 32 o 64 bits) que establecen las variables de entorno necesarias para compilar con \emph{Visual Studio}. La herramienta \toolname{} usará estas variables de entorno para encontrar el compilador de C++ (\texttt{cl.exe}) adecuado. La ruta de estos \emph{scripts} puede variar entre distintas versiones de \emph{Visual Studio} o entre versiones de Windows, por lo que recomendamos usar el buscador de ficheros para encontrarlos. Como ejemplo, en un sistema \emph{Windows 10} y para la versión \emph{Visual Studio 2017 RC} estos ficheros están en la carpeta: \\
+ \texttt{C:\textbackslash Archivos de Programa (x86)\textbackslash Microsoft Visual Studio\textbackslash 2017\textbackslash \\
+ 	Professional\textbackslash VC\textbackslash Auxiliary\textbackslash Build}.
+ \item \textbf{C\#}: debes establecer la ruta del compilador de C\#. En el caso de usar \emph{Mono} es la ruta del fichero \texttt{mcs} o \texttt{mcs.exe}, que en sistemas Linux suele estar en \texttt{/usr/bin/mcs}. En sistemas Windows también se puede utilizar el compilador \texttt{csc.exe} de Visual Studio. En este último caso la ruta que hay que configurar es la del \emph{script} \texttt{vcvars32.bat} o \texttt{vcvars64.bat}, al igual que en el caso de C++.
+ \item \textbf{Java}: ........
+\end{itemize}
 
+Al finalizar la configuración de la herramienta, la ventana debe tener un aspecto similar al mostrado en la figura~\ref{fig:config3}. Para que se almacenen todas las configuraciones de manera permanente debes pulsar el botón <<Aceptar>> de la parte inferior, que te llevará a la ventana principal de la herramienta.
 %
 \begin{figure}[tbp]
 \begin{center}
 \includegraphics[scale=0.4]{Configuracion_lenguajes_relleno.png}
 \end{center}
-\caption{Ventana final configuración\label{fig:config3}}
+\caption{Ventana final de configuración, con las rutas usuales en entornos Linux\label{fig:config3}}
 \end{figure}
 %
 Ten en cuenta que \textbf{no es obligatorio configurar los compiladores o intérpretes de todos los lenguajes de programación disponibles}, únicamente de aquellos que vayas a utilizar para realizar tutoriales.
@@ -146,9 +156,10 @@ Si aún así los problemas persisten, prueba alguna de las siguientes opciones:
 
 
 \subsection{La herramienta se inicia con errores}
-Elimina el fichero \texttt{progress.json} situado en la carpeta de temas de la herramienta y vuelve a iniciar la herramienta.
+Si la herramienta se inicia con errores o tiene un comportamiento anómalo, lo mejor es limpiar todas las configuraciones y empezar desde cero. Para ello existe una opción \texttt{--reset} que se puede utilizar al invocar a la aplicación. Para ello abre un terminal y, dentro del directorio principal de la aplicación, ejecuta el siguiente comando:
 
-USAR LA OPCIÓN 	\texttt{--reset} para borrarlo todo: configuraciones y progreso!!!
-% Eliminar las preferencias de Preferences API es muy lioso de explicar (Linux/Mac son ficheros, pero Windows es el registro) -> ¿Hacer un pequeño programa que lo borre todo?
+{\small \texttt{java -jar target/TutorialesInteractivos-jar-with-dependencies.jar --reset}}\\
+
+La herramienta eliminará todos los valores almacenados en ejecuciones previas (directorio de temas, rutas de compiladores/intérpretes y progreso dentro de cada lección) y se iniciará como si fuese la primera vez. 
 
 \end{document}          
