@@ -73,6 +73,7 @@ Una vez disponemos de la última versión de Java, la instalación de la herrami
 Para ejecutar la herramienta, únicamente hay que hacer doble clic en el fichero \texttt{TutorialesInteractivos-jar-with-dependencies.jar} situado en la carpeta \texttt{target} dentro del directorio principal de la herramienta. En caso de no poder iniciar la herramienta de esta manera consulta la sección~\ref{sec:problemas_arrancar}.
 
 \section{Configuración de la aplicación}\todo{Enrique}
+\label{sec:configuracion}
 
 La primera vez que se inicia la herramienta se acceder directamente a la ventana de configuración (ver figura~\ref{fig:config1}).
 %
@@ -83,7 +84,7 @@ La primera vez que se inicia la herramienta se acceder directamente a la ventana
 \caption{Ventana inicial de configuración\label{fig:config1}}
 \end{figure}
 %
-En esta ventana lo primero que hay que hacer es configurar el \textbf{directorio de temas} pulsando el botón <<Buscar\ldots>> que aparece en la parte superior derecha. El directorio de temas normalmente se encuentra dentro del directorio principal de la herramienta con el nombre \texttt{temas}, y contiene carpetas por cada uno de los lenguajes disponibles: Python 3.x, C++, Java, etc. 
+En esta ventana lo primero que hay que hacer es configurar el \textbf{directorio de temas} pulsando el botón \emph{Buscar\ldots} que aparece aparece en la parte superior derecha. El directorio de temas normalmente se encuentra dentro del directorio principal de la herramienta, contiene carpetas por cada uno de los lenguajes disponibles: Python 3.x, C++, Java, etc. 
 
 Tras configurar el directorio de temas, nos aparecerán varias entradas en el listado central de la ventana de configuración para establecer los compiladores o intérpretes para cada lenguaje disponible (ver figura~\ref{fig:config2}).
 %
@@ -94,26 +95,16 @@ Tras configurar el directorio de temas, nos aparecerán varias entradas en el li
 \caption{Ventana inicial de configuración con directorio de temas\label{fig:config2}}
 \end{figure}
 %
-Normalmente cada lenguaje añade una única entrada para configurar la ruta de su compilador (C++, C\#) o de su intérprete (Python), sin embargo algunos como Java necesitan configurar la ruta tanto del compilador \texttt{javac} como del intérprete \texttt{java}.
 
-Para establecer la ruta de un compilador/intérprete selecciona una entrada y pulsa el botón <<Cambiar compilador/intéprete>> que aparece en la parte inferior de la ventana. Aparecerá una ventana de selección de archivos en la que deberás elegir la ruta concreta del compilador o intérprete. Dependiendo del lenguaje de programación y del sistema operativo tienes distintas opciones:
 
-\begin{itemize}
- \item \textbf{Python 3.x}: debes establecer la ruta del \textbf{intérprete} de Python versión 3.x. En entornos Linux suele estar en \texttt{/usr/bin/python3}, aunque también se puede utilizar el binario instalado por \emph{Anaconda}. En entornos Windows el binario suele llamarse \texttt{python.exe} o \texttt{python3.exe}.
- \item \textbf{C++}: debes establecer la ruta del compilador de C++. En entornos Linux se utilizará el compilador GNU C++ que suele estar en la ruta \texttt{/usr/bin/g++}. En entornos Windows se puede utilizar GNU C++ también, pero también se soporta el compilador de C++ incluido en \emph{Visual Studio}. En este caso debes establecer la ruta del \emph{script} \texttt{vcvars32.bat} o \texttt{vcvars64.bat} (dependiendo de si el sistema es de 32 o 64 bits) que establecen las variables de entorno necesarias para compilar con \emph{Visual Studio}. La herramienta \toolname{} usará estas variables de entorno para encontrar el compilador de C++ (\texttt{cl.exe}) adecuado. La ruta de estos \emph{scripts} puede variar entre distintas versiones de \emph{Visual Studio} o entre versiones de Windows, por lo que recomendamos usar el buscador de ficheros para encontrarlos. Como ejemplo, en un sistema \emph{Windows 10} y para la versión \emph{Visual Studio 2017 RC} estos ficheros están en la carpeta: \\
- \texttt{C:\textbackslash Archivos de Programa (x86)\textbackslash Microsoft Visual Studio\textbackslash 2017\textbackslash \\
- 	Professional\textbackslash VC\textbackslash Auxiliary\textbackslash Build}.
- \item \textbf{C\#}: debes establecer la ruta del compilador de C\#. En el caso de usar \emph{Mono} es la ruta del fichero \texttt{mcs} o \texttt{mcs.exe}, que en sistemas Linux suele estar en \texttt{/usr/bin/mcs}. En sistemas Windows también se puede utilizar el compilador \texttt{csc.exe} de Visual Studio. En este último caso la ruta que hay que configurar es la del \emph{script} \texttt{vcvars32.bat} o \texttt{vcvars64.bat}, al igual que en el caso de C++.
- \item \textbf{Java}: ........
-\end{itemize}
+Al finalizar la configuración de la herramienta, la ventana debe tener un aspecto similar al mostrado en la figura~\ref{fig:config3}.
 
-Al finalizar la configuración de la herramienta, la ventana debe tener un aspecto similar al mostrado en la figura~\ref{fig:config3}. Para que se almacenen todas las configuraciones de manera permanente debes pulsar el botón <<Aceptar>> de la parte inferior, que te llevará a la ventana principal de la herramienta.
 %
 \begin{figure}[tbp]
 \begin{center}
 \includegraphics[scale=0.4]{Configuracion_lenguajes_relleno.png}
 \end{center}
-\caption{Ventana final de configuración, con las rutas usuales en entornos Linux\label{fig:config3}}
+\caption{Ventana final configuración\label{fig:config3}}
 \end{figure}
 %
 Ten en cuenta que \textbf{no es obligatorio configurar los compiladores o intérpretes de todos los lenguajes de programación disponibles}, únicamente de aquellos que vayas a utilizar para realizar tutoriales.
@@ -121,10 +112,120 @@ Ten en cuenta que \textbf{no es obligatorio configurar los compiladores o intér
 \todo{Explicación de la pantalla de configuración. Lenguajes soportados y diferencias linux-mac vs Windows (C\# y C++ a través de vcvars32.bat)}
 
 \section{Navegación general}\todo{Tama}
-Breve explicación de cómo llegar a una lección y los distintos apartados navegables
+\label{sec:ng}
+Tras configurar la herramienta, como se describe en la sección \ref{sec:configuracion}, ya estará lista para ser utilizada. La siguiente ventana que se cargará será la de selección de lenguaje, como se muestra en la figura \ref{fig:ng_1}. En esta ventana se mostrarán todos los lenguajes disponibles, en este caso cuatro. Primero, deberemos seleccionar el lenguaje que queramos aprender. Tras la selección deberemos pulsar el botón \emph{Comenzar} para acceder a los temas disponibles para el lenguaje seleccionado. Desde la ventana de selección de lenguajes también se puede volver a los ajustes, descritos en la sección \ref{sec:configuracion}, mediante el botón \emph{Ajustes}.
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{ng_1.png}
+\end{center}
+\caption{Ventana de selección de lenguaje\label{fig:ng_1}}
+\end{figure}
+%
+
+La ventana con los temas es como la que se muestra en la figura \ref{fig:ng_2}. Aquí deberemos de seleccionar alguno de los temas disponibles, en este caso solo hay uno, y darle al botón \emph{Comenzar}. Podremos también volver a la ventana de selección de lenguajes mediante el botón \emph{Volver}. Al lado de cada tema podemos observar el tanto por ciento del tema que se ha completado hasta el momento. Un ejemplo de como se mostraría un tema que se avanzado parcialmente se puede ver en la figura \ref{fig:ng_3}.
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{ng_2.png}
+\end{center}
+\caption{Ventana de selección de temas\label{fig:ng_2}}
+\end{figure}
+%
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{ng_3.png}
+\end{center}
+\caption{Ventana de selección de temas tras completar parte de un tema\label{fig:ng_3}}
+\end{figure}
+%
 
 \section{Lecciones}\todo{Tama}
-Navegación dentro de una lección. Distintas preguntas de una lección y qué hace cada botón
+
+Una vez seleccionado un tema, como se describe en la sección \ref{sec:ng}, entraremos en la selección de lecciones. Esta ventana tiene el aspecto que muestra la figura \ref{fig:l_1}. En este caso se dispone de tres lecciones, y para poder acceder a una de ellas la seleccionaremos y pulsaremos sobre el botón \emph{Comenzar lección}. También tendremos acceso a la ventana de selección de temas mediante el botón \emph{Menú anterior}. De manera similar a como ocurría para los temas, aquí también podremos observar el progreso en cada lección mediante el tanto por ciento mostrado a la parte izquierda de cada lección. Podemos ver un ejemplo de como se muestra este progreso en la figura \ref{fig:l_2}.
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_1.png}
+\end{center}
+\caption{Ventana de selección de lecciones\label{fig:l_1}}
+\end{figure}
+%
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_2.png}
+\end{center}
+\caption{Ventana de selección de lecciones con algunos avances\label{fig:l_2}}
+\end{figure}
+%
+
+Una vez dentro de una lección, veremos una ventana como la mostrada en la figura \ref{fig:l_3}. En esta ventana podemos observar varios elementos. Por una parte se nos mostrará en la parte superior toda la información sobre la lección cargada, i.e. el lenguaje, el tema y el nombre de la lección. El siguiente elemento es una descripción del problema, una pregunta o incluso una explicación. En caso de ser uno de los dos primeros, el usuario deberá resolver el ejercicio, y para ello tendrá un campo para incluir la respuesta. Este campo incluye un botón \emph{Resolver} para comprobar si la respuesta es correcta y, a veces, un botón \emph{Pistas}, para obtener una serie de pistas que ayuden al alumno a resolver el ejercicio. Finalmente se podrá navegar por las lecciones mediante los botones \emph{$<<$ Anterior}, siempre que no sea el primer ejercicio, o el botón \emph{Siguiente $>>$}, siempre que se haya resuelto el ejercicio que se muestre en el momento y éste no sea el último. Una manera alternativa de navegar por los ejercicios es mediante los números que identifican a cada ejercicio dentro de la lección. En este caso la restricción de haber resuelto los ejercicios también es necesaria para poder ir a ejercicios posteriores al actual. Finalmente, desde cualquier ejercicio podremos cambiar de tema o de lección mediante los botones \emph{Elegir tema} y \emph{Elegir lección} respectivamente.  
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_3.png}
+\end{center}
+\caption{Ventana mostrando un ejercicio de una lección\label{fig:l_3}}
+\end{figure}
+%
+
+
+La introducción de las respuestas depende del tipo de pregunta. Por ejemplo, en el caso del ejercicio mostrado en la figura \ref{fig:l_3}, solo hay una opción posible. Tras seleccionar la que creamos que sea la opción correcta, pulsaremos sobre el botón \emph{Resolver}, para comprobar si es correcta. En caso de ser incorrecta, se nos mostrará \emph{RESPUESTA INCORRECTA} sobre un fondo rojo, y deberemos, por tanto, cambiar la respuesta y volver a pulsar sobre el botón \emph{Resolver}. Cuando la respuesta sea correcta se mostrará \emph{CORRECTO} sobre un fondo verde,  como podemos ver en la figura \ref{fig:l_4}, y se habilitará el botón \emph{Siguiente $>>$}, siempre que no sea el último ejercicio de la lección. De manera similar, se habilitará el botón correspondiente al siguiente ejercicio, en este caso el número 2. 
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_4.png}
+\end{center}
+\caption{Ventana mostrando un ejercicio de una lección tras resolver el ejercicio\label{fig:l_4}}
+\end{figure}
+%
+
+Otros tipos de respuestas que nos podemos encontrar son en las que existen varias opciones seleccionables, como se muestra en la figura \ref{fig:l_5}. En este caso se seleccionarán las opciones que se consideren correctas (puede que no sea ninguna) y se pulsará sobre el botón \emph{Resolver} para conocer el resultado. También existen ejercicios de desarrollo, donde el alumno deberá de introducir su respuesta mediante un campo de texto. Un ejemplo de estos ejercicios el que se muestra en la figura \ref{fig:l_6}. En estos tipos de ejercicios, además se incluye el botón \emph{Borrar}, para borrar los campos de texto de la respuesta. Tras introducir la respuesta el alumno deberá pulsar el botón \emph{Resolver} para conocer si es correcta o no. A veces estos ejercicios de desarrollo vienen con varios huecos a completar por el alumno, como, por ejemplo, el mostrado en la figura \ref{fig:l_7}. El modo de proceder es exactamente igual que el anterior. En estos casos, además se incluye el botón \emph{Ver código}, que permite ver el aspecto del código con la respuesta introducida hasta el momento. Finalmente, al llegar al final de la lección se nos mostrará una ventana como la de la figura \ref{fig:l_8} desde la cual podremos revisar los ejercicios de la lección, acceder a una nueva mediante el botón \emph{Elegir lección} o cambiar de tema con el botón \emph{Elegir tema}. 
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_5.png}
+\end{center}
+\caption{Ventana mostrando un ejercicio con multiples opciones seleccionables\label{fig:l_5}}
+\end{figure}
+%
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_6.png}
+\end{center}
+\caption{Ventana mostrando un ejercicio con un ejercicio de desarrollo\label{fig:l_6}}
+\end{figure}
+%
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_7.png}
+\end{center}
+\caption{Ventana mostrando un ejercicio con un ejercicio de desarrollo con varios huecos a rellenar\label{fig:l_7}}
+\end{figure}
+%
+
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35]{l_8.png}
+\end{center}
+\caption{Última ventana correspondiente a una lección\label{fig:l_8}}
+\end{figure}
+%
 
 \section{Solución de problemas}\todo{Enrique}
 
@@ -156,10 +257,9 @@ Si aún así los problemas persisten, prueba alguna de las siguientes opciones:
 
 
 \subsection{La herramienta se inicia con errores}
-Si la herramienta se inicia con errores o tiene un comportamiento anómalo, lo mejor es limpiar todas las configuraciones y empezar desde cero. Para ello existe una opción \texttt{--reset} que se puede utilizar al invocar a la aplicación. Para ello abre un terminal y, dentro del directorio principal de la aplicación, ejecuta el siguiente comando:
+Elimina el fichero \texttt{progress.json} situado en la carpeta de temas de la herramienta y vuelve a iniciar la herramienta.
 
-{\small \texttt{java -jar target/TutorialesInteractivos-jar-with-dependencies.jar --reset}}\\
-
-La herramienta eliminará todos los valores almacenados en ejecuciones previas (directorio de temas, rutas de compiladores/intérpretes y progreso dentro de cada lección) y se iniciará como si fuese la primera vez. 
+USAR LA OPCIÓN 	\texttt{--reset} para borrarlo todo: configuraciones y progreso!!!
+% Eliminar las preferencias de Preferences API es muy lioso de explicar (Linux/Mac son ficheros, pero Windows es el registro) -> ¿Hacer un pequeño programa que lo borre todo?
 
 \end{document}          
