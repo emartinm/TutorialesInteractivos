@@ -12,6 +12,7 @@ import java.util.List;
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
 import es.ucm.innova.docentia.TutorialesInteractivos.utilities.InternalUtilities;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;

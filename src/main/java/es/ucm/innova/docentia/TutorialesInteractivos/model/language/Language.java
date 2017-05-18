@@ -264,22 +264,20 @@ public abstract class Language {
                 Controller.log.info("Execution aborted after " + getExecutionMillis() + " milliseconds");
 
                 c = new Correction(ExecutionMessage.KILLED, Controller.getLocalizedString("lang.timeExceeded")
-                        + getExecutionMillis() + " ms", tle_hints, false);
+                        + " " + getExecutionMillis() + " ms", tle_hints, false);
             } else {
                 int exit = p.exitValue();
                 // SOLO EN CASO DE ERROR DE LA FUNCION CORRECTORA DEVOLVERA UN VALOR DISTINTO DE 0,
                 switch (exit) {
-                    case 1: {
+                    case 0:  // comprobar si están vacios
+                        File f = new File(jsonPath);
+                        c = readJSONresults(f);
+                        break;
+                    default:
                         c = new Correction(ExecutionMessage.EXECUTION_ERROR,
                                 Controller.getLocalizedString("lang.runtimeError"), fileToListString(br),
                                 false);
                         break;
-                    }
-                    case 0: { // comprobar si están vacios
-                        File f = new File(jsonPath);
-                        c = readJSONresults(f);
-                        break;
-                    }
                 }
             }
             // Si la ejecución tuvo éxito borra los ficheros temporales
