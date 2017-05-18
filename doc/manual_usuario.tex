@@ -63,7 +63,7 @@
 
 \clearpage
 
-\section{Instalación y ejecución}\todo{Enrique}
+\section{Instalación y ejecución}
 
 Para poder ejecutar la herramienta \toolname{} debéis tener instalada en vuestro sistema la última versión de Java (en el momento de escribir este manual es la \emph{versión 8 update 131)}. Para ello debéis acceder a la página \url{https://www.java.com/es/download/} y seguir las instrucciones.
 
@@ -72,7 +72,7 @@ Una vez disponemos de la última versión de Java, la instalación de la herrami
 
 Para ejecutar la herramienta, únicamente hay que hacer doble clic en el fichero \texttt{TutorialesInteractivos-jar-with-dependencies.jar} situado en la carpeta \texttt{target} dentro del directorio principal de la herramienta. En caso de no poder iniciar la herramienta de esta manera consulta la sección~\ref{sec:problemas_arrancar}.
 
-\section{Configuración de la aplicación}\todo{Enrique}
+\section{Configuración de la aplicación}
 \label{sec:configuracion}
 
 La primera vez que se inicia la herramienta se acceder directamente a la ventana de configuración (ver figura~\ref{fig:config1}).
@@ -84,7 +84,7 @@ La primera vez que se inicia la herramienta se acceder directamente a la ventana
 	\caption{Ventana inicial de configuración\label{fig:config1}}
 \end{figure}
 %
-En esta ventana lo primero que hay que hacer es configurar el \textbf{directorio de temas} pulsando el botón \emph{Buscar\ldots} que aparece aparece en la parte superior derecha. El directorio de temas normalmente se encuentra dentro del directorio principal de la herramienta, contiene carpetas por cada uno de los lenguajes disponibles: Python 3.x, C++, Java, etc. 
+En esta ventana lo primero que hay que hacer es configurar el \textbf{directorio de temas} pulsando el botón \emph{Buscar\ldots} que aparece en la parte superior derecha. El directorio de temas normalmente se encuentra dentro del directorio principal de la herramienta con el nombre \texttt{temas}, y contiene carpetas por cada uno de los lenguajes disponibles: Python 3.x, C++, Java, etc. 
 
 Tras configurar el directorio de temas, nos aparecerán varias entradas en el listado central de la ventana de configuración para establecer los compiladores o intérpretes para cada lenguaje disponible (ver figura~\ref{fig:config2}).
 %
@@ -96,14 +96,15 @@ Tras configurar el directorio de temas, nos aparecerán varias entradas en el li
 \end{figure}
 %
 \begin{itemize}
-	\item \textbf{Python 3.x}: debes establecer la ruta del \textbf{intérprete} de Python versión 3.x. En entornos Linux suele estar en \texttt{/usr/bin/python3}, aunque también se puede utilizar el binario instalado por \emph{Anaconda}. En entornos Windows el binario suele llamarse \texttt{python.exe} o \texttt{python3.exe}.
+	\item \textbf{Python 3.x}: debes establecer la ruta del \textbf{intérprete} de Python versión 3.x. En entornos Linux suele estar en \texttt{/usr/bin/python3}, aunque también se puede utilizar el binario instalado por \emph{Anaconda}. En entornos Windows el binario suele llamarse \texttt{python.exe} o \texttt{python3.exe}, puediendo estar en la instalación estándar de Python o en \emph{Anaconda}.
+	
 	\item \textbf{C++}: debes establecer la ruta del compilador de C++. En entornos Linux se utilizará el compilador GNU C++ que suele estar en la ruta \texttt{/usr/bin/g++}. En entornos Windows se puede utilizar GNU C++, pero también se soporta el compilador de C++ incluido en \emph{Visual Studio}. En este caso debes establecer la ruta del \emph{script} \texttt{vcvars32.bat} o \texttt{vcvars64.bat} (dependiendo de si el sistema es de 32 o 64 bits) que establecen las variables de entorno necesarias para compilar con \emph{Visual Studio}. La herramienta \toolname{} usará estas variables de entorno para encontrar el compilador de C++ (\texttt{cl.exe}) adecuado. La ruta de estos \emph{scripts} puede variar entre distintas versiones de \emph{Visual Studio} o entre versiones de Windows, por lo que recomendamos usar el buscador de ficheros para encontrarlos. Como ejemplos, en un sistema \emph{Windows 10} y para la versión \emph{Visual Studio 2013} estos ficheros están en la carpeta: \\[0.2cm]
 	\texttt{C:\textbackslash Program Files (x86)\textbackslash Microsoft Visual Studio 12.0\textbackslash VC\textbackslash bin}\\[0.2cm]
 	mientras que para la versión \emph{Visual Studio 2017} están en:\\[0.2cm]
 	\texttt{C:\textbackslash Program Files (x86)\textbackslash Microsoft Visual Studio\textbackslash 2017\textbackslash \\% Professional \textbackslash\\ 
 		Professional\textbackslash VC\textbackslash Auxiliary\textbackslash Build}.
 	\item \textbf{C\#}: debes establecer la ruta del compilador de C\#. En el caso de usar \emph{Mono} es la ruta del fichero \texttt{mcs} o \texttt{mcs.exe}, que en sistemas Linux suele estar en \texttt{/usr/bin/mcs}. En sistemas Windows también se puede utilizar el compilador \texttt{csc.exe} de Visual Studio. En este último caso la ruta que hay que configurar es la del \emph{script} \texttt{vcvars32.bat} o \texttt{vcvars64.bat}, al igual que en el caso de C++.
-	\item \textbf{Java}: ........
+	\item \textbf{Java}: en este caso hay que configurar dos entradas: la ruta del compilador de \texttt{javac} y la ruta del intérprete \texttt{java}. En entornos Linux ambos suelen estar accesibles en \texttt{/usr/bin}, mientras que en Windows están alojados en \texttt{C:\textbackslash Program Files\textbackslash Java\textbackslash jdkX.Y.Z\_NNN\textbackslash bin}. Tened en cuenta que para disponer del compilador de Java es necesario haber instalado la JDK de Java y no únicamente el JRE.
 \end{itemize}
 Al finalizar la configuración de la herramienta, la ventana debe tener un aspecto similar al mostrado en la figura~\ref{fig:config3}.
 %
@@ -116,25 +117,24 @@ Al finalizar la configuración de la herramienta, la ventana debe tener un aspec
 %
 Ten en cuenta que \textbf{no es obligatorio configurar los compiladores o intérpretes de todos los lenguajes de programación disponibles}, únicamente de aquellos que vayas a utilizar para realizar tutoriales.
 
-\section{Navegación general}\todo{Tama}
+\section{Navegación general} %\todo{Tama}
 \label{sec:ng}
-Tras configurar la herramienta, como se describe en la sección \ref{sec:configuracion}, ya estará lista para ser utilizada. La siguiente ventana que se cargará será la de selección de lenguaje, como se muestra en la figura \ref{fig:ng_1}. En esta ventana se mostrarán todos los lenguajes disponibles, en este caso cuatro. Primero, deberemos seleccionar el lenguaje que queramos aprender. Tras la selección deberemos pulsar el botón \emph{Comenzar} para acceder a los temas disponibles para el lenguaje seleccionado. Desde la ventana de selección de lenguajes también se puede volver a los ajustes, descritos en la sección \ref{sec:configuracion}, mediante el botón \emph{Ajustes}.
 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{ng_1.png}
+\includegraphics[scale=0.35,trim={40px 40px 40px 30px},clip]{ng_1.png}
 \end{center}
 \caption{Ventana de selección de lenguaje\label{fig:ng_1}}
 \end{figure}
 %
 
-La ventana con los temas es como la que se muestra en la figura \ref{fig:ng_2}. Aquí deberemos de seleccionar alguno de los temas disponibles, en este caso solo hay uno, y darle al botón \emph{Comenzar}. Podremos también volver a la ventana de selección de lenguajes mediante el botón \emph{Volver}. Al lado de cada tema podemos observar el tanto por ciento del tema que se ha completado hasta el momento. Un ejemplo de como se mostraría un tema que se avanzado parcialmente se puede ver en la figura \ref{fig:ng_3}.
+Tras configurar la herramienta, como se describe en la sección \ref{sec:configuracion}, ya estará lista para ser utilizada. La siguiente ventana que se cargará será la de selección de lenguaje, como se muestra en la figura \ref{fig:ng_1}. En esta ventana se mostrarán todos los lenguajes disponibles, en este caso cuatro. Primero, deberemos seleccionar el lenguaje que queramos aprender. Tras la selección deberemos pulsar el botón \emph{Comenzar} para acceder a los temas disponibles para el lenguaje seleccionado. Desde la ventana de selección de lenguajes también se puede volver a los ajustes, descritos en la sección \ref{sec:configuracion}, mediante el botón \emph{Ajustes}.
 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{ng_2.png}
+\includegraphics[scale=0.35,trim={40px 40px 40px 30px},clip]{ng_2.png}
 \end{center}
 \caption{Ventana de selección de temas\label{fig:ng_2}}
 \end{figure}
@@ -143,31 +143,45 @@ La ventana con los temas es como la que se muestra en la figura \ref{fig:ng_2}. 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{ng_3.png}
+\includegraphics[scale=0.35,trim={50px 50px 50px 30px},clip]{ng_3.png}
 \end{center}
 \caption{Ventana de selección de temas tras completar parte de un tema\label{fig:ng_3}}
 \end{figure}
 %
 
-\section{Lecciones}\todo{Tama}
 
-Una vez seleccionado un tema, como se describe en la sección \ref{sec:ng}, entraremos en la selección de lecciones. Esta ventana tiene el aspecto que muestra la figura \ref{fig:l_1}. En este caso se dispone de tres lecciones, y para poder acceder a una de ellas la seleccionaremos y pulsaremos sobre el botón \emph{Comenzar lección}. También tendremos acceso a la ventana de selección de temas mediante el botón \emph{Menú anterior}. De manera similar a como ocurría para los temas, aquí también podremos observar el progreso en cada lección mediante el tanto por ciento mostrado a la parte izquierda de cada lección. Podemos ver un ejemplo de como se muestra este progreso en la figura \ref{fig:l_2}.
+La ventana con los temas es como la que se muestra en la figura \ref{fig:ng_2}. Aquí deberemos de seleccionar alguno de los temas disponibles, en este caso solo hay uno, y darle al botón \emph{Comenzar}. Podremos también volver a la ventana de selección de lenguajes mediante el botón \emph{Volver}. Al lado de cada tema podemos observar el porcentaje del tema que se ha completado hasta el momento. Un ejemplo de cómo se mostraría un tema que se ha avanzado parcialmente se puede ver en la figura \ref{fig:ng_3}.
+
+\section{Lecciones} %\todo{Tama}
 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{l_1.png}
+\includegraphics[scale=0.35,trim={50px 50px 50px 30px},clip]{l_1.png}
 \end{center}
 \caption{Ventana de selección de lecciones\label{fig:l_1}}
 \end{figure}
 %
+%
+\begin{figure}[tbp]
+\begin{center}
+\includegraphics[scale=0.35,trim={50px 50px 50px 30px},clip]{l_2.png}
+\end{center}
+\caption{Ventana de selección de lecciones con algunos avances\label{fig:l_2}}
+\end{figure}
+%
+
+Una vez seleccionado un tema, como se describe en la sección \ref{sec:ng}, entraremos en la selección de lecciones. Esta ventana tiene el aspecto que muestra la figura \ref{fig:l_1}. En este caso se dispone de tres lecciones, y para poder acceder a una de ellas la seleccionaremos y pulsaremos sobre el botón \emph{Comenzar lección}. También tendremos acceso a la ventana de selección de temas mediante el botón \emph{Menú anterior}. De manera similar a como ocurría para los temas, aquí también podremos observar el progreso en cada lección mediante el tanto por ciento mostrado en la parte izquierda de cada lección. Podemos ver un ejemplo de como se muestra este progreso en la figura \ref{fig:l_2}.
+
+
+
 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{l_2.png}
+\includegraphics[scale=0.35,trim={50px 50px 50px 30px},clip]{l_3.png}
 \end{center}
-\caption{Ventana de selección de lecciones con algunos avances\label{fig:l_2}}
+\caption{Ventana mostrando un ejercicio de una lección\label{fig:l_3}}
 \end{figure}
 %
 
@@ -176,9 +190,9 @@ Una vez dentro de una lección, veremos una ventana como la mostrada en la figur
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{l_3.png}
+\includegraphics[scale=0.35,trim={50px 70px 50px 30px},clip]{l_4.png}
 \end{center}
-\caption{Ventana mostrando un ejercicio de una lección\label{fig:l_3}}
+\caption{Ventana mostrando un ejercicio correctamente resuelto\label{fig:l_4}}
 \end{figure}
 %
 
@@ -188,51 +202,44 @@ La introducción de las respuestas depende del tipo de pregunta. Por ejemplo, en
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{l_4.png}
+\includegraphics[scale=0.35,trim={50px 70px 50px 30px},clip]{l_5.png}
 \end{center}
-\caption{Ventana mostrando un ejercicio de una lección tras resolver el ejercicio\label{fig:l_4}}
-\end{figure}
-%
-
-Otros tipos de respuestas que nos podemos encontrar son en las que existen varias opciones seleccionables, como se muestra en la figura \ref{fig:l_5}. En este caso se seleccionarán las opciones que se consideren correctas (puede que no sea ninguna) y se pulsará sobre el botón \emph{Resolver} para conocer el resultado. También existen ejercicios de desarrollo, donde el alumno deberá de introducir su respuesta mediante un campo de texto. Un ejemplo de estos ejercicios el que se muestra en la figura \ref{fig:l_6}. En estos tipos de ejercicios, además se incluye el botón \emph{Borrar}, para borrar los campos de texto de la respuesta. Tras introducir la respuesta el alumno deberá pulsar el botón \emph{Resolver} para conocer si es correcta o no. A veces estos ejercicios de desarrollo vienen con varios huecos a completar por el alumno, como, por ejemplo, el mostrado en la figura \ref{fig:l_7}. El modo de proceder es exactamente igual que el anterior. En estos casos, además se incluye el botón \emph{Ver código}, que permite ver el aspecto del código con la respuesta introducida hasta el momento. Finalmente, al llegar al final de la lección se nos mostrará una ventana como la de la figura \ref{fig:l_8} desde la cual podremos revisar los ejercicios de la lección, acceder a una nueva mediante el botón \emph{Elegir lección} o cambiar de tema con el botón \emph{Elegir tema}. 
-
-%
-\begin{figure}[tbp]
-\begin{center}
-\includegraphics[scale=0.35]{l_5.png}
-\end{center}
-\caption{Ventana mostrando un ejercicio con multiples opciones seleccionables\label{fig:l_5}}
+\caption{Ventana mostrando un ejercicio con múltiples opciones seleccionables\label{fig:l_5}}
 \end{figure}
 %
 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{l_6.png}
+\includegraphics[scale=0.35,trim={50px 70px 50px 30px}, clip]{l_6.png}
 \end{center}
-\caption{Ventana mostrando un ejercicio con un ejercicio de desarrollo\label{fig:l_6}}
+\caption{Ventana mostrando un ejercicio de desarrollo\label{fig:l_6}}
 \end{figure}
 %
 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{l_7.png}
+\includegraphics[scale=0.35,trim={50px 70px 10px 30px}, clip]{l_7.png}
 \end{center}
-\caption{Ventana mostrando un ejercicio con un ejercicio de desarrollo con varios huecos a rellenar\label{fig:l_7}}
+\caption{Ventana mostrando un ejercicio de desarrollo con varios huecos a rellenar\label{fig:l_7}}
 \end{figure}
 %
 
 %
 \begin{figure}[tbp]
 \begin{center}
-\includegraphics[scale=0.35]{l_8.png}
+\includegraphics[scale=0.35,trim={50px 70px 50px 30px}, clip]{l_8.png}
 \end{center}
 \caption{Última ventana correspondiente a una lección\label{fig:l_8}}
 \end{figure}
 %
 
-\section{Solución de problemas}\todo{Enrique}
+Otros tipos de respuestas que nos podemos encontrar son en las que existen varias opciones seleccionables, como se muestra en la figura \ref{fig:l_5}. En este caso se seleccionarán las opciones que se consideren correctas (puede que no sea ninguna) y se pulsará sobre el botón \emph{Resolver} para conocer el resultado. También existen ejercicios de desarrollo, donde el alumno deberá introducir su respuesta mediante un campo de texto. Un ejemplo de estos ejercicios el que se muestra en la figura \ref{fig:l_6}. En este tipos de ejercicios, además, se incluye el botón \emph{Borrar}, para borrar los campos de texto de la respuesta. Tras introducir la respuesta el alumno deberá pulsar el botón \emph{Resolver} para conocer si es correcta o no. A veces estos ejercicios de desarrollo vienen con varios huecos a completar por el alumno, como, por ejemplo, el mostrado en la figura \ref{fig:l_7}. El modo de proceder es exactamente igual que el anterior. En estos casos, además se incluye el botón \emph{Ver código}, que permite ver el aspecto del código con la respuesta introducida hasta el momento. 
+
+Finalmente, al llegar al final de la lección se nos mostrará una ventana como la de la figura \ref{fig:l_8} desde la cual podremos revisar los ejercicios de la lección, acceder a una nueva mediante el botón \emph{Elegir lección} o cambiar de tema con el botón \emph{Elegir tema}. 
+
+\section{Solución de problemas} %\todo{Enrique}
 
 \subsection{No puedo iniciar la herramienta}\label{sec:problemas_arrancar}
 Si al hacer doble clic sobre el fichero \texttt{.jar} no se arranca la aplicación, comprueba que dicho fichero es \textbf{ejecutable}. Para ello abre el menú contextual con el botón derecho y explora las distintas opciones disponibles para cambiar los permisos del fichero.
@@ -242,7 +249,7 @@ Si aún así los problemas persisten, prueba alguna de las siguientes opciones:
 	\item \textbf{En sistemas Windows}: 
 	\begin{itemize}
 	\item Haz doble clic en el fichero \texttt{TutorialesInteractivos.bat} que está en el directorio \textbf{principal} de la herramienta. 
-	\item Abre un teminal (\emph{Command Prompt}), dirígete al directorio principal de la herramienta y ejecuta alguno de estos comandos:
+	\item Abre un teminal (\emph{Símbolo del sistema}), dirígete al directorio principal de la herramienta y ejecuta alguno de estos comandos:
 	\\
 	{\small \texttt{>\ TutorialesInteractivos.bat}}\\
 	{\small \texttt{>\ java -jar target/TutorialesInteractivos-jar-with-dependencies.jar}}\\
@@ -262,8 +269,17 @@ Si aún así los problemas persisten, prueba alguna de las siguientes opciones:
 
 
 \subsection{La herramienta se inicia con errores}
-Si la herramienta se inicia con errores o tiene un comportamiento anómalo, lo mejor es limpiar todas las configuraciones y empezar desde cero. Para ello existe una opción \texttt{--reset} que se puede utilizar al invocar a la aplicación. Para ello abre un terminal y, dentro del directorio principal de la aplicación, ejecuta el siguiente comando:\\[0.2cm]
+Si la herramienta se inicia con errores o tiene un comportamiento anómalo, la mejor opción es limpiar todas las configuraciones y empezar desde cero. Para ello existe una opción \texttt{--reset} que se puede utilizar al lanzar la aplicación. Para ello abre un terminal y, dentro del directorio principal de la aplicación, ejecuta el siguiente comando:\\[0.2cm]
 {\small \texttt{java -jar target/TutorialesInteractivos-jar-with-dependencies.jar --reset}}\\[0.2cm]
 La herramienta eliminará todos los valores almacenados en ejecuciones previas (directorio de temas, rutas de compiladores/intérpretes y progreso dentro de cada lección) y se iniciará como si fuese la primera vez. 
 
+\subsection{No puedo corregir ejercicios C++/C\# con Visual Studio}
+Si al corregir ejercicios C++ o C\# usando Visual Studio no aparece ningún resultado, es  posible que el fichero \texttt{vcvars32.bat} o \texttt{vcvars64.bat} no esté funcionando correctamente. Para comprobar el funcionamiento de estos \emph{scripts} abre un terminal (\emph{Símbolo del sistema}) y escribe la \textbf{ruta completa} del \emph{script} para cargarlo. Por ejemplo, para la versión 2013 sería algo así: \\
+{\small \texttt{C:\textbackslash Program Files (x86)\textbackslash Microsoft Visual Studio 12.0\textbackslash VC\textbackslash bin\textbackslash vcvars32.bat}}
+
+ Esto debería mostrar una serie de líneas indicando las versiones de los distintos componentes de Visual Studio que se han cargado. A continuación, comprueba que tienes acceso a los compiladores de C++ y C\# escribiendo los siguientes comandos:\\
+\texttt{> cl.exe}\\
+\texttt{> csc.exe}
+
+Si alguno de estos comando falla o no se encuentra el compilador indicado, es muy probable que haya algún problema con la instalación de Visual Studio, por lo que sería recomendable reinstalarlo.
 \end{document}          
