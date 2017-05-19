@@ -35,6 +35,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 
@@ -304,9 +305,19 @@ public class Controller {
 	public void selectedSubject(String selectedItem) {
 
 		this.subject = YamlReaderClass.cargaTema(getConfig().getDirTemas(), selectedLanguage, selectedItem);
-		// 'progress' ha sido cargado anteriormente
-		this.subject.loadProgress(progress);
-		changeView(new LessonsMenu(), null, selectedLanguage);
+		if (this.subject != null && this.subject.isValid()) {
+            // 'progress' ha sido cargado anteriormente
+            this.subject.loadProgress(progress);
+            changeView(new LessonsMenu(), null, selectedLanguage);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(Controller.getLocalizedString("controller.error"));
+            alert.setHeaderText( Controller.getLocalizedString("controller.errorheader"));
+            alert.setContentText(Controller.getLocalizedString("controller.subjectProblem"));
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+        }
+
 	}
 
 	/**
@@ -347,6 +358,7 @@ public class Controller {
 			alert.setHeaderText( Controller.getLocalizedString("controller.language") + " " + selectedLanguage +
                     " " + Controller.getLocalizedString("controller.notConfig"));
 			alert.setContentText(Controller.getLocalizedString("controller.redirect"));
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 			alert.showAndWait();
 			this.showConfiguration();
 		} else {

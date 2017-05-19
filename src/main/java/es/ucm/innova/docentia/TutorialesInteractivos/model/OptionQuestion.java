@@ -5,6 +5,7 @@
  */
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
 
 import java.util.ArrayList;
@@ -53,6 +54,27 @@ public class OptionQuestion extends Question<List<Integer>> {
 
 	protected void load_answer_from_object(Object o) {
 		this.answer = (List<Integer>)o;
+	}
+
+	public boolean isValid() {
+	    boolean ok = true;
+
+        if (this.text == null ) {
+            ok = false;
+            Controller.log.severe("Missing 'Content' field in 'Options' element");
+        }
+
+        if (this.options == null || this.options.size() == 0) {
+            ok = false;
+            Controller.log.severe( "Missing 'Options' field in 'Options' element");
+        }
+
+        if (this.solution == null) {
+            ok = false;
+            Controller.log.severe( "Missing 'Solution' field in 'Options' element");
+        }
+
+        return ok;
 	}
 
 }

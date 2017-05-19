@@ -31,4 +31,6 @@ public abstract class Element {
 	public abstract String getHint();
 
 	public void loadProgress(Map<String, Object> progress) {}
+
+	public abstract boolean isValid();
 }

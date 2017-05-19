@@ -6,9 +6,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
-import es.ucm.innova.docentia.TutorialesInteractivos.utilities.JSONReaderClass;
 
-import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +18,7 @@ import java.util.Map;
  *
  */
 public class Subject {
-	private int number; //Numero del tema
+	private int number = -1; //Numero del tema
 	private String title; //Titulo del tema
 	private String introduction; //Introduccion del Subject
 	private List <Lesson> lessons; //Lista de las lecciones que componen el tema
@@ -115,6 +113,36 @@ public class Subject {
 			acc += l.getProgressPercentage();
 		}
 		return acc/num;
+	}
+
+	/* Comprueba si el tema tiene todos los campos obligatorios */
+	public boolean isValid(){
+	    boolean ok = true;
+
+	    if (this.number == -1) {
+	        ok = false;
+	        Controller.log.severe("Missing subject number");
+	    }
+
+	    if (this.title == null) {
+            ok = false;
+            Controller.log.severe("Missing subject title");
+	    }
+
+        if (this.introduction == null) {
+            ok = false;
+            Controller.log.severe("Missing subject introduction message");
+	    }
+
+        if( this.lessons == null || this.lessons.size() == 0) {
+            ok = false;
+            Controller.log.severe("Missing lessons in subject (subjects must have at least one lesson)");
+        } else {
+		    for (Lesson l : this.lessons)
+		        ok &= l.isValid();
+        }
+
+        return ok;
 	}
 
 }
