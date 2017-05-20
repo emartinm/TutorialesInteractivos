@@ -15,8 +15,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.nio.file.FileSystems;
+import java.util.logging.SimpleFormatter;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
@@ -61,7 +63,9 @@ public class Controller {
 
 
     public static final Logger log = Logger.getLogger("TutorialesInteractivos"); // Logger común para toda la aplicación
-    public static final String progressFileName = "progress.json";
+    private static final String progressFileName = "progress.json";
+    private static final String logFileName = "TutorialesInteractivos.log";
+
     //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
 	//private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
 	private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", new LocaleControl());
@@ -87,6 +91,20 @@ public class Controller {
 	 * @param primaryStage
 	 */
 	public Controller(Stage primaryStage, HostServices hs, boolean reset) {
+        // Redirige también la salida del Logger a un fichero
+        String logPath = System.getProperty("user.dir") +
+                FileSystems.getDefault().getSeparator() +
+                logFileName;
+        try {
+            FileHandler fh = new FileHandler(logPath, true); //Append mode
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            this.log.addHandler(fh);
+            log.info("Opened log file: " + logPath);
+        } catch (IOException e ) {
+            log.warning("Unable to open log file: " + logPath);
+        }
+
 		this.subject = null;
 		this.primaryStage = primaryStage;
 		this.hostservices = hs;
@@ -111,12 +129,6 @@ public class Controller {
         this.primaryStage.setMinWidth(600);
         this.primaryStage.setMinHeight(400);
 		//this.pref = Preferences.userNodeForPackage(this.getClass());
-
-		// TODO
-        // Para redirigir la salida del logger a un fichero
-        //Handler handler = new FileHandler("test.log", LOG_SIZE, LOG_ROTATION_COUNT);
-        //Handler handler = new FileHandler("test.log");
-        //logger.addHandler(handler);
 	}
 
 	/**

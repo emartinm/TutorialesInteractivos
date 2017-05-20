@@ -21,18 +21,19 @@ import java.util.*;
  */
 public class Main extends Application{
 
-	private Stage primaryStage;
-
-
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-        this.primaryStage=primaryStage;
         boolean reset = this.getParameters().getRaw().contains("--reset");
 		Controller c = new Controller(primaryStage, getHostServices(), reset);
 		c.start();
 	}
+
+    @Override
+    public void stop(){
+	    Controller.log.info("Application is closed\n\n\n\n");
+    }
 }
