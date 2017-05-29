@@ -163,9 +163,9 @@ Lessons:
           Las preguntas de código permiten solicitar al usuario framentos de código que son insertados en un programa
           corrector, que es posteriormente evaluado.
 
-          El programa corrector es un programa con uno o más Gaps que son *rellenados* con el código del alumno.
-          La salida de este programa corrector relleno almacena su salida en un fichero **JSON** con el resultado
-          de la corrección junto con posibles mensajes y Hints para el alumno.
+          El programa corrector es un programa con uno o más *huecos* que son *rellenados* con el código del alumno.
+          La salida de este programa corrector rellenado debe almacenar su salida en un fichero **JSON** con el resultado
+          de la corrección junto con posibles mensajes y pistas para el alumno.
     - Elem: Code
       Content: Escribe una asignación para almacenar un ```4``` en la variable ```i```
       File: correctores/tema0.py
@@ -175,7 +175,7 @@ Lessons:
       Content: |
        Las preguntas de tipo código pueden contener más de un hueco, por ejemplo dos:
 
-       Rellena los Gaps del siguiente código para duplicar el valor de `a` y para almacenar en la variable `c` la multipliación de `a` y `b`:
+       Rellena los huecos del siguiente código para duplicar el valor de `a` y para almacenar en la variable `c` la multiplicación de `a` y `b`:
        ```
 
        a = 1
@@ -187,9 +187,9 @@ Lessons:
       File: correctores/tema0b.py
     - Elem: Code
       Content: |
-       El número de Gaps no tiene ningún límite, únicamente debe ser un número superior a ```0```.
+       El número de huecos no tiene ningún límite, únicamente debe ser un número superior a ```0```.
 
-       Rellena los Gaps del siguiente código para duplicar asignar a las variables`a`, `b`, `c` y `d` los valores 1, 2, 3, y 4 respectivamente.
+       Rellena los huecos del siguiente código para duplicar asignar a las variables`a`, `b`, `c` y `d` los valores 1, 2, 3, y 4 respectivamente.
        ```
 
        a = <Hueco 0>
