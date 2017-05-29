@@ -64,7 +64,7 @@ Lessons:
           
           **Imagen desde el directorio de temas (*con ruta relativa al directorio del lenguaje*)**
           
-          ![triangulo](file://img/triangulo.jpg)
+          ![triangulo](file:///img/triangulo.jpg)
           
           **Las imágenes pueden ser GIFs animados**
           

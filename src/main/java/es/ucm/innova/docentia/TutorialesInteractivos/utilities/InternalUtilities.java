@@ -72,7 +72,7 @@ public class InternalUtilities {
 	 */
 	private String modifyImg(String html, String baseDir) {
 		// Definimos el patrón a buscar
-		String pattern = "(<img src=\"file://)(.*?)(\".*?>)";
+		String pattern = "(<img src=\"file:///)(.*?)(\".*?>)";
 		// En el yaml el formato ha de ser "file:///"+ ruta relativa a la imagen
 
 		// Compilar el patron ignorando si esta en mayusculas o minusculas
