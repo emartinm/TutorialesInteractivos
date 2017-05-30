@@ -83,7 +83,8 @@ public class CSharpLanguage extends Language {
     }
 
     protected boolean isLanguageName(String langName) {
-        return langName.toLowerCase().contains("c sharp");
+        return langName.toLowerCase().contains("c sharp") ||
+                langName.toLowerCase().contains("c#");
     }
 
     protected List<String> getConfigNames(String langName) {
