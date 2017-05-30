@@ -115,7 +115,7 @@ Lessons:
           * Preguntas con varias opciones
               
           La pregunta que vemos aquí es de una sola opción válida
-      Hint: Se pueden incluir Hints en las preguntas.
+      Hint: Se pueden incluir pistas en las preguntas.
       Solution: [1]
       Multiple: no
       Options: 
@@ -170,7 +170,7 @@ Lessons:
       Content: Escribe una asignación para almacenar un ```4``` en la variable ```i```
       File: correctores/tema0.py
       Prompt: ["Escriba aquí el código"]
-      Hint: Se pueden incluir Hints en generales en las preguntas de código.
+      Hint: Se pueden incluir pistas en generales en las preguntas de código.
     - Elem: Code
       Content: |
        Las preguntas de tipo código pueden contener más de un hueco, por ejemplo dos:

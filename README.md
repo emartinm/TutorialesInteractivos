@@ -35,7 +35,7 @@ Si se desea compilar y ejecutar la herramienta a partir de las fuentes, se neces
   1. Ejecutar `mvn package` para compilar
   2. Lanzar la aplicación con `java -jar target/TutorialesInteractivos-jar-with-dependencies.jar`
   
-##  Funcionamiento
+##  Documentación
 
 El sistema de tutoriales interactivos se describe en dos manuales, que se pueden encontrar en la carpeta 
 [doc](doc/):
@@ -46,3 +46,8 @@ El sistema de tutoriales interactivos se describe en dos manuales, que se pueden
  - **[Manual del profesor](doc/Manual_crear_lecciones.pdf)**:
   donde se describe con detalle el formato de los temas, los distintos elementos que componene las lecciones y cómo 
    se pueden definir nuevos temas.
+   
+En esa misma carpeta [doc](doc/) también podéis encontrar las transparencias utilizadas
+en presentaciones y talleres:
+ - **[Tutoriales Interactivos en el Aprendizaje de la Programación](doc/Taller_FDI_2017.pdf)**: Taller
+ sobre la herramienta celebrado el 30 de mayo en la Fac. de Informática de la UCM.
