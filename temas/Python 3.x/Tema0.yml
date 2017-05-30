@@ -126,7 +126,7 @@ Lessons:
     - Elem: Options
       Content: |
           Las preguntas de varias opciones permiten selección varias respuestas:
-      Hint: Esto es una Hint
+      Hint: Esto es una pista
       Multiple: yes
       Solution: [1,2,4]
       Options:
@@ -199,5 +199,5 @@ Lessons:
        ```
       Gaps: 4
       Prompt: ["Valor de la variable 'a'","Valor de la variable 'b'","Valor de la variable 'c'","Valor de la variable 'd'"]
-      Hint: Esto es una Hint general.
+      Hint: Esto es una pista general.
       File: correctores/tema0c.py
