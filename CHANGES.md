@@ -1,17 +1,28 @@
-### 126/02/2017: v1.2.0
+### 30/05/2017: v1.3.5
 
-**Soporte para preguntas de código de varios huecos**
+**Ampliación de características**
+- Soporte para fórmulas LaTeX usando [MathJax](https://www.mathjax.org)
+- Soporte para enlaces en navegador externo.
+- Soporte para múltiples idiomas.
+- Lanzadores directos para Windows, Mac y Linux.
+- Opción para lanzar la herramienta eliminando cualquier configuración previa.
+- Generación de un fichero _log_ con información de ejecución para depuración.
+- Corrección de errores.
+
+
+### 26/02/2017: v1.3.0
+
+**Soporte para preguntas de código con varios huecos**
 - Las preguntas de tipo código admiten varios huecos para rellenar.
-- Mejoradas las ventanas para seleccionar archivos y carpetas
+- Mejoradas las ventanas para seleccionar archivos y carpetas.
 - Corrección de errores.
 
 ### 06/02/2017: v1.2.0
 
 **Soporte para varios lenguajes de programación**
-
 - Además de lenguajes interpretados como Python, ahora se soportan lenguajes compilados (C++) y compilados 
 y ejecutados (Java, C#). El diseño de la herramienta facilita la incorporación de nuevos
-lenguajes (Erlang, Haskell, Go...) y distintos compiladores/intérpretes para soportar
+lenguajes (Erlang, Haskell, Go...) y distintos compiladores/intérpretes para soportar.
  distintos sistemas operativos.
 - Cambios en el estilo de las explicaciones.
 - Corrección de errores. 
@@ -19,7 +30,6 @@ lenguajes (Erlang, Haskell, Go...) y distintos compiladores/intérpretes para so
 ### 01/02/2017: v1.1.0
 
 **Superación de lecciones y temas**
-
 - Las lecciones se marcan como superadas al llegar a la pantalla final. 
 - Los temas se marcan como superados al completar todas sus lecciones.
 - Simplificación del código: rediseño, eliminación de métodos no necesarios, eliminación de comentarios desactualizados.
@@ -27,7 +37,6 @@ lenguajes (Erlang, Haskell, Go...) y distintos compiladores/intérpretes para so
 
 
 ### 14/01/2017: v1.0.0
-
 **Corrección de errores y mejoras sobre la versión inicial en [https://github.com/Kherdu/TFG](https://github.com/Kherdu/TFG)**
 
 - Corregido el problema al acceder a los ficheros en Linux.
