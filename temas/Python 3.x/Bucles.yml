@@ -1,0 +1,138 @@
+Subject: 0
+Title: Primeros Bucles 
+Intro: en Python
+Lessons:
+ - Title: Explicaciones
+   Elements:
+    - Elem: Text
+      Content: |
+          Para poder describir algoritmos que resuelvan problemas generales, tenemos que saber expresar en nuestro lenguaje de programación que hay ciertos pasos a seguir que se repetirán tantas veces como sea preciso. 
+
+          Python tiene esencialmente dos formas diferentes de describir con precisión estos procesos iterativos: los bucles `for` y los bucles `while`.
+
+          Trabajando este tema veremos cómo escribir bucles sencillos y, lo que es más importante, entenderemos cuál es la ejecución de los mismos.  
+ - Title: Bucles for
+   Elements:
+    - Elem: Text
+      Content: |
+          ## Ejemplo básico
+          Hay muchos casos en los que se puede utilizar un bucle `for`, quizás la más sencilla es para recorrer	una lista:
+          ```
+
+          l = [1,2,3,4,5]
+          for x in l:
+              print(3*x)  
+          ```
+          Este código muestra por pantalla los siguientes valores:
+          ```
+
+          3
+          6
+          9
+          12
+          15
+          ```
+          La variable `x` va tomando, de uno en uno, los valores de la lista `l`. Con cada valor, ejecuta las instrucciones que se encuentran dentro del bucle, en este caso únicamente `print(x*3)`, aunque podremos hacer cosas mucho más sofisticadas...  
+    - Elem: Text
+      Content: |
+          ## Sumar elementos de una lista
+          Podemos utilizar un bucle `for` para sumar los elementos de una lista.
+          ```
+
+          l = [1,2,3,4,5]
+          suma = 0
+          for x in l:
+             suma = suma + x
+          ```
+          Este código almacena en la variable `suma` el resultado de sumar todos los elementos de la lista `l`. 
+    - Elem: Code
+      Content: |
+       Rellena los huecos del siguiente código para que la variable `suma` guarde el valor de la suma de los elementos de la lista `l`.
+       ```
+        
+        l = [1,2,3,4,5]
+        suma = 0
+        for x in l:
+           suma = <Hueco 0>
+       ```
+      Gaps: 1
+      File: correctores/bucles1.py
+    - Elem: Code
+      Content: |
+       Rellena los huecos del siguiente código para que la variable `suma` guarde el valor de la suma de los elementos de la lista `moth`.
+       ```
+        
+        month = [31,28,31,30,31,30,31,31,30,31,30,31]
+        suma = 0
+        for x in <Hueco 0>:
+           suma = <Hueco 1>
+       ```
+      Gaps: 2
+      File: correctores/bucles2.py
+    - Elem: Code
+      Content: |
+       Rellena los huecos del siguiente código para que la variable `suma` guarde el valor de la suma de los elementos de la lista `moth`.
+       ```
+        
+        month = [31,28,31,30,31,30,31,31,30,31,30,31]
+        suma = 0
+        for <Hueco 0> in <Hueco 1>:
+           suma = <Hueco 2>
+       ```
+      Gaps: 3
+      File: correctores/bucles3.py
+ - Title: Bucles while
+   Elements:
+    - Elem: Text
+      Content: |
+          ## Definición
+          Los bucles `while` son útiles cuando no sabemos exáctamente el número de vueltas que tiene que dar nuestro bucle.
+
+          La estructura general de un bucle `while` tiene dos componentes esenciales, además de la palabra reservada `while`, claro!
+
+          Estos componentes son la condición de terminación del bucle y el código que se ejecutará en cada vuelta.
+          ```
+
+          while <<condición>>:
+              <<instrucciones>>
+          ```
+    - Elem: Text
+      Content: |
+          ## Ejemplo básico
+          Veamos un ejemplo. Vamos a escribir un bucle que nos dice cuántos divisores de 2 tiene un determinado número entero. 
+
+          ```
+
+          n = 40
+          cont = 0
+          while n%2 == 0:
+             cont = cont + 1
+             n = n // 2
+          ```
+          El código de este bucle almacena en `cont` las veces que el número `n` puede dividirse por 2. En este caso 40 = 5 * 2 * 2 * 2, es decir, `cont` es 3.
+    - Elem: Code
+      Content: |
+       Rellena los huecos del siguiente código para que la variable `cont` guarde el número de veces que `n` es divisible por 2.
+          ```
+
+          n = 40
+          cont = 0
+          while n%2 == 0:
+             cont = <Hueco>
+             n = n // 2
+          ```
+      Gaps: 1
+      File: correctores/bucles4.py
+    - Elem: Code
+      Content: |
+       Rellena los huecos del siguiente código para que la variable `cont` guarde el número de veces que `n` es divisible por 3.
+          ```
+
+          n = 72
+          cont = 0
+          while n % <Hueco 1> == 0:
+             cont = cont + 1
+             n = n // 3
+          ```
+      Gaps: 1
+      File: correctores/bucles5.py
