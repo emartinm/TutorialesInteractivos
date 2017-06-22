@@ -1,0 +1,82 @@
+Subject: 1
+Title: Bucles
+Intro: Bucles while en C#
+Lessons:
+ - Title: Bucles while en C#
+   Elements:
+    - Elem: Text
+      Content: |
+       La estructura de un bucle while es:
+       ```
+       
+       while (<condición>) {
+         <cuerpo del bucle>
+       }
+       ```
+           
+       * <**condición**> es cualquier expresión de tipo booleano 
+
+       * <**cuerpo del bucle**> es la secuencia de instrucciones que se repetirá en cada vuelta del bucle. Si hay una sola instrucción pueden omitirse las llaves *{* y *}*
+
+       El cuerpo del bucle se ejecutará *mientras* la *condición* sea cierta (*true*)
+
+
+    - Elem: Text
+      Content: |
+       Nuestro primer bucle:
+       ```
+
+       while (true) ;
+       ```
+       Por primera vez, podemos *colgar* un programa!! Este bucle se ejecuta indefinidamente ejecutando... nada!
+       
+
+    - Elem: Text
+      Content: |
+       Escribir los números de 1 a 10:
+       ```
+
+       int i = 1;                 // inicialización
+       while (i<=10) {            // condición de parada
+          Console.WriteLine(i);
+          ++i;                    //incremento
+       }
+       ```
+
+       Este es un esquema típico para el *while*. Observemos:
+       * la *i* es la *variable de control* del bucle
+       * la *condición de parada* se establece en función de esta *i*
+       * dentro del bucle se actualiza el valor de *i* (en este caso se incrementa)
+
+       ¿Se puede garantizar la **terminación** del este bucle?
+
+
+    - Elem: Code
+      Content: |
+       Escribe un bucle que escriba en pantalla los numeros del 0 al 9, uno por línea.
+
+      File: correctores/while2.cs
+
+
+
+    - Elem: Code
+      Content: |
+       Escribe un bucle que calcule en *k* la suma de los numeros del 1 al 10.
+
+      File: correctores/while1.cs
+
+
+
+    - Elem: Code
+      Content: |
+       Escribe un bucle que escriba en pantalla la suma de los numeros pares del intervalo [0,100].
+
+      File: correctores/while3.cs
+
+
+
+    - Elem: Code
+      Content: |
+       Escribe un bucle que, dado un número *n* invierta el orden de sus dígitos y calcule el numero resultante en *m*.
+
+      File: correctores/while4.cs
