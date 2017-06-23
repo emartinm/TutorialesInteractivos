@@ -152,12 +152,14 @@ public class SubjectsMenu extends Pane{
 	/* Devuelve una lista de parejas (filename, subject) cargadas desde los ficheros YAML.
 	 * También se carga el estado de las lecciones desde el fichero JSON para saber si están
 	 * o no finalizadas */
-	private Map<String, Subject>  get_subjects(String baseDir, String language, List<String> files, Map<String, Object> progress) {
+	private Map<String, Subject> get_subjects(String baseDir, String language, List<String> files, Map<String, Object> progress) {
 		Map<String, Subject> r = new HashMap<String, Subject>();
 		for (String filename : files ) {
 			Subject s = YamlReaderClass.cargaTema(baseDir, language, filename);
-			s.loadProgress(progress);
-			r.put(filename, s);
+			if (s != null) {
+				s.loadProgress(progress);
+				r.put(filename, s);
+			}
 		}
 		return r;
 	}

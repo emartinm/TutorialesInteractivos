@@ -159,4 +159,24 @@ public class Lesson {
             return null;
         }
     }
+
+    /* Comprueba si el tema tiene todos los campos obligatorios */
+    public boolean isValid() {
+        boolean ok = true;
+
+        if (this.title == null) {
+            ok = false;
+            Controller.log.warning("Missing title in lesson");
+        }
+
+        if (this.elements == null || this.elements.size() == 0) {
+            ok = false;
+            Controller.log.warning("Missing elements in lesson (lessons must have at least one element)");
+        } else {
+            for (Element e : this.elements)
+                ok &= e.isValid();
+        }
+
+        return ok;
+    }
 }

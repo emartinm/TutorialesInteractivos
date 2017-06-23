@@ -6,10 +6,7 @@
 package es.ucm.innova.docentia.TutorialesInteractivos.utilities;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.DirectoryStream;
+import java.nio.file.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +69,8 @@ public class InternalUtilities {
 	 */
 	private String modifyImg(String html, String baseDir) {
 		// Definimos el patrón a buscar
-		String pattern = "(<img src=\"file://)(.*?)(\".*?>)";
+		//String pattern = "(<img src=\"file:///)(.*?)(\".*?>)";
+        String pattern = "(<img src=\")(file:///.*?)(\".*?>)";
 		// En el yaml el formato ha de ser "file:///"+ ruta relativa a la imagen
 
 		// Compilar el patron ignorando si esta en mayusculas o minusculas
@@ -80,9 +78,15 @@ public class InternalUtilities {
 		Matcher matcher = p.matcher(html);
 
 		while (matcher.find()) {
-			Controller.log.info(matcher.group(2));
-			File f = new File(baseDir + "/" + matcher.group(2));
-			String im = f.getPath();
+			/*System.out.println("****" + matcher.group());
+            System.out.println("****" + matcher.group(1));
+            System.out.println("****" + matcher.group(2));
+            System.out.println("****" + matcher.group(2).substring(8));
+            System.out.println("****" + matcher.group(3));*/
+			File f = new File(baseDir + FileSystems.getDefault().getSeparator() +
+                    matcher.group(2).substring(8)); //Quito el 'file;///'
+            String im = f.toURI().toASCIIString();
+            Controller.log.info("Replaced " + matcher.group(2) + " by " + im);
 			html = html.replace(matcher.group(), matcher.group(1) + im + matcher.group(3));
 			
 		}
@@ -142,6 +146,7 @@ public class InternalUtilities {
         } else {*/
 
 	    List<String> l = new ArrayList<>();
+	    //System.out.println(html);
 	    l.add(html);
 	    String final_html = Language.reemplazaHuecos(resourceToString("/js/skel.html"), l);
 	    webEngine.loadContent(final_html, "text/html");

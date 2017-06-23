@@ -5,6 +5,8 @@
  */
 package es.ucm.innova.docentia.TutorialesInteractivos.model;
 
+import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,15 @@ public class Explanation extends Element{
 
 	public String toString(){
 		return String.format("Explanation(%s)", this.text);
+    }
+
+    public  boolean isValid() {
+	    boolean ok = true;
+        if (this.text == null ) {
+            ok = false;
+            Controller.log.severe("Missing 'Content' field in 'Text' element");
+        }
+        return ok;
     }
 
 	

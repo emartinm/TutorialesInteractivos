@@ -7,6 +7,7 @@ package es.ucm.innova.docentia.TutorialesInteractivos.controller;
 
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.DirectoryStream;
@@ -14,8 +15,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.nio.file.FileSystems;
+import java.util.logging.SimpleFormatter;
 
 import es.ucm.innova.docentia.TutorialesInteractivos.model.*;
 import es.ucm.innova.docentia.TutorialesInteractivos.model.language.Language;
@@ -34,6 +37,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 
@@ -44,10 +48,28 @@ import javafx.stage.Stage;
  *
  */
 public class Controller {
+
+	/**
+	 * Clase utilizada en el ResourceBundle para definir el español de España ("es_ES") como Locale por defecto
+	 * Evita errores en ejecución si el lenguaje por defecto no está soportado
+	 */
+	private static class LocaleControl extends ResourceBundle.Control {
+
+		@Override
+		public Locale getFallbackLocale(String baseName, Locale locale) {
+			return new Locale("es", "ES");
+		}
+	}
+
+
     public static final Logger log = Logger.getLogger("TutorialesInteractivos"); // Logger común para toda la aplicación
-    public static final String progressFileName = "progress.json";
-    private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
-    //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
+    private static final String progressFileName = "progress.json";
+    private static final String logFileName = "TutorialesInteractivos.log";
+
+    //private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.getDefault());
+	//private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", Locale.ENGLISH); //Para hacer pruebas en inglés
+	private static ResourceBundle localization = ResourceBundle.getBundle("i18n.lang", new LocaleControl());
+
 
 	private Stage primaryStage;// Vista principal de la aplicación
 	private HostServices hostservices;
@@ -68,12 +90,38 @@ public class Controller {
 	 * Constructora 
 	 * @param primaryStage
 	 */
-	public Controller(Stage primaryStage, HostServices hs) {
+	public Controller(Stage primaryStage, HostServices hs, boolean reset) {
+        // Redirige también la salida del Logger a un fichero
+        String logPath = System.getProperty("user.dir") +
+                FileSystems.getDefault().getSeparator() +
+                logFileName;
+        try {
+            FileHandler fh = new FileHandler(logPath, true); //Append mode
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+            this.log.addHandler(fh);
+            log.info("Opened log file: " + logPath);
+        } catch (IOException e ) {
+            log.warning("Unable to open log file: " + logPath);
+        }
+
 		this.subject = null;
 		this.primaryStage = primaryStage;
 		this.hostservices = hs;
 		this.files = new ArrayList<>();
 		this.config = new ConfigurationData();
+		this.config.load();
+
+		/* Elimina las configuraciones de directorio de temas y compiladores;
+		 *  además del fichero de progreso
+		 */
+		if (reset ) {
+            File f = new File(config.getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
+            f.delete();
+
+            this.config.clear();
+            this.config.save();
+        }
 
         this.primaryStage.setX(50);
         this.primaryStage.setY(50);
@@ -81,12 +129,6 @@ public class Controller {
         this.primaryStage.setMinWidth(600);
         this.primaryStage.setMinHeight(400);
 		//this.pref = Preferences.userNodeForPackage(this.getClass());
-
-		// TODO
-        // Para redirigir la salida del logger a un fichero
-        //Handler handler = new FileHandler("test.log", LOG_SIZE, LOG_ROTATION_COUNT);
-        //Handler handler = new FileHandler("test.log");
-        //logger.addHandler(handler);
 	}
 
 	/**
@@ -180,7 +222,7 @@ public class Controller {
 		// serán para el usuario concreto, de sistema funciona para todo
 		Pane p = new Pane();
 		List<String> languagesList = new ArrayList<String>();
-		getConfig().load();
+		//getConfig().load();
 
 		if (getConfig().isDirTemas()) {
             progress = JSONReaderClass.loadJSON(getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName);
@@ -275,9 +317,19 @@ public class Controller {
 	public void selectedSubject(String selectedItem) {
 
 		this.subject = YamlReaderClass.cargaTema(getConfig().getDirTemas(), selectedLanguage, selectedItem);
-		// 'progress' ha sido cargado anteriormente
-		this.subject.loadProgress(progress);
-		changeView(new LessonsMenu(), null, selectedLanguage);
+		if (this.subject != null && this.subject.isValid()) {
+            // 'progress' ha sido cargado anteriormente
+            this.subject.loadProgress(progress);
+            changeView(new LessonsMenu(), null, selectedLanguage);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(Controller.getLocalizedString("controller.error"));
+            alert.setHeaderText( Controller.getLocalizedString("controller.errorheader"));
+            alert.setContentText(Controller.getLocalizedString("controller.subjectProblem"));
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+        }
+
 	}
 
 	/**
@@ -318,6 +370,7 @@ public class Controller {
 			alert.setHeaderText( Controller.getLocalizedString("controller.language") + " " + selectedLanguage +
                     " " + Controller.getLocalizedString("controller.notConfig"));
 			alert.setContentText(Controller.getLocalizedString("controller.redirect"));
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 			alert.showAndWait();
 			this.showConfiguration();
 		} else {

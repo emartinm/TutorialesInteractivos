@@ -20,8 +20,13 @@ Innova-Docencia titulado *Implementación de un sistema para el aprendizaje de l
 * Rafael Caturla
 
 ## Ejecución
+_(Ver más detalles en el [manual de usuario](doc/Manual_usuario.pdf))_
 
-Se puede ejecutar la última versión compilada que hay en el repositorio de la siguiente manera:
+Se puede ejecutar la última versión compilada que hay en el repositorio haciendo 
+doble clic sobre el fichero `TutorialesInteractivos-jar-with-dependencies.jar` 
+que está dentro de la carpeta `target`. 
+
+También se puede ejecutar desde un terminal:
   1. Abrir un terminal en el directorio donde está la carpeta `src/` y el fichero `pom.xml`
   1. Ejecutar `java -jar target/TutorialesInteractivos-jar-with-dependencies.jar`
 
@@ -30,13 +35,19 @@ Si se desea compilar y ejecutar la herramienta a partir de las fuentes, se neces
   1. Ejecutar `mvn package` para compilar
   2. Lanzar la aplicación con `java -jar target/TutorialesInteractivos-jar-with-dependencies.jar`
   
-##  Funcionamiento
+##  Documentación
 
 El sistema de tutoriales interactivos se describe en dos manuales, que se pueden encontrar en la carpeta 
 [doc](doc/):
 
- - **Manual del alumno** (*próximamente*): donde se explica el funcionamiento del sistema desde el punto de vista del
- alumno, centrándose en la navegación y los distintos elementos de la interfaz gráfica.
+ - **[Manual de usuario](doc/Manual_usuario.pdf)**: 
+  donde se explica el funcionamiento del sistema desde el punto de vista del
+  alumno, centrándose en la navegación y los distintos elementos de la interfaz gráfica.
  - **[Manual del profesor](doc/Manual_crear_lecciones.pdf)**:
   donde se describe con detalle el formato de los temas, los distintos elementos que componene las lecciones y cómo 
    se pueden definir nuevos temas.
+   
+En esa misma carpeta [doc](doc/) también podéis encontrar las transparencias utilizadas
+en presentaciones y talleres:
+ - **[Tutoriales Interactivos en el Aprendizaje de la Programación](doc/Taller_FDI_2017.pdf)**: Taller
+ sobre la herramienta celebrado el 30 de mayo en la Fac. de Informática de la UCM.

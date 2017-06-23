@@ -119,4 +119,19 @@ public class CodeQuestion extends Question<List<String>> {
                 "\tqué más querés?";*/
     }
 
+    public boolean isValid() {
+	    boolean ok = true;
+
+        if (this.text == null ) {
+            ok = false;
+            Controller.log.severe("Missing 'Content' field in 'Code' element");
+        }
+
+        if (this.corrector == null) {
+            ok = false;
+            Controller.log.severe( "Missing 'File' field in 'Code' element");
+        }
+
+        return ok;
+	}
 }

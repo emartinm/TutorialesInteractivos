@@ -7,13 +7,6 @@ using System;
 
 public class Corrector {
 
-    //@@@SNIPPET@@@
-	@@@CODE@@@
-	//@@@SNIPPET@@@
-	//static int incrementa(int n) {
-	//	return n + 1;
-	//}
-
 	static void escribeJSON(String filename, bool isCorrect) {
 		String[] lines = new String[5];
 		lines [0] = "{";
@@ -28,12 +21,33 @@ public class Corrector {
 		System.IO.File.WriteAllLines(filename, lines);
 	}
 
+	static string user_output = "";
+
+	static void Write(object s){ user_output += s; }
+	static void WriteLine(object s){ user_output += s + "\n"; }
+
+
+	static int n, m;
+	static void invierte(){
+		@@@CODE@@@
+	}       
+
 	static void Main(String[] args) {
 		bool ok = true;
 
-		for( int i = -20; i <= 20; ++i ) {
-			ok = ok && (incrementa(i) == i+1);
-		}
+
+		n = 12345;
+		m=-1;
+		invierte();	
+
+		ok = (m==54321);
+
+
+		n = 4675;
+		invierte();
+
+		ok = ok && (m==5764);
+
 		escribeJSON (args [0], ok);
 	}
 }

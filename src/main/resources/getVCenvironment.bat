@@ -1,5 +1,5 @@
 @echo off
-call "<+|CODIGO|+>"
+call "@@@CODE@@@"
 echo "{{{PATH}}}->"%PATH%
 echo "{{{INCLUDE}}}->"%INCLUDE%
 echo "{{{LIB}}}->"%LIB%

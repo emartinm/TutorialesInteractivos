@@ -43,64 +43,71 @@ public final class YamlReaderClass {
 
 		File file = new File(baseDir + "/" + language + "/" + filename);
 		InputStream input = null;
+		Subject t = null;
 		try {
 			input = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-			
-			e1.printStackTrace();
-		}
-		@SuppressWarnings("unchecked")
-		Map<String, Object> mapObjet = (Map<String, Object>) yaml.load(input);
-		// auxiliares
-		ArrayList<Map> l = new ArrayList<Map>();// lista de lecciones
-		ArrayList<Map> e = new ArrayList<Map>();// Lista de elementos
-		l = (ArrayList<Map>) mapObjet.get("Lessons");
+            Map<String, Object> mapObjet = (Map<String, Object>) yaml.load(input);
+            // auxiliares
+            ArrayList<Map> l; // lista de lecciones
+            ArrayList<Map> e; // Lista de elementos
+            l = (ArrayList<Map>) mapObjet.get("Lessons");
 
-		// Elementos para rellenar el objeto Subject
-		Integer numberSubject = (Integer) mapObjet.get("Subject");// numero del tema
-		String subjectTitle = (String) mapObjet.get("Title");// Nombre del tema
-		String introSubject = (String) mapObjet.get("Intro");// introduccion del tema
-		List<Element> elements = new ArrayList<Element>();// lista de elementos
-		List<Lesson> lessons = new ArrayList<Lesson>();// lista de lecciones
+            // Elementos para rellenar el objeto Subject
+            Integer numberSubject = (Integer) mapObjet.get("Subject");// numero del tema
+            String subjectTitle = (String) mapObjet.get("Title");// Nombre del tema
+            String introSubject = (String) mapObjet.get("Intro");// introduccion del tema
+            List<Element> elements; // lista de elementos
+            List<Lesson> lessons = new ArrayList<Lesson>();// lista de lecciones
 
-		for (Map lesson : l) {// Recorremos la lista de lecciones y parseamos los elementos
-			elements = new ArrayList<Element>();// Lista de elementos de una leccion
-			e = (ArrayList<Map>) lesson.get("Elements");// Vuelca los elementos en una Lista de Maps
+            for (Map lesson : l) {// Recorremos la lista de lecciones y parseamos los elementos
+                elements = new ArrayList<Element>();// Lista de elementos de una leccion
+                e = (ArrayList<Map>) lesson.get("Elements");// Vuelca los elementos en una Lista de Maps
 
-			for (Map pre : e) {// Recorre los elementos de la leccion a cargar y los parsea
-				Element elem = null;
-				String wording = (String) pre.get("Content");// Carga el contenido del texto, que siempre aparece
-				if (pre.get("Elem").equals("Code")) {
-                    // Pregunta de tipo codigo
-                    String clue = (String) pre.get("Hint");// Pista
-                    String answer = (String) pre.get("File");
-                    List<String> prompt = (List<String>) pre.get("Prompt");
-                    Integer numGaps = (Integer) pre.getOrDefault("Gaps", 1);
-                    elem = new CodeQuestion(wording, clue, answer, numGaps, prompt);
-				} else if (pre.get("Elem").equals("Options")) {
-                    String clue = (String) pre.get("Hint");// Pista
-					Boolean isMulti = (Boolean) pre.getOrDefault("Multiple", Boolean.FALSE);
-					List<Integer> correctsAux = (List<Integer>) pre.getOrDefault("Solution", null);
-					ArrayList<String> opc = (ArrayList<String>) pre.get("Options");
-					elem = new OptionQuestion(wording, clue, opc, isMulti, correctsAux);
-                } else if (pre.get("Elem").equals("Text")) {
-					elem = new Explanation(wording);
-				} else if (pre.get("Elem").equals("Syntax")) {
-                    Controller.log.info( "Syntax questions not supported");
-                } else {
-                    Controller.log.warning( "Unsoported element in lesson " + filename + ": " + pre);
+                for (Map pre : e) {// Recorre los elementos de la leccion a cargar y los parsea
+                    Element elem = null;
+                    String wording = (String) pre.get("Content");// Carga el contenido del texto, que siempre aparece
+                    if (pre.get("Elem").equals("Code")) {
+                        // Pregunta de tipo codigo
+                        String clue = (String) pre.get("Hint");// Pista
+                        String answer = (String) pre.get("File");
+                        List<String> prompt = (List<String>) pre.get("Prompt");
+                        Integer numGaps = (Integer) pre.getOrDefault("Gaps", 1);
+                        elem = new CodeQuestion(wording, clue, answer, numGaps, prompt);
+                    } else if (pre.get("Elem").equals("Options")) {
+                        String clue = (String) pre.get("Hint");// Pista
+                        Boolean isMulti = (Boolean) pre.getOrDefault("Multiple", Boolean.FALSE);
+                        List<Integer> correctsAux = (List<Integer>) pre.getOrDefault("Solution", null);
+                        ArrayList<String> opc = (ArrayList<String>) pre.get("Options");
+                        elem = new OptionQuestion(wording, clue, opc, isMulti, correctsAux);
+                    } else if (pre.get("Elem").equals("Text")) {
+                        elem = new Explanation(wording);
+                    } else if (pre.get("Elem").equals("Syntax")) {
+                        Controller.log.info( "Syntax questions not supported");
+                    } else {
+                        Controller.log.warning( "Unsoported element in lesson " + filename + ": " + pre);
+                    }
+                    elements.add(elem);// Añade el elemento al array de elementos de Lesson
                 }
-				elements.add(elem);// Añade el elemento al array de elementos de Lesson
-			}
 
-			String tLesson = (String) lesson.get("Title");// titulo de leccion
-            Lesson lec = new Lesson(tLesson, elements);// Crea la leccion
-			lessons.add(lec);// Añade la leccion al array de lecciones
-		}
-		// rellenado de objetos final
-		Subject t = new Subject(numberSubject, subjectTitle, introSubject);// Crea el tema con todos los elementos
-		t.setLessons(lessons);// Modifica el Array de lecciones de Subject
-		return t;
+                String tLesson = (String) lesson.get("Title");// titulo de leccion
+                Lesson lec = new Lesson(tLesson, elements);// Crea la leccion
+                lessons.add(lec);// Añade la leccion al array de lecciones
+            }
+            // rellenado de objetos final
+            t = new Subject(numberSubject, subjectTitle, introSubject);// Crea el tema con todos los elementos
+            t.setLessons(lessons);// Modifica el Array de lecciones de Subject
+        } catch (FileNotFoundException e1) {
+		    Controller.log.severe("Unable to open subject file " + file);
+            //e1.printStackTrace();
+            t = null;
+        }
+
+        // Si el tema no es correcto devuelve null
+        //if( t != null && !t.isValid() ){
+		//    t = null;
+        //}
+
+        return t;
 	}
 
 
