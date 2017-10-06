@@ -1,0 +1,38 @@
+Subject: 0
+Title: Tipos básicos
+Intro: Tema para mostrar la potencia de la herramienta
+Lessons:
+ - Title: Booleanos
+   Elements:
+    - Elem: Text
+      Content: |
+          Los valores Booleanos nos permiten indicar si algo es cierto (`True` en Python)
+          o falso (`False` en Python).
+
+          Los valores de este tipo nos permiten trabajar de manera eficiente con
+          condiciones, y por tanto es necesario usarlos adecuadamente. Un error típico
+          al tratar con Booleanos es usar otros valores (por ejemplo, devolver `"sí"`
+          y `"no"`). Recuerda prestar atención a los valores esperados en cada caso y
+          usa los Booleanos cuando sea necesario.
+    - Elem: Text
+      Content: |
+          Las comparaciones entre valores númericos nos dan como resultado valores Booleanos.
+          Así, las expresiones `3 > 0` y `3 <= 3` se evalúan al valor `True`, mientras que
+          la expresión `(3 % 2) == 0` se evalúa a `False`.
+
+          Puedes encontrar todos los operadores de comparación
+          [aquí](https://docs.python.org/3/library/stdtypes.html#comparisons).
+    - Elem: Text
+      Content: |
+          También existen operadores lógicos, que nos permiten combinar distintos valores
+          Booleanos:
+          * El operador `and` toma dos valores Booleanos y devuelve `True` si ambos son `True`
+          y `False` en otro caso.
+          * El operador `or` toma dos valores Booleanos y devuelve `True` si alguno de ellos
+          es `True` y `False` en otro caso.
+          * El operador `not` transforma el valor `True` en `False` y viceversa.
+
+          Puedes encontrar más información sobre los operadores lógicos
+          [aquí](https://docs.python.org/3/library/stdtypes.html#boolean-operations-and-or-not).
+    - Elem: Text
+      Content: |
