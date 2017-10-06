@@ -7,8 +7,18 @@ Lessons:
    Elements:
     - Elem: Text
       Content: |
-          Un programa Python es una secuencia de **instrucciones** que van calculando distintos **valores**. Estos valores
-          dependen del programa concreto:
+          Un programa Python es una secuencia de **instrucciones** que van calculando distintos **valores**. Por ejemplo, las siguientes
+          instrucciones piden al usuario un valor de temperatura Fahrenheit, lo transforman a Celsius y lo imprimen por pantalla.
+          
+          ```
+
+          user_input = input('Temperatura en Fahrenheit: ')
+          temp_fahrenheit = float(user_input)
+          temp_celsius = (temp_fahrenheit - 32) / 1.8
+          print('Temperatura en Celsius: ', temp_celsius)
+          ```
+
+          Estos valores manejados dependen del programa concreto:
            * Cantidad de personas en un aula (*número natural*: `1`, `2`, `7`)
            * Balance de una cuenta bancaria (*número entero*: `-34`, `0`, `67`)
            * Temperatura en grados Celsius (*número real*: `35.6`, `-3.4`)
@@ -47,10 +57,15 @@ Lessons:
           un valor:
           ```
 
-          temperatura = 35.6 + 6
+          temperatura = 35.6
           balance     = 100 - 45
           alumnos     = (3 * 6) + 2
           ```
+    - Elem: Code
+      Content: Escribe una instrucción de asignación para almacenar el valor entero ```350``` en una variable llamada ```longitud```
+      File: correctores/asignaciones/asig0.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Con una sola instrucción será más que suficiente          
     - Elem: Text
       Content: |
           Además, mediante asignaciones se puede ir actualizando el valor de las variables a lo largo de la ejecución de un programa. De ahí el 
@@ -61,6 +76,8 @@ Lessons:
           incremento  = 3.2
           temperatura = temperatura + incremento
           ```
+          Nótese que en las expresiones del lado derecho de las asignaciones pueden aparecer constantes pero también variables.
+          
           La variable `temperatura` comienza con el valor real `35.6`, e `incremento` con `3.2`. En la tercera instrucción se **actualiza**
           el valor de `temperatura` mediante la expresión `temperatura + incremento`, que se evalúa a `38.8`. Tras ejecutar las 3 instrucciones, 
           los valores de las 2 variables involucradas serían:
@@ -69,11 +86,244 @@ Lessons:
           temperatura --> 38.8
           incremento  --> 3.2
           ```
+    - Elem: Options
+      Content: |
+          ¿Qué valor contendrá la variable `temperatura` después de ejecutar las siguientes instrucciones?
+
+          ```
+
+          temperatura = 10
+          temperatura = 2 * temperatura
+          ```
+      #Hint: Se pueden incluir pistas en las preguntas.
+      Solution: [2]
+      Multiple: no
+      Options: 
+        - 10
+        - 20
+        - 2
+        - No está definido
+    - Elem: Code
+      Content: |
+        Escribe una serie de instrucciones para asignar las siguientes variables:
+      
+        ```
+      
+        cantidad --> 10
+        adicional --> 5
+        total --> suma de las variables cantidad y adicional
+        ```
+      File: correctores/asignaciones/asig1.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Necesitarás 3 instrucciones como mínimo
     - Elem: Text
       Content: |
           En el resto del tema trataremos con detalle los siguientes tipos básicos de Python:
            * `int`: números enteros
            * `float`: números reales en coma flotante
+           * `complex`: números complejos
            * `bool`: booleanos, valores *cierto* y *falso*
            * `str`: cadenas de caracteres
-           * `tuple`: tuplas, secuencias de valores de tamaño fijo
+           #* `tuple`: tuplas, secuencias de valores de tamaño fijo
+ - Title: Números enteros
+   Elements:
+    - Elem: Text
+      Content: |
+          Los números enteros en Python (tipo predefinido `int`) nos permiten representar cantidades negativas y positivas. Es el tipo
+          numérico más utilizado.
+          
+          ```
+
+          a = 12
+          b = -45
+          c = 0
+          ```
+
+          Además, Python nos proporciona todas las operaciones usuales sobre enteros:
+           * Suma
+           * Resta
+           * Multiplicación
+           * División
+           * Potencia
+    - Elem: Text
+      Content: |
+          Como hemos dicho, los números enteros se pueden sumar (`+`), restar (`-`) y multiplicar (`*`):
+          
+          
+          ```
+
+          a = 2 + 8     # a --> 10
+          b = 6 - 10    # b --> -4
+          c = -2 * 14   # c --> -28
+          ```
+
+          En todos estos casos las variables `a`, `b` y `c` tienen valores enteros. Se puede conocer el tipo de valor que contiene una
+          variable usando la función `type`:
+          ```
+
+          a = 34
+          type(a)     # --> int
+    - Elem: Text
+      Content: |
+          Las expresiones aritméticas tienen la precedencia usual en matemáticas: la multiplicación y la división son más 
+          prioritarias que la suma y la resta, y en caso de empate se resuelve de derecha a izquierda. Para cambiar la prioridad
+          se utilizan paréntesis
+          
+          ```
+  
+          a = 2 + 4 * 3      # a --> 14, la multiplicación tiene prioridad
+          b = (2 + 4) * 3    # b --> 18, los paréntesis cambian esa prioridad
+          ```
+    - Elem: Options
+      Content: |
+          ¿Qué valor contendrá la variable `a` después de ejecutar la siguiente instrucción?
+
+          ```
+
+          a = 8 - 3 * 3 + 2
+          ```
+      Hint: Aquí importa mucho la precedencia de operadores. Para evitar problemas es mucho mejor añadir paréntesis
+      Solution: [3]
+      Multiple: no
+      Options: 
+        - -3
+        - 17
+        - 1
+        - -7
+    - Elem: Text
+      Content: |
+          Existen dos tipos de divisiones de número enteros, dependiendo de lo que queramos obtener. Por ejemplo, al dividir 5 
+          entre 2 podemos querer obtener:
+           * el cociente real (2.5) 
+           * el cociente entero (2)
+          
+          Para obtener el cociente real utilizaremos el operador `/`. Este operador genera siempre un resultado que es un número
+          real (`float`). Si queremos obtener el cociente entero debemos utilizar la doble barra `//`. También podemos obtener
+          el resto de una división entera con el operador `%`:
+          ```
+
+          a = 5 / 2     # a --> 2.5 (float)
+          b = 5 // 2    # b --> 2 (int)
+          c = 5 % 2     # c --> 1 (int) resto de dividir 5 // 2
+          ```
+    - Elem: Options
+      Content: |
+          ¿Qué valor contendrá la variable `cociente` después de ejecutar la siguiente instrucción?
+
+          ```
+
+          cociente = 10 / 3
+          ```
+      Hint: Revisa qué tipo de división se está realizando. ¿Entera o real?
+      Solution: [2]
+      Multiple: no
+      Options: 
+        - 3 (`int`)
+        - 3.33333333333 (`float`)
+        - 1 (`int`)
+        - No está definido
+    - Elem: Code
+      Content: | 
+        Escribe una secuencia de instrucciones para asignar a la variable `cociente` el resultado de la división **entera** de 20 entre 3, 
+        y a la varible `resto` el resto de la división entera de 20 entre 30. 
+      File: correctores/asignaciones/asig2.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Revisa los distintos operadores que puedes usar
+    - Elem: Text
+      Content: |
+          Por último, Python también proporciona operadores para calcular potencias. En este caso el operador es el doble asterisco 
+          `**`. El número a la izquierda será la **base**, y el número a la derecha será el **exponente**. Cuando ambos operandos son números enteros el resultado también lo será:
+
+          ```
+
+          a = 2 ** 10   # a --> 1024 (int)
+          b = 3 ** 3    # b --> 27 (int)      
+          c = -1 ** 9   # c --> -1 (int)
+          ```
+ - Title: Números reales, aritmética de coma flotante
+   Elements:
+    - Elem: Text
+      Content: |
+          Los números reales en Python (tipo predefinido `float`) nos permiten representar cantidades negativas y positivas con parte
+          decimal. Para separar la parte decimal del resto del número utilizaremos el punto.
+
+          Las operaciones que soportan los números reales son las mismas que los números enteros: suma, resta, multiplicación, división real,
+          división *entera*, módulo y pontencia. Cuando estas operaciones se aplican a números reales **siempre devuelven valores reales**. Incluso 
+          en los casos en los que uno solo de los operandos es real, el resultado devuelto es real.
+          
+          ```
+
+          2.0 + 8.0     # 10.0
+          4.5 - 4.3     # 0.20000000000000018
+          2.5 * 8       # 20.0
+          5.0 / 2       # 2.5
+          5.0 // 2      # 2.0
+          5.0 % 2       # 1.0
+          5.5 ** 2      # 30.25
+
+          ```
+    - Elem: Text
+      Content: |
+          Es importante darse cuenta de que los números reales que usa Python no tienen una precisión arbitraria. Esto es así por la manera en
+          la que estos números se representan en el ordenador. Por ello, a veces los resultados obtenidos en operaciones con números reales
+          no son exactos sino que tiene un (muy pequeño) grado de error. Por ejemplo: 
+
+          ```
+
+          4.5 - 4.3     # 0.20000000000000018, en lugar de 0.2
+          ```
+
+          Esto puede dar lugar a problemas si comprobamos la igualdad **exacta** de números reales. Por ejemplo, la siguiente 
+          igualdad sería falsa en Python por esa pequeña diferencia al calcular la resta, aunque debería ser el mismo número:
+
+          ```
+
+          0.2 == (4.5 - 4.3)    # Devuelve 'False'
+          ```
+    - Elem: Text
+      Content: |
+          Además de las operaciones básicas, Python nos ofrece una biblioteca llamada `math` con constantes matemáticas (pi, e) y funciones 
+          (raíz cuadrada, seno, coseno). Para poder utilizar esta bibliteca es necesario importarla al inicio del fichero con la instrucción
+          
+          ```
+
+          import math
+          ```
+
+          A partir de ese momento podemos acceder a esos elementos mediante `math.pi`, `math.e`, `math.sqrt`, etc.:
+
+          ```
+
+          import math # Importamos la biblioteca
+          
+          radio = 3
+          2 * radio * math.pi # 18.84955592153876
+
+          math.sin(math.pi/3) # 0.8660254037844386
+          math.cos(math.pi/3) # 0.5000000000000001 (hay error obtenido)
+
+          math.sqrt(5) # la raíz cuadrada
+          ```
+    - Elem: Code
+      Content: | 
+          Consideremos el siguiente triángulo rectángulo. 
+
+          ![triangulo](file:///img/triangulo_abh.png)
+
+          Si la longitud de los lados 'a' y 'b' está ya almacenada en las variables `a` y `b` respectivamente, utiliza el Teorema de 
+          Pitágoras para obtener la longitud de la hipotenusa 'h' y almacenarlo en la variable `h`. No es necesario importar la libreria
+          `math`, supon que ya ha sido cargada.
+
+          **Pista**: el Teorema de pitágoras establece que:
+          @@@h = \sqrt{a^2 + b^2}@@@
+      File: correctores/asignaciones/asig3.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Deberás utilizar la raíz cuadrada de 'math'
+    - Elem: Text
+      Content: |
+          Falta contar lo de ceil, int, floor, etc. 
+
+          Añadir más ejercicios
+
+
+
