@@ -1,0 +1,79 @@
+Subject: 0
+Title: Tipos básicos, asignaciones y expresiones
+Intro: |
+  En este tema trataremos las piezas más básicas de los programas Python.
+Lessons:
+ - Title: Valores, variables y asignación
+   Elements:
+    - Elem: Text
+      Content: |
+          Un programa Python es una secuencia de **instrucciones** que van calculando distintos **valores**. Estos valores
+          dependen del programa concreto:
+           * Cantidad de personas en un aula (*número natural*: `1`, `2`, `7`)
+           * Balance de una cuenta bancaria (*número entero*: `-34`, `0`, `67`)
+           * Temperatura en grados Celsius (*número real*: `35.6`, `-3.4`)
+           * Decisión de una persona (`True` o `False`)
+           * Raíces de un polinomio (*número complejo*: `-3.4 + 4.9i`, `45.2 - 2.1i`)
+           * Nombre de un alumno (*cadenas de letras*: `"Juan Martínez"`)
+
+          Como se puede ver, los distintos valores se pueden agrupar en una serie de **tipos básicos** que son soportados por todos los
+          lenguajes de programación, Python incluido.
+    - Elem: Text
+      Content: |
+          Para permitir un manejo sencillo de estos valores, los lenguajes de programación nos proporcionan las **variables**. Una variable
+          es un *hueco* asociado a un **nombre** donde almacenamos un determinado valor. Por ejemplo:
+          ```
+
+          alumnos     = 17
+          balance     = -45
+          temperatura = 35.5
+          decision    = True
+          nombre      = "Eva Sánchez"
+          ```
+
+          En este caso la variable `alumnos_en_aula` contiene el valor natural `17`, la variable `balance` contiene el valor entero `-45`,
+          la variables `temperatura` el valor real `35.5`, la variable `decision` el valor **booleano** `True` y la variable `nombre` la cadena
+          `"Eva Sánchez"`
+    - Elem: Text
+      Content: |
+          Al proceso de **asignar un valor a una variable** se le conoce como **asignación**, y es el elemento básico de la 
+          programacion en Python. Para realizar una asignación se usa el operador `=`, donde a la izquierda aparecerá la
+          variable que queremos asignar y a la derecha el valor que queremos almacenar:
+          ```
+
+          <variable> = <valor>
+          ```
+          El lado derecho de la asignación puede ser un valor básico (`-58`, `56.789`, `False`) o una **expresión** que se evalúa a
+          un valor:
+          ```
+
+          temperatura = 35.6 + 6
+          balance     = 100 - 45
+          alumnos     = (3 * 6) + 2
+          ```
+    - Elem: Text
+      Content: |
+          Además, mediante asignaciones se puede ir actualizando el valor de las variables a lo largo de la ejecución de un programa. De ahí el 
+          nombre de **variable**:
+          ```
+
+          temperatura = 35.6
+          incremento  = 3.2
+          temperatura = temperatura + incremento
+          ```
+          La variable `temperatura` comienza con el valor real `35.6`, e `incremento` con `3.2`. En la tercera instrucción se **actualiza**
+          el valor de `temperatura` mediante la expresión `temperatura + incremento`, que se evalúa a `38.8`. Tras ejecutar las 3 instrucciones, 
+          los valores de las 2 variables involucradas serían:
+          ```
+
+          temperatura --> 38.8
+          incremento  --> 3.2
+          ```
+    - Elem: Text
+      Content: |
+          En el resto del tema trataremos con detalle los siguientes tipos básicos de Python:
+           * `int`: números enteros
+           * `float`: números reales en coma flotante
+           * `bool`: booleanos, valores *cierto* y *falso*
+           * `str`: cadenas de caracteres
+           * `tuple`: tuplas, secuencias de valores de tamaño fijo
