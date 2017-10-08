@@ -69,14 +69,12 @@ def corrector_variables(casos_prueba):
     return dicc
 
                 
-def comprueba_hipotenusas(filename):
+def comprobador(filename):
     # Generar los casos de prueba que se quieren comprobar
     casos  = list()
-    for i in range(1,15):
-        a = random.random() * random.randint(i,2*i)
-        b = random.random() * random.randint(i,2*i)
-        h = math.sqrt(a**2 + b**2)
-        casos.append( ([('a',a),('b',b)], [('h',h)]) )
+    ###
+    ### Rellenar 'casos' con los casos de prueba
+    ###
 
     # Pasar todos los casos, termina en cuanto falla alguno
     dicc = corrector_variables(casos)
@@ -88,4 +86,4 @@ def comprueba_hipotenusas(filename):
 
 
 if __name__ == "__main__":
-	comprueba_hipotenusas(sys.argv[1])
+	comprobador(sys.argv[1])
