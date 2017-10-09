@@ -37,7 +37,7 @@ public class ConfigurationData {
         try {
             storedPrefs.clear(); // Borra entradas obsoletas
         } catch (BackingStoreException e) {
-            Controller.log.info( "Unable to clear stored configuration data: " + e.getLocalizedMessage());
+            Controller.log.info( "Unable to clear stored configuration data: " + e);
         }
         Controller.log.info( "Storing configuration data using Java Preference API");
         for (String k : prefs.keySet() ) {
@@ -53,7 +53,7 @@ public class ConfigurationData {
                 set(k, storedPrefs.get(k, null));
             }
         } catch (BackingStoreException e) {
-            Controller.log.info( "Unable to load configuration data: " + e.getLocalizedMessage());
+            Controller.log.info( "Unable to load configuration data: " + e);
         }
     }
 

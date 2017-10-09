@@ -527,7 +527,7 @@ public class Controller {
 				uri = new URI(url);
 				dt.browse(uri);
 			} catch (Exception e) {
-				this.log.warning("Error al abrir el navegador: " + e.getLocalizedMessage() );
+				this.log.warning("Error al abrir el navegador: " + e);
 			}
 		} else {
 			// Linux y Mac
@@ -540,7 +540,7 @@ public class Controller {
 	    try {
             return new String(val.getBytes("ISO-8859-1"), "UTF-8");
 	    } catch (java.io.UnsupportedEncodingException e) {
-	        log.warning("Error al obtener cadena traducida: " + e.getLocalizedMessage());
+	        log.warning("Error al obtener cadena traducida: " + e);
         }
         return val;
     }

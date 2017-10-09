@@ -181,7 +181,7 @@ Lessons:
       Gaps: 2
       Prompt: ["Valor de la variable 'nombre'","Valor de la variable 'apellidos'","Valor de la variable 'nombre_y_apellidos'"]
       Hint: Recuerda que `+` es el operador que une cadenas.
-      File: correctores/booleanos/stringsA.py
+      File: correctores/strings/stringsA.py
     - Elem: Code
       Content: |
        Supon que tenemos un caracter almacenado en la variable `x`. Calcula su código asociado en
@@ -195,7 +195,7 @@ Lessons:
       Gaps: 2
       Prompt: ["Valor de la variable 'cod'","Valor de la variable 'cod_str'","Valor de la variable 'frase'"]
       Hint: Recuerda que `ord` nos dice el código y `str` transforma otros tipos en String.
-      File: correctores/booleanos/stringsB.py
+      File: correctores/strings/stringsB.py
 
 
 

@@ -112,7 +112,7 @@ public class Lesson {
                 latestEnabledElement = (Integer) lesson_prog.getOrDefault( "enabled", 0 );
                 latestElement = (Integer) lesson_prog.getOrDefault( "latest", 0 );
             } catch (ClassCastException e) {
-                Controller.log.warning("Error when loading progress of lesson " + version + " -> " + e.getLocalizedMessage() );
+                Controller.log.warning("Error when loading progress of lesson " + version + " -> " + e);
             }
 
         }

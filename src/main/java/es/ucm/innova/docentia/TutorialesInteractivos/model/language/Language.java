@@ -154,7 +154,7 @@ public abstract class Language {
             content = reemplazaHuecos(content, codes);
             Files.write(Paths.get(file_out.toURI()), content.getBytes());
         } catch (java.io.IOException e) {
-            Controller.log.warning("Error while filling a gap: " + e.getMessage());
+            Controller.log.warning("Error while filling a gap: " + e);
         }
     }
 
@@ -185,7 +185,7 @@ public abstract class Language {
             content = new String(Files.readAllBytes(Paths.get(correctorFile.toURI())));
             content = reemplazaHuecos(content, codes);
         } catch (java.io.IOException e) {
-            Controller.log.warning("Error while filling a gap: " + e.getMessage());
+            Controller.log.warning("Error while filling a gap: " + e);
         }
         return content;
     }
@@ -363,7 +363,7 @@ public abstract class Language {
             temp.delete();
             bat.delete();
         } catch (Exception e) {
-            Controller.log.warning("Unable to obtain Visual Studio environment: " + e.getLocalizedMessage() );
+            Controller.log.warning("Unable to obtain Visual Studio environment: " + e);
         }
         return env;
     }

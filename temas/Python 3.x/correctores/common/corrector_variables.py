@@ -1,11 +1,48 @@
 # -*- coding: UTF-8 -*-
+
+# Import imprescindibles
 import sys
 import json
+# Imports necesarios para generar los casos
 import math
 import random
 
 
-EPSILON = 1E-9
+
+####
+#### Esto es lo que hay que cambiar en cada problema:
+####  - epsilon: para comparar flaots, si lo necesitas
+####  - genera_casos: devuelve una lista de casos de prueba
+
+def epsilon():
+    return 1E-9
+
+
+def genera_casos():
+    # Generar los casos de prueba que se quieren comprobar
+    casos  = list()
+    for i in range(1,15):
+        a = random.random() * random.randint(i,2*i)
+        b = random.random() * random.randint(i,2*i)
+        h = math.sqrt(a**2 + b**2)
+        casos.append( ([('a',a),('b',b)], [('h',h)]) )
+    return casos
+
+
+
+
+#################################
+#### Esto no hay que tocarlo ####
+#################################
+
+def ejecutor_caso(g,l):
+    # Aqui se pega el codigo del alumno
+    codigo = """
+@@@CODE@@@
+"""
+    exec(codigo,g,l)
+    # 'l' contendrá los valores de salida
+
 
 """
 Función que sirve para corregir un problema de Python comparando el 
@@ -22,7 +59,7 @@ corrector_variables(
      ([('a',3),('b',1)],[('suma',5)])]
 )
 """
-def corrector_variables(casos_prueba):
+def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso):
     dicc = {'isCorrect':True}
     for (entrada,salida) in casos_prueba:
         if not dicc['isCorrect']:
@@ -34,11 +71,7 @@ def corrector_variables(casos_prueba):
             dicc_valores[var] = valor
 
         # Ejecutamos el codigo del alumno
-        # Es importante que el código pegado comience en line nueva sin espacios ni nada
-        codigo = """
-@@@CODE@@@
-"""
-        exec(codigo,globals(),dicc_valores)
+        ejecutor_caso(globals(), dicc_valores)
         # Los resultados se consultan en 'dicc_valores
 
         # Comprobamos los valores de las variables de salida
@@ -46,7 +79,13 @@ def corrector_variables(casos_prueba):
             if not var in dicc_valores:
                 dicc = {'isCorrect':False, 'typeError':"Variable '{0}' no asignada".format(var),
                     'Hints':["La variable '{0}' debería tener un valor.".format(var)]}
-            elif ((type(valor) == float and (abs(dicc_valores[var] - valor) < EPSILON)) or
+            elif (type(valor) == float and type(dicc_valores[var]) != float):
+                # Una variable esperada de tipo float tiene otro tipo
+                hints = ["La variable '{0}' debe ser de tipo 'float'".format(var),
+                         "Sin embargo, en tu código tiene tipo '{0}' y valor {1}".format(type(dicc_valores[var]), dicc_valores[var])]
+                dicc = {'isCorrect':False, 'typeError':"Variable '{0}' debe ser de tipo 'float'".format(var),
+                    'Hints': hints}
+            elif ((type(valor) == float and (abs(dicc_valores[var] - valor) < epsilon)) or # Sabemos que dicc_valores[var] es float
                  (type(valor) != float and dicc_valores[var] == valor)): 
                 # Comprobacion con existo
                 dicc = {'isCorrect':True}
@@ -66,24 +105,10 @@ def corrector_variables(casos_prueba):
             if not dicc['isCorrect']:
                 break # Paramos en cuanto falla un caso de prueba
     
-    return dicc
-
-                
-def comprobador(filename):
-    # Generar los casos de prueba que se quieren comprobar
-    casos  = list()
-    ###
-    ### Rellenar 'casos' con los casos de prueba
-    ###
-
-    # Pasar todos los casos, termina en cuanto falla alguno
-    dicc = corrector_variables(casos)
-
     # Escribir el diccionario generado
     with open(filename, 'w') as outfile:
         json.dump(dicc, outfile)
 
 
-
 if __name__ == "__main__":
-	comprobador(sys.argv[1])
+    corrector_variables(sys.argv[1], genera_casos(), epsilon(), ejecutor_caso)
