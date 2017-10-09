@@ -256,12 +256,29 @@ Lessons:
           2.0 + 8.0     # 10.0
           4.5 - 4.3     # 0.20000000000000018
           2.5 * 8       # 20.0
-          5.0 / 2       # 2.5
-          5.0 // 2      # 2.0
-          5.0 % 2       # 1.0
+          5.0 / 2       # 2.5 -> división real
+          5.0 // 2      # 2.0 -> división entera, pero genera 'float'
+          5.0 % 2       # 1.0 -> resto de la división entera como 'float'
           5.5 ** 2      # 30.25
 
           ```
+    - Elem: Options
+      Content: |
+          Acabamos de ver que cuando es una operación aritméticas se mezclan operandos enteros (`int`) y reales (`float`) el resultado toma un tipo de datos muy
+          concreto. En la siguiente asignación, ¿qué valor tomará la variable `suma`?
+
+          ```
+
+          a    = 5
+          suma = a + 8.0
+          ```
+      Hint: Revisa el apartado anterior, seguro que ves ejemplos
+      Solution: [2]
+      Multiple: no
+      Options: 
+        - 13 (de tipo 'int')
+        - 13.0 (de tipo 'float')
+        - No se pueden sumar enteros y reales
     - Elem: Text
       Content: |
           Es importante darse cuenta de que los números reales que usa Python no tienen una precisión arbitraria. Esto es así por la manera en
@@ -312,7 +329,12 @@ Lessons:
 
           Si la longitud de los lados 'a' y 'b' está ya almacenada en las variables `a` y `b` respectivamente, utiliza el Teorema de 
           Pitágoras para obtener la longitud de la hipotenusa 'h' y almacenarlo en la variable `h`. No es necesario importar la libreria
-          `math`, supon que ya ha sido cargada.
+          `math`, supon que ya ha sido cargada con la instrucción:
+
+          ```
+
+          import math
+          ```
 
           **Pista**: el Teorema de pitágoras establece que:
           @@@h = \sqrt{a^2 + b^2}@@@
@@ -321,9 +343,46 @@ Lessons:
       Hint: Deberás utilizar la raíz cuadrada de 'math'
     - Elem: Text
       Content: |
-          Falta contar lo de ceil, int, floor, etc. 
+          Python cuenta con varias funciones muy útiles para transformar enteros. Entre ellas destacamos:
+           - `int` genera un número entero (`int`) a partir de uno real, truncando la parte decimal
+           ```
 
-          Añadir más ejercicios
+           int(3.4)  # 3 ('int')
+           int(-8.9) # -8 c ('int')
+           ```
+           - `round` redondea un número real al entero más cercano, generando un resultado de tipo `int`
+           ```
+           
+           round(3.2)  # 3  ('int')
+           round(3.5)  # 4  ('int')
+           round(-3.5) # -4 ('int')
+           ```
+           - `math.floor` redondea un número al entero **inferior** generando un resultado de tipo `int`
+           ```
+           
+           math.floor(3.7)   # 3  ('int')
+           math.floor(-3.2)  # -4 ('int')
+           ```
+           - `math.ceil` redondea un número al entero **superior** generando un resultado de tipo `int`
+           ```
 
-
-
+           math.ceil(3.2)   # 4  ('int')
+           math.ceil(-3.2)  # -3 ('int')
+           ```
+    - Elem: Code
+      Content: | 
+          Imagina que existe una variable real `calif` que almacena la calificiación de un alumno en una determinada prueba.
+          Escribe el código Python necesario para asignar a la variable `calif_redondeada` el resultado
+          de **redondear** la calificación al entero más cercano.
+      File: correctores/asignaciones/asig4.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Deberás utilizar alguna función sobre números reales. ¿Cuál será la adecuada?
+    - Elem: Code
+      Content: | 
+          Este ejercicio es similar al anterior pero más *benévolo*. Imagina que existe una variable real `calif` que almacena la calificiación de un alumno.
+          Escribe el código Python necesario para asignar a la variable `calif_redondeada` el resultado
+          de **redondear** la calificación al **número entero superior más cercano** y sumarle 0.5 puntos al resultado.
+          La variable 'calif_redondeada', por tanto, debe tener tipo (`float`)
+      File: correctores/asignaciones/asig5.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Deberás encadenar al menos dos funciones sobre números reales.
