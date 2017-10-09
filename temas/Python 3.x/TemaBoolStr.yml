@@ -89,6 +89,7 @@ Lessons:
           usar el operador `+` para juntar dos cadenas. Por ejemplo, el código
 
           ```
+
           saludo = "hola"
           despedida = "adiós"
           saludo_despedida_feo = saludo + "y" + despedida
@@ -106,6 +107,7 @@ Lessons:
           devuelve `"True"`. De esta forma, podríamos formar la cadena:
 
           ```
+
           edad = 20
           edad_str = "Tengo " str(edad) + " años"
           ```
@@ -127,9 +129,10 @@ Lessons:
           se usaría para representar este texto:
 
           ```
+
           Corté una rama
           y clareó mejor
-          por la ventana.
+          por la ventana
           ```
 
 
@@ -157,15 +160,13 @@ Lessons:
           Elige las cadenas correctas:
       Hint: Recuerda, usa las mismas comillas y ve con cuidado con los caracteres especiales.
       Multiple: yes
-      Solution: [1,2,4,6]
+      Solution: [1,4,5]
       Options:
        - 1) "Buenos días"
        - 2) "Buenas tardes'
        - 3) "Se llama "José", no "Jose""
        - 4) "Se llama \"José\", no \"Jose\""
-       - 5) "Arriba
-             Abajo"
-       - 6) "Arriba\nAbajo"
+       - 5) "Arriba\nAbajo"
     - Elem: Code
       Content: |
        Rellena los huecos para que la variable `nombre_y_apellidos` almacene el valor "Ana García".
@@ -174,8 +175,8 @@ Lessons:
        ```
 
        nombre = "Ana"
-       apellidos = <Hueco 1>
-       nombre_y_apellidos = nombre <Hueco 2> apellidos
+       apellidos = <Hueco 0>
+       nombre_y_apellidos = nombre <Hueco 1> apellidos
        ```
       Gaps: 2
       Prompt: ["Valor de la variable 'nombre'","Valor de la variable 'apellidos'","Valor de la variable 'nombre_y_apellidos'"]

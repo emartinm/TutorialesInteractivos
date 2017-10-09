@@ -4,10 +4,10 @@ import json
 
 def pregunta(filename):
     try:
-        x = 6
+        nombre = "Ana"
         #@@@SNIPPET@@@
         apellidos = @@@CODE@@@
-        nombre_y_apellidos = @@@CODE@@@
+        nombre_y_apellidos = nombre @@@CODE@@@ apellidos
         #@@@SNIPPET@@@
         dicc = {}
         things = locals()
