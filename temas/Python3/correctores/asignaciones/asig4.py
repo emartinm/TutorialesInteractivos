@@ -4,7 +4,6 @@
 import sys
 import json
 # Imports necesarios para generar los casos
-import math
 import random
 
 
@@ -21,11 +20,10 @@ def epsilon():
 def genera_casos():
     # Generar los casos de prueba que se quieren comprobar
     casos  = list()
-    for i in range(1,15):
-        a = random.random() * random.randint(i,2*i)
-        b = random.random() * random.randint(i,2*i)
-        h = math.sqrt(a**2 + b**2)
-        casos.append( ([('a',a),('b',b)], [('h',h)]) )
+    for i in range(1,20):
+        calif = random.random() * 10
+        calif_redondeada = round(calif)
+        casos.append( ([('calif',calif)], [('calif_redondeada',calif_redondeada)]) )
     return casos
 
 
@@ -77,24 +75,26 @@ def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso):
         # Comprobamos los valores de las variables de salida
         for (var,valor) in salida:
             if not var in dicc_valores:
+                # Variable no asignada
                 dicc = {'isCorrect':False, 'typeError':"Variable '{0}' no asignada".format(var),
-                    'Hints':["La variable '{0}' debería tener un valor.".format(var)]}
-            elif (type(valor) == float and type(dicc_valores[var]) != float):
-                # Una variable esperada de tipo float tiene otro tipo
-                hints = ["La variable '{0}' debe ser de tipo 'float'".format(var),
+                    'Hints':["La variable '{0}' debería contener algún valor.".format(var)]}
+            elif (type(valor) != type(dicc_valores[var])):
+                # La variable tiene un tipo diferente al esperado
+                hints = ["La variable '{0}' debe ser de tipo {1}".format(var, type(valor)),
                          "Sin embargo, en tu código tiene tipo '{0}' y valor {1}".format(type(dicc_valores[var]), dicc_valores[var])]
-                dicc = {'isCorrect':False, 'typeError':"Variable '{0}' debe ser de tipo 'float'".format(var),
+                dicc = {'isCorrect':False, 'typeError':"Variable '{0}' con tipo incorrecto".format(var),
                     'Hints': hints}
-            elif ((type(valor) == float and (abs(dicc_valores[var] - valor) < epsilon)) or # Sabemos que dicc_valores[var] es float
-                 (type(valor) != float and dicc_valores[var] == valor)): 
-                # Comprobacion con existo
+            elif (((type(valor) in [float,complex]) and (abs(dicc_valores[var]-valor) < epsilon)) or
+                 (type(valor) not in [float,complex] and dicc_valores[var] == valor)):
+                # Comprobacion con exito
                 dicc = {'isCorrect':True}
             else:
                 # Comprobacion de igualdad fallida
-                hints = ["El valor de la variable {0} no es correcto.".format(var), 
-                         "Considerando las siguientes variables:"]
-                for (vare,valore) in entrada: 
-                    hints.append( "  - {0}: {1}".format(vare,valore) )
+                hints = ["El valor de la variable {0} no es correcto.".format(var)]
+                if len(entrada) > 0:
+                    hints.append( "Considerando las siguientes variables:" )
+                    for (vare,valore) in entrada: 
+                        hints.append( "  - {0}: {1}".format(vare,valore) )
                 hints.append( 'El resultado debería ser:' )
                 hints.append( '  - {0}: {1}'.format(var,valor) )
                 hints.append( 'Sin embargo, tu código genera' )

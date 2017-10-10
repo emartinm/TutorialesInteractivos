@@ -119,11 +119,12 @@ Lessons:
     - Elem: Text
       Content: |
           En el resto del tema trataremos con detalle los siguientes tipos básicos de Python:
-           * `int`: números enteros
-           * `float`: números reales en coma flotante
-           * `complex`: números complejos
-           * `bool`: booleanos, valores *cierto* y *falso*
-           * `str`: cadenas de caracteres
+           * **Tipos numéricos**:
+               * `int`: números enteros
+               * `float`: números reales en coma flotante
+               * `complex`: números complejos
+           * **Booleanos** (`bool`), valores *cierto* y *falso*
+           * **Cadenas de caracteres** (`str`) para almacenar texto
            #* `tuple`: tuplas, secuencias de valores de tamaño fijo
  - Title: Números enteros
    Elements:
@@ -369,6 +370,8 @@ Lessons:
            math.ceil(3.2)   # 4  ('int')
            math.ceil(-3.2)  # -3 ('int')
            ```
+           Podéis encontrar el listado completo de funciones matemáticas y su documentación en 
+           [https://docs.python.org/3/library/math.html](https://docs.python.org/3/library/math.html).
     - Elem: Code
       Content: | 
           Imagina que existe una variable real `calif` que almacena la calificiación de un alumno en una determinada prueba.
@@ -386,3 +389,309 @@ Lessons:
       File: correctores/asignaciones/asig5.py
       Prompt: ["Escriba aquí el código"]
       Hint: Deberás encadenar al menos dos funciones sobre números reales.
+ - Title: Números complejos
+   Elements:
+    - Elem: Text
+      Content: |
+          Los números complejos en Python (tipo predefinido `complex`) están formados por una parte real **a** y una parte imaginaria **b**.
+          Normalmente se representan como parejas `(a,b)` o usando @@j = \sqrt{-1}@@ para indicar la parte imaginaria `a + bj`. En algunos
+          contextos se usa `j` en lugar de `i`, aunque Python utilizará siempre la `j`.
+
+          Tanto la componente **a** como la **b** son números reales. Para construir números complejos en en Python utilizaremos la constructora
+          `complex(a,b)`. Por ejemplo, para almacenar el número complejo `3.2 -4j` en la variable `c` ejecutaríamos la instrucción:
+
+          ```
+
+          c = complex(3.2, 4)
+          ```
+    - Elem: Code
+      Content: | 
+          Escribe la instrucción necesaria para almacenar en la variable `num` el número complejo `-8.2 + 5.5j`.
+      File: correctores/asignaciones/asig6.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Deberás usar el constructor de números complejos.
+    - Elem: Text
+      Content: |
+          Dado un número complejo, Python nos permite acceder a su parte real e imaginaria por separado. Para ello es necesario usar los *atributos*
+          `real` e `imag`. Por ejemplo:
+
+          ```
+
+          num = complex(5.5, -8.9)
+
+          num.real  # Devuelve 5.5 
+          num.imag  # Devuelve -8,9
+          ```
+    - Elem: Code
+      Content: | 
+          Una magnitud muy interesante de los números complejos es su **valor absoluto** o **módulo**, que se calcula como:
+          @@@|a + bj| = \sqrt{a^2 + b^2}@@@
+          Escribe la instrucción necesaria para almacenar en la variable `modulo` el valor absoluto del número complejo
+          almacenado en la variable `num`.
+
+          No es necesario que importéis la biblioteca `math`, podéis suponer que ya había sido importada con la instrucción:
+          ``` 
+
+          import math 
+          ```
+      File: correctores/asignaciones/asig7.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Deberás usar los atributos para extraer la parte real e imaginaria del número complejo, y también operaciones sobre reales.
+    - Elem: Text
+      Content: |
+          Los números complejos en Python soportan los operadores numéricos usuales:
+           * Suma (`+`)
+           * Resta (`-`)
+           * Multiplicación (`*`)
+           * División (`/`)
+           * Exponenciación (`**`)
+
+          ```
+
+          num1 = complex(3.2,4)
+          num2 = complex(2.98,-2.2)
+
+          num1 + num2   # (6.18+1.7999999999999998j)
+          num1 - num2   # (0.2200000000000002+6.2j)
+          num1 * num2   # (18.336+4.879999999999999j)
+          num1 / num2   # (0.053642750940205826+1.3818839100900848j)
+          num1 ** 2.2   # (-14.184565509037927+33.50055790709343j)
+          ```
+          Notad que como las componentes reales e imaginarias se representan internamente como números reales en coma
+          flotante, algunas operaciones pueden sufrir una ligera pérdida de precisión. Por ejemplo, esto ocurre en la 
+          suma anterior, en la componente imaginaria: `1.7999999999999998j` en lugar de `1.8j`
+    - Elem: Text
+      Content: |
+          A la hora de operar con números complejos, es interesante conocer la existencia de la biblioteca `cmath`. Es similar a la
+          biblioteca `math` pero sus operaciones aceptan y devuelven números complejos. 
+          
+          Un ejemplo muy claro es la función `cmath.sqrt`, que admite números reales negativos y complejos, y cuyo resultado *siempre
+          es un número complejo*. Por ejemplo:
+
+          ```
+
+          import math
+          import cmath
+
+          math.sqrt(-1) # Genera un error de tipo `math domain error`
+                        # puesto que math.sqrt solo admite reales positivos
+
+          cmath.sqrt(-1)     # Genera el complejo '1j'
+          cmath.sqrt(-8)     # Genera el complejo '2.8284271247461903j'
+          cmath.sqrt(2 + 5j) # Genera el complejo '1.921609326467597+1.3009928530039094j'
+          ```
+    - Elem: Code
+      Content: | 
+          Un polinomio de grado 2 @@ax^2 + bx + c = 0@@ tiene dos raíces, que pueden obtenerse mediante las ecuaciones:
+          @@@r1 = \frac{-b + \sqrt{b^2 - 4ac}}{2a}@@@
+
+          @@@r2 = \frac{-b - \sqrt{b^2 - 4ac}}{2a}@@@
+          
+          Dependiendo de los valores de *a*, *b* y *c* las raices pueden ser números reales o complejos. Suponiendo que las variables 
+          `a`, `b` y `c` almacenan valores complejos, escribe las instrucciones necesarias para calcular los valores de las variables
+          `r1` y `r2` siguiendo las fórmulas. Tanto `r1` como `r2` deben almacenar valores de tipo `complex`.
+
+          No es necesario que importéis la biblioteca `cmath`, podéis suponer que ya había sido importada con la instrucción:
+          ``` 
+
+          import cmath 
+          ```
+      File: correctores/asignaciones/asig8.py
+      Prompt: ["Escriba aquí el código"]
+      Hint: Deberás usar la función de raíz cuadrada compleja de la biblioteca 'cmath.sqrt'.
+
+ - Title: Booleanos
+   Elements:
+    - Elem: Text
+      Content: |
+          Los valores Booleanos nos permiten indicar si algo es cierto (`True` en Python)
+          o falso (`False` en Python).
+
+          Los valores de este tipo nos permiten trabajar de manera eficiente con
+          condiciones, y por tanto es necesario usarlos adecuadamente. Un error típico
+          al tratar con Booleanos es usar otros valores (por ejemplo, devolver `"sí"`
+          y `"no"`). Recuerda prestar atención a los valores esperados en cada caso y
+          usa los Booleanos cuando sea necesario.
+    - Elem: Text
+      Content: |
+          Las comparaciones entre valores númericos nos dan como resultado valores Booleanos.
+          Así, las expresiones `3 > 0` y `3 <= 3` se evalúan al valor `True`, mientras que
+          la expresión `(3 % 2) == 0` se evalúa a `False`.
+
+          Puedes encontrar todos los operadores de comparación
+          [aquí](https://docs.python.org/3/library/stdtypes.html#comparisons).
+    - Elem: Text
+      Content: |
+          También existen operadores lógicos, que nos permiten combinar distintos valores
+          Booleanos:
+          * El operador `and` toma dos valores Booleanos y devuelve `True` si ambos son `True`
+          y `False` en otro caso.
+          * El operador `or` toma dos valores Booleanos y devuelve `True` si alguno de ellos
+          es `True` y `False` en otro caso.
+          * El operador `not` transforma el valor `True` en `False` y viceversa.
+
+          Puedes encontrar más información sobre los operadores lógicos
+          [aquí](https://docs.python.org/3/library/stdtypes.html#boolean-operations-and-or-not).
+    - Elem: Options
+      Content: |
+          Elige las constantes Booleanas que existen en Python
+      Hint: Revisa la lección si no sabes la respuesta.
+      Multiple: no
+      Solution: [2]
+      Options:
+       - 1) true y false
+       - 2) True y False
+    - Elem: Code
+      Content: |
+       Rellena los huecos del siguiente código para comprobar que la variable `x` es estrictamente mayor que 0,
+       menor o igual que 10 y distinta de 5, respectivamente.
+       ```
+
+       mayor_que_0 = <Hueco 0>
+       menor_o_igual_que_10 = <Hueco 1>
+       distinto_de_5 = <Hueco 2>
+       ```
+      Gaps: 3
+      Prompt: ["Valor de la variable 'mayor_que_0'","Valor de la variable 'menor_o_igual_que_10'","Valor de la variable 'distinto_de_5'"]
+      Hint: Recuerda que tenemos los comparadores `<`, `<=`, `>`, `>=`, `==` y `!=`, entre otros.
+      File: correctores/booleanos/booleanosA.py
+    - Elem: Code
+      Content: |
+       Dadas las variables `x` e `y`, escribe expresiones pidiendo que se cumplan `x` e `y`, al menos una de ellas
+       y la negación de x, respectivamente.
+       ```
+
+       ambas = <Hueco 0>
+       una_u_otra = <Hueco 1>
+       no_x = <Hueco 2>
+       ```
+      Gaps: 3
+      Prompt: ["Valor de la variable 'ambas'","Valor de la variable 'una_u_otra'","Valor de la variable 'no_x'"]
+      Hint: Recuerda que tenemos los operadores lógicos `and`, `or` y `not`.
+      File: correctores/booleanos/booleanosB.py
+ - Title: Strings
+   Elements:
+    - Elem: Text
+      Content: |
+          Los String o cadenas de caracteres son secuencias de símbolos encerrados entre comillas.
+          Estas comillas pueden ser simples (`'`) o dobles (`"`), pero es importante que se use la misma
+          al principio y al final del String. Por ejemplo, son válidas las cadenas `"Buenos días"` y
+          `'Buenas tardes'`, pero no la cadena `"Buenas noches'`.
+
+          Fíjate que no solo puedes usar letras, otras cadenas válidas son `"¡Hola!"` o `'#$%&?'`.
+          Ten cuidado si usas símbolos poco habituales, es posible que no se muestren en tu ordenador
+          si no usas la codificación adecuada.
+    - Elem: Text
+      Content: |
+          Python nos proporciona cierta funcionalidad sobre cadenas. Por ejemplo, podemos
+          usar el operador `+` para juntar dos cadenas. Por ejemplo, el código
+
+          ```
+
+          saludo = "hola"
+          despedida = "adiós"
+          saludo_despedida_feo = saludo + "y" + despedida
+          saludo_despedida = saludo + " y " + despedida
+          ```
+          Fíjate que hemos unido ambas variables usando `+` y una cadena fija (no guardada en
+          ninguna variable). En el primer caso, al no usar espacios, la cadena queda
+          `"holayadiós"` y resulta difícil de leer, mientras que en el segundo caso tenemos
+          `"hola y adiós"`, que es mucho más legible.
+    - Elem: Text
+      Content: |
+          Por supuesto, solo podemos usar `+` cuando tenemos cadenas. Si queremos añadir a
+          una cadena valores de otro tipos (numéricos y enteros) podemos transformar dichos
+          valores usando la función `str`. Así, `str(1)` devuelve `"1"` y `str(True)`
+          devuelve `"True"`. De esta forma, podríamos formar la cadena:
+
+          ```
+
+          edad = 20
+          edad_str = "Tengo " str(edad) + " años"
+          ```
+
+          Por último, también está disponible `len` para obtener la longitud de una cadena.
+          Así, `len("edad_str")` devuelve `13`.
+    - Elem: Text
+      Content: |
+          *¡Cuidado!* Hay ciertos caracteres que no puedes usar directamente en una cadena.
+          Por ejemplo, no puedes usar unas comillas (se confundirían con las usadas en el String
+          o saltos de línea) ni la barra `\`. Para usarlas en un String debes usar `\` delante
+          de dicho caracter especial. Por ejemplo, la cadena `"Andrés dijo "Buenos días" a Juan"`
+          es incorrecta, porque las comillas intermedias rompen la cadena, deberíamos escribir
+          `"Andrés dijo \"Buenos días\" a Juan"`.
+
+          Asimismo, algunos elementos de formato, como los saltos de línea o los tabuladores,
+          tampoco pueden usarse directamente en una cadena. En particular, para el salto de línea
+          se usa `\n` y para el tabulador `\t`, con lo que el String `"Corté una rama\ny clareó mejor\npor la ventana"`
+          se usaría para representar este texto:
+
+          ```
+
+          Corté una rama
+          y clareó mejor
+          por la ventana
+          ```
+
+
+          Puedes encontrar más información sobre estos carecteres especiales
+          [aquí](https://docs.python.org/2.0/ref/strings.html).
+    - Elem: Text
+      Content: |
+          Un caso particular de cadena de caracteres es aquella que contiene un solo caracter
+          (como por ejemplo `"a"`, `'!'` o incluso `" "`, que es el caracter espacio en blanco).
+          Hay ciertas funciones útiles que pueden aplicarse solo a caracteres, las funciones
+          `chr` y `ord`.
+
+          La función `ord` sirve para obtener el número con el que Python representa internamente
+          el caracter dado. De forma complementaria, la función `chr` devuelve el caracter correspondiente
+          al número introducido en la función.
+
+          Por ejemplo, `ord("a")` devuelve `97`, mientras que `chr(97)` devuelve `"a"`.
+          Presta atención a mayúsculas y minúsculas, ya que se codifican con distintos
+          números.
+
+          Puedes encontrar más información sobre cadenas de caracteres
+          [aquí](https://docs.python.org/3.1/library/string.html).
+    - Elem: Options
+      Content: |
+          Elige las cadenas correctas:
+      Hint: Recuerda, usa las mismas comillas y ve con cuidado con los caracteres especiales.
+      Multiple: yes
+      Solution: [1,4,5]
+      Options:
+       - 1) "Buenos días"
+       - 2) "Buenas tardes'
+       - 3) "Se llama "José", no "Jose""
+       - 4) "Se llama \"José\", no \"Jose\""
+       - 5) "Arriba\nAbajo"
+    - Elem: Code
+      Content: |
+       Rellena los huecos para que la variable `nombre_y_apellidos` almacene el valor "Ana García".
+       No uses espacios en la variable `apellidos`, si necesitásemos usarla después dificultaría
+       el proceso.
+       ```
+
+       nombre = "Ana"
+       apellidos = <Hueco 0>
+       nombre_y_apellidos = nombre <Hueco 1> apellidos
+       ```
+      Gaps: 2
+      Prompt: ["Valor de la variable 'nombre'","Valor de la variable 'apellidos'","Valor de la variable 'nombre_y_apellidos'"]
+      Hint: Recuerda que `+` es el operador que une cadenas.
+      File: correctores/strings/stringsA.py
+    - Elem: Code
+      Content: |
+       Supon que tenemos un caracter almacenado en la variable `x`. Calcula su código asociado en
+       Python, almacénalo en la variable `cod` y transfórmalo en String para poderlo mostrar en una frase.
+       ```
+
+       cod = <Hueco 1>
+       cod_str = <Hueco 2>
+       frase = "El código de " + x + " es " + cod_str
+       ```
+      Gaps: 2
+      Prompt: ["Valor de la variable 'cod'","Valor de la variable 'cod_str'","Valor de la variable 'frase'"]
+      Hint: Recuerda que `ord` nos dice el código y `str` transforma otros tipos en String.
+      File: correctores/strings/stringsB.py
+      
