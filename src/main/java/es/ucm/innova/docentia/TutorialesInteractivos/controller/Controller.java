@@ -101,6 +101,11 @@ public class Controller {
             fh.setFormatter(formatter);
             this.log.addHandler(fh);
             log.info("Opened log file: " + logPath);
+			// Muestra todas las propiedades del sistema, que incluye la
+			// versión de JRE y el sistema operativo
+			for (Map.Entry<Object, Object> entry : System.getProperties().entrySet()) {
+				log.info("<" + entry.getKey() + " : " + entry.getValue() + ">");
+			}
         } catch (IOException e ) {
             log.warning("Unable to open log file: " + logPath);
         }
