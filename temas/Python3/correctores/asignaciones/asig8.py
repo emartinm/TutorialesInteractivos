@@ -28,8 +28,8 @@ def genera_casos():
         a = rand_complex()
         b = rand_complex()
         c = rand_complex()
-        r1 = (-b + cmath.sqrt(b**2 - 4*a*c)) / 2*a
-        r2 = (-b - cmath.sqrt(b**2 - 4*a*c)) / 2*a
+        r1 = (-b + cmath.sqrt(b**2 - 4*a*c)) / (2*a)
+        r2 = (-b - cmath.sqrt(b**2 - 4*a*c)) / (2*a)
         l.append( ([('a',a), ('b',b), ('c',c)], [('r1',r1), ('r2',r2)]) )
     return l
 

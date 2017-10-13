@@ -226,7 +226,7 @@ Lessons:
     - Elem: Code
       Content: | 
         Escribe una secuencia de instrucciones para asignar a la variable `cociente` el resultado de la división **entera** de 20 entre 3, 
-        y a la varible `resto` el resto de la división entera de 20 entre 30. 
+        y a la varible `resto` el resto de la división entera de 20 entre 3. 
       File: correctores/asignaciones/asig2.py
       Prompt: ["Escriba aquí el código"]
       Hint: Revisa los distintos operadores que puedes usar
@@ -388,7 +388,7 @@ Lessons:
           La variable 'calif_redondeada', por tanto, debe tener tipo (`float`)
       File: correctores/asignaciones/asig5.py
       Prompt: ["Escriba aquí el código"]
-      Hint: Deberás encadenar al menos dos funciones sobre números reales.
+      Hint: Deberás utilizar una función de la biblioteca 'math' y un operador.
  - Title: Números complejos
    Elements:
     - Elem: Text
@@ -409,7 +409,7 @@ Lessons:
           Escribe la instrucción necesaria para almacenar en la variable `num` el número complejo `-8.2 + 5.5j`.
       File: correctores/asignaciones/asig6.py
       Prompt: ["Escriba aquí el código"]
-      Hint: Deberás usar el constructor de números complejos.
+      Hint: Deberás usar la constructora de números complejos.
     - Elem: Text
       Content: |
           Dado un número complejo, Python nos permite acceder a su parte real e imaginaria por separado. Para ello es necesario usar los *atributos*
@@ -557,7 +557,7 @@ Lessons:
       File: correctores/booleanos/booleanosA.py
     - Elem: Code
       Content: |
-       Dadas las variables `x` e `y`, escribe expresiones pidiendo que se cumplan `x` e `y`, al menos una de ellas
+       Dadas las variables booleanas `x` e `y`, escribe expresiones pidiendo que se cumplan `x` e `y`, al menos una de ellas
        y la negación de x, respectivamente.
        ```
 
@@ -600,7 +600,7 @@ Lessons:
     - Elem: Text
       Content: |
           Por supuesto, solo podemos usar `+` cuando tenemos cadenas. Si queremos añadir a
-          una cadena valores de otro tipos (numéricos y enteros) podemos transformar dichos
+          una cadena valores de otros tipos (numéricos y enteros) podemos transformar dichos
           valores usando la función `str`. Así, `str(1)` devuelve `"1"` y `str(True)`
           devuelve `"True"`. De esta forma, podríamos formar la cadena:
 
@@ -656,7 +656,7 @@ Lessons:
     - Elem: Options
       Content: |
           Elige las cadenas correctas:
-      Hint: Recuerda, usa las mismas comillas y ve con cuidado con los caracteres especiales.
+      Hint: Recuerda, usa las mismas comillas al principio y al final y ve con cuidado con los caracteres especiales.
       Multiple: yes
       Solution: [1,4,5]
       Options:
