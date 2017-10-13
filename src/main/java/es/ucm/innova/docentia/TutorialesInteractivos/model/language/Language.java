@@ -75,7 +75,7 @@ public abstract class Language {
      Se puede sobreescribir en cada lenguaje.
      */
     protected long getExecutionMillis(){
-        return 2000;
+        return 10000;
     }
 
 
