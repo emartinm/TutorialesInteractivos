@@ -46,18 +46,28 @@ def ejecutor_caso(g,l):
 
 """
 Función que sirve para corregir un problema de Python comparando el 
-valor de las variables de salida
- - Acepta una lista de casos de prueba [CasoDePrueba]
- - Cada CasoDePrueba es una pareja ([ListaVariablesEntrada, ListaVariablesSalida])
- - Las listas de variables de entrada y salida son listas de parejas (variable, valor)
- - Devuelve el diccionario con el resultado, el mensaje y las pistas
+valor de las variables de salida dados unos valores de variables de entrada.
 
-Ejemplo para la suma de 'a' y 'b':
+ - 'filename': 
+     ruta absoluta donde almacenar el JSON con el resultados
+     
+ - 'casos_prueba':
+     lista de casos de prueba [CasoDePrueba]. 
+     Cada CasoDePrueba es una pareja (ListaVariablesEntrada, ListaVariablesSalida)
+     Las listas de variables de entrada y salida son listas de parejas (variable, valor)
+     
+ - 'epsilon':
+     precisión para comparar floats y complex
+ 
+ - 'ejector_caso(g,l)':
+     función que admite un diccionario 'g' de valores globales y otro diccionario
+     'l' de valores locales. Modifica 'l' e inserta las nuevas variables, o actualiza
+     el valor de las existentes
 
-corrector_variables(
-    [([('a',1),('b',1)],[('suma',2)]),
-     ([('a',3),('b',1)],[('suma',5)])]
-)
+Ejemplo de 'casos_prueba' para la suma de las variables 'a' y 'b':
+  [ ([('a',1),('b',1)],[('suma',2)]),
+    ([('a',3),('b',1)],[('suma',5)])
+  ]
 """
 def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso):
     dicc = {'isCorrect':True}
@@ -81,13 +91,13 @@ def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso):
                 dicc = {'isCorrect':False, 'typeError':"Variable '{0}' no asignada".format(var),
                     'Hints':["La variable '{0}' debería contener algún valor.".format(var)]}
             elif (type(valor) != type(dicc_valores[var])):
-                # La variable tiene un valor diferente al esperado
+                # La variable tiene un tipo diferente al esperado
                 hints = ["La variable '{0}' debe ser de tipo {1}".format(var, type(valor)),
                          "Sin embargo, en tu código tiene tipo '{0}' y valor {1}".format(type(dicc_valores[var]), dicc_valores[var])]
                 dicc = {'isCorrect':False, 'typeError':"Variable '{0}' con tipo incorrecto".format(var),
                     'Hints': hints}
-            elif (type(valor) in [float,complex] and abs(dicc_valores[var] - valor) < epsilon) or
-                 (type(valor) not in [float,complex] and dicc_valores[var] == valor):
+            elif (((type(valor) in [float,complex]) and (abs(dicc_valores[var]-valor) < epsilon)) or
+                 (type(valor) not in [float,complex] and dicc_valores[var] == valor)):
                 # Comprobacion con exito
                 dicc = {'isCorrect':True}
             else:
@@ -110,7 +120,3 @@ def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso):
     # Escribir el diccionario generado
     with open(filename, 'w') as outfile:
         json.dump(dicc, outfile)
-
-
-if __name__ == "__main__":
-    corrector_variables(sys.argv[1], genera_casos(), epsilon(), ejecutor_caso)

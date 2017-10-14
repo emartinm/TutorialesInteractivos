@@ -1,34 +1,36 @@
 # -*- coding: UTF-8 -*-
 import sys
-import json
+from correctores.common.corrector_variables import corrector_variables
 
-def comprueba_igualdades(filename, valores):
-    try:
-        @@@CODE@@@
-        dicc = {'isCorrect':True}
-        things = locals()
-        for v in valores.keys():
-            if v in things:
-                if things[v] != valores[v]:
-                    dicc = {'isCorrect':False, 'typeError':"Valor de '{0}' incorrecto".format(v)}
-                    break
-            else:
-                dicc = {'isCorrect':False, 'typeError':"Variable '{0}' no asignada".format(v)}
-                break
-                
-        with open(filename, 'w') as outfile:
-            json.dump(dicc, outfile)
-        sys.exit(0);    
-    except Exception as e:
-        e.print_exc()
-        sys.exit(1)
-        #return False
+########################################################################
+#### Esto es lo que hay que cambiar en cada problema:               ####
+####  - epsilon: para comparar floats y complex, si lo necesitas    ####
+####  - genera_casos: devuelve una lista de casos de prueba         ####
+########################################################################
 
-def main():
-	comprueba_igualdades(sys.argv[1], {'cantidad': 10, 'adicional': 5, 'total': 15} )
+def epsilon():
+    return 1E-9
+
+
+def genera_casos():
+    # Generar los casos de prueba que se quieren comprobar
+    return [([], [ ('cantidad', 10), ('adicional', 5), ('total', 15)])]
+
+
+
+
+#################################
+#### Esto no hay que tocarlo ####
+#################################
+
+def ejecutor_caso(g,l):
+    # Aqui se pega el codigo del alumno
+    codigo = """
+@@@CODE@@@
+"""
+    exec(codigo,g,l)
+    # 'l' contendrá los valores de salida
 	
 
 if __name__ == "__main__":
-	main()    
-
-
+  corrector_variables(sys.argv[1], genera_casos(), epsilon(), ejecutor_caso)

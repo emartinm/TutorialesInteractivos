@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kike on 3/02/17.
@@ -47,6 +48,10 @@ public class PythonLanguage extends Language {
 
     protected ProcessBuilder getExecutionProcess(String execPath, String jsonPath) {
         ProcessBuilder pb = new ProcessBuilder(this.interpreter, execPath, jsonPath);
+        // Establecemos el PYTHONPATH a la carpeta raíz del tema
+        Map<String,String> env = pb.environment();
+        env.put("PYTHONPATH", this.path);
+        // Ejecutamos
         Controller.log.info( "Executing: " + pb.command());
         return pb;
     }
