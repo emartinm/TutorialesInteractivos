@@ -33,4 +33,4 @@ def ejecutor_caso(g,l):
 	
 
 if __name__ == "__main__":
-  corrector_variables(sys.argv[1], genera_casos(), epsilon(), ejecutor_caso)
+  corrector_variables(sys.argv[1], genera_casos(), epsilon(), ejecutor_caso, globals())

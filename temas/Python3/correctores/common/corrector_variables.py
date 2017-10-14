@@ -1,47 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-# Import imprescindibles
-import sys
 import json
-# Imports necesarios para generar los casos
-import math
-import random
-
-
-
-####
-#### Esto es lo que hay que cambiar en cada problema:
-####  - epsilon: para comparar flaots, si lo necesitas
-####  - genera_casos: devuelve una lista de casos de prueba
-
-def epsilon():
-    return 1E-9
-
-
-def genera_casos():
-    # Generar los casos de prueba que se quieren comprobar
-    casos  = list()
-    for i in range(1,15):
-        a = random.random() * random.randint(i,2*i)
-        b = random.random() * random.randint(i,2*i)
-        h = math.sqrt(a**2 + b**2)
-        casos.append( ([('a',a),('b',b)], [('h',h)]) )
-    return casos
-
-
-
-
-#################################
-#### Esto no hay que tocarlo ####
-#################################
-
-def ejecutor_caso(g,l):
-    # Aqui se pega el codigo del alumno
-    codigo = """
-@@@CODE@@@
-"""
-    exec(codigo,g,l)
-    # 'l' contendrá los valores de salida
 
 
 """
@@ -69,7 +28,7 @@ Ejemplo de 'casos_prueba' para la suma de las variables 'a' y 'b':
     ([('a',3),('b',1)],[('suma',5)])
   ]
 """
-def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso):
+def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso, g):
     dicc = {'isCorrect':True}
     for (entrada,salida) in casos_prueba:
         if not dicc['isCorrect']:
@@ -81,7 +40,7 @@ def corrector_variables(filename, casos_prueba, epsilon, ejecutor_caso):
             dicc_valores[var] = valor
 
         # Ejecutamos el codigo del alumno
-        ejecutor_caso(globals(), dicc_valores)
+        ejecutor_caso(g, dicc_valores)
         # Los resultados se consultan en 'dicc_valores
 
         # Comprobamos los valores de las variables de salida
