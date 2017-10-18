@@ -1,0 +1,19 @@
+Subject: 0
+Title: Funciones
+Intro: |
+  En este tema trataremos cómo definir y usar funciones en Python.
+Lessons:
+ - Title: Ejemplo de corrector
+   Elements:
+    - Elem: Code
+      Content: |
+        Escribe el cuerpo de una función que recibe dos parámetros `a` y `b` y devuelve su suma:
+      
+        ```
+      
+        def suma(a,b):
+            <CUERPO DE LA FUNCIÓN>
+        ```
+      File: correctores/funciones/fun1.py
+      Prompt: ["Escriba aquí el cuerpo de la función"]
+      Hint: Puedes resolverlo con una única instrucción. ¿Cómo se deben devolver los resultados?
