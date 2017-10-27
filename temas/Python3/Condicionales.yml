@@ -1,9 +1,171 @@
 Subject: 0
-Title: Tipos básicos, asignaciones y expresiones
+Title: Condicionales
 Intro: |
-  En este tema trataremos las piezas más básicas de los programas Python.
+  En este tema trataremos la instrucción condicional **if**.
 Lessons:
- - Title: Valores, variables y asignación
+ - Title: Condicionales simples
+   Elements:
+    - Elem: Text
+      Content: |
+          Una instrucción condicional sirve para ejecutar distintas instrucciones dependiendo
+          de que se cumpla, o no, una cierta condición. Esta condición la representaremos como
+          un valor **Booleano**.
+
+          La sintaxis del condicional más sencillo consta de la palabra reservada **if**,
+          seguida por la condición que deseamos comprobar y terminada por dos puntos. Las
+          instrucciones que deseamos que se ejecuten si se cumple la condición las escribiremos
+          más a la derecha que el resto del código y todas a la misma altura. Cuado deseemos
+          continuar con el código que no requiere que la condición se cumpla volveremos a escribir
+          a la misma altura que el **if**:
+
+          ```
+
+          INS
+          if COND:
+              INS1 # Primera instrucción que requiere que se cumpla COND
+              ...
+              INSn # Última instrucción que requiere que se cumpla COND
+          INS' # Esta intrucción no requiere que se cumpla COND. Se ejecuta después de
+               # INSn si COND se cumplía y después de INS si no se cumplía.
+          ```
+
+          Procura que tu instrucción **return** no esté dentro de un condicional. Es mejor
+          que toda función tenga una única instrucción **return**, que será la última del
+          programa.
+    - Elem: Text
+      Content: |
+          Un ejemplo sencillo de función que requiere un condicional es aquella que calcula
+          el valor absoluto de un número. Nuestra condición en este caso es comprobar si el
+          número es negativo; en este caso le cambiaremos el signo, mientras que en otro caso
+          no es necesario que hagamos nada:
+
+          ```
+          def abs(x):
+              if x < 0:
+              # Cambio de signo el dato de entrada
+                    x = -x
+              return x
+          ```
+    - Elem: Options
+      Content: |
+          ¿Qué debemos escribir en `INSTRUCCIÓN` para comprobar que la división es segura?
+
+          ```
+
+          def division(a,b):
+              resultado = 0
+              INSTRUCCIÓN
+                  resultado = a / b
+              return resultado
+          ```
+      #Hint: Se pueden incluir pistas en las preguntas.
+      Solution: [3]
+      Multiple: no
+      Options:
+        - "if a != 0:"
+        - if a != 0
+        - "if b != 0:"
+        - if b != 0
+    - Elem: Text
+      Content: |
+          Si queremos hacer cosas distintas dependiendo de si nuestra condición se cumple o no
+          necesitamos usar **else:** a la misma altura que **if**. Así, las instrucciones del
+          bloque **if** se ejecutarán cuando se cumpla la condición y las del bloque **else**
+          cuando no se cumpla:
+
+          ```
+
+          if COND:
+              INS1 # Primera instrucción que requiere que se cumpla COND
+              ...
+              INSn # Última instrucción que requiere que se cumpla COND
+          else:
+              INS'1 # Primera instrucción que requiere que no se cumpla COND
+              ...
+              INS'm # Última instrucción que requiere que no se cumpla COND
+          ```
+    - Elem: Code
+      Content: |
+       Queremos escribir una función que devuelva el saludo `"Buenos días"` si la hora es entre
+       las 7 y las 11 de la mañana (ambas horas incluidas) y `"Hola"` en otro caso. Supondremos
+       que la función recibe un número natural entre 0 y 23 que representa la hora.
+
+       ```
+
+       def saludo(h):
+           if (<Hueco 1>):
+               saludo = "Buenos días"
+           <Hueco 2>
+               saludo = "Hola"
+           return saludo
+       ```
+      Gaps: 2
+      Prompt: ["Valor de la variable 'saludo'"]
+      Hint: Recuerda que else se usa para indicar el caso en el que la condición no se cumple.
+      File: correctores/condicionales/condicionalesA.py
+    - Elem: Text
+      Content: |
+          Podemos usar un condicional con **else** para calcular el máximo de dos números.
+          En este caso, comprobaremos si el primero es mayor o igual que el segundo y en tal caso
+          guardaremos su valor en la variable **max**. En otro caso, el máximo es el segundo,
+          por lo que guardaremos su valor en **max**. Por último, debemos recordar devolver
+          el valor con **return**:
+
+          ```
+
+          def maximo(x,y):
+              if x >= y:
+                 max = x
+              else:
+                 max = y
+              return max
+          ```
+    - Elem: Text
+      Content: |
+          Por último, es posible que tengamos un cierto rango de condiciones que queremos distinguir.
+          En este caso, podemos usar un **if** con la primera condición, usar **elif** para la
+          siguiente condición, que se usará cuando no se cumpla la primera condición pero sí la segunda,
+          y seguir usando **elif** para el resto de condiciones. Es posible terminar la instrucción
+          condicional con un **else**, que se aplicará cuando ninguna de las condiciones anteriores
+          se cumpla, pero no es obligatorio.
+
+
+
+          ```
+
+          if COND1:
+              BLOQUE1 # Bloque de instrucciones que se ejecuta si se cumple COND1
+          elif COND2:
+              BLOQUE2 # Bloque de instrucciones que se ejecuta si no se cumple COND1
+                      # y sí se cumple COND2.
+          ...
+          elif CONDn:
+              BLOQUEn # Bloque de instrucciones que se ejecuta si no se cumplen COND1 ... COND(n-1)
+                      # y sí se cumple CONDn
+          else:
+              BLOQUEelse # Bloque de instrucciones que se ejecuta si no se cumplen COND1 ... CONDn
+                         # Este bloque es opcional
+          ```
+    - Elem: Text
+      Content: |
+          Podemos usar un condicional con **elif** y **else** para encontrar el máximo de 3 números.
+          Primero comprobaremos si el primero de los números es el máximo y en tal caso lo guardaremos
+          en **max**. Si no es el caso, entonces comprobaremos si el segundo número es el máximo y, en
+          tal caso, lo almacenaremos en **max**. Si tampoco es el caso, entonces el tercer número es el
+          máximo.
+
+          ```
+
+          def maximo3(x,y,z):
+              if x >= y and x >= z:
+                 max = x
+              elif y >= x and y >= z:
+                 max = y
+              else:
+                 max = z
+              return z
+          ```
+ - Title: Condicionales anidados
    Elements:
     - Elem: Text
       Content: |
@@ -28,22 +190,6 @@ Lessons:
 
           Como se puede ver, los distintos valores se pueden agrupar en una serie de **tipos básicos** que son soportados por todos los
           lenguajes de programación, Python incluido.
-    - Elem: Text
-      Content: |
-          Para permitir un manejo sencillo de estos valores, los lenguajes de programación nos proporcionan las **variables**. Una variable
-          es un *hueco* asociado a un **nombre** donde almacenamos un determinado valor. Por ejemplo:
-          ```
-
-          alumnos     = 17
-          balance     = -45
-          temperatura = 35.5
-          decision    = True
-          nombre      = "Eva Sánchez"
-          ```
-
-          En este caso la variable `alumnos_en_aula` contiene el valor natural `17`, la variable `balance` contiene el valor entero `-45`,
-          la variables `temperatura` el valor real `35.5`, la variable `decision` el valor **booleano** `True` y la variable `nombre` la cadena
-          `"Eva Sánchez"`
     - Elem: Text
       Content: |
           Al proceso de **asignar un valor a una variable** se le conoce como **asignación**, y es el elemento básico de la
@@ -191,22 +337,6 @@ Lessons:
         - 17
         - 1
         - -7
-    - Elem: Text
-      Content: |
-          Existen dos tipos de divisiones de número enteros, dependiendo de lo que queramos obtener. Por ejemplo, al dividir 5
-          entre 2 podemos querer obtener:
-           * el cociente real (2.5)
-           * el cociente entero (2)
-
-          Para obtener el cociente real utilizaremos el operador `/`. Este operador genera siempre un resultado que es un número
-          real (`float`). Si queremos obtener el cociente entero debemos utilizar la doble barra `//`. También podemos obtener
-          el resto de una división entera con el operador `%`:
-          ```
-
-          a = 5 / 2     # a --> 2.5 (float)
-          b = 5 // 2    # b --> 2 (int)
-          c = 5 % 2     # c --> 1 (int) resto de dividir 5 // 2
-          ```
     - Elem: Options
       Content: |
           ¿Qué valor contendrá la variable `cociente` después de ejecutar la siguiente instrucción?
@@ -298,30 +428,6 @@ Lessons:
 
           0.2 == (4.5 - 4.3)    # Devuelve 'False'
           ```
-    - Elem: Text
-      Content: |
-          Además de las operaciones básicas, Python nos ofrece una biblioteca llamada `math` con constantes matemáticas (pi, e) y funciones
-          (raíz cuadrada, seno, coseno). Para poder utilizar esta bibliteca es necesario importarla al inicio del fichero con la instrucción
-
-          ```
-
-          import math
-          ```
-
-          A partir de ese momento podemos acceder a esos elementos mediante `math.pi`, `math.e`, `math.sqrt`, etc.:
-
-          ```
-
-          import math # Importamos la biblioteca
-
-          radio = 3
-          2 * radio * math.pi # 18.84955592153876
-
-          math.sin(math.pi/3) # 0.8660254037844386
-          math.cos(math.pi/3) # 0.5000000000000001 (hay error obtenido)
-
-          math.sqrt(5) # la raíz cuadrada
-          ```
     - Elem: Code
       Content: |
           Consideremos el siguiente triángulo rectángulo.
@@ -330,7 +436,7 @@ Lessons:
 
           Si la longitud de los lados 'a' y 'b' está ya almacenada en las variables `a` y `b` respectivamente, utiliza el Teorema de
           Pitágoras para obtener la longitud de la hipotenusa 'h' y almacenarlo en la variable `h`. No es necesario importar la libreria
-          `math`, supón que ya ha sido cargada con la instrucción:
+          `math`, supon que ya ha sido cargada con la instrucción:
 
           ```
 
@@ -569,18 +675,6 @@ Lessons:
       Prompt: ["Valor de la variable 'ambas'","Valor de la variable 'una_u_otra'","Valor de la variable 'no_x'"]
       Hint: Recuerda que tenemos los operadores lógicos `and`, `or` y `not`.
       File: correctores/booleanos/booleanosB.py
- - Title: Strings
-   Elements:
-    - Elem: Text
-      Content: |
-          Los String o cadenas de caracteres son secuencias de símbolos encerrados entre comillas.
-          Estas comillas pueden ser simples (`'`) o dobles (`"`), pero es importante que se use la misma
-          al principio y al final del String. Por ejemplo, son válidas las cadenas `"Buenos días"` y
-          `'Buenas tardes'`, pero no la cadena `"Buenas noches'`.
-
-          Fíjate que no solo puedes usar letras, otras cadenas válidas son `"¡Hola!"` o `'#$%&?'`.
-          Ten cuidado si usas símbolos poco habituales, es posible que no se muestren en tu ordenador
-          si no usas la codificación adecuada.
     - Elem: Text
       Content: |
           Python nos proporciona cierta funcionalidad sobre cadenas. Por ejemplo, podemos
@@ -597,45 +691,6 @@ Lessons:
           ninguna variable). En el primer caso, al no usar espacios, la cadena queda
           `"holayadiós"` y resulta difícil de leer, mientras que en el segundo caso tenemos
           `"hola y adiós"`, que es mucho más legible.
-    - Elem: Text
-      Content: |
-          Por supuesto, solo podemos usar `+` cuando tenemos cadenas. Si queremos añadir a
-          una cadena valores de otros tipos (numéricos y enteros) podemos transformar dichos
-          valores usando la función `str`. Así, `str(1)` devuelve `"1"` y `str(True)`
-          devuelve `"True"`. De esta forma, podríamos formar la cadena:
-
-          ```
-
-          edad = 20
-          edad_str = "Tengo " str(edad) + " años"
-          ```
-
-          Por último, también está disponible `len` para obtener la longitud de una cadena.
-          Así, `len("edad_str")` devuelve `13`.
-    - Elem: Text
-      Content: |
-          *¡Cuidado!* Hay ciertos caracteres que no puedes usar directamente en una cadena.
-          Por ejemplo, no puedes usar unas comillas (se confundirían con las usadas en el String
-          o saltos de línea) ni la barra `\`. Para usarlas en un String debes usar `\` delante
-          de dicho caracter especial. Por ejemplo, la cadena `"Andrés dijo "Buenos días" a Juan"`
-          es incorrecta, porque las comillas intermedias rompen la cadena, deberíamos escribir
-          `"Andrés dijo \"Buenos días\" a Juan"`.
-
-          Asimismo, algunos elementos de formato, como los saltos de línea o los tabuladores,
-          tampoco pueden usarse directamente en una cadena. En particular, para el salto de línea
-          se usa `\n` y para el tabulador `\t`, con lo que el String `"Corté una rama\ny clareó mejor\npor la ventana"`
-          se usaría para representar este texto:
-
-          ```
-
-          Corté una rama
-          y clareó mejor
-          por la ventana
-          ```
-
-
-          Puedes encontrar más información sobre estos carecteres especiales
-          [aquí](https://docs.python.org/2.0/ref/strings.html).
     - Elem: Text
       Content: |
           Un caso particular de cadena de caracteres es aquella que contiene un solo caracter
@@ -667,22 +722,7 @@ Lessons:
        - 5) "Arriba\nAbajo"
     - Elem: Code
       Content: |
-       Rellena los huecos para que la variable `nombre_y_apellidos` almacene el valor "Ana García".
-       No uses espacios en la variable `apellidos`, si necesitásemos usarla después dificultaría
-       el proceso.
-       ```
-
-       nombre = "Ana"
-       apellidos = <Hueco 0>
-       nombre_y_apellidos = nombre <Hueco 1> apellidos
-       ```
-      Gaps: 2
-      Prompt: ["Valor de la variable 'nombre'","Valor de la variable 'apellidos'","Valor de la variable 'nombre_y_apellidos'"]
-      Hint: Recuerda que `+` es el operador que une cadenas.
-      File: correctores/strings/stringsA.py
-    - Elem: Code
-      Content: |
-       Supón que tenemos un caracter almacenado en la variable `x`. Calcula su código asociado en
+       Supon que tenemos un caracter almacenado en la variable `x`. Calcula su código asociado en
        Python, almacénalo en la variable `cod` y transfórmalo en String para poderlo mostrar en una frase.
        ```
 
