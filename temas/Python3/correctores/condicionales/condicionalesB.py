@@ -12,38 +12,34 @@ from correctores.common.corrector_funciones import corrector_funciones
 def epsilon():
     return 1E-9
 
-
 def genera_casos():
     # Generar los casos de prueba que se quieren comprobar
-    return [([('h',7)],[('saludo',"Buenos días")]),
-            ([('h',11)],[('saludo',"Buenos días")]),
-            ([('h',6)],[('saludo',"Buenos días")]),
-            ([('h',1)],[('saludo',"Hola")]),
-            ([('h',17)],[('saludo',"Hola")]),
-            ([('h',0)],[('saludo',"Hola")])]
+    return [ ({'nota_num':0}, "suspenso"),
+             ({'nota_num':1}, "suspenso"),
+             ({'nota_num':2}, "suspenso"),
+             ({'nota_num':3}, "suspenso"),
+             ({'nota_num':4}, "suspenso"),
+             ({'nota_num':5}, "aprobado"),
+             ({'nota_num':6}, "aprobado"),
+             ({'nota_num':7}, "notable"),
+             ({'nota_num':8}, "notable"),
+             ({'nota_num':9}, "sobresaliente"),
+             ({'nota_num':10}, "sobresaliente") ]
 
-def genera_casos():
-    # Generar los casos de prueba que se quieren comprobar
-    return [ ({'h':7}, "Buenos días"),
-             ({'h':11}, "Buenos días"),
-             ({'h':10}, "Buenos días"),
-             ({'h':1}, "Hola"),
-             ({'h':17}, "Hola"),
-             ({'h':0}, "Hola"),
-             ({'h':12}, "Hola"),
-             ({'h':6}, "Hola") ]
-
-
-def saludo(h):
+def nota(nota_num):
     if (@@@CODE@@@):
-        saludo = "Buenos días"
+        nota_transformada = "suspenso"
     @@@CODE@@@
-        saludo = "Hola"
-    return saludo
+        nota_transformada = "aprobado"
+    @@@CODE@@@
+        nota_transformada = "notable"
+    @@@CODE@@@
+        nota_transformada = "sobresaliente"
+    return nota_transformada
 
 
 def get_function():
-    return saludo
+    return nota
 
 
 

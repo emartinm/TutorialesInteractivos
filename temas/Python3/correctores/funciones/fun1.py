@@ -25,8 +25,8 @@ def suma(a,b):
 
 
 def get_function():
-    return suma    
-    
+    return suma
+
 
 
 #################################

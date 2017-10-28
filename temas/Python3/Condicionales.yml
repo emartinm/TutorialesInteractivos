@@ -84,6 +84,23 @@ Lessons:
               ...
               INS'm # Última instrucción que requiere que no se cumpla COND
           ```
+    - Elem: Text
+      Content: |
+          Podemos usar un condicional con **else** para calcular el máximo de dos números.
+          En este caso, comprobaremos si el primero es mayor o igual que el segundo y en tal caso
+          guardaremos su valor en la variable **max**. En otro caso, el máximo es el segundo,
+          por lo que guardaremos su valor en **max**. Por último, debemos recordar devolver
+          el valor con **return**:
+
+          ```
+
+          def maximo(x,y):
+              if x >= y:
+                 max = x
+              else:
+                 max = y
+              return max
+          ```
     - Elem: Code
       Content: |
        Queremos escribir una función que devuelva el saludo `"Buenos días"` si la hora es entre
@@ -103,23 +120,6 @@ Lessons:
       Prompt: ["Valor de la variable 'saludo'"]
       Hint: Recuerda que else se usa para indicar el caso en el que la condición no se cumple.
       File: correctores/condicionales/condicionalesA.py
-    - Elem: Text
-      Content: |
-          Podemos usar un condicional con **else** para calcular el máximo de dos números.
-          En este caso, comprobaremos si el primero es mayor o igual que el segundo y en tal caso
-          guardaremos su valor en la variable **max**. En otro caso, el máximo es el segundo,
-          por lo que guardaremos su valor en **max**. Por último, debemos recordar devolver
-          el valor con **return**:
-
-          ```
-
-          def maximo(x,y):
-              if x >= y:
-                 max = x
-              else:
-                 max = y
-              return max
-          ```
     - Elem: Text
       Content: |
           Por último, es posible que tengamos un cierto rango de condiciones que queremos distinguir.
@@ -165,573 +165,74 @@ Lessons:
                  max = z
               return z
           ```
+    - Elem: Code
+      Content: |
+       Queremos escribir una función que transforma una nota entre 0 y 10 en su correspondiente
+       en la escala `"suspenso"` - `"sobresaliente"`. Rellena los huecos para implementar dicha
+       función, suponiendo que `nota_num` toma valores entre 0 y 10.
+
+       ```
+
+       def nota(nota_num):
+           if (<Hueco 1>):
+               nota_transformada = "suspenso"
+           <Hueco 2>
+               nota_transformada = "aprobado"
+           <Hueco 3>
+               nota_transformada = "notable"
+           <Hueco 4>
+               nota_transformada = "sobresaliente"
+           return nota_transformada
+       ```
+      Gaps: 4
+      Prompt: ["Valor de la variable 'nota_transformada'"]
+      Hint: Usar elif te permitirá distinguir entre varias opciones
+      File: correctores/condicionales/condicionalesB.py
  - Title: Condicionales anidados
    Elements:
     - Elem: Text
       Content: |
-          Un programa Python es una secuencia de **instrucciones** que van calculando distintos **valores**. Por ejemplo, las siguientes
-          instrucciones piden al usuario un valor de temperatura Fahrenheit, lo transforman a Celsius y lo imprimen por pantalla.
+          Por supuesto, es posible usar instrucciones condicionales dentro un **if**, **elif**
+          o **else**. Por ejemplo, la función `grado` recibe como argumentos los coeficientes
+          de un polinomio de grado 2 (`a` es el coficiente para x^2, b para x y c el término
+          independiente) y devuelve el grado del polinomio según los distintos coeficientes
+          sean o no 0. Fíjate que es posible hacerlo sin anidar if, ¡prueba a hacerlo en casa!
 
           ```
 
-          user_input = input('Temperatura en Fahrenheit: ')
-          temp_fahrenheit = float(user_input)
-          temp_celsius = (temp_fahrenheit - 32) / 1.8
-          print('Temperatura en Celsius: ', temp_celsius)
-          ```
-
-          Estos valores manejados dependen del programa concreto:
-           * Cantidad de personas en un aula (*número natural*: `1`, `2`, `7`)
-           * Balance de una cuenta bancaria (*número entero*: `-34`, `0`, `67`)
-           * Temperatura en grados Celsius (*número real*: `35.6`, `-3.4`)
-           * Decisión de una persona (`True` o `False`)
-           * Raíces de un polinomio (*número complejo*: `-3.4 + 4.9i`, `45.2 - 2.1i`)
-           * Nombre de un alumno (*cadenas de letras*: `"Juan Martínez"`)
-
-          Como se puede ver, los distintos valores se pueden agrupar en una serie de **tipos básicos** que son soportados por todos los
-          lenguajes de programación, Python incluido.
-    - Elem: Text
-      Content: |
-          Al proceso de **asignar un valor a una variable** se le conoce como **asignación**, y es el elemento básico de la
-          programacion en Python. Para realizar una asignación se usa el operador `=`, donde a la izquierda aparecerá la
-          variable que queremos asignar y a la derecha el valor que queremos almacenar:
-          ```
-
-          <variable> = <valor>
-          ```
-          El lado derecho de la asignación puede ser un valor básico (`-58`, `56.789`, `False`) o una **expresión** que se evalúa a
-          un valor:
-          ```
-
-          temperatura = 35.6
-          balance     = 100 - 45
-          alumnos     = (3 * 6) + 2
-          ```
-    - Elem: Code
-      Content: Escribe una instrucción de asignación para almacenar el valor entero ```350``` en una variable llamada ```longitud```
-      File: correctores/asignaciones/asig0.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Con una sola instrucción será más que suficiente
-    - Elem: Text
-      Content: |
-          Además, mediante asignaciones se puede ir actualizando el valor de las variables a lo largo de la ejecución de un programa. De ahí el
-          nombre de **variable**:
-          ```
-
-          temperatura = 35.6
-          incremento  = 3.2
-          temperatura = temperatura + incremento
-          ```
-          Nótese que en las expresiones del lado derecho de las asignaciones pueden aparecer constantes pero también variables.
-
-          La variable `temperatura` comienza con el valor real `35.6`, e `incremento` con `3.2`. En la tercera instrucción se **actualiza**
-          el valor de `temperatura` mediante la expresión `temperatura + incremento`, que se evalúa a `38.8`. Tras ejecutar las 3 instrucciones,
-          los valores de las 2 variables involucradas serían:
-          ```
-
-          temperatura --> 38.8
-          incremento  --> 3.2
-          ```
-    - Elem: Options
-      Content: |
-          ¿Qué valor contendrá la variable `temperatura` después de ejecutar las siguientes instrucciones?
-
-          ```
-
-          temperatura = 10
-          temperatura = 2 * temperatura
-          ```
-      #Hint: Se pueden incluir pistas en las preguntas.
-      Solution: [2]
-      Multiple: no
-      Options:
-        - 10
-        - 20
-        - 2
-        - No está definido
-    - Elem: Code
-      Content: |
-        Escribe una serie de instrucciones para asignar las siguientes variables:
-
-        ```
-
-        cantidad --> 10
-        adicional --> 5
-        total --> suma de las variables cantidad y adicional
-        ```
-      File: correctores/asignaciones/asig1.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Necesitarás 3 instrucciones como mínimo
-    - Elem: Text
-      Content: |
-          En el resto del tema trataremos con detalle los siguientes tipos básicos de Python:
-           * **Tipos numéricos**:
-               * `int`: números enteros
-               * `float`: números reales en coma flotante
-               * `complex`: números complejos
-           * **Booleanos** (`bool`), valores *cierto* y *falso*
-           * **Cadenas de caracteres** (`str`) para almacenar texto
-           #* `tuple`: tuplas, secuencias de valores de tamaño fijo
- - Title: Números enteros
-   Elements:
-    - Elem: Text
-      Content: |
-          Los números enteros en Python (tipo predefinido `int`) nos permiten representar cantidades negativas y positivas. Es el tipo
-          numérico más utilizado.
-
-          ```
-
-          a = 12
-          b = -45
-          c = 0
-          ```
-
-          Además, Python nos proporciona todas las operaciones usuales sobre enteros:
-           * Suma
-           * Resta
-           * Multiplicación
-           * División
-           * Potencia
-    - Elem: Text
-      Content: |
-          Como hemos dicho, los números enteros se pueden sumar (`+`), restar (`-`) y multiplicar (`*`):
-
-
-          ```
-
-          a = 2 + 8     # a --> 10
-          b = 6 - 10    # b --> -4
-          c = -2 * 14   # c --> -28
-          ```
-
-          En todos estos casos las variables `a`, `b` y `c` tienen valores enteros. Se puede conocer el tipo de valor que contiene una
-          variable usando la función `type`:
-          ```
-
-          a = 34
-          type(a)     # --> int
-    - Elem: Text
-      Content: |
-          Las expresiones aritméticas tienen la precedencia usual en matemáticas: la multiplicación y la división son más
-          prioritarias que la suma y la resta, y en caso de empate se resuelve de derecha a izquierda. Para cambiar la prioridad
-          se utilizan paréntesis
-
-          ```
-
-          a = 2 + 4 * 3      # a --> 14, la multiplicación tiene prioridad
-          b = (2 + 4) * 3    # b --> 18, los paréntesis cambian esa prioridad
-          ```
-    - Elem: Options
-      Content: |
-          ¿Qué valor contendrá la variable `a` después de ejecutar la siguiente instrucción?
-
-          ```
-
-          a = 8 - 3 * 3 + 2
-          ```
-      Hint: Aquí importa mucho la precedencia de operadores. Para evitar problemas es mucho mejor añadir paréntesis
-      Solution: [3]
-      Multiple: no
-      Options:
-        - -3
-        - 17
-        - 1
-        - -7
-    - Elem: Options
-      Content: |
-          ¿Qué valor contendrá la variable `cociente` después de ejecutar la siguiente instrucción?
-
-          ```
-
-          cociente = 10 / 3
-          ```
-      Hint: Revisa qué tipo de división se está realizando. ¿Entera o real?
-      Solution: [2]
-      Multiple: no
-      Options:
-        - 3 (`int`)
-        - 3.33333333333 (`float`)
-        - 1 (`int`)
-        - No está definido
-    - Elem: Code
-      Content: |
-        Escribe una secuencia de instrucciones para asignar a la variable `cociente` el resultado de la división **entera** de 20 entre 3,
-        y a la varible `resto` el resto de la división entera de 20 entre 3.
-      File: correctores/asignaciones/asig2.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Revisa los distintos operadores que puedes usar
-    - Elem: Text
-      Content: |
-          Por último, Python también proporciona operadores para calcular potencias. En este caso el operador es el doble asterisco
-          `**`. El número a la izquierda será la **base**, y el número a la derecha será el **exponente**. Cuando ambos operandos son números enteros el resultado también lo será:
-
-          ```
-
-          a = 2 ** 10   # a --> 1024 (int)
-          b = 3 ** 3    # b --> 27 (int)
-          c = -1 ** 9   # c --> -1 (int)
-          ```
- - Title: Números reales, aritmética de coma flotante
-   Elements:
-    - Elem: Text
-      Content: |
-          Los números reales en Python (tipo predefinido `float`) nos permiten representar cantidades negativas y positivas con parte
-          decimal. Para separar la parte decimal del resto del número utilizaremos el punto.
-
-          Las operaciones que soportan los números reales son las mismas que los números enteros: suma, resta, multiplicación, división real,
-          división *entera*, módulo y pontencia. Cuando estas operaciones se aplican a números reales **siempre devuelven valores reales**. Incluso
-          en los casos en los que uno solo de los operandos es real, el resultado devuelto es real.
-
-          ```
-
-          2.0 + 8.0     # 10.0
-          4.5 - 4.3     # 0.20000000000000018
-          2.5 * 8       # 20.0
-          5.0 / 2       # 2.5 -> división real
-          5.0 // 2      # 2.0 -> división entera, pero genera 'float'
-          5.0 % 2       # 1.0 -> resto de la división entera como 'float'
-          5.5 ** 2      # 30.25
-
-          ```
-    - Elem: Options
-      Content: |
-          Acabamos de ver que cuando es una operación aritméticas se mezclan operandos enteros (`int`) y reales (`float`) el resultado toma un tipo de datos muy
-          concreto. En la siguiente asignación, ¿qué valor tomará la variable `suma`?
-
-          ```
-
-          a    = 5
-          suma = a + 8.0
-          ```
-      Hint: Revisa el apartado anterior, seguro que ves ejemplos
-      Solution: [2]
-      Multiple: no
-      Options:
-        - 13 (de tipo 'int')
-        - 13.0 (de tipo 'float')
-        - No se pueden sumar enteros y reales
-    - Elem: Text
-      Content: |
-          Es importante darse cuenta de que los números reales que usa Python no tienen una precisión arbitraria. Esto es así por la manera en
-          la que estos números se representan en el ordenador. Por ello, a veces los resultados obtenidos en operaciones con números reales
-          no son exactos sino que tiene un (muy pequeño) grado de error. Por ejemplo:
-
-          ```
-
-          4.5 - 4.3     # 0.20000000000000018, en lugar de 0.2
-          ```
-
-          Esto puede dar lugar a problemas si comprobamos la igualdad **exacta** de números reales. Por ejemplo, la siguiente
-          igualdad sería falsa en Python por esa pequeña diferencia al calcular la resta, aunque debería ser el mismo número:
-
-          ```
-
-          0.2 == (4.5 - 4.3)    # Devuelve 'False'
+          def grado(a,b,c):
+              if a == 0:
+                 if b == 0:
+                    gr = 0
+                 else:
+                    gr = 1
+              else:
+                 gr = 2
+              return gr
           ```
     - Elem: Code
       Content: |
-          Consideremos el siguiente triángulo rectángulo.
-
-          ![triangulo](file:///img/triangulo_abh.png)
-
-          Si la longitud de los lados 'a' y 'b' está ya almacenada en las variables `a` y `b` respectivamente, utiliza el Teorema de
-          Pitágoras para obtener la longitud de la hipotenusa 'h' y almacenarlo en la variable `h`. No es necesario importar la libreria
-          `math`, supon que ya ha sido cargada con la instrucción:
+          Escribe una función `min_max(x, y, sel)` donde `x` e `y` son valores numéricos
+          y `sel` es un valor Booleano. Si `y` es `True` entonces la función devuelve el mínimo entre
+          `x` e `y`, mientras que en otro caso devuelve el máximo.
 
           ```
 
-          import math
+          def min_max(x,y,sel):
+              if (<Hueco 1>):
+                  <Hueco 2>
+                      resultado = x
+                  else:
+                      resultado = y
+              else:
+                  <Hueco 3>
+                      resultado = x
+                  else:
+                      resultado = y
+              return resultado
           ```
 
-          **Pista**: el Teorema de pitágoras establece que:
-          @@@h = \sqrt{a^2 + b^2}@@@
-      File: correctores/asignaciones/asig3.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Deberás utilizar la raíz cuadrada de 'math'
-    - Elem: Text
-      Content: |
-          Python cuenta con varias funciones muy útiles para transformar enteros. Entre ellas destacamos:
-           - `int` genera un número entero (`int`) a partir de uno real, truncando la parte decimal
-           ```
-
-           int(3.4)  # 3 ('int')
-           int(-8.9) # -8 c ('int')
-           ```
-           - `round` redondea un número real al entero más cercano, generando un resultado de tipo `int`
-           ```
-
-           round(3.2)  # 3  ('int')
-           round(3.5)  # 4  ('int')
-           round(-3.5) # -4 ('int')
-           ```
-           - `math.floor` redondea un número al entero **inferior** generando un resultado de tipo `int`
-           ```
-
-           math.floor(3.7)   # 3  ('int')
-           math.floor(-3.2)  # -4 ('int')
-           ```
-           - `math.ceil` redondea un número al entero **superior** generando un resultado de tipo `int`
-           ```
-
-           math.ceil(3.2)   # 4  ('int')
-           math.ceil(-3.2)  # -3 ('int')
-           ```
-           Podéis encontrar el listado completo de funciones matemáticas y su documentación en
-           [https://docs.python.org/3/library/math.html](https://docs.python.org/3/library/math.html).
-    - Elem: Code
-      Content: |
-          Imagina que existe una variable real `calif` que almacena la calificiación de un alumno en una determinada prueba.
-          Escribe el código Python necesario para asignar a la variable `calif_redondeada` el resultado
-          de **redondear** la calificación al entero más cercano.
-      File: correctores/asignaciones/asig4.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Deberás utilizar alguna función sobre números reales. ¿Cuál será la adecuada?
-    - Elem: Code
-      Content: |
-          Este ejercicio es similar al anterior pero más *benévolo*. Imagina que existe una variable real `calif` que almacena la calificiación de un alumno.
-          Escribe el código Python necesario para asignar a la variable `calif_redondeada` el resultado
-          de **redondear** la calificación al **número entero superior más cercano** y sumarle 0.5 puntos al resultado.
-          La variable 'calif_redondeada', por tanto, debe tener tipo (`float`)
-      File: correctores/asignaciones/asig5.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Deberás utilizar una función de la biblioteca 'math' y un operador.
- - Title: Números complejos
-   Elements:
-    - Elem: Text
-      Content: |
-          Los números complejos en Python (tipo predefinido `complex`) están formados por una parte real **a** y una parte imaginaria **b**.
-          Normalmente se representan como parejas `(a,b)` o usando @@j = \sqrt{-1}@@ para indicar la parte imaginaria `a + bj`. En algunos
-          contextos se usa `j` en lugar de `i`, aunque Python utilizará siempre la `j`.
-
-          Tanto la componente **a** como la **b** son números reales. Para construir números complejos en en Python utilizaremos la constructora
-          `complex(a,b)`. Por ejemplo, para almacenar el número complejo `3.2 -4j` en la variable `c` ejecutaríamos la instrucción:
-
-          ```
-
-          c = complex(3.2, 4)
-          ```
-    - Elem: Code
-      Content: |
-          Escribe la instrucción necesaria para almacenar en la variable `num` el número complejo `-8.2 + 5.5j`.
-      File: correctores/asignaciones/asig6.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Deberás usar la constructora de números complejos.
-    - Elem: Text
-      Content: |
-          Dado un número complejo, Python nos permite acceder a su parte real e imaginaria por separado. Para ello es necesario usar los *atributos*
-          `real` e `imag`. Por ejemplo:
-
-          ```
-
-          num = complex(5.5, -8.9)
-
-          num.real  # Devuelve 5.5
-          num.imag  # Devuelve -8,9
-          ```
-    - Elem: Code
-      Content: |
-          Una magnitud muy interesante de los números complejos es su **valor absoluto** o **módulo**, que se calcula como:
-          @@@|a + bj| = \sqrt{a^2 + b^2}@@@
-          Escribe la instrucción necesaria para almacenar en la variable `modulo` el valor absoluto del número complejo
-          almacenado en la variable `num`.
-
-          No es necesario que importéis la biblioteca `math`, podéis suponer que ya había sido importada con la instrucción:
-          ```
-
-          import math
-          ```
-      File: correctores/asignaciones/asig7.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Deberás usar los atributos para extraer la parte real e imaginaria del número complejo, y también operaciones sobre reales.
-    - Elem: Text
-      Content: |
-          Los números complejos en Python soportan los operadores numéricos usuales:
-           * Suma (`+`)
-           * Resta (`-`)
-           * Multiplicación (`*`)
-           * División (`/`)
-           * Exponenciación (`**`)
-
-          ```
-
-          num1 = complex(3.2,4)
-          num2 = complex(2.98,-2.2)
-
-          num1 + num2   # (6.18+1.7999999999999998j)
-          num1 - num2   # (0.2200000000000002+6.2j)
-          num1 * num2   # (18.336+4.879999999999999j)
-          num1 / num2   # (0.053642750940205826+1.3818839100900848j)
-          num1 ** 2.2   # (-14.184565509037927+33.50055790709343j)
-          ```
-          Notad que como las componentes reales e imaginarias se representan internamente como números reales en coma
-          flotante, algunas operaciones pueden sufrir una ligera pérdida de precisión. Por ejemplo, esto ocurre en la
-          suma anterior, en la componente imaginaria: `1.7999999999999998j` en lugar de `1.8j`
-    - Elem: Text
-      Content: |
-          A la hora de operar con números complejos, es interesante conocer la existencia de la biblioteca `cmath`. Es similar a la
-          biblioteca `math` pero sus operaciones aceptan y devuelven números complejos.
-
-          Un ejemplo muy claro es la función `cmath.sqrt`, que admite números reales negativos y complejos, y cuyo resultado *siempre
-          es un número complejo*. Por ejemplo:
-
-          ```
-
-          import math
-          import cmath
-
-          math.sqrt(-1) # Genera un error de tipo `math domain error`
-                        # puesto que math.sqrt solo admite reales positivos
-
-          cmath.sqrt(-1)     # Genera el complejo '1j'
-          cmath.sqrt(-8)     # Genera el complejo '2.8284271247461903j'
-          cmath.sqrt(2 + 5j) # Genera el complejo '1.921609326467597+1.3009928530039094j'
-          ```
-    - Elem: Code
-      Content: |
-          Un polinomio de grado 2 @@ax^2 + bx + c = 0@@ tiene dos raíces, que pueden obtenerse mediante las ecuaciones:
-          @@@r1 = \frac{-b + \sqrt{b^2 - 4ac}}{2a}@@@
-
-          @@@r2 = \frac{-b - \sqrt{b^2 - 4ac}}{2a}@@@
-
-          Dependiendo de los valores de *a*, *b* y *c* las raices pueden ser números reales o complejos. Suponiendo que las variables
-          `a`, `b` y `c` almacenan valores complejos, escribe las instrucciones necesarias para calcular los valores de las variables
-          `r1` y `r2` siguiendo las fórmulas. Tanto `r1` como `r2` deben almacenar valores de tipo `complex`.
-
-          No es necesario que importéis la biblioteca `cmath`, podéis suponer que ya había sido importada con la instrucción:
-          ```
-
-          import cmath
-          ```
-      File: correctores/asignaciones/asig8.py
-      Prompt: ["Escriba aquí el código"]
-      Hint: Deberás usar la función de raíz cuadrada compleja de la biblioteca 'cmath.sqrt'.
-
- - Title: Booleanos
-   Elements:
-    - Elem: Text
-      Content: |
-          Los valores Booleanos nos permiten indicar si algo es cierto (`True` en Python)
-          o falso (`False` en Python).
-
-          Los valores de este tipo nos permiten trabajar de manera eficiente con
-          condiciones, y por tanto es necesario usarlos adecuadamente. Un error típico
-          al tratar con Booleanos es usar otros valores (por ejemplo, devolver `"sí"`
-          y `"no"`). Recuerda prestar atención a los valores esperados en cada caso y
-          usa los Booleanos cuando sea necesario.
-    - Elem: Text
-      Content: |
-          Las comparaciones entre valores númericos nos dan como resultado valores Booleanos.
-          Así, las expresiones `3 > 0` y `3 <= 3` se evalúan al valor `True`, mientras que
-          la expresión `(3 % 2) == 0` se evalúa a `False`.
-
-          Puedes encontrar todos los operadores de comparación
-          [aquí](https://docs.python.org/3/library/stdtypes.html#comparisons).
-    - Elem: Text
-      Content: |
-          También existen operadores lógicos, que nos permiten combinar distintos valores
-          Booleanos:
-          * El operador `and` toma dos valores Booleanos y devuelve `True` si ambos son `True`
-          y `False` en otro caso.
-          * El operador `or` toma dos valores Booleanos y devuelve `True` si alguno de ellos
-          es `True` y `False` en otro caso.
-          * El operador `not` transforma el valor `True` en `False` y viceversa.
-
-          Puedes encontrar más información sobre los operadores lógicos
-          [aquí](https://docs.python.org/3/library/stdtypes.html#boolean-operations-and-or-not).
-    - Elem: Options
-      Content: |
-          Elige las constantes Booleanas que existen en Python
-      Hint: Revisa la lección si no sabes la respuesta.
-      Multiple: no
-      Solution: [2]
-      Options:
-       - 1) true y false
-       - 2) True y False
-    - Elem: Code
-      Content: |
-       Rellena los huecos del siguiente código para comprobar que la variable `x` es estrictamente mayor que 0,
-       menor o igual que 10 y distinta de 5, respectivamente.
-       ```
-
-       mayor_que_0 = <Hueco 0>
-       menor_o_igual_que_10 = <Hueco 1>
-       distinto_de_5 = <Hueco 2>
-       ```
       Gaps: 3
-      Prompt: ["Valor de la variable 'mayor_que_0'","Valor de la variable 'menor_o_igual_que_10'","Valor de la variable 'distinto_de_5'"]
-      Hint: Recuerda que tenemos los comparadores `<`, `<=`, `>`, `>=`, `==` y `!=`, entre otros.
-      File: correctores/booleanos/booleanosA.py
-    - Elem: Code
-      Content: |
-       Dadas las variables booleanas `x` e `y`, escribe expresiones pidiendo que se cumplan `x` e `y`, al menos una de ellas
-       y la negación de x, respectivamente.
-       ```
-
-       ambas = <Hueco 0>
-       una_u_otra = <Hueco 1>
-       no_x = <Hueco 2>
-       ```
-      Gaps: 3
-      Prompt: ["Valor de la variable 'ambas'","Valor de la variable 'una_u_otra'","Valor de la variable 'no_x'"]
-      Hint: Recuerda que tenemos los operadores lógicos `and`, `or` y `not`.
-      File: correctores/booleanos/booleanosB.py
-    - Elem: Text
-      Content: |
-          Python nos proporciona cierta funcionalidad sobre cadenas. Por ejemplo, podemos
-          usar el operador `+` para juntar dos cadenas. Por ejemplo, el código
-
-          ```
-
-          saludo = "hola"
-          despedida = "adiós"
-          saludo_despedida_feo = saludo + "y" + despedida
-          saludo_despedida = saludo + " y " + despedida
-          ```
-          Fíjate que hemos unido ambas variables usando `+` y una cadena fija (no guardada en
-          ninguna variable). En el primer caso, al no usar espacios, la cadena queda
-          `"holayadiós"` y resulta difícil de leer, mientras que en el segundo caso tenemos
-          `"hola y adiós"`, que es mucho más legible.
-    - Elem: Text
-      Content: |
-          Un caso particular de cadena de caracteres es aquella que contiene un solo caracter
-          (como por ejemplo `"a"`, `'!'` o incluso `" "`, que es el caracter espacio en blanco).
-          Hay ciertas funciones útiles que pueden aplicarse solo a caracteres, las funciones
-          `chr` y `ord`.
-
-          La función `ord` sirve para obtener el número con el que Python representa internamente
-          el caracter dado. De forma complementaria, la función `chr` devuelve el caracter correspondiente
-          al número introducido en la función.
-
-          Por ejemplo, `ord("a")` devuelve `97`, mientras que `chr(97)` devuelve `"a"`.
-          Presta atención a mayúsculas y minúsculas, ya que se codifican con distintos
-          números.
-
-          Puedes encontrar más información sobre cadenas de caracteres
-          [aquí](https://docs.python.org/3.1/library/string.html).
-    - Elem: Options
-      Content: |
-          Elige las cadenas correctas:
-      Hint: Recuerda, usa las mismas comillas al principio y al final y ve con cuidado con los caracteres especiales.
-      Multiple: yes
-      Solution: [1,4,5]
-      Options:
-       - 1) "Buenos días"
-       - 2) "Buenas tardes'
-       - 3) "Se llama "José", no "Jose""
-       - 4) "Se llama \"José\", no \"Jose\""
-       - 5) "Arriba\nAbajo"
-    - Elem: Code
-      Content: |
-       Supon que tenemos un caracter almacenado en la variable `x`. Calcula su código asociado en
-       Python, almacénalo en la variable `cod` y transfórmalo en String para poderlo mostrar en una frase.
-       ```
-
-       cod = <Hueco 1>
-       cod_str = <Hueco 2>
-       frase = "El código de " + x + " es " + cod_str
-       ```
-      Gaps: 2
-      Prompt: ["Valor de la variable 'cod'","Valor de la variable 'cod_str'","Valor de la variable 'frase'"]
-      Hint: Recuerda que `ord` nos dice el código y `str` transforma otros tipos en String.
-      File: correctores/strings/stringsB.py
-
+      Prompt: ["Valor de la variable 'resultado'"]
+      Hint: Comprueba primero si tienes que hacer el mínimo o el máximo y luego compara los números.
+      File: correctores/condicionales/condicionalesC.py

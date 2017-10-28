@@ -12,38 +12,29 @@ from correctores.common.corrector_funciones import corrector_funciones
 def epsilon():
     return 1E-9
 
-
 def genera_casos():
     # Generar los casos de prueba que se quieren comprobar
-    return [([('h',7)],[('saludo',"Buenos días")]),
-            ([('h',11)],[('saludo',"Buenos días")]),
-            ([('h',6)],[('saludo',"Buenos días")]),
-            ([('h',1)],[('saludo',"Hola")]),
-            ([('h',17)],[('saludo',"Hola")]),
-            ([('h',0)],[('saludo',"Hola")])]
+    return [ ({'x':0, 'y':1, 'sel':True}, 0),
+             ({'x':0, 'y':1, 'sel':False}, 1),
+             ({'x':1, 'y':0, 'sel':True}, 0),
+             ({'x':1, 'y':0, 'sel':False}, 1) ]
 
-def genera_casos():
-    # Generar los casos de prueba que se quieren comprobar
-    return [ ({'h':7}, "Buenos días"),
-             ({'h':11}, "Buenos días"),
-             ({'h':10}, "Buenos días"),
-             ({'h':1}, "Hola"),
-             ({'h':17}, "Hola"),
-             ({'h':0}, "Hola"),
-             ({'h':12}, "Hola"),
-             ({'h':6}, "Hola") ]
-
-
-def saludo(h):
+def min_max(x,y,sel):
     if (@@@CODE@@@):
-        saludo = "Buenos días"
-    @@@CODE@@@
-        saludo = "Hola"
-    return saludo
+        @@@CODE@@@
+            resultado = x
+        else:
+            resultado = y
+    else:
+        @@@CODE@@@
+            resultado = x
+        else:
+            resultado = y
+    return resultado
 
 
 def get_function():
-    return saludo
+    return min_max
 
 
 
