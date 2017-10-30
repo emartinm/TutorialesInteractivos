@@ -84,6 +84,39 @@ Lessons:
               ...
               INS'm # Última instrucción que requiere que no se cumpla COND
           ```
+    - Elem: Options
+      Content: |
+          Es importante comprender la diferencia entre las instrucciones que van detrás de un
+          bloque **if** (sin **else**), y las instrucciones que van dentro de un bloque **else**.
+          
+          Por ejemplo, ¿qué muestra por pantalla cada uno de estos programas?
+          ```
+          
+          edad = 20
+          if edad >= 18:
+            print("Mayor")
+
+          print("Menor")          
+          ```
+          
+          ```
+          
+          edad = 20
+          if edad >= 18:
+            print("Mayor")
+          else:
+            print("Menor")          
+          ```
+          
+          
+      #Hint: Se pueden incluir pistas en las preguntas.
+      Solution: [4]
+      Multiple: no
+      Options:
+        - Ambos son equivalentes y muestran "Menor" por pantalla.
+        - Ambos son equivalentes y muestran "Mayor" por pantalla.
+        - El primero muestra "Mayor". El segundo muestra "Menor".
+        - El primero muestra "Mayor" seguido de "Menor". El segundo solo muestra "Mayor".
     - Elem: Text
       Content: |
           Podemos usar un condicional con **else** para calcular el máximo de dos números.
@@ -110,19 +143,18 @@ Lessons:
        ```
 
        def saludo(h):
-           if (<Hueco 1>):
+           if (<Hueco 0>):
                saludo = "Buenos días"
-           <Hueco 2>
+           <Hueco 1>
                saludo = "Hola"
            return saludo
        ```
       Gaps: 2
-      Prompt: ["Valor de la variable 'saludo'"]
       Hint: Recuerda que else se usa para indicar el caso en el que la condición no se cumple.
       File: correctores/condicionales/condicionalesA.py
     - Elem: Text
       Content: |
-          Por último, es posible que tengamos un cierto rango de condiciones que queremos distinguir.
+          Por último, es posible que tengamos más de una condición sobre la que realizar distinción.
           En este caso, podemos usar un **if** con la primera condición, usar **elif** para la
           siguiente condición, que se usará cuando no se cumpla la primera condición pero sí la segunda,
           y seguir usando **elif** para el resto de condiciones. Es posible terminar la instrucción
@@ -165,6 +197,39 @@ Lessons:
                  max = z
               return z
           ```
+    - Elem: Options
+      Content: |
+          ¿Existe alguna diferencia entre estos dos fragmentos de código?
+
+          ```
+
+          
+          if h < 10:
+            h = h + 2
+          if h > 10:
+            h = h - 2
+          print(h)
+          ```
+
+          ```
+
+          if h < 10:
+            h = h + 2
+          elif h > 10:
+            h = h - 2
+          print(h)
+          ```
+          
+      Hint: Fíjate en el primer programa. ¿Es posible que se puedan ejecutar ambas
+            sentencias `h = h + 2` y `h = h - 2` para un valor de h determinado?
+            ¿Ocurre lo mismo en el segundo programa?
+      Solution: [2]
+      Multiple: no
+      Options:
+        - No. Los programas son completamente equivalentes.
+        - Sí. Su comportamiento difiere cuando el valor inicial de h es 9.
+        - Sí. Su comportamiento difiere cuando el valor inicial de h es 0 o 9.
+        - Sí. El segundo programa falla cuando el valor inicial de h es 0. El primero no.
     - Elem: Code
       Content: |
        Queremos escribir una función que transforma una nota entre 0 y 10 en su correspondiente
@@ -174,13 +239,13 @@ Lessons:
        ```
 
        def nota(nota_num):
-           if (<Hueco 1>):
+           if (<Hueco 0>):
                nota_transformada = "suspenso"
-           <Hueco 2>
+           <Hueco 1>
                nota_transformada = "aprobado"
-           <Hueco 3>
+           <Hueco 2>
                nota_transformada = "notable"
-           <Hueco 4>
+           <Hueco 3>
                nota_transformada = "sobresaliente"
            return nota_transformada
        ```
@@ -196,7 +261,7 @@ Lessons:
           o **else**. Por ejemplo, la función `grado` recibe como argumentos los coeficientes
           de un polinomio de grado 2 (`a` es el coficiente para x^2, b para x y c el término
           independiente) y devuelve el grado del polinomio según los distintos coeficientes
-          sean o no 0. Fíjate que es posible hacerlo sin anidar if, ¡prueba a hacerlo en casa!
+          sean o no 0. Fíjate que es posible hacerlo sin anidar if. ¡Prueba a hacerlo en casa!
 
           ```
 
@@ -219,13 +284,13 @@ Lessons:
           ```
 
           def min_max(x,y,sel):
-              if (<Hueco 1>):
-                  <Hueco 2>
+              if (<Hueco 0>):
+                  <Hueco 1>
                       resultado = x
                   else:
                       resultado = y
               else:
-                  <Hueco 3>
+                  <Hueco 2>
                       resultado = x
                   else:
                       resultado = y
