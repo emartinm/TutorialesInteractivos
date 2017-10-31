@@ -66,6 +66,33 @@ Lessons:
         - if a != 0
         - "if b != 0:"
         - if b != 0
+    - Elem: Options
+      Content: |
+          Supongamos la siguiente definición para la función calculo:
+
+          ```
+
+          def calculo(rango):
+              total = 0
+              if (not(rango/4<=12)):
+              	 total = total+1
+              if ((rango>1 and rango<5) or (rango==8)):
+                 total = total+1
+              if (rango>1):
+                 if (rango<5 or rango==8):
+                    total = total+1
+              return total;
+          ```
+          ¿Qué devolerá la llamada "calculo(3)"?
+      #Hint: Se pueden incluir pistas en las preguntas.
+      Solution: [3]
+      Multiple: no
+      Options:
+        - 0
+        - 1
+        - 2
+        - 3
+        - Da un error
     - Elem: Text
       Content: |
           Si queremos hacer cosas distintas dependiendo de si nuestra condición se cumple o no
@@ -233,8 +260,9 @@ Lessons:
     - Elem: Code
       Content: |
        Queremos escribir una función que transforma una nota entre 0 y 10 en su correspondiente
-       en la escala `"suspenso"` - `"sobresaliente"`. Rellena los huecos para implementar dicha
-       función, suponiendo que `nota_num` toma valores entre 0 y 10.
+       en la escala `"suspenso"` - `"sobresaliente"`  de acuerdo al siguiente baremo [0,5)
+       suspenso; [5,7) aprobado; [7,9) notable; [9,10] sobresaliente.. Rellena los huecos para
+       implementar dicha función, suponiendo que `nota_num` toma valores entre 0 y 10.
 
        ```
 
