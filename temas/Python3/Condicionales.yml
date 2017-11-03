@@ -68,7 +68,7 @@ Lessons:
         - if b != 0
     - Elem: Options
       Content: |
-          Supongamos la siguiente definición para la función calculo:
+          Supongamos la siguiente definición para la función `calculo`:
 
           ```
 
@@ -115,27 +115,27 @@ Lessons:
       Content: |
           Es importante comprender la diferencia entre las instrucciones que van detrás de un
           bloque **if** (sin **else**), y las instrucciones que van dentro de un bloque **else**.
-          
+
           Por ejemplo, ¿qué muestra por pantalla cada uno de estos programas?
           ```
-          
+
           edad = 20
           if edad >= 18:
             print("Mayor")
 
-          print("Menor")          
+          print("Menor")
           ```
-          
+
           ```
-          
+
           edad = 20
           if edad >= 18:
             print("Mayor")
           else:
-            print("Menor")          
+            print("Menor")
           ```
-          
-          
+
+
       #Hint: Se pueden incluir pistas en las preguntas.
       Solution: [4]
       Multiple: no
@@ -230,7 +230,7 @@ Lessons:
 
           ```
 
-          
+
           if h < 10:
             h = h + 2
           if h > 10:
@@ -246,7 +246,7 @@ Lessons:
             h = h - 2
           print(h)
           ```
-          
+
       Hint: Fíjate en el primer programa. ¿Es posible que se puedan ejecutar ambas
             sentencias `h = h + 2` y `h = h - 2` para un valor de h determinado?
             ¿Ocurre lo mismo en el segundo programa?
