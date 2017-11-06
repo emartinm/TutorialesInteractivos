@@ -303,6 +303,80 @@ Lessons:
                  gr = 2
               return gr
           ```
+    - Elem: Options
+      Content: |
+          Partimos de la siguiente definición de función:
+
+          ```
+          def misterio(x,y):
+            if x <= y:
+              y = y - x
+              if y % 2 == 0:
+                print("Caso 1")
+            else:
+              x = x - y
+              if x % 2 == 0:
+                print("Caso 2")
+              else:
+                print("Caso 3")
+          ```
+          ¿Qué ocurre si realizamos la llamada `misterio(7,2)`?
+      
+      Solution: [3]
+      Multiple: no
+      Options:
+        - Se imprime por pantalla "Caso 1".
+        - Se imprime por pantalla "Caso 2".
+        - Se imprime por pantalla "Caso 3".
+        - No se imprime nada por pantalla.
+    - Elem: Options
+      Content: |
+          ```
+          def misterio(x,y):
+            if x <= y:
+              y = y - x
+              if y % 2 == 0:
+                print("Caso 1")
+            else:
+              x = x - y
+              if x % 2 == 0:
+                print("Caso 2")
+              else:
+                print("Caso 3")
+          ```
+          ¿Y si realizamos la llamada `misterio(3,6)`?
+      
+      Solution: [4]
+      Multiple: no
+      Options:
+        - Se imprime por pantalla "Caso 1".
+        - Se imprime por pantalla "Caso 2".
+        - Se imprime por pantalla "Caso 3".
+        - No se imprime nada por pantalla.
+    - Elem: Options
+      Content: |
+          ```
+          def misterio(x,y):
+            if x <= y:
+              y = y - x
+              if y % 2 == 0:
+                print("Caso 1")
+            else:
+              x = x - y
+              if x % 2 == 0:
+                print("Caso 2")
+              else:
+                print("Caso 3")
+          ```
+          ¿Y si realizamos la llamada `misterio(3,5)`?
+      
+      Solution: [1]
+      Multiple: no
+      Options:
+        - Se imprime por pantalla "Caso 1".
+        - Se imprime por pantalla "Caso 2".
+        - Se imprime por pantalla "Caso 3".
+        - No se imprime nada por pantalla.
     - Elem: Code
       Content: |
           Escribe una función `min_max(x, y, sel)` donde `x` e `y` son valores numéricos
