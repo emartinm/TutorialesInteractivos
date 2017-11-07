@@ -380,7 +380,7 @@ Lessons:
     - Elem: Code
       Content: |
           Escribe una función `min_max(x, y, sel)` donde `x` e `y` son valores numéricos
-          y `sel` es un valor Booleano. Si `y` es `True` entonces la función devuelve el mínimo entre
+          y `sel` es un valor Booleano. Si `sel` es `True` entonces la función devuelve el mínimo entre
           `x` e `y`, mientras que en otro caso devuelve el máximo.
 
           ```
