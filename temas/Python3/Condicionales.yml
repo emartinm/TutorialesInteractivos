@@ -230,7 +230,6 @@ Lessons:
 
           ```
 
-
           if h < 10:
             h = h + 2
           if h > 10:
@@ -261,7 +260,7 @@ Lessons:
       Content: |
        Queremos escribir una función que transforma una nota entre 0 y 10 en su correspondiente
        en la escala `"suspenso"` - `"sobresaliente"`  de acuerdo al siguiente baremo [0,5)
-       suspenso; [5,7) aprobado; [7,9) notable; [9,10] sobresaliente.. Rellena los huecos para
+       suspenso; [5,7) aprobado; [7,9) notable; [9,10] sobresaliente. Rellena los huecos para
        implementar dicha función, suponiendo que `nota_num` toma valores entre 0 y 10.
 
        ```
@@ -287,9 +286,9 @@ Lessons:
       Content: |
           Por supuesto, es posible usar instrucciones condicionales dentro un **if**, **elif**
           o **else**. Por ejemplo, la función `grado` recibe como argumentos los coeficientes
-          de un polinomio de grado 2 (`a` es el coficiente para x^2, b para x y c el término
+          de un polinomio de grado 2 (`a` es el coficiente para x^2, `b` para x y `c` el término
           independiente) y devuelve el grado del polinomio según los distintos coeficientes
-          sean o no 0. Fíjate que es posible hacerlo sin anidar if. ¡Prueba a hacerlo en casa!
+          sean o no 0. Fíjate que es posible hacerlo sin anidar **if**. ¡Prueba a hacerlo en casa!
 
           ```
 
