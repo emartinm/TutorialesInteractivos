@@ -3,17 +3,281 @@ Title: Funciones
 Intro: |
   En este tema trataremos cómo definir y usar funciones en Python.
 Lessons:
- - Title: Ejemplo de corrector
+ - Title: Definición de funciones
    Elements:
-    - Elem: Code
-      Content: |
-        Escribe el cuerpo de una función que recibe dos parámetros `a` y `b` y devuelve su suma:
-      
-        ```
-      
-        def suma(a,b):
-            <CUERPO DE LA FUNCIÓN>
-        ```
-      File: correctores/funciones/fun1.py
-      Prompt: ["Escriba aquí el cuerpo de la función"]
-      Hint: Puedes resolverlo con una única instrucción. ¿Cómo se deben devolver los resultados?
+      - Elem: Text
+        Content: |
+          Declarar funciones es sencillo: A partir de unos parámetros "abstractos" se realizan una 
+          serie de operaciones (en una o varias líneas) y se devuelve el valor deseado a través de la instrucción `return`. 
+          Para **llamar** a una  función, basta sustituir los parametros por valores "concretos".
+          
+          Por ejemplo, el código para definir una función que calcule el máximo de dos números tendría el siguiente aspecto:
+
+          ```
+          def max(x, y):
+              return (x + y + abs(x - y)) // 2
+          ```
+          
+          Y algunas llamadas a dicha función:
+
+          ```
+          max(3,25), max(3.4,5.6), max(-1,-3)
+          ```
+      - Elem: Text
+        Content: |
+          Una función puede ejecutar varias instrucciones antes de devolver el correspondiente valor, por ejemplo:
+          ```
+          def mean(a1, a2, a3, a4):
+              s = 0.0
+              s = s + a1
+              s = s + a2
+              s = s + a3
+              s = s + a4
+              return s / 4
+          ```
+          hace varias asignaciones a la variable s antes de devolver un valor.
+      - Elem: Options
+        Content: |
+          Dada la definición anterior de la función `mean`
+          ```
+          def mean(a1, a2, a3, a4):
+              s = 0.0
+              s = s + a1
+              s = s + a2
+              s = s + a3
+              s = s + a4
+              return s / 4
+          ```
+          ¿Qué devuelve la siguiente llamada a la función mean?
+          ```
+          mean(1, 2, 3)
+          ``` 
+        #Hint: Se pueden incluir pistas en las preguntas. 
+        Solution: [3] 
+        Multiple: no
+        Options:
+           - 1
+           - 2
+           - Da un error
+      - Elem: Code
+        Content: |
+           Escribe el cuerpo de una función que recibe tres parámetros `h`, `m` y `s` y devuelve el número de segundos al que corresponden:
+        
+           ```
+        
+           def seconds(h, m, s):
+               <CUERPO DE LA FUNCIÓN>
+           ```
+        File: correctores/funciones/fun2.py
+        Prompt: ["Escriba aquí el cuerpo de la función"]
+        Hint: Puedes resolverlo con una única instrucción. ¿Cómo se deben devolver los resultados?
+      - Elem: Text
+        Content: |
+            Debemos indicar lo que hace la función, el tipo que se espera en los parámetros de entrada y el valor devuelto.
+            Lo haremos tras la cabecera de la función (así llamamos a la línea que contiene `def` y después el nombre y los parámetros), como en el siguiente ejemplo:
+            ```
+            def max(x, y):
+                """
+                Function that return the maximum of 2 values
+
+                Parameters
+                ----------
+                x : int
+                    First number
+                y : int
+                    Second number
+                
+                Return	
+                ------	
+                int
+                   The maximun of 2 values
+                    
+                Example	
+                -------
+                >>> max(2, 3)
+                3
+                """
+                return (x + y + abs(x - y)) // 2
+            ```
+ - Title: Más ejemplos de funciones
+   Elements:
+      - Elem: Options
+        Content: |
+                Dada la siguiente defiición de la función `circle`:
+                ```
+                
+                import math
+                def circle(radius):
+                    """
+                    Function that computes the surface of a circle
+
+                    Parameters
+                    ----------
+                    radius : float
+                        The radius of the circle
+                    
+                    Returns
+                    ------
+                    float
+                        The surface of the circle
+                        
+                    Precondition
+                    ------------
+                    radius >= 0
+                    
+                    Example
+                    -------
+                    >>> circle(3)
+                    28.274333882308138    
+                    """
+                    sur = math.pi * radius ** 2 
+                    return sur 
+                ```
+                ¿Qué devuelve la llamada `circle(2)`?
+        #Hint: Se pueden incluir pistas en las preguntas. 
+        Solution: [1] 
+        Multiple: no
+        Options:
+           - 12.566370614359172
+           - 12
+           - Da un error
+      - Elem: Text
+        Content: |
+                A veces una función no está definida para todos los posibles valores de los parámetros. En ese caso debemos indicar 
+                las condiciones que éstos deben cumplir en el apartado *Precondition* de la documentación de la función. 
+                ```
+                def quadratic(a, b, c):
+                    """
+                    Function that computes the solution of a quadratic ecuation
+                        a * x**2 + b * x + c = 0
+                        
+                    Parameters
+                    ----------
+                    a, b, c : float
+                        paratemeters of equation
+                    
+                    Returns
+                    -------
+                    tuple of float
+                        Solutions of equation
+                    
+                    Precondition
+                    ------------
+                    a != 0 and b*b - 4*a*c >= 0
+                    
+                    Example
+                    -------
+                    >>> quadratic(1, -5, 6)
+                    (3.0, 2.0)
+                    """
+                    disc = b*b - 4*a*c
+                    sol1 = (-b + math.sqrt(disc)) / (2*a)
+                    sol2 = (-b - math.sqrt(disc)) / (2*a)
+                    return sol1, sol2
+                ```
+
+                Así avisamos al usuario de la función de que si la precondición no se cumple, 
+                el programa puede interumpirse o los resultados no tener sentido
+                ```
+                
+                in[1]:quadratic(0,1,2)
+                Traceback (most recent call last):
+
+                  File "<ipython-input-2-cc060a108ca9>", line 1, in <module>
+                    quadratic(0,1,2)
+
+                  File "/home/jcarmona/.config/spyder-py3/temp.py", line 33, in quadratic
+                    sol1 = (-b + math.sqrt(disc)) / (2*a)
+
+                ZeroDivisionError: float division by zero
+
+
+                in[2]:quadratic(1,1,1)
+                Traceback (most recent call last):
+
+                  File "<ipython-input-3-7b2fb531b719>", line 1, in <module>
+                    quadratic(1,1,1)
+
+                  File "/home/jcarmona/.config/spyder-py3/temp.py", line 33, in quadratic
+                    sol1 = (-b + math.sqrt(disc)) / (2*a)
+
+                ValueError: math domain error
+                ```  
+      - Elem: Text
+        Content: |
+                Además una función puede devolver varios valores                
+                ```
+                
+                def quadratic(a, b, c):
+                    """
+                    Function that computes the solution of a quadratic ecuation
+                        a * x**2 + b * x + c = 0
+                        
+                    Parameters
+                    ----------
+                    a, b, c : float
+                        paratemeters of equation
+                    
+                    Returns
+                    -------
+                    tuple of float
+                        Solutions of equation
+                    
+                    Precondition
+                    ------------
+                    a != 0 and b*b - 4*a*c >= 0
+                    
+                    Example
+                    -------
+                    >>> quadratic(1, -5, 6)
+                    (3.0, 2.0)
+                    """
+                    disc = b*b - 4*a*c
+                    sol1 = (-b + math.sqrt(disc)) / (2*a)
+                    sol2 = (-b - math.sqrt(disc)) / (2*a)
+                    return sol1, sol2
+                ``` 
+                Entonces, para capturar esos valores necesitamos varias variables
+                ```
+                r1,r2 = quadratic(1,-4,3)
+                ```
+      - Elem: Text
+        Content: | 
+                Se pueden definir escribir funciones sin return, aunque de momento no tiene mucho sentido
+                ```
+                
+                def triangular_number(n):
+                    """
+                    This function computes the n-th triangular number
+                    
+                    Parameters
+                    ----------
+                    n : int
+                    
+                    Returns
+                    -------
+                    int
+                    
+                    Precondition
+                    ------------
+                    n > 0
+                    """
+                    ntriag = (n * (n +1)) // 2
+
+                ``` 
+                Una función sin `return` devuelve el valor especial `None` 
+                Si intentamos realizar alguna operación con ése valor es fácil que obtengamos un error
+
+                ```
+
+                in[6]:n = triangular_number(5)
+
+                in[7]:n*2
+                Traceback (most recent call last):
+
+                  File "<ipython-input-6-68a68b2c3d6d>", line 1, in <module>
+                    n*2
+
+                TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'
+
+                ```    
