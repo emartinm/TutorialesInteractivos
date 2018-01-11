@@ -266,7 +266,7 @@ Lessons:
 
                 ``` 
                 Una función sin `return` devuelve el valor especial `None` 
-                Si intentamos realizar alguna operación con ése volor es fácil que obtengamos un error
+                Si intentamos realizar alguna operación con ése valor es fácil que obtengamos un error
 
                 ```
 

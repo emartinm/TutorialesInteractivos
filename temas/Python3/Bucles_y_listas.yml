@@ -1,0 +1,161 @@
+Subject: 0
+Title: Bucles y Listas
+Intro: |
+  En este tema introducimos las listas de Python, usando los bucles para tratar con ellas.
+Lessons:
+   - Title: Listas como una cantidad indeterminada de parámetros,  uso con `while`
+     Elements:
+       - Elem: Text
+         Content: |
+             Queremos hacer la media de unos números reales, cada uno en una variable. ¿qué ocurre si no se sabe cuántos números hay?
+
+             Partamos de un caso concreto con 5 elementos
+
+             ```
+             numberlst = [4.0, 6.0, 7.0, 3.0, 2.0]
+             ```
+
+             Podemos ver `numberlst` como 5 variables distintas: numberlst[0], numberlst[1], numberlst[2], numberlst[3], numberlst[4]
+             y obtener su media con este código:
+
+             ```
+             
+             s = 0.0
+             s = s + numberlst[0]
+             s = s + numberlst[1]
+             s = s + numberlst[2]
+             s = s + numberlst[3]
+             s = s + numberlst[4]
+             mean = s / len(numberlst)
+             ```
+
+             Una cuestión muy útil es que el índice con el que accedemos a un elemento de una lista puede ser una variable, así podemos escribir el código 
+             anterior como:
+             
+             ```
+
+             s = 0.0
+             i = 0
+             s = s + numberlst[i]
+             i = i + 1
+             s = s + numberlst[i]
+             i = i + 1
+             s = s + numberlst[i]
+             i = i + 1
+             s = s + numberlst[i]
+             i = i + 1
+             s = s + numberlst[i]
+             mean = s / len(numberlst)
+
+             ```
+
+             ya tenemos claro cómo hay que escribir las cosas en el caso general, en que numberlst es el parámetro de una función, y puede tener cualquier número de elementos: 
+
+             ```
+
+             def mean(numberlst):
+                 """This function returns the mean of a list of numbers
+    
+                 Parameters
+                 ----------
+                    numberlst : [float]
+                                Non-empty list of float numbers
+        
+                 Returns
+                 -------
+                   float
+                     Mean of the list
+    
+                 Example
+                 -------
+                 >>> mean([4.0, 6.0, 7.0, 3.0, 2.0])
+                 4.4
+                 """
+                 s = 0.0
+                 i = 0
+                 while i < len(numberlst):
+                     s = s + numberlst[i]
+                     i = i + 1
+                 return s / len(numberlst)
+             ```             
+
+       - Elem: Code
+         Content: |
+             Queremos hacer funciones con **polinomios**
+
+             poly ----> 3x³ - 6x  + 2
+
+             Como representamos este polinomio, ¿con 4 reales?
+             ¿y si el polinomio tiene grado n?
+             Necesitamos algo que nos permita representar n reales: 3, 0, -6, 2   
+
+             ```
+
+             poly = [2.0, 6.0, 0.0, 3.0]
+             ```           
+             
+             El coeficiente del término de grado `i` es `poly[i]`
+
+             Escribe el cuerpo de una función que evalue un polinomio `poly` (representado por su lista de coeficientes) en un punto `x`
+             
+             ```
+        
+             def eval_poly(poly, x):
+                 <CUERPO DE LA FUNCIÓN>
+             ```
+         File: correctores/listas/listas1.py
+         Prompt: ["Escriba aquí el cuerpo de la función"]
+         Hint: Para obtener el número de elementos de una lista usamos la función `len`, así `len(poly)` nos dá el número de elementos de la lista `poly`.    
+
+   - Title: Bucle for __  in __
+     Elements:
+       - Elem: Text
+         Content: |
+             Sintaxis:
+             ```
+             for <<variable>> in <<secuencia>>:
+                   <<cuerpo del bucle>>
+             ```
+
+             Su semántica se entiende perféctamente usándolo para escribir la función `mean` de la lección anterior:
+
+             ```
+
+             def mean(numberlst):
+                 """This function returns the mean of a list of numbers
+    
+                 Parameters
+                 ----------
+                    numberlst : [float]
+                                Non-empty list of float numbers
+        
+                 Returns
+                 -------
+                   float
+                     Mean of the list
+    
+                 Example
+                 -------
+                 >>> mean([4.0, 6.0, 7.0, 3.0, 2.0])
+                 4.4
+                 """
+                 s = 0.0
+                 for number in numberlst:
+                     s = s + number
+                 return s / len(numberlst)             
+             
+             ```
+
+       - Elem: Code
+         Content: |
+
+             Escribe el cuerpo de la función `eval_poly` de la lección anterior usando un bucle `for __  in __`
+             
+             ```
+        
+             def eval_poly(poly, x):
+                 <CUERPO DE LA FUNCIÓN>
+             ```
+         File: correctores/listas/listas2.py
+         Prompt: ["Escriba aquí el cuerpo de la función"]    
+ 
