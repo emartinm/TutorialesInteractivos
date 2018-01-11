@@ -158,4 +158,37 @@ Lessons:
              ```
          File: correctores/listas/listas2.py
          Prompt: ["Escriba aquí el cuerpo de la función"]    
- 
+   - Title: Funciones que devuelven listas
+     Elements:
+       - Elem: Text
+         Content: |
+                Queremos devolver los factores primos de un número. Como el número de factores es distinto para cada número lo adecuado será devolver una lista que los contenga.
+                
+                Para ello necesitamos partir de la lista vacía `factors = []`. Añadimos cada factor a la lista con `factors.append(fct)`
+                
+                ``` 
+                def factors(n):
+                    """
+                    This function computes the list of factors of n
+                    
+                    Parameters
+                    ----------
+                    n : int
+                        Integer number to decompose, n > 1
+                        
+                    Returns
+                    -------
+                    [int]
+                        Factors of n
+                        
+                    Example
+                    -------
+                    >>> factors(256)
+                    [2, 2, 2, 2, 2, 2, 2, 2]
+                    """
+                    fct = 2 # 2 is the first prime number
+                    factors = [] #This is an empty list
+                    while n > 1:
+                        if n % fct == 0: # if fct divides n, it is a prime number
+                            factors.append(fct) 
+                ```
