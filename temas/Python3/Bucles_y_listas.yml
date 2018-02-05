@@ -1,7 +1,7 @@
 Subject: 5
-Title: Bucles y Listas
+Title: Bucles, Listas y funciones
 Intro: |
-  En este tema introducimos las listas de Python, usando los bucles para tratar con ellas.
+  En este tema introducimos unas nociones básicas sobre las listas de Python, usando los bucles para tratar con ellas. También nos preocuparemos de sus peculiaridades cuando las pasamos como parámetros de funciones.
 Lessons:
    - Title: Listas como una cantidad indeterminada de parámetros,  uso con `while`
      Elements:
@@ -192,3 +192,342 @@ Lessons:
                         if n % fct == 0: # if fct divides n, it is a prime number
                             factors.append(fct) 
                 ```
+       - Elem: Code
+         Content: |
+               Rellena los huecos en el siguiente código de forma que la función `primes(n)`  devuelva la lista de los primos menores o iguales que `n`.
+               El primer hueco está pensado para definir una función que nos indique si un número es primo o no.
+
+ 
+               ```
+               
+               <Hueco 0>
+
+               def primes(n):
+                   <Hueco 1>
+
+               ```                 
+ 
+         Gaps: 2
+         File: correctores/listas/listas3.py
+
+
+   - Title: Mutabilidad de las listas.
+     Elements:
+       - Elem: Text
+         Content: |
+             Si necesitamos trabajar con horas, podemos hacerlo usando tres variables.
+             Por ejemplo si son las 14:30:00 podemos asignar tres variables:
+
+             ```
+             
+             h, m, s = 14, 30, 0
+
+             ```
+
+             Si ahora ha pasado un cierto periodo de tiempo `ds`, expresado en segundos nuestra hora será ¿?.
+             Merece la pena tomarse la molestia de escribir una función para resolver el problema
+
+
+             ```
+             
+                    def inc_time(h, m, s, es):
+                        """ 
+                        Function increasing time coded by h,m,s
+                        in es (elapsed time) seconds.
+
+
+                        Parameters
+                        ------------------------------------
+                        h:int
+                        m:int
+                        s:int
+                        es:int elapsed seconds
+
+
+                        h,m,s fulfill "invariant representation", i.e
+                        0<=h<24 and 0<=m<60 and 0<=s<60
+                        es >= 0   
+
+                        Returns
+                        ----------------------------------------
+                        h,m,s increased accordingly
+
+                        Example
+                        ------------------------
+                        >>> inc_time(23,59,0,240)
+                        (0, 3, 0)
+                        """
+                        h1, m1, s1 = h, m, s+es
+                        if s1 > 59:
+                            m1 = m + s1//60
+                            s1 = s1%60
+                            if m1 > 59:
+                                h1 = h + m1//60
+                                m1 = m1%60
+                                if h1 >= 24:
+                                    h1 = h1%24
+                        return h1, m1, s1
+
+             ```
+             
+             Así podemos actualizar nuestras variables para representar la hora al pasar 240 segundos.
+
+             ```
+             
+             h, m, s = 14, 30, 0
+             h, m, s = inc_time(h, m, s)
+             ```             
+
+             Las variables `h, m, s` pasan a valer:
+             
+             ```
+             14, 34, 0
+                          
+             ```
+
+       - Elem: Text
+         Content: |
+             Usando listas podemos *unir* las cosas en una única variable.
+
+             ```
+             
+             time = [14, 30, 0]
+             ```
+
+             ```
+             
+             def inc_time1(t, es):
+                 """ 
+                 Function increasing time coded by list of values t=[h,m,s]
+                 in es (elapsed time)  seconds.
+                 Changes occur in t parameter!
+
+
+                 Parameters
+                 ------------------------------------
+                 t=[int]
+                 es: elapsed seconds
+                    
+
+                 len(t) = 3 and members fullfill "invariant representation"
+                 0<=t[0]<24 and 0<=t[1]<60 and 0<=t[2]<60
+                 es >= 0   
+
+                 Returns
+                 ----------------------------------------
+                 NoneType
+
+                 Example
+                    ------------------------
+                 >>> t=[23,59,0]
+                 >>> inc_time(t,240)
+                 >>> t
+                 """
+                 t[2] = t[2] + es
+                 if t[2] > 59:
+                    t[1] = t[1] + t[2]//60
+                    t[2] = t[2]%60
+                    if t[1] > 59:
+                       t[0] = t[0] + t[1]//60
+                       t[1] = t[1]%60
+                       if t[0] >= 24:
+                          t[0] = t[0]%24
+             ```
+
+             ```
+
+             inc_time1(time, 240)
+             time
+             ```
+
+             El código anterior muestra que `time` pasa a valer:
+
+             ```
+   
+             [14, 34, 0]
+             ```
+
+             Observa dos cosas:
+
+             *  `inc_time1` no tiene `return`
+
+             * no hay asignación en la instrucción anterior.
+
+
+             La función inc_time1 se encarga de cambiar la lista a la que se refiere la variable `time`
+
+
+       - Elem: Options
+         Content: |
+             Intentemos hacer los mismo sin utilizar las listas, definiendo la correspondiente función:
+
+             ```
+                def bad_inc_time(h,m,s,es):
+                    """ 
+                    Faulty Function trying to increase time coded by h,m,s
+                    in es (elapsed time)  seconds.
+                    Changes _should_ occur in h,m,s arguments (they won't) 
+
+
+                    Parameters
+                    ------------------------------------
+                    t=[int]
+                    es: elapsed seconds
+                    
+
+                    0<=h<24 and 0<=m<60 and 0<=s<60
+                    es >= 0   
+
+                    Returns
+                    ----------------------------------------
+                    NoneType
+
+                    Example
+                    ------------------------
+                    >>> h,m,s=23,59,0
+                    >>> inc_time(h,m,s,240)
+                    >>> h,m,s
+                    """
+                    s = s + es
+                    if s > 59:
+                        m = m + s//60
+                        s = s%60
+                        if m > 59:
+                            h = h + m//60
+                            m = m%60
+                            if h >= 24:
+                                h = h%24
+
+
+             ```
+             
+             ¿Cuanto valen las variables  `h,m,s` después de ejecutar las instrucciones siguientes?
+             
+             ```
+             
+             h,m,s=14,30,0
+             bad_inc_time( h,m,s,240)
+
+             ```      
+         
+         Solution: [1]
+         Multiple: no
+         Options:
+           - h->14,m->30,s->0.
+           - h->14,m->34,s->0.
+             
+              
+       - Elem: Text
+         Content: |
+             La explicación al fenómeno anterior es fácil: los nombres de los parámetros y las variables de las funciones tienen *ámbito local*. 
+
+             La razón de conseguir el efecto en el caso de la lista es que **las listas son *mutables*.** 
+
+             Aunque el nombre del parametro de una lista sea local, las referencias a los objetos que contiene pueden ser cambiadas! Como son las mismas dentro y   
+             fuera   de la función, el resultado es que la estructura 'parece' haber cambiado en su interior.
+
+             El siguiente enlace accede a una herramienta on-line muy interesante para estudiar estas situaciones.
+
+              <a href="https://goo.gl/198ni8">Python Tutor</a> 
+
+             
+       - Elem: Options
+         Content: |
+             Otra situación en que debemos tener cuidado sobre el hecho de que las variables sean referencias es el caso de las matrices.
+             
+             En Python podemos representar una matriz como una lista de listas de números. `m = [[0,0,0],[0,0,0],[0,0,0]]`
+
+             ¿Qué instrucción de Python debemos ejecutar para que el elemento en la posición (0,0) sea 17?
+         Solution: [2]
+         Multiple: no
+         Options:
+            -  m[0,0] = 17
+            -  m[0][0] = 17
+
+       - Elem: Options
+         Content: |
+             Para construir matrices de cualquier tamaño conviene definir una función:
+
+             ```
+             def bad_zero_matrix(n,m):
+                    """ 
+                    Function returning a zero matrix, with m rows y n columns
+
+                    Parameters
+                    ------------------------------------
+                    n:int
+                    m:int
+
+                    n,m >= 0
+                    
+                    Returns
+                    ----------------------------------------
+                    [[int]]  (See, however, how they are internally represented!)
+                    
+                    
+                    Example
+                    ------------------------
+                    >>> bad_zero_matrix(3,4)
+                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+                    """    
+                    return [[0]*n]*m
+             ```
+             
+             Si ejecutamos el siguiente código:
+             
+             ```
+
+             m = bad_zero_matrix(3,4)
+             m[0][0] = 3
+             ```
+
+             ¿Qué contiene la matriz m?
+
+         Solution: [1]
+         Multiple: no
+         Options:
+            -  m->[[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0]]
+            -  m->[[3, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+            -  nada, la asignación no es correcta.
+
+       - Elem: Text
+         Content: |
+              Lo anterior indica que la estructura de los datos es treméndamente importante.
+
+              La definición adecuada es la siguiente:
+
+              ```
+
+              def zero_matrix(n,m):
+                    """ 
+                    Function returning a zero matrix, with n rows y m columns
+
+                    Parameters
+                    ------------------------------------
+                    n:int
+                    m:int
+
+                    n,m >= 0
+                    
+                    Returns
+                    ----------------------------------------
+                    [[int]]  
+                    
+                    
+                    Example
+                    ------------------------
+                    >>> zero_matrix(3,4)
+                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+                    """    
+                    result=[]
+                    for i in range(m):
+                        result.append([0]*n)
+                    return result
+              ```
+              
+              
+              De nuevo Python Tutor nos permite visualizar la estructura en ambos casos:
+
+              <a href="https://goo.gl/XAEnvt"> Python Tutor </a>
+
+
