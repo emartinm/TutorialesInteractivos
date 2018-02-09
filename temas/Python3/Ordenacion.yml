@@ -1,0 +1,34 @@
+Subject: 6
+Title: Algoritmos de ordenación
+Intro: bla bla bla
+Lessons:
+ - Title: Introducción
+   Elements:
+    - Elem: Text
+      Content: |
+          bla bla bla
+ - Title: Ordenación por selección
+   Elements:
+    - Elem: Text
+      Content: |
+          bla bla bla
+ - Title: Ordenación por inserción
+   Elements:
+    - Elem: Text
+      Content: |
+          bla bla bla
+ - Title: Ordenación de burbuja
+   Elements:
+    - Elem: Text
+      Content: |
+          bla bla bla          
+ - Title: Quicksort
+   Elements:
+    - Elem: Text
+      Content: |
+          bla bla bla          
+ - Title: Mergesort
+   Elements:
+    - Elem: Text
+      Content: |
+          bla bla bla
