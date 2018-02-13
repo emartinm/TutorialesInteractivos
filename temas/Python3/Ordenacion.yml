@@ -26,7 +26,119 @@ Lessons:
    Elements:
     - Elem: Text
       Content: |
-          bla bla bla          
+          # Quicksort
+
+          Los algoritmos de ordenación que acabáis de aprender son los conocidos como *cuadráticos*, ya que en el peor
+          de los casos deben hacer una cantidad de comparaciones proporcional a @@n^2@@. A continuación aprenderemos el
+          algoritmo **quicksort**, que permite reducir el número de comparaciones @@n.\mathit{log}~n@@ en el caso
+          promedio. Por lo tanto, permite ordenar listas en menos tiempo que la ordenación por *inserción*, *selección*
+          o *burbuja*.
+    - Elem: Text
+      Content: |
+          # Ideas básicas
+
+          La función ```quicksort(l)``` acepta una lista ```l``` y devuelve una lista ordenada. Para ello sigue estos pasos:
+          * Si la lista está **vacía** o tiene **un único elemento** entonces ya está ordenada y únicamente hay que devolver la lista.
+          * En otro caso, toma un elemento de la lista de manera aleatoria (usualmente el primer elemento). Este elemento escogido se conoce como **pivote**.
+              1. Divide la lista (sin contar el pivote) en dos partes. Para ello toma por un lado los elementos menores o iguales que el pivote y por otro los elementos mayores que el pivote.
+              1. De manera recursiva, se ordenan estas dos listas más pequeñas.
+              1. Finalmente, las listas ordenadas se concatenan con el pivote en la mitad.
+    - Elem: Text
+      Content: |
+          # Ejemplo
+
+          Consideremos la lista desodenada ```l = [5, 7, 3, 1]```. La ejecución de *quicksort* realizaría:
+          1. Como ```l``` no es una lista vacía, se toma ```5``` como **pivote**.
+          1. Se divide la lista restante ```[7, 3, 1]```` en dos partes (recuerda que se ignora el pivote). Esto creará dos listas:
+              * ```less_eq = [3, 1]```
+              * ```greater = [7]```
+          1. A continuación, se ordena cada una de estas listas de manera recursiva invocando a ```quicksort```. Esto creará otras dos listas:
+              * ```sorted_less_eq = [1, 3]```
+              * ```sorted_greater = [7]```
+          1. Finalmente concatenamos ```sorted_less_eq``` seguido del pivote y de ```sorted_greater```. El resultado de
+             esta concatenación será ```[1, 3] + [5] + [7] = [1, 3, 5, 7]```, es decir, la lista ordenada.
+    - Elem: Text
+      Content: |
+          # Funciones auxiliares
+
+          Para implementar el algoritmo *quicksort* es necesario ser capaces de, a partir de una lista, elegir un
+          pivote y dividir la lista en los partes: los elementos menores o iguales y los elementos mayores.
+
+          La función auxiliar ```partition(l)``` realiza ese trabajo. Para ello selecciona el primer elemento como pivote
+          ```piv``` y recorre el resto de la lista mediante un bucle ```while```. Cada vez que encuentra un elemento menor o igual que pivote lo
+          almacena en la lista ```less_eq```, y cada vez que encuentra un elemento mayor que pivote lo almacena en la
+          lista ```greater```.
+          ```
+
+          def partition(l):
+              piv = l[0]
+              i = 1
+              less_eq = []
+              greater = []
+              while i < len(l):
+                  current = l[i]
+                  if current <= piv:
+                      less_eq.append(current)
+                  else:
+                      greater.append(current)
+                  i = i + 1
+              return (less_eq, piv, greater)
+          ```
+          Finalmente, la función ```partition``` devuelve una tupla de 3 elementos: la lista ```less_eq```, el pivote
+          ```piv``` y la lista ```greater```.
+    - Elem: Options
+      Content: |
+          Considerando el código de la función ```partition``` presentado anteriormente:
+
+          ```
+
+          def partition(l):
+              piv = l[0]
+              i = 1
+              less_eq = []
+              greater = []
+              while i < len(l):
+                  current = l[i]
+                  if current <= piv:
+                      less_eq.append(current)
+                  else:
+                      greater.append(current)
+                  i = i + 1
+              return (less_eq, piv, greater)
+          ```
+          ¿Qué debería devolver la siguiente llamada ```partition([])```?
+      Hint: Revisa bien cómo se elige el pivote.
+      Solution: [4]
+      Multiple: no
+      Options:
+          - La tupla ([], None, [])
+          - La tupla ([], [])
+          - La lista vacía []
+          - Debería fallar al tratar de acceder al primer elemento de la lista vacía.
+    - Elem: Code
+      Content: |
+          Considerando de nuevo el código de la función ```partition``` presentado anteriormente:
+
+          ```
+
+          def partition(l):
+              piv = l[0]
+              i = 1
+              less_eq = []
+              greater = []
+              while i < len(l):
+                  current = l[i]
+                  if current <= piv:
+                      less_eq.append(current)
+                  else:
+                      greater.append(current)
+                  i = i + 1
+              return (less_eq, piv, greater)
+          ```
+          ¿Qué debería devolver la siguiente llamada ```partition([6,3,9,2,4])```?
+      Gaps: 1
+      Hint: ¿Qué elemento tiene que ir a cada lista? ¿Qué elemento es el pivote?
+      File: correctores/ordenacion/quicksort1.py
  - Title: Mergesort
    Elements:
     - Elem: Text
