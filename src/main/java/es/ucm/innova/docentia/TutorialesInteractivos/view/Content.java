@@ -62,8 +62,9 @@ public class Content extends GridPane {
         container = generateContainer(c, le);
 		//container = new VBox(5); // Texto y campo de respuesta si es una pregunta
 
-        paginator = new SimplePagination(le.getElements().size(),
-				le.getLatestEnabledElement(), le.getCurrentElementPos(), c);
+        int enabled = c.isDebug() ? le.getElements().size() : le.getLatestEnabledElement();
+        paginator = new SimplePagination(le.getElements().size(), enabled, le.getCurrentElementPos(), c);
+				//le.getLatestEnabledElement(), le.getCurrentElementPos(), c);
 
         HBox buttonsLabel = generateBottomButtons(c);
 		

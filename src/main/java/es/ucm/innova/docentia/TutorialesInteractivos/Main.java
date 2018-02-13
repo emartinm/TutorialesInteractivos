@@ -28,7 +28,8 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
         boolean reset = this.getParameters().getRaw().contains("--reset");
-		Controller c = new Controller(primaryStage, getHostServices(), reset);
+        boolean debug = this.getParameters().getRaw().contains("--debug");
+		Controller c = new Controller(primaryStage, getHostServices(), reset, debug);
 		c.start();
 	}
 

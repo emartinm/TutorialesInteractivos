@@ -5,24 +5,13 @@
  */
 package es.ucm.innova.docentia.TutorialesInteractivos.view;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.logging.Logger;
-
 import es.ucm.innova.docentia.TutorialesInteractivos.controller.Controller;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;

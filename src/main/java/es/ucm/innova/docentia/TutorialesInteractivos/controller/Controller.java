@@ -84,13 +84,14 @@ public class Controller {
 	private ConfigurationData config;
 	private Map<String, Object> progress;
 	private Language language;
+	private boolean debug;
 
 	
 	/**
 	 * Constructora 
 	 * @param primaryStage
 	 */
-	public Controller(Stage primaryStage, HostServices hs, boolean reset) {
+	public Controller(Stage primaryStage, HostServices hs, boolean reset, boolean debug) {
         // Redirige también la salida del Logger a un fichero
         String logPath = System.getProperty("user.dir") +
                 FileSystems.getDefault().getSeparator() +
@@ -116,6 +117,7 @@ public class Controller {
 		this.files = new ArrayList<>();
 		this.config = new ConfigurationData();
 		this.config.load();
+		this.debug = debug;
 
 		/* Elimina las configuraciones de directorio de temas y compiladores;
 		 *  además del fichero de progreso
@@ -539,6 +541,10 @@ public class Controller {
 			this.hostservices.showDocument(url);
 		}
     }
+
+    public boolean isDebug() {
+		return this.debug;
+	}
 
     public static String getLocalizedString(String key) {
 	    String val = localization.getString(key);

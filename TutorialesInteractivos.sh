@@ -20,4 +20,4 @@ fi
 JAVA_COMMAND=$(which java)
 echo ${JAVA_COMMAND}
 
-"${JAVA_COMMAND}" -jar "${TUTORIALES_PATH}/target/TutorialesInteractivos-jar-with-dependencies.jar"
+"${JAVA_COMMAND}" -jar "${TUTORIALES_PATH}/target/TutorialesInteractivos-jar-with-dependencies.jar" "$@"
