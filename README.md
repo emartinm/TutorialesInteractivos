@@ -6,16 +6,22 @@
 La versión inicial de la herramienta fue producto del Trabajo Fin de Grado del curso 2015/16 de *Rafael Caturla* y 
 *Carlos Congosto*, realizado en el Dpto. de Sistemas Informáticos y Computación de la Facultad de Informática de la Universidad Complutense de Madrid y dirigido por Manuel
 Montenegro y Enrique Martín ([http://eprints.ucm.es/38408/](http://eprints.ucm.es/38408/)). 
-El proyecto ha sido continuado y mejorado como parte del Proyecto de Innovación número 35 de la convocatoria 2016/2017 del Programa 
-Innova-Docencia titulado *Implementación de un sistema para el aprendizaje de lenguajes de programación mediante tutoriales interactivos*.
+El proyecto ha sido continuado y mejorado como parte de los siguientes Proyectos de Innovación del Programa Innova-Docencia de la 
+Universidad Complutense de Madrid: 
+* **Convocatoria 2016/2017, proyecto #35**: *"Implementación de un sistema para el aprendizaje de lenguajes de programación mediante tutoriales interactivos"*.
+* **Convocatoria 2017/18, proyecto #26**: *"Tutoriales interactivos para el estudio de la programación: impacto en el aprendizaje*  
 
-**Participantes del Proyecto de Innovación**:
-* Enrique Martín (Fac. Informática, UCM)
-* Adrián Riesco (Fac. Informática, UCM)
-* Jaime Sánchez (Fac. Informática, UCM)
+**Participantes**:
+* Jorge Carmona (Fac. Matemáticas, UCM)
 * Carlos Gregorio (Fac. Matemáticas, UCM)
 * Francisco J. López (Fac. Informática, UCM)
+* Enrique Martín (Fac. Informática, UCM)
+* Manuel Montenegro (Fac. Informática, UCM)
+* Adrián Riesco (Fac. Informática, UCM)
+* Jaime Sánchez (Fac. Informática, UCM)
 * Salvador Tamarit (Fac. Informática, UPV)
+
+**Antiguos participantes**:
 * Carlos Congosto
 * Rafael Caturla
 
