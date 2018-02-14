@@ -135,10 +135,152 @@ Lessons:
                   i = i + 1
               return (less_eq, piv, greater)
           ```
-          ¿Qué debería devolver la siguiente llamada ```partition([6,3,9,2,4])```?
+          ¿Qué debería devolver la llamada ```partition([6,3,9,2,4])```?
       Gaps: 1
+      Prompt: ["Valor devuelto por partition([6,3,9,2,4])"]
       Hint: ¿Qué elemento tiene que ir a cada lista? ¿Qué elemento es el pivote?
       File: correctores/ordenacion/quicksort1.py
+    - Elem: Code
+      Content: |
+          Considerando de nuevo el código de la función ```partition``` presentado anteriormente:
+
+          ```
+
+          def partition(l):
+              piv = l[0]
+              i = 1
+              less_eq = []
+              greater = []
+              while i < len(l):
+                  current = l[i]
+                  if current <= piv:
+                      less_eq.append(current)
+                  else:
+                      greater.append(current)
+                  i = i + 1
+              return (less_eq, piv, greater)
+          ```
+          ¿Qué debería devolver la llamada ```partition([1,2,3,4,5])```?
+      Gaps: 1
+      Prompt: ["Valor devuelto por partition([1,2,3,4,5])"]
+      Hint: ¿Qué elemento tiene que ir a cada lista? ¿Qué elemento es el pivote?
+      File: correctores/ordenacion/quicksort2.py
+    - Elem: Text
+      Content: |
+          # Código de ```quicksort```
+
+          Utilizando la función ```partition``` es muy sencillo implementar la función ```quicksort``` para ordenar
+          listas:
+
+          ```
+
+          def quicksort(l):
+              # Base case, the same list is returned.
+              if len(l) <= 1:
+                  return l
+              # Recursive case:
+              else:
+                  (less_eq, piv, greater) = partition(l)
+                  sorted_less_eq = quicksort(less_eq)
+                  sorted_greater = quicksort(greater)
+                  return sorted_less_eq + [piv] + sorted_greater
+          ```
+
+          Si la longitud de la lista es igual o inferior a 1 (```len(l) <= 1```) entonces está ordenada y se puede devolver
+          directamente.
+
+          En otro caso se invoca a ```partition``` para obtener el pivote ```piv``` y las listas de elementos
+          menores o iguales (```less_eq```) y mayores (```greater```). A continuación se ordenan estas listas de manera
+          recursiva con llamadas a ```quicksort```:
+          * sorted_less_eq = ```quicksort(less_eq)```
+          * sorted_greater = ```quicksort(greater)```
+
+          Finalmente, se devuelven los elementos menores o iguales **ordenados**, seguidos del pivote y de los elementos
+          mayores **ordenados**. Esta operación se realiza con la siguiente concatenación de listas:
+          ```
+
+          return sorted_less_eq + [piv] + sorted_greater
+          ```
+          Notad que el operador ```+``` concatena listas, por lo que debemos crear la lista unitaria ```[piv]``` para que la
+          concatenación de las 3 partes tenga éxito.
+    - Elem: Code
+      Content: |
+          Vamos a comprobar que habéis entendido bien el código de quicksort. **Sin volver atrás** para revisar el
+          código, trata de rellenar los huecos ```<Hueco 0>``` y ```<Hueco 1>``` en el siguiente código. En estos
+          huecos deberían aparecer las llamadas recursivas.
+
+          ```
+
+          def quicksort(l):
+              # Base case, the same list is returned.
+              if len(l) <= 1:
+                  return l
+              # Recursive case:
+              else:
+                  (less_eq, piv, greater) = partition(l)
+                  sorted_less_eq = <Hueco 0>
+                  sorted_greater = <Hueco 1>
+                  return sorted_less_eq + [piv] + sorted_greater
+          ```
+      Gaps: 2
+      Hint: quicksort() deber ordenar las partes separadas por partition()
+      File: correctores/ordenacion/quicksort3.py
+    - Elem: Code
+      Content: |
+          Por último, vamos a comprobar las intuiciones que habéis formado sobre el código de ```quicksort```.
+          ¿Qué valor debería tomar la variable ```sorted_less_eq``` en la llamada inicial de
+
+          ```
+
+          quicksort([6,2,7,3,8,0])
+          ```
+
+          A modo de recordatorio, el código de ```quicksort``` es el siguiente:
+          ```
+
+          def quicksort(l):
+              # Base case, the same list is returned.
+              if len(l) <= 1:
+                  return l
+              # Recursive case:
+              else:
+                  (less_eq, piv, greater) = partition(l)
+                  sorted_less_eq = quicksort(less_eq)
+                  sorted_greater = quicksort(greater)
+                  return sorted_less_eq + [piv] + sorted_greater
+          ```
+      Gaps: 1
+      Prompt: ["Valor de sorted_less_eq"]
+      Hint: Trata de calcular los valores que van tomando las variables anteriores a sorted_less_eq.
+      File: correctores/ordenacion/quicksort4.py
+    - Elem: Code
+      Content: |
+          Y considerando la misma llamada
+
+          ```
+
+          quicksort([6,2,7,3,8,0])
+          ```
+
+          ¿Qué valor debería tomar la variable ```sorted_greater``` en la llamada inicial?
+          A modo de recordatorio, el código de ```quicksort``` es el siguiente:
+          ```
+
+          def quicksort(l):
+              # Base case, the same list is returned.
+              if len(l) <= 1:
+                  return l
+              # Recursive case:
+              else:
+                  (less_eq, piv, greater) = partition(l)
+                  sorted_less_eq = quicksort(less_eq)
+                  sorted_greater = quicksort(greater)
+                  return sorted_less_eq + [piv] + sorted_greater
+          ```
+      Gaps: 1
+      Prompt: ["Valor de sorted_greater"]
+      Hint: Trata de calcular los valores que van tomando las variables anteriores a sorted_greater.
+      File: correctores/ordenacion/quicksort5.py
  - Title: Mergesort
    Elements:
     - Elem: Text

@@ -24,7 +24,7 @@ def pfhvbndtwr(l):
     return (less_eq, piv, greater)
     
     
-resultado = pfhvbndtwr([6,3,9,2,4])
+resultado = pfhvbndtwr([1,2,3,4,5])
 
 
 #################################

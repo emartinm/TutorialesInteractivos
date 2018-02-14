@@ -18,8 +18,7 @@ Función que sirve para corregir un problema de Python en el que se pide escribi
 """
 def corrector_texto(filename, resultado, ejecutor):
     dicc = {'isCorrect': resultado == ejecutor() }
-    if not dicc['isCorrect']: 
-        dicc['typeError'] = "Valor incorrecto"
+    if not dicc['isCorrect']:
         dicc['Hints'] = ["El valor {0} no coincide con el esperado".format(ejecutor())]
    
     # Escribir el diccionario generado

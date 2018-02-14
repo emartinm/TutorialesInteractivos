@@ -9,22 +9,7 @@ from correctores.common.corrector_texto import corrector_texto
 ########################################################################
 
 
-def pfhvbndtwr(l):
-    piv = l[0]
-    i = 1
-    less_eq = []
-    greater = []
-    while i < len(l):
-        current = l[i]
-        if current <= piv:
-            less_eq.append(current)
-        else:
-            greater.append(current)
-        i = i + 1
-    return (less_eq, piv, greater)
-    
-    
-resultado = pfhvbndtwr([6,3,9,2,4])
+resultado = [7, 8]
 
 
 #################################
