@@ -290,7 +290,7 @@ Lessons:
 
           El algoritmo **mergesort** es otro algoritmo de ordenación *rápido*, al igual que *quicksort*. En otras
           palabras, para ordenar una lista de @@n@@ elementos necesitará realizar como mucho @@n \times \mathit{log}~n@@
-          comparaciones, en lugar de las @@n^2@@ de la ordenación por *insercción*, *selección* o *burbuja*.
+          comparaciones, en lugar de las @@n^2@@ de la ordenación por *inserción*, *selección* o *burbuja*.
 
           Las ideas principales son similares a *quicksort*: dividir la lista original en dos partes,
           ordenar cada parte y por último componer la lista completa ordenada a partir de sus partes ordenadas. Sin
