@@ -29,8 +29,9 @@ Lessons:
           # Quicksort
 
           Los algoritmos de ordenación que acabáis de aprender son los conocidos como *cuadráticos*, ya que en el peor
-          de los casos deben hacer una cantidad de comparaciones proporcional a @@n^2@@. A continuación aprenderemos el
-          algoritmo **quicksort**, que permite reducir el número de comparaciones @@n.\mathit{log}~n@@ en el caso
+          de los casos deben hacer una cantidad de comparaciones proporcional a @@n^2@@ para ordenar una lista de
+          tamaño @@n@@. A continuación aprenderemos el
+          algoritmo **quicksort**, que permite reducir el número de comparaciones a @@n \times \mathit{log}~n@@ en el caso
           promedio. Por lo tanto, permite ordenar listas en menos tiempo que la ordenación por *inserción*, *selección*
           o *burbuja*.
     - Elem: Text
@@ -285,4 +286,355 @@ Lessons:
    Elements:
     - Elem: Text
       Content: |
-          bla bla bla
+          # Mergesort
+
+          El algoritmo **mergesort** es otro algoritmo de ordenación *rápido*, al igual que *quicksort*. En otras
+          palabras, para ordenar una lista de @@n@@ elementos necesitará realizar como mucho @@n \times \mathit{log}~n@@
+          comparaciones, en lugar de las @@n^2@@ de la ordenación por *insercción*, *selección* o *burbuja*.
+
+          Las ideas principales son similares a *quicksort*: dividir la lista original en dos partes,
+          ordenar cada parte y por último componer la lista completa ordenada a partir de sus partes ordenadas. Sin
+          embargo, difiere en cómo realiza la división de la lista, como veremos más adelante.
+    - Elem: Text
+      Content: |
+          # Ideas básicas
+
+          El algoritmo **mergesort** ordena una lista dividiéndola en **2 mitades**, ordenando cada mitad resultante y
+          por último combinando esas 2 mitades ordenadas utilizando una función auxiliar ```merge```.
+
+          La función ```merge```
+          combina dos listas ordenadas manteniendo el orden de sus elementos, es decir,
+          cogiendo en cada momento el menor elemento que
+          aparece en las cabeza de las listas.
+
+          Concretamente, ```mergesort``` realiza los siguientes pasos:
+          * Si la lista está **vacía o tiene un solo elemento** ya está ordenada y se devuelve directamente.
+          * Si la lista tiene **2 o más elementos**:
+            1. Divide la lista original en dos mitades
+            1. Invoca recursivamente al método ```mergesort``` para ordenar cada mitad de lista
+            1. Finalmente, combina las dos mitades ordenadas mediante la función auxiliar ```merge```. El resultado de
+               esta combinación es la lista original ordenada, que se devuelve.
+    - Elem: Text
+      Content: |
+          # Ejemplo
+
+          Consideremos la lista desodenada ```l = [5, 7, 3, 1]```. La ejecución de *mergesort* realizaría:
+          1. Como ```l``` no es una lista vacía, se divide en 2 mitades. La posición central será ```half = len(l) // 2```,
+             que en este caso es ```4 // 2 = 2```. Nótese el uso de la división entera para evitar decimales al tratar
+             listas de longitud impar.
+          1. Se divide la lista orignal ```l``` en dos mitades: ```l1 = l[:half]``` con los elementos en posiciones desde
+             ```0``` hasta ```half-1```, y ```l2 = l[half:]``` con los elementos en posiciones desde ```half``` hasta el
+             final de la lista. En este caso:
+               * ```l1 = [5, 7]```
+               * ```l2 = [3, 1]```
+          1. Cada una de estas listas se ordena de manera recursiva, obtenindo dos mitades ordenadas.
+               * ```sorted_l1 = [5, 7]```
+               * ```sorted_l2 = [1, 3]```
+          1. Finalmente se mezclan de manera ordenada ambas listas ordenadas usando la función auxiliar ```merge```,
+             generando la lista inicial ordenada ```[1, 3, 5, 7]```
+    - Elem: Text
+      Content: |
+          # Función ```merge```
+
+          Antes de ver el código concreto de ```mergesort``` estudiaremos la función auxiliar ```merge```. Esta función
+          toma dos **listas ordenadas** ```l1``` y ```l2``` y las combina de manera ordenada, generando una lista ordenada
+          ```merged_list```. Para ello recorre ambas listas en orden usando dos índices ```i``` y ```j```:
+          * ```i```: posición del siguiente elemento a procesar de la lista ```l1```
+          * ```j```: posición del siguiente elemento a procesar de la lista ```l2```
+
+          En cada momento, compara ```l1[i]``` y ```l2[j]```:
+          * Si ```l1[i] <= l2[j]``` entonces inserta ```l1[i]``` al final de la lista ordenada ```merged_list``` ya que es menor
+            o igual a ```l2[j]``` y por tanto debería ir antes. Como se ha procesado el elemento ```l1[i]``` se incrementa el
+            índice ```i```.
+          * Si no, ```l1[i] > l2[j]``` e inserta ```l2[j]``` al final de la lista ordenada ```merged_list```.
+            Como se ha procesado el elemento ```l2[j]``` se incrementa el índice ```j```.
+
+          Este proceso se repite hasta que una de las dos listas se acaba (o bien ```i == len(l1)``` o bien ```j == len(l2)```).
+          En ese momento se deja de comparar elementos y se añaden a la lista ordenada ```merged_list``` los elementos
+          restantes de la lista que aún tiene elementos por procesar.
+    - Elem: Text
+      Content: |
+          # Código de la función ```merge```
+
+          El código concreto de la función ```merge``` sería el siguiente:
+
+          ```
+
+          def merge(l1, l2):
+              i = 0
+              j = 0
+              merged_list = []
+              while i < len(l1) and j < len(l2):
+                  if l1[i] <= l2[j]:
+                      merged_list.append(l1[i])
+                      i = i + 1
+                  else:
+                      merged_list.append(l2[j])
+                      j = j + 1
+              while i < len(l1):
+                  merged_list.append(l1[i])
+                  i = i + 1
+              while j < len(l2):
+                  merged_list.append(l2[j])
+                  j = j + 1
+              return merged_list
+          ```
+
+          Esta función contiene 3 bucles ```while```:
+          1. El primer bucle recorre en orden y compara los elementos ```l1[i]``` y ```l2[j]``` hasta que una de las
+             dos listas se termina. En cada iteración añade un nuevo elemento a la lista ordenada ```merged_list```.
+          1. El segundo bucle recorre los posibles elementos restantes de ```l1``` y los añade en orden a la lista ordenada ```merged_list```.
+          1. El tercer bucle recorre los posibles elementos restantes de ```l2``` y los añade en orden a la lista ordenada ```merged_list```.
+
+          Es importante darse cuenta de que al terminar el primer bucle se habrá terminado de recorrer exactamente una de las 2 listas.
+          Si es la primera lista entonces ```i == len(l1)``` y no se entrará en el segundo bucle. Si es la segunda lista la que
+          se ha terminado de recorrer entonces ```j == len(l2)``` y no se entrará en el tercer bucle. Se podría haber realizado
+          una distinción de casos para elegir qué bucle ejecutar, pero la propia condición de los bucles segundo y tercero
+          consigue que únicamente se entre en uno de ellos.
+    - Elem: Options
+      Content: |
+          Considerando el código de la función ```merge``` presentado anteriormente:
+          ```
+
+          def merge(l1, l2):
+              i = 0
+              j = 0
+              merged_list = []
+              while i < len(l1) and j < len(l2):
+                  if l1[i] <= l2[j]:
+                      merged_list.append(l1[i])
+                      i = i + 1
+                  else:
+                      merged_list.append(l2[j])
+                      j = j + 1
+              while i < len(l1):
+                  merged_list.append(l1[i])
+                  i = i + 1
+              while j < len(l2):
+                  merged_list.append(l2[j])
+                  j = j + 1
+              return merged_list
+          ```
+
+          ¿Qué debería devolver la siguiente llamada ```merge([],[])```?
+      Hint: Revisa bien las condiciones de los distintos bucles.
+      Solution: [3]
+      Multiple: no
+      Options:
+        - None
+        - (None, None)
+        - []
+        - ([], [])
+    - Elem: Options
+      Content: |
+          Siguiendo con el código de la función ```merge``` presentado anteriormente:
+          ```
+
+          def merge(l1, l2):
+              i = 0
+              j = 0
+              merged_list = []
+              while i < len(l1) and j < len(l2):
+                  if l1[i] <= l2[j]:
+                      merged_list.append(l1[i])
+                      i = i + 1
+                  else:
+                      merged_list.append(l2[j])
+                      j = j + 1
+              while i < len(l1):
+                  merged_list.append(l1[i])
+                  i = i + 1
+              while j < len(l2):
+                  merged_list.append(l2[j])
+                  j = j + 1
+              return merged_list
+          ```
+
+          ¿Qué debería devolver la llamada ```merge([8],[1,9])```?
+      Hint: Revisa bien las condiciones de los distintos bucles.
+      Solution: [1]
+      Multiple: no
+      Options:
+        - [1, 8, 9]
+        - [8, 1, 9]
+        - [1, 9, 8]
+    - Elem: Code
+      Content: |
+          Otra pregunta más sobre la función auxiliar ```merge```.
+
+          ```
+
+          def merge(l1, l2):
+              i = 0
+              j = 0
+              merged_list = []
+              while i < len(l1) and j < len(l2):
+                  if l1[i] <= l2[j]:
+                      merged_list.append(l1[i])
+                      i = i + 1
+                  else:
+                      merged_list.append(l2[j])
+                      j = j + 1
+              while i < len(l1):
+                  merged_list.append(l1[i])
+                  i = i + 1
+              while j < len(l2):
+                  merged_list.append(l2[j])
+                  j = j + 1
+              return merged_list
+          ```
+
+          ¿Qué debería devolver la llamada ```merge([1,4,8],[])```?
+      Gaps: 1
+      Prompt: ["Resultado de merge([1,4,8],[])"]
+      Hint: Trata de ver qué bucles se ejecutarán.
+      File: correctores/ordenacion/mergesort1.py
+    - Elem: Options
+      Content: |
+          Ya estamos familiarizados con la función auxiliar ```merge``` que mezcla de manera ordenada dos listas ordenadas.
+          Pero, ¿qué pasaría si se invoca con listas que no están ordenadas? Por ejemplo, con la siguiente inovocación:
+
+          ```
+
+          merge([5, 1], [3, 2])
+          ```
+
+          ¿Qué produciría la invocación anterior?
+      Hint: Revisa bien las condiciones de los distintos bucles.
+      Solution: [2]
+      Multiple: no
+      Options:
+        - Lanza un error en tiempo de ejecución
+        - Genera una lista de 4 elementos pero desordenada
+        - Genera la lista ordenda [1, 2, 3, 5]
+        - Genera la lista de 2 elementos [1, 5] ya que únicamente recorre la primera lista
+    - Elem: Text
+      Content: |
+          # Versión alternativa de ```merge```
+
+          El código de la función auxiliar ```merge``` se puede simplificar si utilizamos dos métodos de las listas:
+            * ```l.pop(n)``` para eliminar el elemento en posición ```n``` de la lista ```l```
+            * ```l.extend(l1)``` para concatenar ```l1``` al final de ```l```
+
+          Con estos dos métodos podríamos eliminar completamente el uso de los índices ```i``` y ```j``` e implementar ```merge``` como sigue:
+          ```
+
+          def merge_bis(l1, l2):
+              merged_list = []
+              while l1 != [] and l2 != []:
+                  if l1[0] <= l2[0]:
+                      merged_list.append(l1[0])
+                      l1.pop(0)
+                  else:
+                      merged_list.append(l2[0])
+                      l2.pop(0)
+              merged_list.extend(l1)
+              merged_list.extend(l2)
+              return merged_list
+          ```
+          Como se puede ver, las listas ```l1``` y ```l2``` se van vaciando con ```pop[0]``` y la condición del primer
+          bucle comprueba que las listas ```l1``` y ```l2``` no sean vacías. Finalmente, usamos ```merge_list.extend(l1)```
+          y ```merge_list.extend(l2)``` para concatenar los elementos restantes. De manera similar a la versión anterior
+          de ```merge```, al terminar el primer bucle tenemos la certeza que **una de las dos listas (```l1``` o ```l2```)
+          estará vacía**.
+    - Elem: Text
+      Content: |
+          # Código de ```mergesort```
+
+          Disponiendo de una función auxiliar ```merge``` (o ```merge_bis```) es bastante sencillo implementar la función de ordenación
+          ```mergesort```:
+
+          ```
+
+          def mergesort(l):
+              if len(l) <= 1:
+                  return l
+              else:
+                  half = (len(l) // 2)
+                  l1 = mergesort(l[:half])
+                  l2 = mergesort(l[half:])
+                  return merge(l1, l2)
+          ```
+          Si la lista está **vacía o tiene un solo elemento** ya está ordenada y se devuelve directamente.
+
+          En otro caso (la lista tiene **2 o más elementos**) se divide la lista en 2 mitades. Para ello se calcula la
+          posición central de la lista con la asignación ```half = (len(l) // 2)```, que usa la división entera.
+
+          A continuación invoca de manera recursiva a ```mergesort``` con cada una de las dos mitades:
+            1. La primera mitad de la lista será ```l[:half]```: *posiciones [0..half)*
+            1. La segunda mitad de la lista será ```l[half:]```: *posiciones [half..n)*, siendo *n* la longitud de ```l```
+
+          El resultado de las dos llamadas recursivas serán dos mitades ordenadas ```l1``` y ```l2```. Por lo tanto el
+          último paso será mezclar de manera ordenadas ambas mitades ordenadas. Para ello invocaremos a la función
+          auxiliar ```merge```.
+    - Elem: Code
+      Content: |
+          Vamos a comprobar que habéis entendido bien el código de ```mergesort```. **Sin volver atrás** para revisar el
+          código, trata de rellenar los huecos ```<Hueco 0>``` y ```<Hueco 1>``` en el siguiente código.
+
+          ```
+
+          def mergesort(l):
+              if len(l) <= 1:
+                  return lst
+              else:
+                  half = <Hueco 0>
+                  l1 = mergesort(l[:half])
+                  l2 = mergesort(l[half:])
+                  return <Hueco 1>
+          ```
+      Gaps: 2
+      Hint: Habría que calcular la mitad y combinar de alguna manera las listas l1 y l2
+      File: correctores/ordenacion/mergesort2.py
+    - Elem: Code
+      Content: |
+          Por último, vamos a comprobar las intuiciones que habéis formado sobre el código de ```mergesort```.
+          ¿Qué valor debería tomar la variable ```l1``` en la llamada inicial de
+
+          ```
+
+          mergesort([6,8,2,4,1])
+          ```
+
+          A modo de recordatorio, el código de ```mergesort``` es el siguiente:
+          ```
+
+          def mergesort(l):
+              if len(l) <= 1:
+                  return l
+              else:
+                  half = (len(l) // 2)
+                  l1 = mergesort(l[:half])
+                  l2 = mergesort(l[half:])
+                  return merge(l1, l2)
+          ```  return <Hueco 1>
+      Gaps: 1
+      Prompt: ["Valor de la variable l1"]
+      Hint: Es el resultado de una llamada recursiva con un trozo de la lista original.
+      File: correctores/ordenacion/mergesort3.py
+    - Elem: Code
+      Content: |
+          Y considerando la misma llamada
+
+          ```
+
+          mergesort([6,8,2,4,1])
+          ```
+          ¿Qué valor debería tomar la variables ```l2```?
+
+          Al igual que antes, a modo de recordatorio el código de ```mergesort``` es el siguiente:
+          ```
+
+          def mergesort(l):
+              if len(l) <= 1:
+                  return l
+              else:
+                  half = (len(l) // 2)
+                  l1 = mergesort(l[:half])
+                  l2 = mergesort(l[half:])
+                  return merge(l1, l2)
+          ```  return <Hueco 1>
+      Gaps: 1
+      Prompt: ["Valor de la variable l2"]
+      Hint: Es el resultado de una llamada recursiva con un trozo de la lista original.
+      File: correctores/ordenacion/mergesort4.py
