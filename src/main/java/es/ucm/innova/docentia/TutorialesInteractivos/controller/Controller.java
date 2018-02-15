@@ -490,11 +490,14 @@ public class Controller {
 
 
 	public void updateAndSaveCurrentLessonProgress() {
-	    Lesson le = this.getCurrentLesson();
-	    Map<String, Object> p = le.get_progress();
-	    this.progress.put( le.version(), p );
-	    String path = getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
-        JSONReaderClass.writeProgress(this.progress, path);
+		// Solo se actualiza si el modo no es 'debug'
+		if (!this.isDebug()) {
+	    	Lesson le = this.getCurrentLesson();
+	    	Map<String, Object> p = le.get_progress();
+	    	this.progress.put( le.version(), p );
+	    	String path = getConfig().getDirTemas() + FileSystems.getDefault().getSeparator() + Controller.progressFileName;
+        	JSONReaderClass.writeProgress(this.progress, path);
+		}
     }
 
     public Map<String, Object> getProgress() {
