@@ -11,7 +11,134 @@ Lessons:
    Elements:
     - Elem: Text
       Content: |
-          bla bla bla
+          # Ordenación por selección
+
+          El objetivo de estos algoritmos se la *ordenación de listas de datos*. Dado una lista de @@n@@ elementos el resultado
+          de éstos algoritmos será una lista con los mismos @@n@@ elementos pero en ordén. El ordén concreto queda definido 
+          en base a lo que se establezca en el algoritmo. Nosotros, para simplificar, vamos a devolver siempre listas de números ordenadas 
+          *de menor a mayor*. Emepezaremos con el algoritmo de *selección* que es uno de los más intuitivos. 
+    - Elem: Text
+      Content: |
+          # Ideas básicas
+
+          La función ```seleccion(l)``` acepta una lista ```l``` y devuelve una lista ordenada. Para ello sigue estos pasos:
+          * Empieza desde el primer elemento de la lista. 
+          * Después, se busca el elemento más pequeño en el resto de la lista. En este punto puede ocurrir una de estás dos situaciones:
+              1. Que el más pequeño del resto de la lista no sea menor al primer elemento de la lista. En este caso no hacemos nada.
+              1. Que encontremos que el elemento más pequeño del resto de la lista es menor al primero. En este caso, se intercambian las
+              posiciones. Por tanto, el valor del primer elemento de la lista pasa a ser el mínimo obtenido, y viceversa. 
+          * Con esto ya tenemos en primera posición al elemento más pequeño. Ahora se hará exactamente lo mismo empezando esta vez por el
+          segundo elemento de la lista. Continuará el proceso hasta llegar al último elemento, momento en el cual, la lista ya estará ordenada.
+    - Elem: Text
+      Content: |
+          # Ejemplo
+
+          Consideremos la lista desodenada ```l = [3, 2, 4, 1]```. La ejecución de *seleccion(l)* realizaría:
+          1. Se toma ```l[0] = 3```, y se busca el mínimo en el resto de la lista, es decir en ```[2, 4, 1]```. En este caso, el mínimo será ```l[3] = 1```. 
+          Por tanto, intercambiamos sus posiciones, es decir, ```l[0] = 1``` y ```l[3] = 3```. Con esto la lista queda: ```l = [1, 2, 4, 3]```.
+          1. Se toma ahora ```l[1] = 2```, y se busca el mínimo en el resto de la lista, es decir en ```[4, 3]```. El mínimo en este caso es ```l[3] = 3```,
+          sin embargo, su valor no es menor a ```l[1] = 2```. Por tanto, la lista no se modifica.
+          1. Seguimos con ```l[2] = 4``` y buscamos el mínimo en ```[3]```. En este caso, el mínimo es ```l[3] = 3```, que a su vez es más pequeño que 
+          ```l[2] = 4```, con lo cual los intercambiamos. Obtenemos ```l = [1, 2, 3, 4]``` 
+          1. Solo queda un elemento por procesar ```l[3] = 4```, pero como el resto de la lista es vacío, no hacemos nada y el algoritmo termina dejando 
+          la lista efectivamente ordenada.
+    - Elem: Options
+      Content: |
+          Siguiendo las ideas y ejemplos de las páginas anteriores, vamos a intentar completar el esqueleto de la función ```selection(lst)```:
+
+          ```
+
+          def selection(lst):
+              for i in range(len(lst)):
+                  pmin = <INICIALIZACIÓN DE PMIN>
+                  for j in range(i,len(lst)):
+                      if lst[j] < lst[pmin]:
+                          pmin = <ACTUALIZACIÓN DE PMIN>
+                  <INTERCAMBIO DE DATOS>
+              return lst
+          ```
+          ¿Qué debería contener el ```<INICIALIZACIÓN DE PMIN>```?
+      Hint: Se empieza con el primer elemento, luego el segundo, etc.
+      Solution: [2]
+      Multiple: no
+      Options:
+          - len(lst) - 1
+          - i
+          - 0
+          - lst[i]
+    - Elem: Options
+      Content: |
+          Seguimos completando el esqueleto de ```selection(lst)```:
+
+          ```
+
+          def selection(lst):
+              for i in range(len(lst)):
+                  pmin = i
+                  for j in range(i,len(lst)):
+                      if lst[j] < lst[pmin]:
+                          pmin = <ACTUALIZACIÓN DE PMIN>
+                  <INTERCAMBIO DE DATOS>
+              return lst
+          ```
+          ¿Qué debería contener el ```<ACTUALIZACIÓN DE PMIN>```?
+      Hint: Debemos guardar la posición que contiene el valor más pequeño.
+      Solution: [3]
+      Multiple: no
+      Options:
+          - lst[pmin]
+          - i
+          - j
+          - lst[j]
+    - Elem: Options
+      Content: |
+          Seguimos completando el esqueleto de ```selection(lst)```:
+
+          ```
+
+          def selection(lst):
+              for i in range(len(lst)):
+                  pmin = i
+                  for j in range(i,len(lst)):
+                      if lst[j] < lst[pmin]:
+                          pmin = j
+                  <INTERCAMBIO DE DATOS>
+              return lst
+          ```
+          ¿Qué debería contener el ```<INTERCAMBIO DE DATOS>```?
+      Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
+      Solution: [2]
+      Multiple: no
+      Options:
+          - lst[i] = lst[pmin]
+            lst[pmin] = lst[i]
+          - tmp = lst[i]
+            lst[i] = lst[pmin]
+            lst[pmin] = tmp
+          - tmp = lst[i]
+            lst[pmin] = tmp
+            lst[i] = lst[pmin]
+          - lst[pmin] = lst[i]
+            lst[i] = lst[pmin]
+    - Elem: Code
+      Content: |
+          Seguimos completando el esqueleto de ```selection(lst)```:
+
+          ```
+
+          def selection(lst):
+              for i in range(len(lst)):
+                  pmin = i
+                  for j in range(i,len(lst)):
+                      if lst[j] < lst[pmin]:
+                          pmin = j
+                  <INTERCAMBIO DE DATOS>
+              return lst
+          ```
+          Escribe el código de ```<INTERCAMBIO DE DATOS>```
+      Gaps: 1
+      Hint: ay que fijarse para no perder el valor de algún elemento de la lista.
+      File: correctores/ordenacion/selection1.py
  - Title: Ordenación por inserción
    Elements:
     - Elem: Text
