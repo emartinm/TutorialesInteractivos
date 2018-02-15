@@ -9,26 +9,28 @@ from correctores.common.corrector_texto import corrector_texto
 ########################################################################
 
 
-def selection(lst):
+def bubble(lst):
     for i in range(len(lst)):
-        pmin = i
-        for j in range(i,len(lst)):
-            if lst[j] < lst[pmin]:
-                pmin = j
-        @@@CODE@@@
+        j = 0
+        tope = len(lst) - (i + 1)
+        while(j < tope):
+            if lst[j] > lst[j+1]:
+                @@@CODE@@@
+            j = j + 1
     return lst
 
-def selection_ok(lst):
+def bubble_ok(lst):
     for i in range(len(lst)):
-        pmin = i
-        for j in range(i,len(lst)):
-            if lst[j] < lst[pmin]:
-                pmin = j
-        lst[i], lst[pmin] = lst[pmin], lst[i]
+        j = 0
+        tope = len(lst) - (i + 1)
+        while(j < tope):
+            if lst[j] > lst[j+1]:
+                lst[j], lst[j+1] = lst[j + 1], lst[j]
+            j = j + 1
     return lst
-
     
-resultado = selection_ok([6,3,9,2,4])
+    
+resultado = bubble_ok([6,3,9,2,4])
 
 
 #################################
@@ -36,7 +38,7 @@ resultado = selection_ok([6,3,9,2,4])
 #################################
 
 def dummy():
-    return selection([6,3,9,2,4])
+    return bubble([6,3,9,2,4])
 
 
 if __name__ == "__main__":

@@ -14,9 +14,9 @@ Lessons:
           # Ordenación por selección
 
           El objetivo de estos algoritmos se la *ordenación de listas de datos*. Dado una lista de @@n@@ elementos el resultado
-          de éstos algoritmos será una lista con los mismos @@n@@ elementos pero en ordén. El ordén concreto queda definido 
+          de éstos algoritmos será una lista con los mismos @@n@@ elementos pero en orden. El orden concreto queda definido 
           en base a lo que se establezca en el algoritmo. Nosotros, para simplificar, vamos a devolver siempre listas de números ordenadas 
-          *de menor a mayor*. Emepezaremos con el algoritmo de *selección* que es uno de los más intuitivos. 
+          *de menor a mayor*. Empezaremos con el algoritmo de *selección* que es uno de los más intuitivos. 
     - Elem: Text
       Content: |
           # Ideas básicas
@@ -33,7 +33,7 @@ Lessons:
       Content: |
           # Ejemplo
 
-          Consideremos la lista desodenada ```l = [3, 2, 4, 1]```. La ejecución de *seleccion(l)* realizaría:
+          Consideremos la lista desordenada ```l = [3, 2, 4, 1]```. La ejecución de *seleccion(l)* realizaría:
           1. Se toma ```l[0] = 3```, y se busca el mínimo en el resto de la lista, es decir en ```[2, 4, 1]```. En este caso, el mínimo será ```l[3] = 1```. 
           Por tanto, intercambiamos sus posiciones, es decir, ```l[0] = 1``` y ```l[3] = 3```. Con esto la lista queda: ```l = [1, 2, 4, 3]```.
           1. Se toma ahora ```l[1] = 2```, y se busca el mínimo en el resto de la lista, es decir en ```[4, 3]```. El mínimo en este caso es ```l[3] = 3```,
@@ -55,7 +55,6 @@ Lessons:
                       if lst[j] < lst[pmin]:
                           pmin = <ACTUALIZACIÓN DE PMIN>
                   <INTERCAMBIO DE DATOS>
-              return lst
           ```
           ¿Qué debería contener el ```<INICIALIZACIÓN DE PMIN>```?
       Hint: Se empieza con el primer elemento, luego el segundo, etc.
@@ -79,7 +78,6 @@ Lessons:
                       if lst[j] < lst[pmin]:
                           pmin = <ACTUALIZACIÓN DE PMIN>
                   <INTERCAMBIO DE DATOS>
-              return lst
           ```
           ¿Qué debería contener el ```<ACTUALIZACIÓN DE PMIN>```?
       Hint: Debemos guardar la posición que contiene el valor más pequeño.
@@ -103,7 +101,6 @@ Lessons:
                       if lst[j] < lst[pmin]:
                           pmin = j
                   <INTERCAMBIO DE DATOS>
-              return lst
           ```
           ¿Qué debería contener el ```<INTERCAMBIO DE DATOS>```?
       Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
@@ -133,22 +130,242 @@ Lessons:
                       if lst[j] < lst[pmin]:
                           pmin = j
                   <INTERCAMBIO DE DATOS>
-              return lst
           ```
           Escribe el código de ```<INTERCAMBIO DE DATOS>```
       Gaps: 1
-      Hint: ay que fijarse para no perder el valor de algún elemento de la lista.
+      Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
       File: correctores/ordenacion/selection1.py
  - Title: Ordenación por inserción
    Elements:
     - Elem: Text
       Content: |
-          bla bla bla
+          # Ordenación por inserción
+
+          Este algoritmo de inserción ordena las listas insertando elemento en una lista parcialmente ordenada. 
+          Básicamente lo que hace este algoritmo es iterar cada elemento de la lista de izquierda a derecha. Al finalizar
+          cada iteración queda una lista ordenada desde el principio de la lista hasta ese elemento. Por tanto, en el siguiente 
+          elemento de la iteración se sabe que la lista de la izquierda está ordenada. Este principio es básico para el funcionamiento
+          de este algorítmo. 
+    - Elem: Text
+      Content: |
+          # Ideas básicas
+
+          La función ```insercion(l)``` acepta una lista ```l``` y devuelve una lista ordenada. Para ello sigue estos pasos:
+          * Empieza desde el primer elemento de la lista. Sea el número que sea, desde la izquierda hasta ese elemento se forma una lista de 
+          un solo elemento que está naturalmente ordenada. 
+          * Se sigue insertando con el segundo elemento. Este caso ya es más interesante. Ahora sabemos que la lista de la izquierda es una lista ordenada.
+          Por tanto, vamos a insertarlo en esta lista ordenado. Pueden ocurrir tres situaciones. 
+              1. Que la lista esté vacía con lo cuál el elemento ya está donde debe estar. Es lo que ocurre con el primer elemento de la lista.  
+              1. Que nos encontremos con un elemento que sea menor o igual. En este caso no se hace nada, ya que la lista que queda ya está ordenada.   
+              1. Que nos encontremos con un elemento que sea mayor. En este caso lo que hace es intercambiar las posiciones de estos dos elementos
+               ya que el elemento que estamos insertando de ir antes de el último. Este mismo proceso se sigue hasta llega alguna de las dos primeras situaciones.  
+          * Al finalizar obtenemos ya una lista ordenada hasta el segundo elemento. Ahora se hará exactamente lo mismo insertando esta vez el
+          tercer elemento de la lista. Continuará el proceso hasta llegar al último elemento, y tras su inserción la lista ya estará ordenada.
+    - Elem: Text
+      Content: |
+          # Ejemplo
+
+          Consideremos la lista desordenada ```l = [3, 2, 4, 1]```. La ejecución de *insercion(l)* realizaría:
+          1. Se toma ```l[0] = 3```, y en este caso no se modifica nada de la lista. La lista desde la posición ```0``` hasta la posición 0 está naturalmente ordenada, es decir ```[3]```.
+          1. Se toma ahora ```l[1] = 2```, que se compara con el último elemento de la lista que empieza en ```0``` y acaba en el elemento de su izquierda, es decir ```[3]```. 
+          Como ```l[1] = 2``` es menor que el último elemento de ésta lista, es decir ```3```. Por tanto se intercambian posiciones, es decir ```l[0] = 2``` y ```l[1] = 3```. Ya no queda más lista a su izquierda, por tanto la lista queda
+          ```l = [2, 3, 4, 1]```, donde se aprecia que la sublista hasta ```l[1]``` está ordenada, es decir ```[2, 3]```.
+          1. Seguimos con ```l[2] = 4```. En este caso, el valor es mayor que el último de la sublista de su izquierda, por tanto la lista ya está ordenada, quedando como sublista ```[2, 3, 4]```
+          1. Solo queda un elemento por procesar ```l[3] = 1```, siendo la sublista de la izquierda ```[2, 3, 4]```. Al comparar con el último elemento y ser menor, esto implica que se deben intercambiar, , es decir ```l[3] = 4``` y ```l[2] = 1```, 
+          quedando la lista ```l = [2, 3, 1, 4]```. Lo mismo ocurre al comprar con la sublista ```[2, 3]```, por tanto se obtiene ```l = [2, 1, 3, 4]```. Finalmente, la lista de la izquierda es ```[2]```, por tanto se debe de volver a intercambiar,
+          obteniendo la lista final que está efectivamente ordenada ```l = [1, 2, 3, 4]```.
+    - Elem: Options
+      Content: |
+          Siguiendo las ideas y ejemplos de las páginas anteriores, vamos a intentar completar el esqueleto de la función ```insertion(lst)```:
+
+          ```
+
+          def insertion(lst):
+              for i in range(1,len(lst)):
+                  j = <INICIALIZACIÓN DE J>
+                  while (j >= 0) and (lst[j+1] < lst[j]):
+                      <INTERCAMBIO DE DATOS>
+                      j = <ACTUALIZACIÓN DE J>
+          ```
+          ¿Qué debería contener el ```<INICIALIZACIÓN DE J>```?
+      Hint: Recuerda que la inserción empieza inspeccionando el elemento de su izquierda
+      Solution: [3]
+      Multiple: no
+      Options:
+          - len(lst) - 1
+          - i
+          - i - 1
+          - 0
+    - Elem: Options
+      Content: |
+          Siguiendo las ideas y ejemplos de las páginas anteriores, vamos a intentar completar el esqueleto de la función ```insertion(lst)```:
+
+          ```
+
+          def insertion(lst):
+              for i in range(1,len(lst)):
+                  j = i - 1
+                  while (j >= 0) and (lst[j+1] < lst[j]):
+                      <INTERCAMBIO DE DATOS>
+                      j = <ACTUALIZACIÓN DE J>
+          ```
+          ¿Qué debería contener el ```<ACTUALIZACIÓN DE J>```?
+      Hint: Se debería pasar a inspeccionar el elemento de la izquierda
+      Solution: [1]
+      Multiple: no
+      Options:
+          - j - 1
+          - j + 1
+          - j - i
+          - lst[j+1]
+    - Elem: Code
+      Content: |
+          Seguimos completando el esqueleto de ```insertion(lst)```:
+
+          ```
+
+          def insertion(lst):
+              for i in range(1,len(lst)):
+                  j = i - 1
+                  while (j >= 0) and (lst[j+1] < lst[j]):
+                      <INTERCAMBIO DE DATOS>
+                      j = j - 1
+          ```
+          Escribe el código de ```<INTERCAMBIO DE DATOS>```
+      Gaps: 1
+      Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
+      File: correctores/ordenacion/insertion1.py
  - Title: Ordenación de burbuja
    Elements:
     - Elem: Text
       Content: |
-          bla bla bla          
+          # Ordenación de burbuja
+
+          El algoritmo de ordenación de burbuja hace multiples iteraciones de una lista. Compara elemento adyacentes y intercambia aquellos que
+          no estén en orden. Cada iteración de la lista deja el siguiente elemento mayor en el lugar apropiado. En esencia, cada elemento
+          *burbujea* hacia la posición a la que pertenece.  
+    - Elem: Text
+      Content: |
+          # Ideas básicas
+
+          La función ```burbuja(l)``` acepta una lista ```l``` y devuelve una lista ordenada. Para ello sigue estos pasos:
+          * Itera los elemento de la lista de 2 en 2. Es decir, primero compara los elementos 0 y 1, luego el 1 con el 2, etc. En cada comparación puede
+          ocurrir una de estas dos situaciones:
+              1. Que ```l[i]``` sea menor o igual que ```l[i + 1]```. En este caso, no se hace ningún intercambio y la lista queda como estaba. 
+              1. Que ```l[i]``` sea mayor que ```l[i + 1]```. Se intercambian los valores de las posiciones ```i``` y ```i + 1```.
+          * Después de la primera iteración el elemento más grande de la lista queda al final. Por tanto, volvemos a hacer el mismo procedimiento que en el 
+          punto anterior, solo que esta pararemos en el penúltimo elemento de la lista, que será nuestro nuevo *tope*. 
+          * Seguiremos el mismo proceso hasta que el *tope* sea el primer elemento, momento en el cuál la lista estará ordenada. 
+    - Elem: Text
+      Content: |
+          # Ejemplo
+
+          Consideremos la lista desordenada ```l = [3, 2, 4, 1]```. La ejecución de *burbuja(l)* realizaría:
+          1. Se comparan ```l[0] = 3``` y ```l[1] = 2```. Como ```l[0]``` es mayor que ```l[1]```, intercambian sus posiciones. De esta manera, se obtiene 
+          la lista ```l = [2, 3, 4, 1]```.
+          1. Se comparan ```l[1] = 3``` y ```l[2] = 4```. Como ```l[1]``` es menor que ```l[2]```, la lista no cambia.
+          1. Se comparan ```l[2] = 4``` y ```l[3] = 1```. Como ```l[2]``` es mayor que ```l[3]```, intercambian sus posiciones. De esta manera, se obtiene 
+          la lista ```l = [2, 3, 1, 4]```. 
+          1. Ahora empezamos otra vez desde el principio, pero teniendo en cuenta que el tope ahora es ```l[2] = 1```, ya que el mayor elemento de la lista, 
+          es decir ```4```, ya está en la posición que debe. 
+          1. Se comparan ```l[0] = 2``` y ```l[1] = 3```. Como ```l[0]``` es menor que ```l[1]```, la lista no cambia.
+          1. Se comparan ```l[1] = 3``` y ```l[2] = 1```. Como ```l[1]``` es mayor que ```l[2]```, intercambian sus posiciones. De esta manera, se obtiene 
+          la lista ```l = [2, 1, 3, 4]```. Ya hemos llagado al tope, por tanto esta iteración ya ha finalizado, y el elemento mayor, es decir ```3```está en
+          su sitio.
+          1. Empezamos una nueva iteración siendo el tope ```l[1] = 1```.
+          1. Se comparan ```l[0] = 2``` y ```l[1] = 1```. Como ```l[0]``` es mayor que ```l[1]```, intercambian sus posiciones. De esta manera, se obtiene 
+          la lista ```l = [1, 2, 3, 4]```. En este punto el nuevo tope sería ```l[0] = 1```, con lo que ya no se puede comparar con nadie, por tanto, la lista está ya ordenada.
+    - Elem: Options
+      Content: |
+          Siguiendo las ideas y ejemplos de las páginas anteriores, vamos a intentar completar el esqueleto de la función ```bubble(lst)```:
+
+          ```
+
+          def bubble(lst):
+              for i in range(len(lst)):
+                  j = <INICIALIZACIÓN DE J>
+                  tope = <DEFINICIÓN DE TOPE>
+                  while(j < tope):
+                      if lst[j] > lst[j+1]:
+                          <INTERCAMBIO DE DATOS>
+                      j = <ACTUALIZACIÓN DE J>
+          ```
+          ¿Qué debería contener el ```<INICIALIZACIÓN DE J>```?
+      Hint: Recuerda que cada iteración vuelve al principio de la lista.
+      Solution: [4]
+      Multiple: no
+      Options:
+          - len(lst) - 1
+          - i
+          - len(lst) - (i + 1)
+          - 0
+    - Elem: Options
+      Content: |
+          Siguiendo las ideas y ejemplos de las páginas anteriores, vamos a intentar completar el esqueleto de la función ```bubble(lst)```:
+
+          ```
+
+          def bubble(lst):
+              for i in range(len(lst)):
+                  j = 0
+                  tope = <DEFINICIÓN DE TOPE>
+                  while(j < tope):
+                      if lst[j] > lst[j+1]:
+                          <INTERCAMBIO DE DATOS>
+                      j = <ACTUALIZACIÓN DE J>
+          ```
+          ¿Qué debería contener el ```<DEFINICIÓN DE TOPE>```?
+      Hint: El tope va cambiando en cada iteración, siendo primero el último, luego el penúltimo, etc..
+      Solution: [3]
+      Multiple: no
+      Options:
+          - len(lst) - 1
+          - i + 1
+          - len(lst) - (i + 1)
+          - len(lst) - i
+    - Elem: Options
+      Content: |
+          Siguiendo las ideas y ejemplos de las páginas anteriores, vamos a intentar completar el esqueleto de la función ```bubble(lst)```:
+
+          ```
+
+          def bubble(lst):
+              for i in range(len(lst)):
+                  j = 0
+                  tope = len(lst) - (i + 1)
+                  while(j < tope):
+                      if lst[j] > lst[j+1]:
+                          <INTERCAMBIO DE DATOS>
+                      j = <ACTUALIZACIÓN DE J>
+          ```
+          ¿Qué debería contener el ```<ACTUALIZACIÓN DE J>```?
+      Hint: Recuerda que siempre se comparan pares consecutivos.
+      Solution: [3]
+      Multiple: no
+      Options:
+          - j - 1
+          - i + 1
+          - j + 1
+          - j + (i - 1)
+    - Elem: Code
+      Content: |
+          Seguimos completando el esqueleto de ```bubble(lst)```:
+
+          ```
+
+          def bubble(lst):
+              for i in range(len(lst)):
+                  j = 0
+                  tope = len(lst) - (i + 1)
+                  while(j < tope):
+                      if lst[j] > lst[j+1]:
+                          <INTERCAMBIO DE DATOS>
+                      j = j + 1
+          ```
+          Escribe el código de ```<INTERCAMBIO DE DATOS>```
+      Gaps: 1
+      Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
+      File: correctores/ordenacion/bubble1.py
  - Title: Quicksort
    Elements:
     - Elem: Text

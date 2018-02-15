@@ -9,26 +9,24 @@ from correctores.common.corrector_texto import corrector_texto
 ########################################################################
 
 
-def selection(lst):
-    for i in range(len(lst)):
-        pmin = i
-        for j in range(i,len(lst)):
-            if lst[j] < lst[pmin]:
-                pmin = j
-        @@@CODE@@@
+def insertion(lst):
+    for i in range(1,len(lst)):
+        j = i - 1
+        while (j >= 0) and (lst[j+1] < lst[j]):
+            @@@CODE@@@
+            j = j - 1
     return lst
 
-def selection_ok(lst):
-    for i in range(len(lst)):
-        pmin = i
-        for j in range(i,len(lst)):
-            if lst[j] < lst[pmin]:
-                pmin = j
-        lst[i], lst[pmin] = lst[pmin], lst[i]
+def insertion_ok(lst):
+    for i in range(1,len(lst)):
+        j = i - 1
+        while (j >= 0) and (lst[j+1] < lst[j]):
+            lst[j], lst[j+1] = lst[j+1], lst[j]
+            j = j - 1
     return lst
-
     
-resultado = selection_ok([6,3,9,2,4])
+    
+resultado = insertion_ok([6,3,9,2,4])
 
 
 #################################
@@ -36,7 +34,7 @@ resultado = selection_ok([6,3,9,2,4])
 #################################
 
 def dummy():
-    return selection([6,3,9,2,4])
+    return insertion([6,3,9,2,4])
 
 
 if __name__ == "__main__":
