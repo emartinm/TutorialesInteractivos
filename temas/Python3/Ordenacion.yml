@@ -88,35 +88,6 @@ Lessons:
           - i
           - j
           - lst[j]
-    - Elem: Options
-      Content: |
-          Seguimos completando el esqueleto de ```selection(lst)```:
-
-          ```
-
-          def selection(lst):
-              for i in range(len(lst)):
-                  pmin = i
-                  for j in range(i,len(lst)):
-                      if lst[j] < lst[pmin]:
-                          pmin = j
-                  <INTERCAMBIO DE DATOS>
-          ```
-          ¿Qué debería contener el ```<INTERCAMBIO DE DATOS>```?
-      Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
-      Solution: [2]
-      Multiple: no
-      Options:
-          - lst[i] = lst[pmin]
-            lst[pmin] = lst[i]
-          - tmp = lst[i]
-            lst[i] = lst[pmin]
-            lst[pmin] = tmp
-          - tmp = lst[i]
-            lst[pmin] = tmp
-            lst[i] = lst[pmin]
-          - lst[pmin] = lst[i]
-            lst[i] = lst[pmin]
     - Elem: Code
       Content: |
           Seguimos completando el esqueleto de ```selection(lst)```:
@@ -135,6 +106,22 @@ Lessons:
       Gaps: 1
       Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
       File: correctores/ordenacion/selection1.py
+    - Elem: Text
+      Content: |
+          # Vista del algoritmo completo
+
+          ```
+
+          def selection(lst):
+              for i in range(len(lst)):
+                  pmin = i
+                  for j in range(i,len(lst)):
+                      if lst[j] < lst[pmin]:
+                          pmin = j
+                  tmp = lst[i]
+                  lst[i] = lst[pmin]
+                  lst[pmin] = tmp
+          ```               
  - Title: Ordenación por inserción
    Elements:
     - Elem: Text
@@ -234,7 +221,22 @@ Lessons:
           Escribe el código de ```<INTERCAMBIO DE DATOS>```
       Gaps: 1
       Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
-      File: correctores/ordenacion/insertion1.py
+      File: correctores/ordenacion/insertion2.py
+    - Elem: Text
+      Content: |
+          # Vista del algoritmo completo
+
+          ```
+
+          def insertion(lst):
+              for i in range(1,len(lst)):
+                  j = i - 1
+                  while (j >= 0) and (lst[j+1] < lst[j]):
+                      tmp = lst[j]
+                      lst[j] = lst[j + 1]
+                      lst[j + 1] = tmp  
+                      j = j - 1
+          ```
  - Title: Ordenación de burbuja
    Elements:
     - Elem: Text
@@ -366,6 +368,23 @@ Lessons:
       Gaps: 1
       Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
       File: correctores/ordenacion/bubble1.py
+    - Elem: Text
+      Content: |
+          # Vista del algoritmo completo
+
+          ```
+
+          def bubble(lst):
+              for i in range(len(lst)):
+                  j = 0
+                  tope = len(lst) - (i + 1)
+                  while(j < tope):
+                      if lst[j] > lst[j+1]:
+                          tmp = lst[j]
+                          lst[j] = lst[j+1]
+                          lst[j+1] = tmp
+                      j = j + 1
+          ```
  - Title: Quicksort
    Elements:
     - Elem: Text

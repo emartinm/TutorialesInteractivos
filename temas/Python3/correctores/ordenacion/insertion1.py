@@ -1,12 +1,25 @@
 # -*- coding: UTF-8 -*-
 import sys
+import random
 
-from correctores.common.corrector_texto import corrector_texto
+from correctores.common.corrector_funciones import corrector_funciones
 
 ########################################################################
 #### Esto es lo que hay que cambiar en cada problema:               ####
-####  - resultado: valor que debe escribir el alumno                ####
+####  - epsilon: para comparar floats y complex, si lo necesitas    ####
+####  - genera_casos: devuelve una lista de casos de prueba         ####
 ########################################################################
+
+def epsilon():
+    return 1E-9
+
+def genera_casos():
+    # Generar los casos de prueba que se quieren comprobar
+    casos = list()
+    for i in range(20):
+        l = [int(1000*random.random()) for i in range(i)]
+        casos.append( ({'lst': l}, sorted(l)) )
+    return casos
 
 
 def insertion(lst):
@@ -17,25 +30,14 @@ def insertion(lst):
             j = j - 1
     return lst
 
-def insertion_ok(lst):
-    for i in range(1,len(lst)):
-        j = i - 1
-        while (j >= 0) and (lst[j+1] < lst[j]):
-            lst[j], lst[j+1] = lst[j+1], lst[j]
-            j = j - 1
-    return lst
-    
-    
-resultado = insertion_ok([6,3,9,2,4])
+def get_function():
+    return insertion
+
 
 
 #################################
 #### Esto no hay que tocarlo ####
 #################################
 
-def dummy():
-    return insertion([6,3,9,2,4])
-
-
 if __name__ == "__main__":
-    corrector_texto(sys.argv[1], resultado, dummy)
+    corrector_funciones(sys.argv[1], get_function(), genera_casos(), epsilon())
