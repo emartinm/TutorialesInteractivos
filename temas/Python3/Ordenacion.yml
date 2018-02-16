@@ -221,7 +221,7 @@ Lessons:
           Escribe el código de ```<INTERCAMBIO DE DATOS>```
       Gaps: 1
       Hint: Hay que fijarse para no perder el valor de algún elemento de la lista.
-      File: correctores/ordenacion/insertion2.py
+      File: correctores/ordenacion/insertion1.py
     - Elem: Text
       Content: |
           # Vista del algoritmo completo

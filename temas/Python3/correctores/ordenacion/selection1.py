@@ -22,6 +22,7 @@ def genera_casos():
     return casos
 
 
+#@@@SNIPPET@@@ #Inicio del fragmento de código para mostrar
 def selection(lst):
     for i in range(len(lst)):
         pmin = i
@@ -30,6 +31,7 @@ def selection(lst):
                 pmin = j
         @@@CODE@@@
     return lst
+#@@@SNIPPET@@@ #Fin del fragmento de código para mostrar
 
 def get_function():
     return selection

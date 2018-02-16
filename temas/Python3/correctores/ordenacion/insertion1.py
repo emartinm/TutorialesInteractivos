@@ -21,7 +21,7 @@ def genera_casos():
         casos.append( ({'lst': l}, sorted(l)) )
     return casos
 
-
+#@@@SNIPPET@@@ #Inicio del fragmento de código para mostrar
 def insertion(lst):
     for i in range(1,len(lst)):
         j = i - 1
@@ -29,6 +29,7 @@ def insertion(lst):
             @@@CODE@@@
             j = j - 1
     return lst
+#@@@SNIPPET@@@ #Fin del fragmento de código para mostrar
 
 def get_function():
     return insertion

@@ -21,7 +21,7 @@ def genera_casos():
         casos.append( ({'lst': l}, sorted(l)) )
     return casos
 
-
+#@@@SNIPPET@@@ #Inicio del fragmento de código para mostrar
 def bubble(lst):
     for i in range(len(lst)):
         j = 0
@@ -31,6 +31,7 @@ def bubble(lst):
                 @@@CODE@@@
             j = j + 1
     return lst
+#@@@SNIPPET@@@ #Fin del fragmento de código para mostrar
 
 def get_function():
     return bubble
