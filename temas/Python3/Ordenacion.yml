@@ -132,7 +132,7 @@ Lessons:
           Básicamente lo que hace este algoritmo es iterar cada elemento de la lista de izquierda a derecha. Al finalizar
           cada iteración queda una lista ordenada desde el principio de la lista hasta ese elemento. Por tanto, en el siguiente 
           elemento de la iteración se sabe que la lista de la izquierda está ordenada. Este principio es básico para el funcionamiento
-          de este algorítmo. 
+          de este algoritmo. 
     - Elem: Text
       Content: |
           # Ideas básicas
@@ -243,7 +243,7 @@ Lessons:
       Content: |
           # Ordenación de burbuja
 
-          El algoritmo de ordenación de burbuja hace multiples iteraciones de una lista. Compara elemento adyacentes y intercambia aquellos que
+          El algoritmo de ordenación de burbuja hace múltiples iteraciones de una lista. Compara elemento adyacentes y intercambia aquellos que
           no estén en orden. Cada iteración de la lista deja el siguiente elemento mayor en el lugar apropiado. En esencia, cada elemento
           *burbujea* hacia la posición a la que pertenece.  
     - Elem: Text
@@ -411,7 +411,7 @@ Lessons:
       Content: |
           # Ejemplo
 
-          Consideremos la lista desodenada ```l = [5, 7, 3, 1]```. La ejecución de *quicksort* realizaría:
+          Consideremos la lista desordenada ```l = [5, 7, 3, 1]```. La ejecución de *quicksort* realizaría:
           1. Como ```l``` no es una lista vacía, se toma ```5``` como **pivote**.
           1. Se divide la lista restante ```[7, 3, 1]```` en dos partes (recuerda que se ignora el pivote). Esto creará dos listas:
               * ```less_eq = [3, 1]```
@@ -681,16 +681,16 @@ Lessons:
       Content: |
           # Ejemplo
 
-          Consideremos la lista desodenada ```l = [5, 7, 3, 1]```. La ejecución de *mergesort* realizaría:
+          Consideremos la lista desordenada ```l = [5, 7, 3, 1]```. La ejecución de *mergesort* realizaría:
           1. Como ```l``` no es una lista vacía, se divide en 2 mitades. La posición central será ```half = len(l) // 2```,
              que en este caso es ```4 // 2 = 2```. Nótese el uso de la división entera para evitar decimales al tratar
              listas de longitud impar.
-          1. Se divide la lista orignal ```l``` en dos mitades: ```l1 = l[:half]``` con los elementos en posiciones desde
+          1. Se divide la lista original ```l``` en dos mitades: ```l1 = l[:half]``` con los elementos en posiciones desde
              ```0``` hasta ```half-1```, y ```l2 = l[half:]``` con los elementos en posiciones desde ```half``` hasta el
              final de la lista. En este caso:
                * ```l1 = [5, 7]```
                * ```l2 = [3, 1]```
-          1. Cada una de estas listas se ordena de manera recursiva, obtenindo dos mitades ordenadas.
+          1. Cada una de estas listas se ordena de manera recursiva, obteniendo dos mitades ordenadas.
                * ```sorted_l1 = [5, 7]```
                * ```sorted_l2 = [1, 3]```
           1. Finalmente se mezclan de manera ordenada ambas listas ordenadas usando la función auxiliar ```merge```,
@@ -855,7 +855,7 @@ Lessons:
     - Elem: Options
       Content: |
           Ya estamos familiarizados con la función auxiliar ```merge``` que mezcla de manera ordenada dos listas ordenadas.
-          Pero, ¿qué pasaría si se invoca con listas que no están ordenadas? Por ejemplo, con la siguiente inovocación:
+          Pero, ¿qué pasaría si se invoca con listas que no están ordenadas? Por ejemplo, con la siguiente invocación:
 
           ```
 
@@ -869,7 +869,7 @@ Lessons:
       Options:
         - Lanza un error en tiempo de ejecución
         - Genera una lista de 4 elementos pero desordenada
-        - Genera la lista ordenda [1, 2, 3, 5]
+        - Genera la lista ordenada [1, 2, 3, 5]
         - Genera la lista de 2 elementos [1, 5] ya que únicamente recorre la primera lista
     - Elem: Text
       Content: |
