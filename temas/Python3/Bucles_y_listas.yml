@@ -19,7 +19,7 @@ Lessons:
              y obtener su media con este código:
 
              ```
-             
+
              s = 0.0
              s = s + numberlst[0]
              s = s + numberlst[1]
@@ -29,9 +29,9 @@ Lessons:
              mean = s / len(numberlst)
              ```
 
-             Una cuestión muy útil es que el índice con el que accedemos a un elemento de una lista puede ser una variable, así podemos escribir el código 
+             Una cuestión muy útil es que el índice con el que accedemos a un elemento de una lista puede ser una variable, así podemos escribir el código
              anterior como:
-             
+
              ```
 
              s = 0.0
@@ -49,23 +49,23 @@ Lessons:
 
              ```
 
-             ya tenemos claro cómo hay que escribir las cosas en el caso general, en que numberlst es el parámetro de una función, y puede tener cualquier número de elementos: 
+             ya tenemos claro cómo hay que escribir las cosas en el caso general, en que numberlst es el parámetro de una función, y puede tener cualquier número de elementos:
 
              ```
 
              def mean(numberlst):
                  """This function returns the mean of a list of numbers
-    
+
                  Parameters
                  ----------
                     numberlst : [float]
                                 Non-empty list of float numbers
-        
+
                  Returns
                  -------
                    float
                      Mean of the list
-    
+
                  Example
                  -------
                  >>> mean([4.0, 6.0, 7.0, 3.0, 2.0])
@@ -77,7 +77,7 @@ Lessons:
                      s = s + numberlst[i]
                      i = i + 1
                  return s / len(numberlst)
-             ```             
+             ```
 
        - Elem: Code
          Content: |
@@ -87,25 +87,25 @@ Lessons:
 
              Como representamos este polinomio, ¿con 4 reales?
              ¿y si el polinomio tiene grado n?
-             Necesitamos algo que nos permita representar n reales: 3, 0, -6, 2   
+             Necesitamos algo que nos permita representar n reales: 3, 0, -6, 2
 
              ```
 
              poly = [2.0, 6.0, 0.0, 3.0]
-             ```           
-             
+             ```
+
              El coeficiente del término de grado `i` es `poly[i]`
 
              Escribe el cuerpo de una función que evalue un polinomio `poly` (representado por su lista de coeficientes) en un punto `x`
-             
+
              ```
-        
+
              def eval_poly(poly, x):
                  <CUERPO DE LA FUNCIÓN>
              ```
          File: correctores/listas/listas1.py
          Prompt: ["Escriba aquí el cuerpo de la función"]
-         Hint: Para obtener el número de elementos de una lista usamos la función `len`, así `len(poly)` nos dá el número de elementos de la lista `poly`.    
+         Hint: Para obtener el número de elementos de una lista usamos la función `len`, así `len(poly)` nos dá el número de elementos de la lista `poly`.
 
    - Title: Bucle for __  in __
      Elements:
@@ -123,17 +123,17 @@ Lessons:
 
              def mean(numberlst):
                  """This function returns the mean of a list of numbers
-    
+
                  Parameters
                  ----------
                     numberlst : [float]
                                 Non-empty list of float numbers
-        
+
                  Returns
                  -------
                    float
                      Mean of the list
-    
+
                  Example
                  -------
                  >>> mean([4.0, 6.0, 7.0, 3.0, 2.0])
@@ -142,45 +142,45 @@ Lessons:
                  s = 0.0
                  for number in numberlst:
                      s = s + number
-                 return s / len(numberlst)             
-             
+                 return s / len(numberlst)
+
              ```
 
        - Elem: Code
          Content: |
 
              Escribe el cuerpo de la función `eval_poly` de la lección anterior usando un bucle `for __  in __`
-             
+
              ```
-        
+
              def eval_poly(poly, x):
                  <CUERPO DE LA FUNCIÓN>
              ```
          File: correctores/listas/listas2.py
-         Prompt: ["Escriba aquí el cuerpo de la función"]    
+         Prompt: ["Escriba aquí el cuerpo de la función"]
    - Title: Funciones que devuelven listas
      Elements:
        - Elem: Text
          Content: |
                 Queremos devolver los factores primos de un número. Como el número de factores es distinto para cada número lo adecuado será devolver una lista que los contenga.
-                
+
                 Para ello necesitamos partir de la lista vacía `factors = []`. Añadimos cada factor a la lista con `factors.append(fct)`
-                
-                ``` 
+
+                ```
                 def factors(n):
                     """
                     This function computes the list of factors of n
-                    
+
                     Parameters
                     ----------
                     n : int
                         Integer number to decompose, n > 1
-                        
+
                     Returns
                     -------
                     [int]
                         Factors of n
-                        
+
                     Example
                     -------
                     >>> factors(256)
@@ -190,23 +190,23 @@ Lessons:
                     factors = [] #This is an empty list
                     while n > 1:
                         if n % fct == 0: # if fct divides n, it is a prime number
-                            factors.append(fct) 
+                            factors.append(fct)
                 ```
        - Elem: Code
          Content: |
                Rellena los huecos en el siguiente código de forma que la función `primes(n)`  devuelva la lista de los primos menores o iguales que `n`.
                El primer hueco está pensado para definir una función que nos indique si un número es primo o no.
 
- 
+
                ```
-               
+
                <Hueco 0>
 
                def primes(n):
                    <Hueco 1>
 
-               ```                 
- 
+               ```
+
          Gaps: 2
          File: correctores/listas/listas3.py
 
@@ -219,19 +219,19 @@ Lessons:
              Por ejemplo si son las 14:30:00 podemos asignar tres variables:
 
              ```
-             
+
              h, m, s = 14, 30, 0
 
              ```
 
-             Si ahora ha pasado un cierto periodo de tiempo `ds`, expresado en segundos nuestra hora será ¿?.
+             Si ahora ha pasado un cierto periodo de tiempo `ds`, ¿cuál será nuestra hora expresada en segundos?
              Merece la pena tomarse la molestia de escribir una función para resolver el problema
 
 
              ```
-             
+
                     def inc_time(h, m, s, es):
-                        """ 
+                        """
                         Function increasing time coded by h,m,s
                         in es (elapsed time) seconds.
 
@@ -246,7 +246,7 @@ Lessons:
 
                         h,m,s fulfill "invariant representation", i.e
                         0<=h<24 and 0<=m<60 and 0<=s<60
-                        es >= 0   
+                        es >= 0
 
                         Returns
                         ----------------------------------------
@@ -269,20 +269,20 @@ Lessons:
                         return h1, m1, s1
 
              ```
-             
+
              Así podemos actualizar nuestras variables para representar la hora al pasar 240 segundos.
 
              ```
-             
+
              h, m, s = 14, 30, 0
              h, m, s = inc_time(h, m, s)
-             ```             
+             ```
 
              Las variables `h, m, s` pasan a valer:
-             
+
              ```
              14, 34, 0
-                          
+
              ```
 
        - Elem: Text
@@ -290,14 +290,14 @@ Lessons:
              Usando listas podemos *unir* las cosas en una única variable.
 
              ```
-             
+
              time = [14, 30, 0]
              ```
 
              ```
-             
+
              def inc_time1(t, es):
-                 """ 
+                 """
                  Function increasing time coded by list of values t=[h,m,s]
                  in es (elapsed time)  seconds.
                  Changes occur in t parameter!
@@ -307,11 +307,11 @@ Lessons:
                  ------------------------------------
                  t=[int]
                  es: elapsed seconds
-                    
+
 
                  len(t) = 3 and members fullfill "invariant representation"
                  0<=t[0]<24 and 0<=t[1]<60 and 0<=t[2]<60
-                 es >= 0   
+                 es >= 0
 
                  Returns
                  ----------------------------------------
@@ -343,7 +343,7 @@ Lessons:
              El código anterior muestra que `time` pasa a valer:
 
              ```
-   
+
              [14, 34, 0]
              ```
 
@@ -363,20 +363,20 @@ Lessons:
 
              ```
                 def bad_inc_time(h,m,s,es):
-                    """ 
+                    """
                     Faulty Function trying to increase time coded by h,m,s
                     in es (elapsed time)  seconds.
-                    Changes _should_ occur in h,m,s arguments (they won't) 
+                    Changes _should_ occur in h,m,s arguments (they won't)
 
 
                     Parameters
                     ------------------------------------
                     t=[int]
                     es: elapsed seconds
-                    
+
 
                     0<=h<24 and 0<=m<60 and 0<=s<60
-                    es >= 0   
+                    es >= 0
 
                     Returns
                     ----------------------------------------
@@ -400,41 +400,41 @@ Lessons:
 
 
              ```
-             
+
              ¿Cuanto valen las variables  `h,m,s` después de ejecutar las instrucciones siguientes?
-             
+
              ```
-             
+
              h,m,s=14,30,0
              bad_inc_time( h,m,s,240)
 
-             ```      
-         
+             ```
+
          Solution: [1]
          Multiple: no
          Options:
            - h->14,m->30,s->0.
            - h->14,m->34,s->0.
-             
-              
+
+
        - Elem: Text
          Content: |
-             La explicación al fenómeno anterior es fácil: los nombres de los parámetros y las variables de las funciones tienen *ámbito local*. 
+             La explicación al fenómeno anterior es fácil: los nombres de los parámetros y las variables de las funciones tienen *ámbito local*.
 
-             La razón de conseguir el efecto en el caso de la lista es que **las listas son *mutables*.** 
+             La razón de conseguir el efecto en el caso de la lista es que **las listas son *mutables*.**
 
-             Aunque el nombre del parametro de una lista sea local, las referencias a los objetos que contiene pueden ser cambiadas! Como son las mismas dentro y   
+             Aunque el nombre del parametro de una lista sea local, las referencias a los objetos que contiene pueden ser cambiadas! Como son las mismas dentro y
              fuera   de la función, el resultado es que la estructura 'parece' haber cambiado en su interior.
 
              El siguiente enlace accede a una herramienta on-line muy interesante para estudiar estas situaciones.
 
-              <a href="https://goo.gl/198ni8">Python Tutor</a> 
+              <a href="https://goo.gl/198ni8">Python Tutor</a>
 
-             
+
        - Elem: Options
          Content: |
              Otra situación en que debemos tener cuidado sobre el hecho de que las variables sean referencias es el caso de las matrices.
-             
+
              En Python podemos representar una matriz como una lista de listas de números. `m = [[0,0,0],[0,0,0],[0,0,0]]`
 
              ¿Qué instrucción de Python debemos ejecutar para que el elemento en la posición (0,0) sea 17?
@@ -450,7 +450,7 @@ Lessons:
 
              ```
              def bad_zero_matrix(n,m):
-                    """ 
+                    """
                     Function returning a zero matrix, with m rows y n columns
 
                     Parameters
@@ -459,22 +459,22 @@ Lessons:
                     m:int
 
                     n,m >= 0
-                    
+
                     Returns
                     ----------------------------------------
                     [[int]]  (See, however, how they are internally represented!)
-                    
-                    
+
+
                     Example
                     ------------------------
                     >>> bad_zero_matrix(3,4)
                     [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
-                    """    
+                    """
                     return [[0]*n]*m
              ```
-             
+
              Si ejecutamos el siguiente código:
-             
+
              ```
 
              m = bad_zero_matrix(3,4)
@@ -499,7 +499,7 @@ Lessons:
               ```
 
               def zero_matrix(n,m):
-                    """ 
+                    """
                     Function returning a zero matrix, with n rows y m columns
 
                     Parameters
@@ -508,24 +508,24 @@ Lessons:
                     m:int
 
                     n,m >= 0
-                    
+
                     Returns
                     ----------------------------------------
-                    [[int]]  
-                    
-                    
+                    [[int]]
+
+
                     Example
                     ------------------------
                     >>> zero_matrix(3,4)
                     [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
-                    """    
+                    """
                     result=[]
                     for i in range(m):
                         result.append([0]*n)
                     return result
               ```
-              
-              
+
+
               De nuevo Python Tutor nos permite visualizar la estructura en ambos casos:
 
               <a href="https://goo.gl/XAEnvt"> Python Tutor </a>
