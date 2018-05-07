@@ -59,7 +59,7 @@ Lessons:
       File: correctores/bucles1.py
     - Elem: Code
       Content: |
-       Rellena los huecos del siguiente código para que la variable `suma` guarde el valor de la suma de los elementos de la lista `moth`.
+       Rellena los huecos del siguiente código para que la variable `suma` guarde el valor de la suma de los elementos de la lista `month`.
        ```
         
         month = [31,28,31,30,31,30,31,31,30,31,30,31]
@@ -71,7 +71,7 @@ Lessons:
       File: correctores/bucles2.py
     - Elem: Code
       Content: |
-       Rellena los huecos del siguiente código para que la variable `suma` guarde el valor de la suma de los elementos de la lista `moth`.
+       Rellena los huecos del siguiente código para que la variable `suma` guarde el valor de la suma de los elementos de la lista `month`.
        ```
         
         month = [31,28,31,30,31,30,31,31,30,31,30,31]
